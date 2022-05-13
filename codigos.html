@@ -1,0 +1,40 @@
+
+php artisan vendor:publish --tag=jetstream-views
+php artisan make:model Category -mfs
+php artisan make:livewire admin/CategoryList
+
+php artisan migrate
+
+
+=================
+php artisan make:model Configuration -mfs
+php artisan make:model Tax -mfs
+php artisan make:model Ctacte -mfs
+php artisan make:model Currency -mfs
+
+php artisan make:model Brand -mfs
+php artisan make:model Modelo -mfs // Model es palabra reservada trate de crear y sale el error en la creacion de modelo
+
+php artisan make:model Um -mfs
+php artisan make:model Product -mfs
+
+php artisan make:model Local -ms
+
+php artisan make:seeder UserSeeder
+
+php artisan make:model Tipocomprobante -ms
+php artisan make:model Tipodocumento -ms
+
+
+php artisan migrate:fresh --seed
+
+php artisan make:model Customer -mfs
+
+php artisan make:migration create_local_tipocomprobante_table
+
+php artisan make:migration create_local_tipocomprobante_table
+
+php artisan make:model Local_tipocomprobante -s
+
+php artisan make:model Comprobante -m
+php artisan make:migration create_comprobante_producto_table
