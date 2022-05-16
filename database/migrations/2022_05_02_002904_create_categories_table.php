@@ -22,8 +22,7 @@ return new class extends Migration
             $table->text('description')->nullable();      
             $table->boolean('state')->default(false);  
 
-
-            
+           
 
             $table->timestamps();
         });

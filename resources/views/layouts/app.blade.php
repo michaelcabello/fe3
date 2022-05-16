@@ -12,6 +12,9 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        
+        
+        @stack('styles')
 
         @livewireStyles
 
@@ -27,7 +30,7 @@
             <!-- Page Heading -->
             @if (isset($header))
                 <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
                 </header>
@@ -40,6 +43,15 @@
         </div>
 
         @stack('modals')
+
+
+<!-- jQuery -->
+<script src="/adminlte/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+        @stack('scripts')
 
         @livewireScripts
     </body>

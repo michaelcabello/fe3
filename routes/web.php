@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Admin\CategoryList;
+use App\Http\Livewire\Admin\ComprobanteList;
+use App\Http\Livewire\Admin\ComprobanteSave;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,6 +45,10 @@ Route::group(['middleware'=>['auth:sanctum','verified'],'prefix'=>'admin'], func
         return view('admin.brands');
     })->name('admin.brands'); 
     /* de esta forma no es necesario poner el slot y los divs */
+
+    Route::get('/comprobantes', ComprobanteList::class)->name('comprobante.list'); 
+    Route::get('save-comprobantes', ComprobanteSave::class)->name('comprobante.create'); 
+   // Route::get('/sales', SaleCreate::class)->name('sale.create'); 
 
 });
 
