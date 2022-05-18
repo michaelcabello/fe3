@@ -26,7 +26,6 @@ return new class extends Migration
             $table->unsignedBigInteger('tipocomprobante_id')->nullable();
             $table->foreign('tipocomprobante_id')->references('id')->on('tipocomprobantes')->onDelete('cascade');
 
-
             $table->timestamps();
         });
     }

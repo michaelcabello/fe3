@@ -39,6 +39,7 @@ Route::group(['middleware'=>['auth:sanctum','verified'],'prefix'=>'admin'], func
     })->name('admin.index');
 
 
+
     Route::get('/categories', CategoryList::class)->name('category.list'); 
 
     Route::get('/brands', function () {

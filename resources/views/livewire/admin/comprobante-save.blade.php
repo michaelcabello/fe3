@@ -9,7 +9,7 @@
 <div>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Nuevo Comprobante') }}
+            {{ __('Nuevo Comprobante') }} 
         </h2>
     </x-slot>
     
@@ -22,11 +22,51 @@
                 <div class="grid grid-cols-4 gap-6 mb-4">  
                     
                    
+                    <div class="flex">
+                     
+                        <div class="mb-4">
+                            <x-jet-label value="Comp" />
+                            {{-- //quiete esto y funciono tipocomprobante_id --}}
+                            <select class="w-64 form-control" wire:model="tipocomprobante_id">
+                                <option value="" selected disabled>Seleccione</option>
+                
+                                @foreach (Auth::user()->local->tipocomprobantes as $tipocomprobante)
+                                    <option value="{{$tipocomprobante->id}}" >
+                                        {{$tipocomprobante->name}}
+                                    </option>
+                                    
+                                @endforeach
 
-                    <div class="mb-4">
+                                
+                            </select>
+                       
+                        </div>
+ 
+                        <div class="mb-4">
+                            <x-jet-label value="Seriee" />
+                            <x-jet-input type="text" 
+                                        class="w-16"
+                                        wire:model="serie"
+                                        placeholder="Serie" />
+                            <x-jet-input-error for="name" />
+                        </div>
+
+                        <div class="mb-4">
+                            
+                            <x-jet-label value="Numero" />
+                            <x-jet-input type="text" 
+                                        class="w-full"
+                                        wire:model="numero"
+                                        placeholder="Numero" />
+                            <x-jet-input-error for="name" />
+                        </div> 
+                    </div>
+
+
+                    <div class="mb-4" wire:model.defer>
                         <x-jet-label value="Clientes" />
                         
-                        <select name="customer_id" class="block w-full h-10 px-4 py-2 pr-8 leading-tight bg-white border border-gray-400 rounded shadow appearance-none hover:border-gray-500 focus:outline-none focus:shadow-outline select2">
+                        <select  name="customer_id" class="block w-full h-10 px-4 py-2 pr-8 leading-tight bg-white border border-gray-400 rounded shadow appearance-none hover:border-gray-500 focus:outline-none focus:shadow-outline select2">
                             <option value="">Selecciona una Cliente</option>
                             @foreach($customers as $customer)
                             <option value="{{$customer->id}}"
@@ -48,13 +88,6 @@
 
 
 
-                    <div class="mb-4">
-                        <x-jet-label value="Razon Social" />
-                        <x-jet-input type="text" 
-                                    class="block w-full px-4 py-2 pr-8 leading-tight bg-white border border-gray-400 rounded shadow appearance-none hover:border-gray-500 focus:outline-none focus:shadow-outline"
-                                    placeholder="Razon Social" />
-                        <x-jet-input-error for="name" />
-                    </div>
 
                     <div class="mb-4">
                         <x-jet-label value="Dirección" />
@@ -72,13 +105,13 @@
 
 
 
-                <div class="grid grid-cols-4 gap-6 mb-4 ">    
+                <div class="grid grid-cols-6 gap-6 mb-4 ">    
 
                     <div>
                         <x-jet-label value="Moneda" />
                         
                         <select class="block w-full px-4 py-2 pr-8 leading-tight bg-white border border-gray-400 rounded shadow appearance-none hover:border-gray-500 focus:outline-none focus:shadow-outline">
-                            <option value="" selected disabled>Seleccione la moneda</option>           
+                            <option value="" selected disabled>moneda</option>           
     
                                 @foreach($currencies as $currency)
                                 <option value="{{$currency->id}}"
@@ -96,7 +129,7 @@
                         <x-jet-label value="Forma de Pago" />
                         
                         <select class="w-full form-control">
-                            <option value="" selected disabled>Seleccione forma de pago</option>
+                            <option value="" selected disabled>forma de pago</option>
             
                                 <option value="1">Contado</option>
                                 <option value="2">Crédito</option>
@@ -130,17 +163,11 @@
                     </div>
 
 
-
-                </div>
-
-
-                <div class="grid grid-cols-4 gap-6 mb-4 ">    
-
                     <div>
                         <x-jet-label value="Tipo Comprobante" />
                         
                         <select class="w-full form-control" name="tipocomprobante_id">
-                            <option value="" selected disabled>Seleccione una categoría</option>
+                            <option value="" selected disabled>tipo comprobante</option>
             
                             @foreach($tipocomprobantes as $tipocomprobante)
                             <option value="{{$tipocomprobante->id}}"
@@ -152,39 +179,21 @@
             
                     </div>
 
-
-                    <div class="mb-4">
-                        <x-jet-label value="Serie" />
-                        <x-jet-input type="text" 
-                                    class="w-full"
-                                    wire:model="name"
-                                    placeholder="Ingrese Serie" />
-                        <x-jet-input-error for="name" />
-                    </div>
-
-                    <div class="mb-4">
-                        <x-jet-label value="Numero" />
-                        <x-jet-input type="text" 
-                                    class="w-full"
-                                    wire:model="name"
-                                    placeholder="Numero" />
-                        <x-jet-input-error for="name" />
-                    </div>
-
-
-
                     <div class="mb-4">
                         <x-jet-label value="Guia" />
                         <x-jet-input type="text" 
                                     class="w-full"
                                     wire:model="name"
-                                    placeholder="Ingrese Guia" />
+                                    placeholder="Guia" />
                         <x-jet-input-error for="name" />
                     </div>
 
-                   
+
 
                 </div>
+
+
+
     
                 
                 <div class="flex mt-4">

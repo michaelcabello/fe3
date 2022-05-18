@@ -33,6 +33,12 @@ return new class extends Migration
             $table->unsignedBigInteger('currency_id')->nullable();
             $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
 
+            $table->unsignedBigInteger('local_id')->nullable();
+            $table->foreign('local_id')->references('id')->on('locals')->onDelete('cascade');
+
+            $table->unsignedBigInteger('tipocomprobante_id')->nullable();
+            $table->foreign('tipocomprobante_id')->references('id')->on('tipocomprobantes')->onDelete('cascade');
+
             
             $table->timestamps();
         });
