@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('admin.index') }}" :active="request()->routeIs('admin.index')">
+                    <x-jet-nav-link href="{{ route('admin.showtables') }}" :active="request()->routeIs('admin.showtables')">
                         {{ __('Tablas') }}
                     </x-jet-nav-link>
                 </div>

@@ -1,8 +1,8 @@
 @push('styles')
-<link rel="stylesheet" href="/adminlte/css/adminlte.min.css">
-<link rel="stylesheet" href="/adminlte/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+
+ <link rel="stylesheet" href="/adminlte/css/adminlte.min.css">
+ <link rel="stylesheet" href="/adminlte/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
  <link rel="stylesheet" href="/adminlte/plugins/select2/css/select2.min.css">
- 
  
 @endpush
 
@@ -63,24 +63,28 @@
                     </div>
 
 
-                    <div class="mb-4" wire:model.defer>
+                    <div class="mb-4" wire:ignore>
                         <x-jet-label value="Clientes" />
                         
-                        <select  name="customer_id" class="block w-full h-10 px-4 py-2 pr-8 leading-tight bg-white border border-gray-400 rounded shadow appearance-none hover:border-gray-500 focus:outline-none focus:shadow-outline select2">
+                        <select  wire:model="customer_id" class="block w-full h-10 px-4 py-2 pr-8 leading-tight bg-white border border-gray-400 rounded shadow appearance-none hover:border-gray-500 focus:outline-none focus:shadow-outline ">
                             <option value="">Selecciona una Cliente</option>
                             @foreach($customers as $customer)
-                            <option value="{{$customer->id}}"
-                                    {{ old('customer_id')}} >{{$customer->nomrazonsocial}}</option>
+                                 
+                                <option value="{{$customer->id}}">
+                                    {{$customer->nomrazonsocial}} {{ $numdoc = $customer->numdoc}}
+                                </option>
                             @endforeach
                         </select>
                     </div>
 
+                  {{--    {{ $customer_id }}  --}}
 
+                    
                      <div class="mb-4">
                         <x-jet-label value="RUC" />
                         <x-jet-input type="text" 
                                     class="block w-full h-10 px-4 py-2 pr-8 leading-tight bg-white border border-gray-400 rounded shadow appearance-none hover:border-gray-500 focus:outline-none focus:shadow-outline"
-                                    
+                                    wire:model="numdoc"
                                     placeholder="RUC" />
                         <x-jet-input-error for="name" />
                     </div>
@@ -307,17 +311,6 @@
                 @endif
             </div>
         </section>
-
-
-
-
-
-
-
-
-
-
-
 
 
             </div>

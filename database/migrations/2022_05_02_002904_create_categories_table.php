@@ -16,11 +16,16 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name');
-            $table->string('url');
-            $table->string('image')->default('default.jpg')->nullable();
-            $table->text('description')->nullable();      
-            $table->boolean('state')->default(false);  
+            $table->string('name')->unique();
+            $table->string('slug')->unique();
+            $table->text('shortdescription')->nullable();
+            $table->text('longdescription')->nullable();
+            $table->integer('order')->nullable();
+            $table->boolean('state')->default(false);
+            $table->string('image', 2048)->default('categories/default.jpg')->nullable();
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
+            $table->text('keywords')->nullable();
 
            
 

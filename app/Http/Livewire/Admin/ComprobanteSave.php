@@ -21,6 +21,9 @@ class ComprobanteSave extends Component
         public $mensaje;
         public $tipocomprobante_id;
         public $serie, $numero;
+        public $customer_id;
+        public $numdoc;
+
         //public $default;
       
         public function mount()
@@ -30,6 +33,7 @@ class ComprobanteSave extends Component
 
                 $this->tipocomprobante_id = $ltc[0]['tipocomprobante_id'];
                 $this->serie = $ltc[0]['serie'];
+
                // $this->$default = $ltc[0]['default'];
                 $this->total  = Cart::getTotal();
                 //$this->itemsQuantity = Cart::getTotalQuantity();
@@ -61,6 +65,16 @@ class ComprobanteSave extends Component
                 $this->numero = $consulta->numero +1;
 
         }
+
+
+        public function updatedCustomerId($value){
+                $numdocc = Customer::where('id', $value)->first();
+                                                     
+                /* dd($numdocc->numdoc);         */
+                $this->numdoc = $numdocc->numdoc;
+       
+        }
+
 
         // vaciar carrito
         public function limpiar()

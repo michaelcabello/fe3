@@ -3,10 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Modelo>
- */
 class ModeloFactory extends Factory
 {
     /**
@@ -18,6 +16,7 @@ class ModeloFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
+            'slug' => Str::slug($this->faker->name()),
             'state' => true,
         ];
     }

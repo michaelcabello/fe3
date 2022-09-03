@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
         <!-- Styles -->
+        <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
         
         
@@ -20,6 +21,8 @@
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />
@@ -40,6 +43,17 @@
             <main>
                 {{ $slot }}
             </main>
+
+
+            @if (isset($footer))
+               
+                    <div class="mt-4 bg-white shadow">                   
+                        {{ $footer }}
+                    </div>
+          
+            @endif
+
+
         </div>
 
         @stack('modals')
@@ -51,8 +65,26 @@
 <script src="/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 
-        @stack('scripts')
 
         @livewireScripts
+
+
+
+        @stack('scripts')
+
+        <script>
+            livewire.on('alert', function(message){
+                Swal.fire(
+                    'TICOM SRL!',
+                    message,
+                    'SOFTWARE EMPRESARIAL'
+                    )
+            })
+
+
+        </script>
+
+
+
     </body>
 </html>
