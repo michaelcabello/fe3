@@ -30,8 +30,8 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         //\App\Models\Category::factory(20)->create();
-        \App\Models\Brand::factory(10)->create();
-        \App\Models\Modelo::factory(2820)->create();
+        \App\Models\Brand::factory(500)->create();
+        \App\Models\Modelo::factory(820)->create();
         
         $this->call(ModeloSeeder::class); 
 

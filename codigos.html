@@ -2,8 +2,16 @@
 php artisan vendor:publish --tag=jetstream-views
 php artisan make:model Category -mfs
 php artisan make:livewire admin/CategoryList
+php artisan make:livewire admin/ProductList
+php artisan make:livewire admin/CategoryListd
 php artisan make:livewire admin/ModeloList
 php artisan make:livewire admin/ModeloCreate
+php artisan make:livewire admin/BrandCreate
+
+
+
+php artisan make:controller admin/CategoryController
+
 
 php artisan make:livewire admin/ComprobanteList
 
@@ -21,6 +29,7 @@ php artisan make:model Modelo -mfs // Model es palabra reservada trate de crear 
 
 php artisan make:model Um -mfs
 php artisan make:model Product -mfs
+php artisan make:model Productfamilie -mfs
 
 php artisan make:model Local -ms
 
