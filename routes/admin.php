@@ -6,6 +6,8 @@ use App\Http\Livewire\Admin\ModeloList;
 use App\Http\Livewire\Admin\BrandList;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Livewire\Admin\CategoryListd;
+use App\Http\Livewire\Admin\ProductList;
+use App\Http\Livewire\Admin\ProductcompuestoCreate;
 
 //Route::get('/', [HomeController::class, 'home'])->name('admin.home');
 Route::get('/tables', [TableController::class, 'showtables'])->name('admin.showtables');
@@ -17,3 +19,5 @@ Route::get('/marcas', BrandList::class)->name('brand.list');
 
 //Route::get('categories', [CategoryController::class, 'index']);
 Route::get('categories', CategoryListd::class)->name('category.listd'); 
+Route::get('products', ProductList::class)->name('product.list'); 
+Route::get('productcompuesto', ProductcompuestoCreate::class)->name('productcompuesto.create'); 

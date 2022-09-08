@@ -30,8 +30,8 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         //\App\Models\Category::factory(20)->create();
-        \App\Models\Brand::factory(500)->create();
-        \App\Models\Modelo::factory(820)->create();
+        \App\Models\Brand::factory(100)->create();
+        \App\Models\Modelo::factory(120)->create();
         
         $this->call(ModeloSeeder::class); 
 
@@ -50,9 +50,12 @@ class DatabaseSeeder extends Seeder
         $this->call(TipodocumentoSeeder::class); 
 
 
-        \App\Models\Customer::factory(10)->create();
+        \App\Models\Customer::factory(50)->create();
 
         $this->call(LocalTipocomprobanteSeeder::class); 
+
+        $this->call(GroupatributeSeeder::class); 
+        $this->call(AtributeSeeder::class); 
 
 
     }

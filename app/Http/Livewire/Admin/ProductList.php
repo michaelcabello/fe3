@@ -59,20 +59,9 @@ class ProductList extends Component
 
     public function render()
     {
-        if ($this->readyToLoad) {
-            $brands = Brand::where('name', 'like', '%' .$this->search. '%')
-                ->when($this->state, function($query){
-                    return $query->where('state',1);
-                })
-                ->orderBy($this->sort, $this->direction)
-                ->paginate($this->cant);
-               
-        }else{
-            $brands =[];
-            $this->flat =true;
 
-        }
-        return view('livewire.admin.product-list', compact('brands'));
+        $products =[];
+        return view('livewire.admin.product-list', compact('products'));
     }
 
     public function order($sort){

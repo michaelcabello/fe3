@@ -39,7 +39,7 @@
 
                                 <article>
                                     <figure>
-                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/1.jpg')}}" alt="">
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/brands.jpg')}}" alt="">
                                     </figure>
                                     <header class="mt-2">
                                         <h1 class="text-xl text-center text-gray-700"><a href="{{route('brand.list')}}">Marcas</a></h1>
@@ -49,7 +49,7 @@
 
                                 <article>
                                     <figure>
-                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/1.jpg')}}" alt="">
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/categories.jpg')}}" alt="">
                                     </figure>
                                     <header class="mt-2">
                                         <h1 class="text-xl text-center text-gray-700"><a href="{{route('category.list')}}">Categorias</a></h1>
@@ -62,7 +62,7 @@
 
                                 <article>
                                     <figure>
-                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/1.jpg')}}" alt="">
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/modelos.jpg')}}" alt="">
                                     </figure>
                                     <header class="mt-2">
                                         <h1 class="text-xl text-center text-gray-700"><a href="{{route('modelo.list')}}">Modelos</a></h1>
@@ -72,7 +72,7 @@
 
                                 <article>
                                     <figure>
-                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/1.jpg')}}" alt="">
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/products.jpg')}}" alt="">
                                     </figure>
                                     <header class="mt-2">
                                         <h1 class="text-xl text-center text-gray-700"><a href="{{route('product.list')}}">Productos</a></h1>

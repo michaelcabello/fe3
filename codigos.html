@@ -7,7 +7,8 @@ php artisan make:livewire admin/CategoryListd
 php artisan make:livewire admin/ModeloList
 php artisan make:livewire admin/ModeloCreate
 php artisan make:livewire admin/BrandCreate
-
+php artisan make:livewire admin/ProductfamilieCreate
+php artisan make:livewire admin/ProductcompuestoCreate
 
 
 php artisan make:controller admin/CategoryController
@@ -23,6 +24,12 @@ php artisan make:model Configuration -mfs
 php artisan make:model Tax -mfs
 php artisan make:model Ctacte -mfs
 php artisan make:model Currency -mfs
+php artisan make:model Groupatribute -mfs
+php artisan make:model Atribute -mfs
+php artisan make:model Productatribute -mfs
+
+
+php artisan make:migration create_atribute_productatribute_table
 
 php artisan make:model Brand -mfs
 php artisan make:model Modelo -mfs // Model es palabra reservada trate de crear y sale el error en la creacion de modelo
