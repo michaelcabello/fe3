@@ -13,10 +13,26 @@
 
             <x-table>
 
-                  <h2>hola</h2>
-                  <h2>hola</h2>
-                  <h2>hola</h2>
-                  <h2>hola</h2>
+            @foreach ( $groupatributes as $groupatribute)
+                <div>
+                    <h2>{{  $groupatribute->name }}</h2>
+                </div>
+                @foreach ( $groupatribute->atributes as $atribute )
+                
+                    <x-jet-label>
+                        <x-jet-checkbox
+                    
+                        wire:model.defer="editForm.categories"
+                        wire:click="contadores"
+                        name="atributes[]"
+                        value="{{$atribute ->id}}" />
+                        {{$atribute->name}}
+                    </x-jet-label>
+                @endforeach
+
+            @endforeach
+
+                
                     
             </x-table>
      

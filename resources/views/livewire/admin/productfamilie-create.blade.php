@@ -9,26 +9,44 @@
     <x-jet-dialog-modal wire:model="open">
         <x-slot name="title">
             Crear Nuevo Producto
+          
         </x-slot>
 
         <x-slot name="content">
 
-            <div class="py-2 mb-1">
+
+
+        
+            <div class="py-2 mb-1" wire:ignore>
                 <label>Categorias </label>
-                <select name="categories" class="py-4 select2" data-placeholder="Selecccione sus categorias" style="height:50%; width:100%">
-                    {{-- <option value="" selected disabled>escoge tu categoria</option> --}}
+                <select wire:model="category_id" class="py-2 select2" data-placeholder="Selecccione una categoria" style="height:50%; width:100%">
+                    <option value="" selected disabled>escoge tu categoria</option> 
                     @foreach($categories as $category)
                     <option value="{{$category->id}}">{{$category->name}}</option>
                     @endforeach
                     
                 </select>
-                <x-jet-input-error for="categories" /> 
+                <x-jet-input-error for="category_id" /> 
             </div>
 
+            
+            <div class="py-2 mb-1" wire:ignore>
+                <label>{{ $category_id }}Sub Categorias {{ $subcategory_id }}</label>
+                <select wire:model="subcategory_id" class="py-2 select21" data-placeholder="Selecccione una subcategoria" style="height:50%; width:100%" >
+                    <option value="" selected disabled>escoge tu subcategoria</option> 
+                    @foreach($subcategories as $subcategory)
+                    <option value="{{$subcategory->id}}">{{$subcategory->name}}</option>
+                    @endforeach
+                    
+                </select>
+                <x-jet-input-error for="subcategory_id" /> 
+            </div>
+            
 
-            <div class="py-2 mb-1">
+
+            <div class="py-2 mb-1" wire:ignore>
                 <label>Marcas</label>
-                <select name="brands" class="py-4 select2" data-placeholder="Selecccione sus narcas" style="height:50%; width:100%">
+                <select wire:model="brand_id" class="py-2 select2ma" data-placeholder="Selecccione sus nmarcas" style="height:50%; width:100%">
                     {{-- <option value="" selected disabled>escoge tu categoria</option> --}}
                     @foreach($brands as $brand)
                     <option value="{{$brand->id}}">{{$brand->name}}</option>
@@ -39,9 +57,9 @@
             </div>
 
 
-            <div class="py-2 mb-1">
+            <div class="py-2 mb-1"  wire:ignore>
                 <label>Modelos</label>
-                <select name="modelos" class="py-4 select2" data-placeholder="Selecccione sus modelos" style="height:50%; width:100%">
+                <select wire:model="modelo_id" class="py-2 select2m" data-placeholder="Selecccione sus modelos" style="height:50%; width:100%">
                     {{-- <option value="" selected disabled>escoge tu categoria</option> --}}
                     @foreach($modelos as $modelo)
                     <option value="{{$modelo->id}}">{{$modelo->name}}</option>
@@ -54,7 +72,7 @@
 
             <div class="py-2 mb-1">
                 <label>Producto o Servicio</label>
-                <select name="modelos" class="py-4 select2" data-placeholder="Selecccione tipo" style="height:50%; width:100%">
+                <select name="modelos" class="py-2 " data-placeholder="Selecccione tipo" style="height:50%; width:100%">
                     <option value="" selected disabled>escoge tipo de producto</option>
  
                     <option value="1">producto terminado</option>
@@ -67,9 +85,9 @@
 
 
 
-            <div class="py-4 mb-2">
+            <div class="py-2 mb-2">
                 <label>Producto simple o compuesto</label>
-                <select name="modelos" class="py-4 select2" data-placeholder="Selecccione tipo" style="height:50%; width:100%">
+                <select name="modelos" class="py-2" data-placeholder="Selecccione tipo" style="height:50%; width:100%">
                     <option value="" selected disabled>escoge tipo de producto</option>
  
                     <option value="1">producto simple</option>
@@ -79,6 +97,26 @@
                 </select>
                 <x-jet-input-error for="categories" /> 
             </div>
+
+
+            <div class="py-2 mb-2">
+                <label>Genero</label>
+                <select name="modelos" class="py-2 " data-placeholder="Selecccione tipo" style="height:50%; width:100%">
+                    <option value="" selected disabled>escoge tipo de producto</option>
+ 
+                    <option value="1">Varon</option>
+                    <option value="2">Mujer</option>
+                    <option value="2">Unisex</option>
+                    
+                </select>
+                <x-jet-input-error for="categories" /> 
+            </div>
+
+            <div class="flex items-center justify-center px-2 mt-2 mr-4 md:mt-0">
+                                
+                <x-jet-input type="checkbox" wire:model="haveserialnumber" class="mx-1" /> 
+                Tiene numero de Serie  
+            </div> 
 
         </x-slot>
 
@@ -109,8 +147,58 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
-    $('.select2').select2({
+
+    document.addEventListener('livewire:load',function(){
+        $('.select2').select2({
            tags:true
        });
+        $('.select2').on('change', function(){
+            @this.set('category_id', this.value);
+        });
+    })
+</script>
+
+<script>
+
+    document.addEventListener('livewire:load',function(){
+        $('.select2m').select2({
+           tags:true
+       });
+        $('.select2m').on('change', function(){
+            @this.set('modelo_id', this.value);
+        });
+    })
+</script>
+
+
+<script>
+
+    document.addEventListener('livewire:load',function(){
+        $('.select2ma').select2({
+           tags:true
+       });
+        $('.select2ma').on('change', function(){
+            @this.set('brand_id', this.value);
+        });
+    })
+</script>
+
+
+<script>
+     document.addEventListener('livewire:load',function(){
+        $('.select21').select2();
+        $('.select21').on('change', function(){
+            @this.set('subcategory_id', this.value);
+        });
+    })
+ 
+
+/*     $('.select2').select2({
+           tags:true
+       }); */
+
+/*     $('.select22').select2({
+           tags:true
+       }); */
 </script>
 @endpush

@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Productfamilie;
 
 return new class extends Migration
 {
@@ -15,12 +16,16 @@ return new class extends Migration
     {
         Schema::create('productfamilies', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
+            $table->string('name')->unique();
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->boolean('state')->default(false);
-            $table->boolean('simplecompuesto')->default(false);
-            $table->boolean('tienenumerodeserie')->default(false);
-            $table->string('genero')->nullable();
+            $table->boolean('state')->default(true);
+            $table->boolean('simplecompound')->default(true);//0false simple, 1true compuesto
+
+            $table->enum('tipo', [Productfamilie::PRODUCTOTERMINADO, Productfamilie::MERCADERIA, Productfamilie::SERVICIO])->default(Productfamilie::PRODUCTOTERMINADO);
+
+            $table->boolean('haveserialnumber')->default(false);
+            $table->string('gender')->nullable();
 
 
             $table->unsignedBigInteger('category_id')->nullable();

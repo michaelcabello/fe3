@@ -24,8 +24,14 @@ class CategorySeeder extends Seeder
         ]);
 
         Category::create([
-            'name' => 'blusas damas',
-            'slug' => Str::slug('blusas damas'),
+            'name' => 'Ropas para Damas',
+            'slug' => Str::slug('Ropas para Damas'),
+            'state'=>1,
+        ]);
+
+        Category::create([
+            'name' => 'Ropas para Varones',
+            'slug' => Str::slug('Ropas para Damas'),
             'state'=>1,
         ]);
 
@@ -79,37 +85,8 @@ class CategorySeeder extends Seeder
             'state'=>1,
         ]);
 
-        Category::create([
-            'name' => 'chaelcos anti',
-            'slug' => Str::slug('chaelcos anti'),
-            'state'=>1,
-        ]);
+       
 
-        Category::create([
-            'name' => 'vidrios col',
-            'slug' => Str::slug('vidrios col'),
-            'state'=>1,
-        ]);
-
-        Category::create([
-            'name' => 'tazas nev',
-            'slug' => Str::slug('tazas nev'),
-            'state'=>1,
-        ]);
-
-        Category::create([
-            'name' => 'teclados play',
-            'slug' => Str::slug('teclados play'),
-            'state'=>1,
-        ]);
-
-
-
-        Category::create([
-            'name' => 'Chompas lana',
-            'slug' => Str::slug('Chompas lana'),
-            'state'=>1,
-        ]);
 
         Category::create([
             'name' => 'mesas billar',
@@ -146,13 +123,6 @@ class CategorySeeder extends Seeder
             'slug' => Str::slug('vidrios templados'),
             'state'=>1,
         ]);
-
-
-
-
-
-
-
 
 
 

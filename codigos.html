@@ -27,6 +27,8 @@ php artisan make:model Currency -mfs
 php artisan make:model Groupatribute -mfs
 php artisan make:model Atribute -mfs
 php artisan make:model Productatribute -mfs
+php artisan make:model Category -mfs
+php artisan make:model Subcategory -mfs
 
 
 php artisan make:migration create_atribute_productatribute_table
@@ -57,7 +59,11 @@ php artisan make:migration create_local_tipocomprobante_table
 php artisan make:model Local_tipocomprobante -s
 
 php artisan make:model Comprobante -m
+
+
 php artisan make:migration create_comprobante_producto_table
+php artisan make:migration create_brand_category_table
+ 
 
 ======================
 instalando shoping cart
@@ -100,3 +106,39 @@ https://www.youtube.com/watch?v=v834owrSRXk
 
 
 https://www.youtube.com/watch?v=i2kHe8noduU
+
+
+
+====================================================== 
+esta es la tabla de categorias de la tabla recursiv.away
+======================================================
+
+Schema::create('categories', function (Blueprint $table) {
+    $table->id();
+
+    $table->string('name');
+    $table->string('slug');
+    $table->unsignedBigInteger('category_id')->nullable();
+    $table->boolean('state')->default(false);
+    /*          
+    $table->text('shortdescription')->nullable();
+    $table->text('longdescription')->nullable();
+    $table->integer('order')->nullable();
+    
+    $table->string('image', 2048)->default('categories/default.jpg')->nullable();
+    $table->string('title')->nullable();
+    $table->text('description')->nullable();
+    $table->text('keywords')->nullable(); */
+
+
+   
+
+    $table->timestamps();
+});
+
+
+
+ver ruta
+
+Route::get('/categoriess', CategoryList::class)->name('category.list'); 
+==========================================================
