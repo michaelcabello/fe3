@@ -26,6 +26,7 @@ return new class extends Migration
 
             $table->boolean('haveserialnumber')->default(false);
             $table->string('gender')->nullable();
+            $table->boolean('flag')->default(false);//para indicar si el producto ya se termino de crear
 
 
             $table->unsignedBigInteger('category_id')->nullable();

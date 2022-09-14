@@ -13,28 +13,41 @@
 
             <x-table>
 
+                {{ $product->name }}
+
+               i {{ $i = 0 }}
             @foreach ( $groupatributes as $groupatribute)
                 <div>
                     <h2>{{  $groupatribute->name }}</h2>
-                </div>
-                @foreach ( $groupatribute->atributes as $atribute )
+                   i {{ $i = $i + 1 }}
                 
+                </div>
+                j{{ $j = 0 }}
+                @foreach ( $groupatribute->atributes as $atribute )
+                j{{ $j = $j + 1 }}
                     <x-jet-label>
                         <x-jet-checkbox
                     
-                        wire:model.defer="editForm.categories"
-                        wire:click="contadores"
-                        name="atributes[]"
-                        value="{{$atribute ->id}}" />
+                        wire:model.defer="atributesphp"
+                        {{-- wire:click="contadores({{$i}}, {{$j}})" --}}
+                        name="atributes[{{$i}}][{{$j}}]"
+                       {{--  value="[{{$atribute->id}}]" /> --}}
+                        value="[{{$groupatribute->name}}=>{{$atribute->id}}]" /> 
+
                         {{$atribute->name}}
+                        
                     </x-jet-label>
                 @endforeach
 
             @endforeach
 
-                
+          
                     
             </x-table>
+
+            <x-jet-danger-button wire:click="crear" wire:loading.attr="disabled" wire:target="crear">
+                Crear
+            </x-jet-danger-button>
      
     </div>
 

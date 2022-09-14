@@ -18,9 +18,9 @@ return new class extends Migration
 
             $table->string('name');
             $table->string('slug');
-            $table->unsignedBigInteger('category_id')->nullable();
+           /*  $table->unsignedBigInteger('category_id')->nullable(); */
             $table->boolean('state')->default(false);
-            /*          
+                     
             $table->text('shortdescription')->nullable();
             $table->text('longdescription')->nullable();
             $table->integer('order')->nullable();
@@ -28,10 +28,7 @@ return new class extends Migration
             $table->string('image', 2048)->default('categories/default.jpg')->nullable();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
-            $table->text('keywords')->nullable(); */
-
-
-           
+            $table->text('keywords')->nullable(); 
 
             $table->timestamps();
         });

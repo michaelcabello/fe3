@@ -40,6 +40,7 @@ class ComprobanteSave extends Component
                // $consulta = Comprobante::select("numero")->latest()->first();
                 $consulta = Comprobante::where('local_id', Auth::user()->local->id)
                                         ->where('tipocomprobante_id', $this->tipocomprobante_id )->first();
+                //dd($consulta);
                // $this->numero = Comprobante::all();
                 $this->numero = $consulta->numero +1;
         }

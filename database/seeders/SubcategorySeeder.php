@@ -16,7 +16,7 @@ class SubcategorySeeder extends Seeder
      */
     public function run()
     {
-        Subcategory::create([
+       /*  Subcategory::create([
             'name' => 'bluzas floriadas',
             'slug' => Str::slug('bluzas floriadas'),
             'state'=>1,
@@ -49,6 +49,6 @@ class SubcategorySeeder extends Seeder
             'slug' => Str::slug('pantalones'),
             'state'=>1,
             'category_id'=>3
-        ]);
+        ]); */
     }
 }

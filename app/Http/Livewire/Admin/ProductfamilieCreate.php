@@ -8,31 +8,47 @@ use App\Models\Brand;
 use App\Models\Modelo;
 use App\Models\Subcategory;
 use Illuminate\Database\Eloquent\Builder;
+use App\Models\Productfamilie;
 
 class ProductfamilieCreate extends Component
 {
     public $open = false;
 
-    public $categories, $subcategories = [], $brands = [];
-    public $category_id = "", $subcategory_id = "", $brand_id = "", $modelo_id = "", $partnumber, $send;
+    public $categories=[], $modelos = [], $brands = [];
+    public $categoryy="";
+    public $prod_servicio="", $category_id,  $brand_id, $modelo_id,  $gender="", $simplecompound="", $haveserialnumber=0;
     public $name, $slug, $description, $price, $quantity;
 
 
+    protected $rules = [
+        'prod_servicio' => 'required',
+        'category_id' => 'required',
+        'brand_id' => 'required',
+        'modelo_id' => 'required',
+        'gender' => 'required',
+        'simplecompound'=>'required',
+        
+    ];
 
-    /* propiedad computada */
-    public function getSubcategoryProperty(){
-        return Subcategory::find($this->subcategory_id);
-    }
+
 
     public function mount(){
 
         $this->categories = Category::all();
         $this->brands = Brand::all();
+        $this->modelos = Modelo::all();
        // $this->subcategories = [];
+       // $this->categoryy="";
 
     }
 
 
+    public function cancel(){
+       
+        $this->category_id = 0;
+       // $this->reset(['open','prod_servicio','category_id','brand_id','modelo_id', 'gender', 'simplecompound', 'haveserialnumber']);
+       $this->open = false;
+    }
 
 
     public function nuevo(){
@@ -43,15 +59,15 @@ class ProductfamilieCreate extends Component
     }
 
     
-     public function updatedCategoryId($value){
+/*      public function updatedCategoryId($value){
         $this->subcategories = Subcategory::where('category_id', $value)->get();
 
-/*          $this->brands = Brand::whereHas('categories', function(Builder $query) use ($value){
+         $this->brands = Brand::whereHas('categories', function(Builder $query) use ($value){
             $query->where('category_id', $value);
         })->get(); 
 
-        $this->reset(['subcategory_id']); */
-    } 
+        $this->reset(['subcategory_id']);
+    }  */
 
 
 
@@ -64,12 +80,83 @@ class ProductfamilieCreate extends Component
     }
 
     public function save(){
+        $this->validate();
+
+       // Productfamilie::
+
+
+        $product = new Productfamilie();
+
+        $product->simplecompound = $this->simplecompound;
+        $product->tipo = $this->prod_servicio;
+        $product->haveserialnumber = $this->haveserialnumber;
+        $product->gender = $this->gender;
+
+        $categoriasel = Category::find($this->category_id);
+       // dd($categoriasel);
+        if($categoriasel){
+            $product->category_id = $categoriasel->id;
+            $categorianame = $categoriasel->name;
+        }    
+        else {
+            $newcategory = Category::create(['name'=>$this->category_id]);
+            $product->category_id = $newcategory->id;
+            $categorianame = $newcategory->name;
+        }
+        //->first()? $cat : Category::create(['name'=>$cat]);
+        //dd($categorianame );
+
+        //$categorianame = $categoriasel->name;
+
+        $modelosel = Modelo::find($this->modelo_id);
+       // dd($categoriasel);
+        if($modelosel){
+            $product->modelo_id = $modelosel->id;
+            $modeloname = $modelosel->name;
+        }    
+        else {
+            $newmodelo = Modelo::create(['name'=>$this->modelo_id]);
+            $product->modelo_id = $newmodelo->id;
+            $modeloname = $newmodelo->name;
+        }
+
+
+
+        $brandsel = Brand::find($this->brand_id);
+       // dd($categoriasel);
+        if($brandsel){
+            $product->brand_id = $brandsel->id;
+            $brandname = $brandsel->name;
+        }    
+        else {
+            $newbrand = Brand::create(['name'=>$this->brand_id]);
+            $product->brand_id = $newbrand->id;
+            $brandname = $newbrand->name;
+        }
+
+
+        
+/* 
+        $modelosel = Modelo::find($mod= $this->modelo_id)? $mod : Modelo::create(['name'=>$mod]);
+        $modeloname = $modelosel->name;
+        $product->modelo_id = $modelosel->id; */
+
+/*         $brandsel = Brand::find($bran = $this->brand_id)? $bran : Brand::create(['name'=>$bran]);
+        $brandname = $brandsel->name;
+        $product->brand_id = $brandsel->id; */
+        
+        $product->name = $categorianame." ".$modeloname." ".$brandname;
+
+        $prodcreado = $product->save();
+
+       // dd($product);
+        //$name = 
         // $this->identificador=rand();
         // $this->open = true;
         // $this->reset(['image']);
        // $this->open = false;
        // return view('livewire.admin.productcompuesto-create');
-       return redirect()->route('productcompuesto.create');
+       return redirect()->route('productcompuesto.create', $product);
         
 
      }
