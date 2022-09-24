@@ -28,10 +28,10 @@ class Brand extends Model
     }
 
     //Relacion muchos a muchos
-/*     public function categories(){
+     public function categories(){
         return $this->belongsToMany(Category::class);
     }
- */
+
 
 
 

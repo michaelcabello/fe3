@@ -1,7 +1,7 @@
 <div>
 {{-- <div wire:init="loadBrands"> --}}
 
-    
+
     <x-slot name="header">
         <div class="flex items-center">
             <h2 class="text-xl font-semibold leading-tight text-gray-600">
@@ -23,7 +23,7 @@
                             <div class="flex items-center justify-center mb-2 md:mb-0">
                                 <span>Mostrar </span>
                                 <select wire:model="cant" class="block p-7 py-2.5 ml-3 mr-3 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                 
+
                                     <option value="10"> 10 </option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
@@ -34,12 +34,12 @@
 
 
                             <div class="flex items-center justify-center mb-2 mr-4 md:mb-0 sm:w-full">
-                            <x-jet-input type="text" 
-                                wire:model="search" 
+                            <x-jet-input type="text"
+                                wire:model="search"
                                 class="flex items-center justify-center w-80 sm:w-full rounded-lg py-2.5"
                                 placeholder="buscar" />
                             </div>
-                            
+
 
 
 
@@ -50,28 +50,29 @@
                             </div> --}}
 
                             <div class="flex items-center justify-center px-2 mt-2 mr-4 md:mt-0">
-                                
-                                <x-jet-input type="checkbox" wire:model="state" class="mx-1" /> 
-                                Activos  
-                            </div> 
+
+                                <x-jet-input type="checkbox" wire:model="state" class="mx-1" />
+                                Activos
+                            </div>
 
                         </div>
 
 
 
                         {{-- @if ($brands->count()) --}}
-                        
+
+
                         @if (count($brands))
-                        
-                            
+
+
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                         <tr>
-                
+
                                         <th scope="col"
                                             class="w-24 px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase cursor-pointer"
                                             wire:click="order('id')">
-                                                 
+
                                             ID
 
                                                 @if ($sort == 'id')
@@ -88,7 +89,7 @@
                                         <th scope="col"
                                             class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase cursor-pointer"
                                             wire:click="order('name')">
-                                                    
+
                                             Modelo
                                             @if ($sort == 'name')
                                                 @if ($direction == 'asc')
@@ -132,14 +133,14 @@
                                         <tr>
 
                                             <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                                {{$brandd->id}} 
+                                                {{$brandd->id}}
                                             </td>
 
 
-      
 
 
-                                            
+
+
                                             <td class="flex items-center px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
 
                                                 <div class="flex-shrink-0 h-10 w-15 ">
@@ -163,7 +164,7 @@
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 @switch($brandd->state)
                                                     @case(0)
-                                                        <span wire:click="activar({{ $brandd }})" 
+                                                        <span wire:click="activar({{ $brandd }})"
                                                             class="inline-flex px-2 text-xs font-semibold leading-5 text-red-800 bg-red-100 rounded-full cursor-pointer">
                                                             inactivo
                                                         </span>
@@ -179,7 +180,7 @@
                                                 @endswitch
 
                                             </td>
-                   
+
 
 
 
@@ -188,11 +189,11 @@
                                                 <a wire:click="edit({{ $brandd }})" class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a>
                                                 <a class="btn btn-red" wire:click="$emit('deleteBrand', {{ $brandd->id }})" >
                                                    <i class="fa-solid fa-trash-can"></i>
-                                                   
+
                                                 </a>
-                                           
-                                                
-                                                
+
+
+
                                             </td>
                                         </tr>
 
@@ -202,7 +203,7 @@
                             </table>
 
 
-                              
+
 
                             @if ($brands->hasPages())
                                 <div class="px-6 py-4">
@@ -212,29 +213,30 @@
 
                         @else
 
-                        
-                            <div wire:init="loadBrands">
-                                <div class="px-6 py-4">
-                                    
-                                    <div class="flex items-center justify-center">
-                                        <svg class="w-10 h-10 animate-spin" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="blue">
-                                            <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                                            <path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/>
-                                        </svg>
-                                    </div>
-                                
-                                </div>
-                            </div>
-                       
 
-                 
+                            <div wire:init="loadBrands">
+
+                            </div>
+
+
                             @if($readyToLoad)
+
                                 <div class="px-6 py-4">
                                     <div class="flex items-center justify-center">
                                         No hay ningún registro coincidente
                                     </div>
                                 </div>
                             @else
+
+                                <div class="px-6 py-4">
+                                    <div class="flex items-center justify-center">
+                                        <svg class="w-10 h-10 animate-spin" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="blue">
+                                            <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                            <path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+
                                 <div class="px-6 py-4">
                                     <div class="flex items-center justify-center">
                                         Cargando, espere un momento
@@ -243,7 +245,7 @@
 
                             @endif
 
-                            
+
 
 
                         @endif
@@ -252,18 +254,17 @@
 
 
 
-
                     </x-table>
-         
+
     </div>
 
 
     <x-slot name="footer">
-        
+
             <h2 class="text-xl font-semibold leading-tight text-gray-600">
                 Pie
             </h2>
-     
+
 
     </x-slot>
 
@@ -280,15 +281,15 @@
 
             <div class="mb-4">
                 <x-jet-label value="Marca" />
-                <x-jet-input type="text" class="w-full" wire:model="brand.name" /> 
-                <x-jet-input-error for="name"/>               
+                <x-jet-input type="text" class="w-full" wire:model="brand.name" />
+                <x-jet-input-error for="name"/>
             </div>
 
              <div class="mb-4">
                 Estado
-                <x-jet-input type="checkbox" wire:model="brand.state" /> 
-                <x-jet-input-error for="state"/>               
-            </div> 
+                <x-jet-input type="checkbox" wire:model="brand.state" />
+                <x-jet-input-error for="state"/>
+            </div>
 
 
             <div class="mb-4">
@@ -302,11 +303,11 @@
                 <span class="block sm:inline">Espere un momento.</span>
 
             </div>
-            
+
             @if ($image)
                 <img class="mb-4" src="{{ $image->temporaryUrl() }}" alt="">
             @elseif($brand->image)
-                
+
                 <img src="{{ url($brand->image) }}" alt="">
             @endif
 
@@ -320,13 +321,13 @@
         <x-slot name="footer">
 
             <x-jet-button wire:click="cancelar"  class="mr-2">
-                <i class="mx-2 fa-sharp fa-solid fa-xmark"></i>Cancelar    
+                <i class="mx-2 fa-sharp fa-solid fa-xmark"></i>Cancelar
             </x-jet-secondary-button>
 
             <x-jet-danger-button wire:click="update" wire:loading.attr="disabled" wire:target="image" class="disabled:opacity-25">
                 <i class="mx-2 fa-regular fa-floppy-disk"></i> Guardar
             </x-jet-danger-button>
-            
+
         </x-slot>
 
     </x-jet-dialog-modal>
@@ -367,7 +368,7 @@
         })
         </script>
 
-           
+
 
 
 

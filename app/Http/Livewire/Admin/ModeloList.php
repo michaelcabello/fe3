@@ -16,6 +16,7 @@ class ModeloList extends Component
     public $cant='10';
     public $open_edit = false;
     public $readyToLoad = false;//para cntrolar el preloader
+    Public $flag;
 
 
     protected $listeners = ['render', 'delete'];
@@ -26,14 +27,14 @@ class ModeloList extends Component
         'sort'=>['except'=>'id'],
         'direction'=>['except'=>'desc'],
         'search'=>['except'=>''],
-    ];    
+    ];
 
     public function mount(){
-        
+
         //$this->modelo = new Modelo();
         //se hace para inicializar el objeto e indicar que image es
         //$this->image ="";
-    }    
+    }
 
 
     public function updatingSearch(){
@@ -57,7 +58,7 @@ class ModeloList extends Component
                 })
                 ->orderBy($this->sort, $this->direction)
                 ->paginate($this->cant);
-               
+
         }else{
             $modelos =[];
         }
@@ -106,8 +107,8 @@ class ModeloList extends Component
     protected $rules = [
         'modelo.name'=> 'required',
         'modelo.state'=>'',
-     
-    ]; 
+
+    ];
 
 
     public function edit(Modelo $modelo){
@@ -127,10 +128,10 @@ class ModeloList extends Component
 
         $this->modelo->save();
         $this->reset('open_edit');
-        
+
         //$this->emitTo('show-posts', 'render');
         $this->emit('alert','El Modelo se modifico correctamente');
- 
+
     }
 
 }

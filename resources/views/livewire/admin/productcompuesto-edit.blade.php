@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex items-center">
             <h2 class="text-xl font-semibold leading-tight text-gray-600">
-                Producto Compuesto
+                Actualización de Producto Compuesto
             </h2>
         </div
     </x-slot>
@@ -14,6 +14,7 @@
             <x-table>
 
                 {{ $product->name }}
+
 
                i {{ $i = 0 }}
             @foreach ( $groupatributes as $groupatribute)
@@ -30,9 +31,39 @@
 
                         wire:model.defer="atributesphp"
                         {{-- wire:click="contadores({{$i}}, {{$j}})" --}}
-                        name="atributes[{{$i}}][{{$j}}]"
+                        name="atributes[]"
+
                        {{--  value="[{{$atribute->id}}]" /> --}}
-                        value="[{{$groupatribute->name}}=>{{$atribute->id}}]" />
+                        value="[{{$groupatribute->name}}=>{{$atribute->id}}]"
+
+          {{--               @if("deshabilitar")
+                            disabled
+                        @else
+
+                        @endif --}}
+
+                     {{--  disabled="{{$atributesphpd[0]}}=={{$atribute->id}} ? true : false" --}}
+                       :disabled="in_array( $atribute->id , $atributesphpd ) ? true: false"
+
+                     {{-- {{ disabled="deshabilitar()"}} --}}
+                     {{-- disabled="deshabilitar()" --}}
+
+                        {{--   @if($atributesphpd[0])
+                    {{ $isDisabled = true }}
+                          @endif --}}
+
+                          {{-- @if ($post->featured) checked @endif --}}
+
+
+
+        {{--            @foreach ( $atributesphpd as $atributephpd)
+                            @if ($atributephpd == $atribute->id)
+                             disabled
+                            @endif
+                        @endforeach --}}
+
+
+                        />
                         {{--  si activamos el checkbox los datos viajan a atribustesphp
                               si descativamos quita el valor de atribustesphp porque es wiremodel --}}
                         {{$atribute->name}}
@@ -45,7 +76,6 @@
 
 
             </x-table>
-
             <x-jet-danger-button wire:click="crear" wire:loading.attr="disabled" wire:target="crear">
                 Crear
             </x-jet-danger-button>

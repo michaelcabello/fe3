@@ -12,9 +12,10 @@ use Illuminate\Support\Str;
 class ProductcompuestoCreate extends Component
 {
     public $atributesphp=[];
-    public $i, $j; 
-    //public $product; $atributes[][];
-    
+    public $i, $j;
+    public $product;
+    //$atributes[][];
+
     public $createForm = [
         'atributes' => [],
     ];
@@ -23,7 +24,7 @@ class ProductcompuestoCreate extends Component
 
     public function mount(Productfamilie $product){
         $this->product = $product;//recibimos producto creado del popup
- 
+
         $this->i=0;
         $this->j=0;
     }
@@ -47,10 +48,10 @@ class ProductcompuestoCreate extends Component
         $groupatributes = Groupatribute::pluck('name','id');
         //dd($groupatributes);
         /*foreach ($groupatributes as $key => $value) {
-           
+
         } */
-        
-        
+
+
        // $atributes = $groupatributes->atributes();
         //return view('miempresa.miscategoriass', compact('user', 'categories'));
         //dd($this->atributes);
@@ -60,7 +61,7 @@ class ProductcompuestoCreate extends Component
         $datos = $this->atributesphp;
 
        // $datee = collect($datos[0]);
-        //dd($datos);    
+        //dd($datos);
        // $j=0;
         $p=1;//esta variable indicara la cantidad de combinaciones de productos
         foreach ($groupatributes as $keyga => $valuega) {
@@ -70,7 +71,7 @@ class ProductcompuestoCreate extends Component
                 $valores = $valuega;//en $valores guardo Tallas, Colores, ...
                 $$valores=[];//se genera $Tallas[] $Colores[] $volumen[] ....
             foreach ($datos as $keya=>$valuea) {//datos tiene todo lo escogido para generar el producto
-                //$keya tiene 0,1,2  $valuea tiene "['Tallas' => 'S']"  ahora tiene "['Tallas' => '1']" 
+                //$keya tiene 0,1,2  $valuea tiene "['Tallas' => 'S']"  ahora tiene "['Tallas' => '1']"
                 $valuea = substr($valuea,1,-1);//quitamos "[  y ]"  queda 'Tallas' => 'S'  ahora queda 'Tallas' => '1'
                 $gaa = explode('=>', $valuea); //convertimos en array  ['Tallas','S']  ahora   ['Tallas','1']
                 if ($gaa[0] == $valuega){//comparamos para ver cuantas veces se repite el grupo atributo
@@ -82,18 +83,19 @@ class ProductcompuestoCreate extends Component
                     $$valores[]=$gaa[1];//realmente esta guardando $Tallas[]=[s,m,l] $Colores[]=[rojo,verde,azul]...pero ahora $Tallas[]=[1,2,3] $Colores[]=[4,5,6].
                     //$gx[$valuega][]=$gaa[1];
                 }
-            } 
+            }
             //al salir del bucle si $i=0 significa que el grupo atributo no tiene nada seleccionado
             //ejemplo si solo escojo (tallas = s,m,l) (colores rojo,azul) al entrar a volumen sin seleccion i=0
-            //$i acumula 3 luego 2 
+            //$i acumula 3 luego 2
             if($i!=0){//validamos para que no cuente grupos de atributos no escogidos
                 $p=$p*$i;//$p seria 6
+
             }
-            
+
 
             //$ga[$j]=$i;
-            
-           
+
+
            // $j=$j+1;
         }
        // echo $p;
@@ -116,11 +118,21 @@ class ProductcompuestoCreate extends Component
         //dd($gaaa[0]);
 
         $fa = count($gaaa);
+
+        if($fa == 1){
+            $noma= $gaaa[0];//$gaaa[0]=Tallas
+            $res = $$noma;//res devuelve tantos valores como p osea si p es 4, entonces res tiene 4 valores, y cada valor es un array que tiene 2 datos ejemplo (s,rojo) o (1,8)
+            //dd($res);
+            //dd($res[0]);
+        }
+
+
+
         if($fa == 2){
             $noma= $gaaa[0];//$gaaa[0]=Tallas
             $nomb= $gaaa[1];//$gaaa[1]=Colores
-            $collection=collect($$noma);//$$noma =$Tallas pero $Tallas=[1,2,3]   ver linea 82
-            $matrix=$collection->crossJoin($$nomb);//$$nomb =$Colores pero $Colores=[4,5,6]   ver linea 82
+            $collection=collect($$nomb);//$$noma =$Tallas pero $Tallas=[1,2,3]   ver linea 82
+            $matrix=$collection->crossJoin($$noma);//$$nomb =$Colores pero $Colores=[4,5,6]   ver linea 82
             $res = $matrix->all();//res devuelve tantos valores como p osea si p es 4, entonces res tiene 4 valores, y cada valor es un array que tiene 2 datos ejemplo (s,rojo) o (1,8)
             //dd($res);
             //dd($res[0]);
@@ -134,7 +146,7 @@ class ProductcompuestoCreate extends Component
             $collection=collect($$noma);
             $matrix=$collection->crossJoin($$nomb, $$nomc);
             $res = $matrix->all();
-            
+
         }
 
         if($fa == 4){
@@ -149,7 +161,7 @@ class ProductcompuestoCreate extends Component
         }
 
         //generamos el producto, p y res tiene la misma cantidad, si p=4  restiene 4 registros y cada registro 2 datos
-        for ($i=0; $i < $p; $i++) { 
+        for ($i=0; $i < $p; $i++) {
             $productatribute = Productatribute::create([
                 'codigo' => $random = Str::random(10),
                 'price'=>100,
@@ -157,16 +169,26 @@ class ProductcompuestoCreate extends Component
                 'productfamilie_id' => $this->product->id
             ]);
 
-            $productatribute->atributes()->attach($res[$i]);
+            //$productatribute->atributes()->attach($res[$i]);
+            $productatribute->atributes()->sync($res[$i]);
         }
 
 
 
        // dd(($this->createForm['atributes']));
 
+       /* $this->product->update([
+        'flag' => 1
+       ]); */
+       //no cambia el flag por eso use save
+
+       $this->product->flag = 1;
+       $this->product->save();
+
+       return redirect()->route('productcompuesto.list', $this->product->id);
 
     }
 
-   
+
 
 }

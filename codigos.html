@@ -8,7 +8,12 @@ php artisan make:livewire admin/ModeloList
 php artisan make:livewire admin/ModeloCreate
 php artisan make:livewire admin/BrandCreate
 php artisan make:livewire admin/ProductfamilieCreate
+php artisan make:livewire admin/ProductfamilieCreatea
+php artisan make:livewire admin/ProductfamilieCreateaa
+
 php artisan make:livewire admin/ProductcompuestoCreate
+php artisan make:livewire admin/ProductcompuestoEdit
+php artisan make:livewire admin/ProductcompuestoList
 
 
 php artisan make:controller admin/CategoryController
@@ -64,8 +69,8 @@ php artisan make:model Comprobante -m
 
 php artisan make:migration create_comprobante_producto_table
 php artisan make:migration create_brand_category_table
- 
-php artisan make:controller  
+
+php artisan make:controller
 
 
 
@@ -113,7 +118,7 @@ https://www.youtube.com/watch?v=i2kHe8noduU
 
 
 
-====================================================== 
+======================================================
 esta es la tabla de categorias de la tabla recursiv.away
 ======================================================
 
@@ -124,18 +129,18 @@ Schema::create('categories', function (Blueprint $table) {
     $table->string('slug');
     $table->unsignedBigInteger('category_id')->nullable();
     $table->boolean('state')->default(false);
-    /*          
+    /*
     $table->text('shortdescription')->nullable();
     $table->text('longdescription')->nullable();
     $table->integer('order')->nullable();
-    
+
     $table->string('image', 2048)->default('categories/default.jpg')->nullable();
     $table->string('title')->nullable();
     $table->text('description')->nullable();
     $table->text('keywords')->nullable(); */
 
 
-   
+
 
     $table->timestamps();
 });
@@ -144,5 +149,5 @@ Schema::create('categories', function (Blueprint $table) {
 
 ver ruta
 
-Route::get('/categoriess', CategoryList::class)->name('category.list'); 
+Route::get('/categoriess', CategoryList::class)->name('category.list');
 ==========================================================

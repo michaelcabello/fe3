@@ -6,6 +6,8 @@
 
     </div>
 
+
+
     <x-jet-dialog-modal wire:model="open">
         <x-slot name="title">
             Crear Nuevo Producto
@@ -14,28 +16,38 @@
 
         <x-slot name="content">
 
+            @if($this->withcategory[0])
+
             <div class="py-2 mb-1" wire:ignore>
                 <label>Categorias </label>
-                <select wire:model="category_id" class="select2"  data-placeholder="Selecccione una subcategoria" style="height:50%; width:100%">
-                    <option value="" selected disabled>Seleccione</option>
+                <select wire:model="category_id" class="py-0.5 rounded"  data-placeholder="Selecccione una subcategoria" style="height:50%; width:100%">
+                    <option value="0" selected disabled>Seleccione</option>
                     @foreach($categories as $category)
-                    <option value="{{$category->id}}">{{$category->name}}</option>
+                        @if ($category->id == 1)
+                             @continue
+                        @endif
+
+                        <option value="{{$category->id}}">{{$category->name}}</option>
+
                     @endforeach
 
                 </select>
                 <x-jet-input-error for="category_id" />
             </div>
 
+            @endif
+
+
             {{ $category_id }}
             {{ $categoryy }}
 
 
-            <div class="py-2 mb-1">
+            <div class="py-2 mb-1" >
 
                 <label>{{ $category_id }}Sub Categorias {{ $subcategory_id }}</label>
-                <select wire:model="subcategory_id" class="select21" data-placeholder="Selecccione una subcategoria" style="height:50%; width:100%" > {{-- select21 --}}
+                <select wire:model="subcategory_id" class="py-0.5 rounded" data-placeholder="Selecccione una subcategoria" style="height:50%; width:100%" >
                     <option value="0" selected disabled>escoge tu subcategoria</option>
-                    @foreach($subcategoriesss as $subcategory)
+                    @foreach($subcategories as $subcategory)
                       <option value="{{$subcategory->id}}">{{$subcategory->name}}</option>
                     @endforeach
 
@@ -48,7 +60,7 @@
 
                 <div class="py-2 mb-1" wire:ignore>
                     <label>Marcas</label>
-                    <select wire:model="brand_id" class="py-2 select2ma"  style="height:50%; width:100%">
+                    <select wire:model="brand_id" class="py-2 select2mar"  style="height:50%; width:100%">
                          <option value="0" selected disabled>Seleccione</option>
                         @foreach($brands as $brand)
                         <option value="{{$brand->id}}">{{$brand->name}}</option>
@@ -63,7 +75,7 @@
 
                 <div class="py-2 mb-1"  wire:ignore>
                     <label>Modelos</label>
-                    <select wire:model="modelo_id" class="py-2 select2m"  style="height:50%; width:100%">
+                    <select wire:model="modelo_id" class="py-2 select2mo"  style="height:50%; width:100%">
                          <option value="0" selected disabled>Seleccione</option>
                         @foreach($modelos as $modelo)
                         <option value="{{$modelo->id}}">{{$modelo->name}}</option>
@@ -96,7 +108,7 @@
 
 
 
-                <div class="py-2 mb-2">
+           {{-- <div class="py-2 mb-2">
                     <label>Producto simple o compuesto</label>
                     <select wire:model="simplecompound" class="py-0.5 rounded" data-placeholder="Seleccione" style="height:50%; width:100%">
                         <option value="" selected disabled>Seleccione</option>
@@ -106,9 +118,10 @@
 
                     </select>
                     <x-jet-input-error for="categories" />
-                </div>
+                </div> --}}
 
                 {{ $simplecompound }}
+
                 <div class="py-2 mb-2">
                     <label>Genero</label>
                     <select wire:model="gender" class="py-0.5 rounded " data-placeholder="Seleccione" style="height:50%; width:100%">
@@ -160,43 +173,15 @@
 <script src="https://code.jquery.com/jquery-3.6.0.slim.js" ></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-<script>
 
-      document.addEventListener('livewire:load',function(){
-        $('.select2').select2({
-           tags:true
-       });
-        $('.select2').on('change', function(){
-            @this.set('category_id', this.value);
-        });
-    })
-
-/*       document.addEventListener('livewire:load', function(){
-        $('.select2').select2(tags:true);
-        $('.select2').on('change', function(){
-           var id = $('.select2').select2("val");
-           var name = $('.select2 option:selected').text();
-           @this.set('category_id', id);
-          // @this.set('categoryy', name)
-
-        })
-    }) */
-
-
-
-
-
-
-
-</script>
 
 <script>
 
     document.addEventListener('livewire:load',function(){
-        $('.select2m').select2({
+        $('.select2mo').select2({
            tags:true
        });
-        $('.select2m').on('change', function(){
+        $('.select2mo').on('change', function(){
             @this.set('modelo_id', this.value);
         });
     })
@@ -206,31 +191,15 @@
 <script>
 
     document.addEventListener('livewire:load',function(){
-        $('.select2ma').select2({
+        $('.select2mar').select2({
            tags:true
        });
-        $('.select2ma').on('change', function(){
+        $('.select2mar').on('change', function(){
             @this.set('brand_id', this.value);
         });
     })
 </script>
 
 
-<script>
-     document.addEventListener('livewire:load',function(){
-        $('.select21').select2();
-        $('.select21').on('change', function(){
-            @this.set('subcategory_id', this.value);
-        });
-    })
 
-
-/*     $('.select2').select2({
-           tags:true
-       }); */
-
-/*     $('.select22').select2({
-           tags:true
-       }); */
-</script>
 @endpush

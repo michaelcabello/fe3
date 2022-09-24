@@ -21,8 +21,9 @@ class Productatribute extends Model
 
 
     //Relacion muchos a muchos//atributes se esta usando en la clase Groupatributes
+    //withTimestamps(); para llenar los campos de fechas
     public function atributes(){
-        return $this->belongsToMany(Atribute::class);
+        return $this->belongsToMany(Atribute::class)->withTimestamps();
     }
 
 

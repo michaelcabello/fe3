@@ -13,13 +13,13 @@ class BrandList extends Component
 {
 
     use WithPagination;
-    use WithFileUploads;  
-    public $search, $image, $brand, $state, $flat;
+    use WithFileUploads;
+    public $search, $image, $brand, $state;
     public $sort='id';
     public $direction='desc';
     public $cant='10';
     public $open_edit = false;
-    public $readyToLoad = false;//para cntrolar el preloader
+    public $readyToLoad = false;//para controlar el preloader inicia en false
 
     protected $listeners = ['render', 'delete'];
 
@@ -28,7 +28,7 @@ class BrandList extends Component
         'sort'=>['except'=>'id'],
         'direction'=>['except'=>'desc'],
         'search'=>['except'=>''],
-    ];    
+    ];
 
 
     public function mount(){
@@ -49,7 +49,7 @@ class BrandList extends Component
         'brand.name' => 'required',
         'brand.image'=>'image',
         'brand.state'=>'required',
-    ];  
+    ];
 
 
     public function loadBrands(){
@@ -65,10 +65,9 @@ class BrandList extends Component
                 })
                 ->orderBy($this->sort, $this->direction)
                 ->paginate($this->cant);
-               
+
         }else{
             $brands =[];
-            $this->flat =true;
 
         }
         return view('livewire.admin.brand-list', compact('brands'));
@@ -127,7 +126,7 @@ class BrandList extends Component
         if($this->image){
             Storage::delete([$this->brand->image]);
             $this->brand->image = Storage::url($this->image->store('brands', 'public'));
-        } 
+        }
 
         $this->brand->save();
         $this->reset('open_edit', 'image');

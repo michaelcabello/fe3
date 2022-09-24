@@ -2,24 +2,28 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Models\Brand;
+
+use App\Models\Modelo;
 use Livewire\Component;
 use App\Models\Category;
-use App\Models\Brand;
-use App\Models\Modelo;
 use App\Models\Subcategory;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Configuration;
 use App\Models\Productfamilie;
+use Illuminate\Database\Eloquent\Builder;
 
-class ProductfamilieCreate extends Component
+class ProductfamilieCreated extends Component
 {
+
     public $open = false;
 
 
 
     public $categories=[], $subcategories=[], $modelos = [], $brands = [];
     public $categoryy="";
-    public $prod_servicio="", $subcategory_id, $category_id,  $brand_id, $modelo_id,  $gender="", $simplecompound="", $haveserialnumber=0;
+    public $prod_servicio="", $subcategory_id=0, $category_id,  $brand_id, $modelo_id,  $gender="", $simplecompound="", $haveserialnumber=0;
     public $name, $slug, $description, $price, $quantity;
+    public $withcategory;//esta opcion vienen de configuracion 1 es con categoria
 
 
     protected $rules = [
@@ -28,7 +32,7 @@ class ProductfamilieCreate extends Component
         'brand_id' => 'required',
         'modelo_id' => 'required',
         'gender' => 'required',
-        //'simplecompound'=>'required',
+       // 'simplecompound'=>'required',
         'subcategory_id' => 'required',
 
     ];
@@ -37,23 +41,30 @@ class ProductfamilieCreate extends Component
 
     public function mount(){
 
-        $this->categories = Category::all();
+        $this->withcategory = Configuration::pluck('withcategory');//es un array y el valor se guarda en this->withcategory[0]
+        if(!$this->withcategory[0]){//esto es sin categoria
+            $this->categories = Category::where('id', 1)->first();
+            $this->category_id = 1;
+            $this->subcategories = Subcategory::where('category_id', 1)->get();
+        }else{
+            $this->categories = Category::all();
+        }
+
+
+
+
         $this->brands = Brand::all();
         $this->modelos = Modelo::all();
         $this->subcategories = [];
         //$this->categoryy="";
 
-        $this->category_id="";
+        //$this->category_id=0;
+        $this->subcategory_id=0;
 
     }
 
 
-    public function cancelu(){
 
-        $this->category_id = 0;
-       // $this->reset(['open','prod_servicio','category_id','brand_id','modelo_id', 'gender', 'simplecompound', 'haveserialnumber']);
-       $this->open = false;
-    }
 
     public function cancel(){
 
@@ -73,6 +84,7 @@ class ProductfamilieCreate extends Component
 
 
 
+
      public function updatedCategoryId($value){
         $this->subcategories = Subcategory::where('category_id', $value)->get();
 
@@ -87,12 +99,23 @@ class ProductfamilieCreate extends Component
 
     public function render()
     {
-        $categories = Category::all();
-        //$subcategoriesss = Subcategory::where('category_id', $this->category_id)->get();
-        $subcategoriesss = $this->subcategories;
+
+        $this->withcategory = Configuration::pluck('withcategory');//es un array y el valor se guarda en this->withcategory[0]
+        if(!$this->withcategory[0]){//esto es sin categoria
+            $this->categories = Category::where('id', 1)->first();
+            $this->category_id=1;
+            $this->subcategories = Subcategory::where('category_id', 1)->get();
+        }else{
+            $this->categories = Category::all();
+        }
+
+
+       // $categories = Category::all();
+       $categories = $this->categories;
+       // $subcategories = Subcategory::where('category_id', $this->category_id)->get();
         $brands = Brand::all();
         $modelos = Modelo::all();
-        return view('livewire.admin.productfamilie-create', compact('categories', 'brands', 'modelos', 'subcategoriesss'));
+        return view('livewire.admin.productfamilie-created', compact('categories', 'brands', 'modelos'));
     }
 
     public function save(){
@@ -103,29 +126,29 @@ class ProductfamilieCreate extends Component
 
         $product = new Productfamilie();
 
-        $product->simplecompound = $this->simplecompound;
-        $product->tipo = $this->prod_servicio;
-        $product->haveserialnumber = $this->haveserialnumber;
-        $product->gender = $this->gender;
+        //$product->simplecompound = $this->simplecompound;//si el producto es simple o cimpuesto
+        $product->tipo = $this->prod_servicio;//producto o servicio
+        $product->haveserialnumber = $this->haveserialnumber;//para indicar si el producto tiene numero de serie
+        $product->gender = $this->gender;//genero varon, mujer o unisex
 
-        $categoriasel = Category::find($this->category_id);
-       // dd($categoriasel);
-        if($categoriasel){
-            $product->category_id = $categoriasel->id;
-            $categorianame = $categoriasel->name;
+        $subcategoriasel = Subcategory::find($this->subcategory_id);
+        //dd($subcategoriasel);
+        if($subcategoriasel){
+            $product->subcategory_id = $subcategoriasel->id;
+            $subcategorianame = $subcategoriasel->name;
         }
         else {
-            $newcategory = Category::create(['name'=>$this->category_id]);
-            $product->category_id = $newcategory->id;
-            $categorianame = $newcategory->name;
+            $newsubcategory = Subcategory::create(['name'=>$this->subcategory_id, 'category_id'=>$this->category_id]);//se crea la subcategoria, esto cuando usamos select2, subcategoria_id tiene el nombre
+            $product->subcategory_id = $newsubcategory->id;//id de la nueva subcategoria
+            $subcategorianame = $newsubcategory->name;//nombre de la nueva subcategoria creada
         }
         //->first()? $cat : Category::create(['name'=>$cat]);
         //dd($categorianame );
 
-        //$categorianame = $categoriasel->name;
+        //$categorianame = $subcategoriasel->name;
 
         $modelosel = Modelo::find($this->modelo_id);
-       // dd($categoriasel);
+       // dd($subcategoriasel);
         if($modelosel){
             $product->modelo_id = $modelosel->id;
             $modeloname = $modelosel->name;
@@ -161,7 +184,7 @@ class ProductfamilieCreate extends Component
         $brandname = $brandsel->name;
         $product->brand_id = $brandsel->id; */
 
-        $product->name = $categorianame." ".$modeloname." ".$brandname;
+        $product->name = $subcategorianame." ".$modeloname." ".$brandname;
 
         $prodcreado = $product->save();
 
@@ -176,6 +199,7 @@ class ProductfamilieCreate extends Component
 
 
      }
+
 
 
 }

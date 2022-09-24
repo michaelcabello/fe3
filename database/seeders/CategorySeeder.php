@@ -16,10 +16,10 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        
+
         Category::create([
-            'name' => 'Celulares y tablets',
-            'slug' => Str::slug('Celulares y tablets'),
+            'name' => 'General',
+            'slug' => Str::slug('General'),
             'state'=>1,
         ]);
 
@@ -31,7 +31,7 @@ class CategorySeeder extends Seeder
 
         Category::create([
             'name' => 'Ropas para Varones',
-            'slug' => Str::slug('Ropas para Damas'),
+            'slug' => Str::slug('Ropas para Varones'),
             'state'=>1,
         ]);
 
@@ -85,7 +85,7 @@ class CategorySeeder extends Seeder
             'state'=>1,
         ]);
 
-       
+
 
 
         Category::create([

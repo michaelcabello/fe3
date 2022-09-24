@@ -1,26 +1,28 @@
 <?php
-
 namespace App\Http\Livewire\Admin;
 
-use Livewire\Component;
-
-
-use Livewire\WithPagination;
 use App\Models\Brand;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\validation\Rule;
+use Livewire\Component;
+use App\Models\Category;
+use App\Models\Configuration;
+use Livewire\WithPagination;
 use Livewire\WithFileUploads;
+use Illuminate\validation\Rule;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Productfamilie;
 
 class ProductList extends Component
-{   
+{
     use WithPagination;
-    use WithFileUploads;  
-    public $search, $image, $brand, $state, $flat;
+    use WithFileUploads;
+    public $search, $image, $product, $state;
     public $sort='id';
     public $direction='desc';
     public $cant='10';
     public $open_edit = false;
-    public $readyToLoad = false;//para cntrolar el preloader
+    public $readyToLoad = false;//para controlar el preloader
+    public $withcategory;//esta opcion vienen de configuracion 1 es con categoria
+    public $category;
 
     protected $listeners = ['render', 'delete'];
 
@@ -29,13 +31,19 @@ class ProductList extends Component
         'sort'=>['except'=>'id'],
         'direction'=>['except'=>'desc'],
         'search'=>['except'=>''],
-    ];    
+    ];
 
 
     public function mount(){
         $this->identificador = rand();
         $this->brand = new Brand();//se hace para inicializar el objeto e indicar que image es
         $this->image ="";
+        $this->withcategory = Configuration::pluck('withcategory');//es un array y el valor se guarda en this->withcategory[0]
+        if(!$this->withcategory[0]){//esto es sin categoria
+            $this->category = Category::where('id', 1)->first();
+        }
+
+
     }
 
     public function updatingSearch(){
@@ -50,18 +58,33 @@ class ProductList extends Component
         'brand.name' => 'required',
         'brand.image'=>'image',
         'brand.state'=>'required',
-    ];  
+    ];
 
 
-    public function loadBrands(){
+    public function loadProducts(){
         $this->readyToLoad = true;
     }
 
     public function render()
     {
 
-        $products =[];
+
+        if ($this->readyToLoad) {
+            $products = Productfamilie::where('name', 'like', '%' .$this->search. '%')
+                ->when($this->state, function($query){
+                    return $query->where('state',1);
+                })
+                ->orderBy($this->sort, $this->direction)
+                ->paginate($this->cant);
+
+        }else{
+            $products =[];
+
+        }
+
         return view('livewire.admin.product-list', compact('products'));
+
+
     }
 
     public function order($sort){
@@ -79,24 +102,24 @@ class ProductList extends Component
     }
 
 
-    public function activar(Brand $brand){
-        $this->brand = $brand;
+    public function activar(Productfamilie $product){
+        $this->product = $product;
 
-        $this->brand->update([
+        $this->product->update([
             'state' => 1
         ]);
     }
 
-    public function desactivar(Brand $brand){
-        $this->brand = $brand;
+    public function desactivar(Productfamilie $product){
+        $this->product = $product;
 
-        $this->brand->update([
+        $this->product->update([
             'state' => 0
         ]);
     }
 
-    public function delete(Brand $brand){
-        $brand->delete();
+    public function delete(Productfamilie $product){
+        $product->delete();
     }
 
     public function edit(Brand $brand){
@@ -105,11 +128,11 @@ class ProductList extends Component
 
     }
 
-    public function cancelar(){
+/*     public function cancelar(){
         $this->reset('open_edit', 'image');
         $this->identificador = rand();
         //$this->open_edit = false;
-    }
+    } */
 
     public function update(){
         //$this->validate();
@@ -117,7 +140,7 @@ class ProductList extends Component
         if($this->image){
             Storage::delete([$this->brand->image]);
             $this->brand->image = Storage::url($this->image->store('brands', 'public'));
-        } 
+        }
 
         $this->brand->save();
         $this->reset('open_edit', 'image');
@@ -126,8 +149,8 @@ class ProductList extends Component
         $this->emit('alert','La marca se modificó correctamente');
 
     }
-    
-    
+
+
 
 
 }
