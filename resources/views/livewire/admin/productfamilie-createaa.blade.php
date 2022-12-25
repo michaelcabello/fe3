@@ -108,7 +108,7 @@
 
 
 
-                <x-jet-button wire:click="cancel"  class="mr-2">
+                <x-jet-secondary-button wire:click="cancel"  class="mr-2">
                     <i class="mx-2 fa-sharp fa-solid fa-xmark"></i>Cancelar
                 </x-jet-secondary-button>
 

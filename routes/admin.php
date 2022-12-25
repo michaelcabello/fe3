@@ -13,6 +13,7 @@ use App\Http\Livewire\Admin\ProductfamilieCreateaa;
 use App\Http\Livewire\Admin\ProductcompuestoCreatea;
 use App\Http\Controllers\admin\ProductfamilieController;
 use App\Http\Livewire\Admin\ProductcompuestoEdit;
+use App\Http\Livewire\Admin\InventoryList;
 
 //Route::get('/', [HomeController::class, 'home'])->name('admin.home');
 Route::get('/tables', [TableController::class, 'showtables'])->name('admin.showtables');
@@ -20,7 +21,7 @@ Route::get('/tables', [TableController::class, 'showtables'])->name('admin.showt
 Route::get('/categories', CategoryList::class)->name('category.list');
 Route::get('/modelos', ModeloList::class)->name('modelo.list');
 Route::get('/marcas', BrandList::class)->name('brand.list');
-
+Route::get('/inventarioinicial', InventoryList::class)->name('inventory.list');
 
 
 //Route::get('categories', [CategoryController::class, 'index']);

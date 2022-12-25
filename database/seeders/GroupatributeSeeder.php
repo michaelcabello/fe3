@@ -15,7 +15,7 @@ class GroupatributeSeeder extends Seeder
      */
     public function run()
     {
-        
+
         Groupatribute::create([
             'name' => 'Tallas',
             'state'=>1,
@@ -27,6 +27,19 @@ class GroupatributeSeeder extends Seeder
             'state'=>1,
             'order'=>2,
         ]);
+
+        Groupatribute::create([
+            'name' => 'Volumenes',
+            'state'=>1,
+            'order'=>3,
+        ]);
+
+        Groupatribute::create([
+            'name' => 'Talla zapato',
+            'state'=>1,
+            'order'=>4,
+        ]);
+
 
     }
 }

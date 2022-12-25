@@ -36,7 +36,7 @@ class ProductList extends Component
 
     public function mount(){
         $this->identificador = rand();
-        $this->brand = new Brand();//se hace para inicializar el objeto e indicar que image es
+       // $this->brand = new Brand();//se hace para inicializar el objeto e indicar que image es
         $this->image ="";
         $this->withcategory = Configuration::pluck('withcategory');//es un array y el valor se guarda en this->withcategory[0]
         if(!$this->withcategory[0]){//esto es sin categoria
@@ -55,9 +55,9 @@ class ProductList extends Component
 /*       'brand.name'=> 'required',Rule::unique('brands')->ignore($this->brand->id) */
 
      protected $rules = [
-        'brand.name' => 'required',
-        'brand.image'=>'image',
-        'brand.state'=>'required',
+        'product.name' => 'required',
+        'product.image'=>'image',
+        'product.state'=>'required',
     ];
 
 
@@ -69,7 +69,7 @@ class ProductList extends Component
     {
 
 
-        if ($this->readyToLoad) {
+/*         if ($this->readyToLoad) {
             $products = Productfamilie::where('name', 'like', '%' .$this->search. '%')
                 ->when($this->state, function($query){
                     return $query->where('state',1);
@@ -80,9 +80,9 @@ class ProductList extends Component
         }else{
             $products =[];
 
-        }
+        } */
 
-        return view('livewire.admin.product-list', compact('products'));
+        return view('livewire.admin.product-list');
 
 
     }
@@ -122,11 +122,7 @@ class ProductList extends Component
         $product->delete();
     }
 
-    public function edit(Brand $brand){
-        $this->brand = $brand;
-        $this->open_edit = true;
 
-    }
 
 /*     public function cancelar(){
         $this->reset('open_edit', 'image');
@@ -134,21 +130,7 @@ class ProductList extends Component
         //$this->open_edit = false;
     } */
 
-    public function update(){
-        //$this->validate();
 
-        if($this->image){
-            Storage::delete([$this->brand->image]);
-            $this->brand->image = Storage::url($this->image->store('brands', 'public'));
-        }
-
-        $this->brand->save();
-        $this->reset('open_edit', 'image');
-        $this->identificador = rand();
-        //$this->emitTo('show-brands', 'render');
-        $this->emit('alert','La marca se modificó correctamente');
-
-    }
 
 
 

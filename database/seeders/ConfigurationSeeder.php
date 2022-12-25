@@ -25,7 +25,6 @@ class ConfigurationSeeder extends Seeder
             'fechainicio' => Carbon::now(),
             'fechafin' => Carbon::now()->addDays(30),
             'incluirigv' => 1,
-            'withcategory' => 1, //esta opcion vienen de configuracion 1 es con categoria
             'nota1' => 'NOTA: Una vez realizado el pago, por favor sirvase a enviar el boucher de pago o constancia de transferencia, para poder confirmar y validar su deposito.',
             'nota2' => 'ESTE DOCUMENTO NO TIENE VALIDEZ TRIBUTARIO, ESTE DOCUMENTO ES INFORMATIVO PARA QUE PUEDAN VER LAS FECHAS DE FINALIZACIÓN DEL SERVICIO. TICOM EMITIRÁ UNA FACTURA ELECTRÓNICA UNA VEZ REALIZADO EL DEPÓSITO.',
             'nota3' => 'NOTA: Una vez realizado el pago, por favor sirvase a enviar el boucher de pago o constancia de transferencia, para poder confirmar y validar su deposito.',

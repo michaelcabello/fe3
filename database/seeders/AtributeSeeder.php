@@ -73,6 +73,50 @@ class AtributeSeeder extends Seeder
         ]);
 
 
+        Atribute::create([
+            'name' => '100m3',
+            'state'=>1,
+            'order'=>8,
+            'groupatribute_id'=>3
+        ]);
+
+        Atribute::create([
+            'name' => '200m3',
+            'state'=>1,
+            'order'=>8,
+            'groupatribute_id'=>3
+        ]);
+
+        Atribute::create([
+            'name' => '300m3',
+            'state'=>1,
+            'order'=>8,
+            'groupatribute_id'=>3
+        ]);
+
+
+        Atribute::create([
+            'name' => '28',
+            'state'=>1,
+            'order'=>8,
+            'groupatribute_id'=>4
+        ]);
+
+        Atribute::create([
+            'name' => '30',
+            'state'=>1,
+            'order'=>8,
+            'groupatribute_id'=>4
+        ]);
+
+        Atribute::create([
+            'name' => '32',
+            'state'=>1,
+            'order'=>8,
+            'groupatribute_id'=>4
+        ]);
+
+
 
     }
 }

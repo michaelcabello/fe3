@@ -47,14 +47,18 @@ class ProductfamilieCreated extends Component
             $this->category_id = 1;
             $this->subcategories = Subcategory::where('category_id', 1)->get();
         }else{
-            $this->categories = Category::all();
+            //$this->categories = Category::all();
+            $this->categories = Category::pluck('name','id');
         }
 
 
 
 
-        $this->brands = Brand::all();
-        $this->modelos = Modelo::all();
+       /// $this->brands = Brand::all();
+        $this->brands= Brand::pluck('name','id');
+       /// $this->modelos = Modelo::all();
+       $this->modelos = Modelo::pluck('name','id');
+
         $this->subcategories = [];
         //$this->categoryy="";
 
@@ -85,7 +89,7 @@ class ProductfamilieCreated extends Component
 
 
 
-     public function updatedCategoryId($value){
+    public function updatedCategoryId($value){
         $this->subcategories = Subcategory::where('category_id', $value)->get();
 
          $this->brands = Brand::whereHas('categories', function(Builder $query) use ($value){
@@ -100,22 +104,26 @@ class ProductfamilieCreated extends Component
     public function render()
     {
 
-        $this->withcategory = Configuration::pluck('withcategory');//es un array y el valor se guarda en this->withcategory[0]
-        if(!$this->withcategory[0]){//esto es sin categoria
-            $this->categories = Category::where('id', 1)->first();
-            $this->category_id=1;
-            $this->subcategories = Subcategory::where('category_id', 1)->get();
-        }else{
-            $this->categories = Category::all();
-        }
+       // $this->withcategory = Configuration::pluck('withcategory');//es un array y el valor se guarda en this->withcategory[0]
+       // if(!$this->withcategory[0]){//esto es sin categoria
+       //     $this->categories = Category::where('id', 1)->first();
+       //     $this->category_id=1;
+       //     $this->subcategories = Subcategory::where('category_id', 1)->get();
+       // }else{
+       //     $this->categories = Category::all();
+       // }
 
 
        // $categories = Category::all();
-       $categories = $this->categories;
+       //$categories = $this->categories;
        // $subcategories = Subcategory::where('category_id', $this->category_id)->get();
-        $brands = Brand::all();
-        $modelos = Modelo::all();
-        return view('livewire.admin.productfamilie-created', compact('categories', 'brands', 'modelos'));
+        //$brands = Brand::all();
+        //$brands = Brand::select('id','name')->get();
+        //$brands= Brand::pluck('name','id');
+
+        //$modelos = Modelo::all();
+       // return view('livewire.admin.productfamilie-created', compact('categories', 'brands', 'modelos'));
+       return view('livewire.admin.productfamilie-created');
     }
 
     public function save(){

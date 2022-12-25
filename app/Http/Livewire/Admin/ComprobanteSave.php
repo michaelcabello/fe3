@@ -25,7 +25,7 @@ class ComprobanteSave extends Component
         public $numdoc;
 
         //public $default;
-      
+
         public function mount()
         {
                 $ltc = Local_tipocomprobante::where('local_id', Auth::user()->local->id )
@@ -33,6 +33,7 @@ class ComprobanteSave extends Component
 
                 $this->tipocomprobante_id = $ltc[0]['tipocomprobante_id'];
                 $this->serie = $ltc[0]['serie'];
+
 
                // $this->$default = $ltc[0]['default'];
                 $this->total  = Cart::getTotal();
@@ -42,7 +43,11 @@ class ComprobanteSave extends Component
                                         ->where('tipocomprobante_id', $this->tipocomprobante_id )->first();
                 //dd($consulta);
                // $this->numero = Comprobante::all();
-                $this->numero = $consulta->numero +1;
+               if(isset($consulta))//isset comprueba que consulta este definita osea consulta no es null
+                    $this->numero = $consulta->numero +1;
+               else//cuando isset es null
+                    $this->numero = 1;
+
         }
 
 /*         public function comprobante(){
@@ -54,15 +59,15 @@ class ComprobanteSave extends Component
         public function updatedTipocomprobanteId($value){
                 $seriee = Local_tipocomprobante::where('tipocomprobante_id',$value)
                                                      ->where('local_id', Auth::user()->local->id)->get();
-                        
+
                // $this->serie = $seriee;
                 //$namee = $seriee[0][1];
                 $this->serie = $seriee[0]['serie'];
-       
+
 
                 $consulta = Comprobante::where('local_id', Auth::user()->local->id)
                                          ->where('tipocomprobante_id', $this->tipocomprobante_id )->first();
-                
+
                 $this->numero = $consulta->numero +1;
 
         }
@@ -70,10 +75,10 @@ class ComprobanteSave extends Component
 
         public function updatedCustomerId($value){
                 $numdocc = Customer::where('id', $value)->first();
-                                                     
+
                 /* dd($numdocc->numdoc);         */
                 $this->numdoc = $numdocc->numdoc;
-       
+
         }
 
 
@@ -162,8 +167,8 @@ class ComprobanteSave extends Component
 
         // incrementar cantidad item en carrito
         /* 	public function increaseQty(Product $product, $cant = 1)
-	{		
-		$this->IncreaseQuantity($product, $cant);	
+	{
+		$this->IncreaseQuantity($product, $cant);
 	} */
 
 

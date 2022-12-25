@@ -23,18 +23,21 @@ return new class extends Migration
             $table->text('shortdescription')->nullable();
             $table->text('longdescription')->nullable();
             $table->integer('order')->nullable();
-            
+
             $table->string('image', 2048)->default('subcategories/default.jpg')->nullable();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
-            $table->text('keywords')->nullable(); 
-            
+            $table->text('keywords')->nullable();
+
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 
 
             $table->timestamps();
         });
+
+
+
     }
 
     /**

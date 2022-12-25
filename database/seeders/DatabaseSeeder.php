@@ -30,32 +30,32 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         //\App\Models\Category::factory(20)->create();
-        \App\Models\Brand::factory(100)->create();
-        \App\Models\Modelo::factory(120)->create();
-        
-        $this->call(ModeloSeeder::class); 
+        \App\Models\Brand::factory(2020)->create();
+        \App\Models\Modelo::factory(1320)->create();
+
+        $this->call(ModeloSeeder::class);
 
         $this->call(ConfigurationSeeder::class);
         $this->call(CurrencySeeder::class);
         $this->call(CtacteSeeder::class);
 
-        $this->call(TaxSeeder::class); 
-        $this->call(UmSeeder::class);   
-        
-        \App\Models\Product::factory(10)->create();
-        $this->call(UserSeeder::class); 
-        $this->call(LocalSeeder::class); 
+        $this->call(TaxSeeder::class);
+        $this->call(UmSeeder::class);
 
-        $this->call(TipocomprobanteSeeder::class); 
-        $this->call(TipodocumentoSeeder::class); 
+        \App\Models\Product::factory(10)->create();
+        $this->call(UserSeeder::class);
+        $this->call(LocalSeeder::class);
+
+        $this->call(TipocomprobanteSeeder::class);
+        $this->call(TipodocumentoSeeder::class);
 
 
         \App\Models\Customer::factory(50)->create();
 
-        $this->call(LocalTipocomprobanteSeeder::class); 
+        $this->call(LocalTipocomprobanteSeeder::class);
 
-        $this->call(GroupatributeSeeder::class); 
-        $this->call(AtributeSeeder::class); 
+        $this->call(GroupatributeSeeder::class);
+        $this->call(AtributeSeeder::class);
 
 
     }

@@ -22,12 +22,12 @@
                 <label>Categorias </label>
                 <select wire:model="category_id" class="py-0.5 rounded"  data-placeholder="Selecccione una subcategoria" style="height:50%; width:100%">
                     <option value="0" selected disabled>Seleccione</option>
-                    @foreach($categories as $category)
-                        @if ($category->id == 1)
+                    @foreach($categories as $id=>$category)
+                        @if ($id == 1)
                              @continue
                         @endif
 
-                        <option value="{{$category->id}}">{{$category->name}}</option>
+                        <option value="{{$id}}">{{$category}}</option>
 
                     @endforeach
 
@@ -62,8 +62,8 @@
                     <label>Marcas</label>
                     <select wire:model="brand_id" class="py-2 select2mar"  style="height:50%; width:100%">
                          <option value="0" selected disabled>Seleccione</option>
-                        @foreach($brands as $brand)
-                        <option value="{{$brand->id}}">{{$brand->name}}</option>
+                        @foreach($brands as $id=>$brand)
+                        <option value="{{$id}}">{{$brand}}</option>
                         @endforeach
 
                     </select>
@@ -77,8 +77,8 @@
                     <label>Modelos</label>
                     <select wire:model="modelo_id" class="py-2 select2mo"  style="height:50%; width:100%">
                          <option value="0" selected disabled>Seleccione</option>
-                        @foreach($modelos as $modelo)
-                        <option value="{{$modelo->id}}">{{$modelo->name}}</option>
+                        @foreach($modelos as $id=>$modelo)
+                        <option value="{{$id}}">{{$modelo}}</option>
                         @endforeach
 
                     </select>
