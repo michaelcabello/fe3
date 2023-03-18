@@ -30,8 +30,9 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         //\App\Models\Category::factory(20)->create();
-        \App\Models\Brand::factory(2020)->create();
-        \App\Models\Modelo::factory(1320)->create();
+        $this->call(BrandSeeder::class);
+        \App\Models\Brand::factory(5)->create();
+        \App\Models\Modelo::factory(5)->create();
 
         $this->call(ModeloSeeder::class);
 

@@ -2,12 +2,15 @@
 
 namespace App\Http\Livewire\Admin;
 
+use Livewire\Request;
 use Livewire\Component;
+use App\Models\Atribute;
+use Illuminate\Support\Str;
 use App\Models\Groupatribute;
 use App\Models\Productfamilie;
-use Illuminate\Support\Collection;
 use App\Models\Productatribute;
-use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
+//use Illuminate\Http\Request;
 
 class ProductcompuestoCreate extends Component
 {
@@ -31,6 +34,9 @@ class ProductcompuestoCreate extends Component
 
     public function render()
     {
+        //if(session('idCarrito')=='xyz') return redirect('/');
+
+        //if(!$this->product) return view('category.listd');
         //$categories = Category::all();
         $groupatributes = Groupatribute::all();//todo los grupo de atributos como talla, color, volumen, etc
 
@@ -40,10 +46,13 @@ class ProductcompuestoCreate extends Component
         //return view('miempresa.miscategoriass', compact('user', 'categories'));
        // dd($atributes);
         //dd(($this->createForm['atributes']));
+
         return view('livewire.admin.productcompuesto-create', compact('groupatributes'));
     }
 
     public function crear(){
+        session(['idCarrito' => 'xyz']);
+       // if(!$request->ajax()) return redirect('/');//no funciona quiero evitar que presionen botn atras
 
         $groupatributes = Groupatribute::pluck('name','id');
         //dd($groupatributes);
@@ -58,7 +67,31 @@ class ProductcompuestoCreate extends Component
         //dd($this->i);
         //dd(count(collect($this->atributesphp)->all()));
        // dd(collect($this->atributesphp)->all());
-        $datos = $this->atributesphp;
+       //datos tiene lo escogido
+       $datos = $this->atributesphp;
+
+       if($datos==NULL){
+            $productatribute = Productatribute::create([
+                'codigo' => $random = Str::random(10),
+                'pricesale'=>NULL,
+                'state' => 1,
+                //'slug' => $random = Str::random(15),
+                'slug' => Str::slug($this->product->name),
+                //'name' => $this->product->name,
+                'productfamilie_id' => $this->product->id,
+                'titlegoogle' => $this->product->name,
+                'descriptiongoogle' => $this->product->name,
+                'keywordsgoogle' => $this->product->name,
+            ]);
+            //$productatribute->atributes()->attach($res[$i]);
+            $productatribute->atributes()->sync(1,1);
+
+            $this->product->save();
+
+           return redirect()->route('admin.productatribute.pricesale', $this->product->id);
+
+       }
+
 
        // $datee = collect($datos[0]);
         //dd($datos);
@@ -161,12 +194,32 @@ class ProductcompuestoCreate extends Component
         }
 
         //generamos el producto, p y res tiene la misma cantidad, si p=4  restiene 4 registros y cada registro 2 datos
+
         for ($i=0; $i < $p; $i++) {
+            //$cadena = implode('-', $res[$i]);
+           /* con este codigo generamos el slug personalizado de cada producto */
+            $org = $res[$i];
+            $org = collect($org);
+            $cadena = "";
+            foreach ($org as $key => $value) {
+                $atribute = Atribute::find($value);
+                $atributename = $atribute->name;
+                $groupatribute = $atribute->groupatribute->name;
+                $cadena = $cadena ." ".$groupatribute ." ". $atributename;
+            }
+            /* fin de con este codigo generamos el slug personalizado de cada producto */
+
             $productatribute = Productatribute::create([
                 'codigo' => $random = Str::random(10),
-                'price'=>100,
+                'pricesale'=>NULL,
                 'state' => 1,
-                'productfamilie_id' => $this->product->id
+                //'slug' => $random = Str::random(15),
+                'slug' => Str::slug($this->product->name." ".$cadena),
+                //'name' => $this->product->name,
+                'productfamilie_id' => $this->product->id,
+                'titlegoogle' => $this->product->name." ".$cadena,
+                'descriptiongoogle' => $this->product->name." ".$cadena,
+                'keywordsgoogle' => $this->product->name." ".$cadena,
             ]);
 
             //$productatribute->atributes()->attach($res[$i]);
@@ -182,10 +235,12 @@ class ProductcompuestoCreate extends Component
        ]); */
        //no cambia el flag por eso use save
 
-       $this->product->flag = 1;
+      // $this->product->flag = 1;
        $this->product->save();
 
-       return redirect()->route('productcompuesto.list', $this->product->id);
+
+       //return redirect()->route('productcompuesto.list', $this->product->id);
+       return redirect()->route('admin.productatribute.pricesale', $this->product->id);
 
     }
 

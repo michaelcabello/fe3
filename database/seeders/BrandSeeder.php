@@ -16,6 +16,35 @@ class BrandSeeder extends Seeder
      */
     public function run()
     {
+        Brand::create([
+            'name' => 'adidas',
+            'slug'=>'adidas',
+            'state' => 1,
+        ]);
 
+        Brand::create([
+            'name' => 'nike',
+            'slug'=>'nike',
+            'state' => 1,
+        ]);
+
+        Brand::create([
+            'name' => 'bonaroti',
+            'slug'=>'bonaroti',
+            'state' => 1,
+        ]);
+
+
+        Brand::create([
+            'name' => 'ohchica',
+            'slug'=>'ohchica',
+            'state' => 1,
+        ]);
+
+        Brand::create([
+            'name' => 'manfin',
+            'slug'=>'manfin',
+            'state' => 1,
+        ]);
     }
 }

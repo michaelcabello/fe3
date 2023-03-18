@@ -24,6 +24,34 @@ class SubcategorySeeder extends Seeder
         ]);
 
         Subcategory::create([
+            'name' => 'snikers',
+            'slug' => Str::slug('snikers'),
+            'state'=>1,
+            'category_id'=>2
+        ]);
+
+        Subcategory::create([
+            'name' => 'zandalias',
+            'slug' => Str::slug('zandalias'),
+            'state'=>1,
+            'category_id'=>2
+        ]);
+
+        Subcategory::create([
+            'name' => 'polos',
+            'slug' => Str::slug('polos'),
+            'state'=>1,
+            'category_id'=>2
+        ]);
+
+        Subcategory::create([
+            'name' => 'faldas',
+            'slug' => Str::slug('faldas'),
+            'state'=>1,
+            'category_id'=>2
+        ]);
+
+        Subcategory::create([
             'name' => 'pantalon pitillo',
             'slug' => Str::slug('pantalon pitillo'),
             'state'=>1,
@@ -49,6 +77,6 @@ class SubcategorySeeder extends Seeder
             'slug' => Str::slug('pantalones'),
             'state'=>1,
             'category_id'=>3
-        ]); 
+        ]);
     }
 }

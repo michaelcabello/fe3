@@ -17,27 +17,33 @@ class GroupatributeSeeder extends Seeder
     {
 
         Groupatribute::create([
-            'name' => 'Tallas',
+            'name' => 'General',
             'state'=>1,
             'order'=>1,
         ]);
 
         Groupatribute::create([
-            'name' => 'Colores',
+            'name' => 'Tallas',
             'state'=>1,
             'order'=>2,
         ]);
 
         Groupatribute::create([
-            'name' => 'Volumenes',
+            'name' => 'Colores',
             'state'=>1,
             'order'=>3,
         ]);
 
         Groupatribute::create([
-            'name' => 'Talla zapato',
+            'name' => 'Volumenes',
             'state'=>1,
             'order'=>4,
+        ]);
+
+        Groupatribute::create([
+            'name' => 'Talla zapato',
+            'state'=>1,
+            'order'=>5,
         ]);
 
 

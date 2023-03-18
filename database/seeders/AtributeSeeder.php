@@ -15,32 +15,40 @@ class AtributeSeeder extends Seeder
      */
     public function run()
     {
+
         Atribute::create([
-            'name' => 'S',
+            'name' => 'Gral',
             'state'=>1,
             'order'=>1,
             'groupatribute_id'=>1
         ]);
 
         Atribute::create([
+            'name' => 'S',
+            'state'=>1,
+            'order'=>1,
+            'groupatribute_id'=>2
+        ]);
+
+        Atribute::create([
             'name' => 'M',
             'state'=>1,
             'order'=>2,
-            'groupatribute_id'=>1
+            'groupatribute_id'=>2
         ]);
 
         Atribute::create([
             'name' => 'L',
             'state'=>1,
             'order'=>3,
-            'groupatribute_id'=>1
+            'groupatribute_id'=>2
         ]);
 
         Atribute::create([
             'name' => 'XL',
             'state'=>1,
             'order'=>4,
-            'groupatribute_id'=>1
+            'groupatribute_id'=>2
         ]);
 
 
@@ -48,28 +56,28 @@ class AtributeSeeder extends Seeder
             'name' => 'Rojo',
             'state'=>1,
             'order'=>5,
-            'groupatribute_id'=>2
+            'groupatribute_id'=>3
         ]);
 
         Atribute::create([
             'name' => 'Verde',
             'state'=>1,
             'order'=>6,
-            'groupatribute_id'=>2
+            'groupatribute_id'=>3
         ]);
 
         Atribute::create([
             'name' => 'Azul',
             'state'=>1,
             'order'=>7,
-            'groupatribute_id'=>2
+            'groupatribute_id'=>3
         ]);
 
         Atribute::create([
             'name' => 'Blanco',
             'state'=>1,
             'order'=>8,
-            'groupatribute_id'=>2
+            'groupatribute_id'=>3
         ]);
 
 
@@ -84,14 +92,14 @@ class AtributeSeeder extends Seeder
             'name' => '200m3',
             'state'=>1,
             'order'=>8,
-            'groupatribute_id'=>3
+            'groupatribute_id'=>4
         ]);
 
         Atribute::create([
             'name' => '300m3',
             'state'=>1,
             'order'=>8,
-            'groupatribute_id'=>3
+            'groupatribute_id'=>4
         ]);
 
 
@@ -99,21 +107,21 @@ class AtributeSeeder extends Seeder
             'name' => '28',
             'state'=>1,
             'order'=>8,
-            'groupatribute_id'=>4
+            'groupatribute_id'=>5
         ]);
 
         Atribute::create([
             'name' => '30',
             'state'=>1,
             'order'=>8,
-            'groupatribute_id'=>4
+            'groupatribute_id'=>5
         ]);
 
         Atribute::create([
             'name' => '32',
             'state'=>1,
             'order'=>8,
-            'groupatribute_id'=>4
+            'groupatribute_id'=>5
         ]);
 
 

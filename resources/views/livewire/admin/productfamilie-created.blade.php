@@ -7,7 +7,6 @@
     </div>
 
 
-
     <x-jet-dialog-modal wire:model="open">
         <x-slot name="title">
             Crear Nuevo Producto
@@ -21,7 +20,7 @@
             <div class="py-2 mb-1" wire:ignore>
                 <label>Categorias </label>
                 <select wire:model="category_id" class="py-0.5 rounded"  data-placeholder="Selecccione una subcategoria" style="height:50%; width:100%">
-                    <option value="0" selected disabled>Seleccione</option>
+                    <option value="0" selected disabled>escoge tu categoria</option>
                     @foreach($categories as $id=>$category)
                         @if ($id == 1)
                              @continue

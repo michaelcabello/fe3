@@ -13,7 +13,7 @@ use App\Models\Product;
 use App\Models\Comprobante;
 
 
-class ComprobanteSave extends Component
+    class ComprobanteSave extends Component
 {
         // use CartTrait;
         public $search;
@@ -90,6 +90,7 @@ class ComprobanteSave extends Component
         }
 
 
+        
         public function render()
         {
                 $cart = Cart::getContent()->sortBy('name');

@@ -9,14 +9,15 @@ class Productatribute extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'codigo', 'price','productfamilie_id','state'
-    ];
+/*     protected $fillable = [
+        'codigo', 'price','productfamilie_id','state'//,'name'
+    ]; */
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     //de uno a muchos inversa
     public function productfamilie()
     {
-        return $this->belongsTo(Productfamilie::class);  
+        return $this->belongsTo(Productfamilie::class);
     }
 
 
@@ -24,6 +25,11 @@ class Productatribute extends Model
     //withTimestamps(); para llenar los campos de fechas
     public function atributes(){
         return $this->belongsToMany(Atribute::class)->withTimestamps();
+    }
+
+    //relacion  de uno a muchos
+    public function images(){
+        return $this->hasMany(Image::class);
     }
 
 

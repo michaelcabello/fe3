@@ -21,7 +21,7 @@ class ProductfamilieCreated extends Component
 
     public $categories=[], $subcategories=[], $modelos = [], $brands = [];
     public $categoryy="";
-    public $prod_servicio="", $subcategory_id=0, $category_id,  $brand_id, $modelo_id,  $gender="", $simplecompound="", $haveserialnumber=0;
+    public $prod_servicio="", $subcategory_id=0, $category_id=0,  $brand_id, $modelo_id,  $gender="", $simplecompound="", $haveserialnumber=0;
     public $name, $slug, $description, $price, $quantity;
     public $withcategory;//esta opcion vienen de configuracion 1 es con categoria
 
@@ -104,14 +104,15 @@ class ProductfamilieCreated extends Component
     public function render()
     {
 
-       // $this->withcategory = Configuration::pluck('withcategory');//es un array y el valor se guarda en this->withcategory[0]
-       // if(!$this->withcategory[0]){//esto es sin categoria
-       //     $this->categories = Category::where('id', 1)->first();
-       //     $this->category_id=1;
-       //     $this->subcategories = Subcategory::where('category_id', 1)->get();
-       // }else{
-       //     $this->categories = Category::all();
-       // }
+        $this->withcategory = Configuration::pluck('withcategory');//es un array y el valor se guarda en this->withcategory[0]
+        if(!$this->withcategory[0]){//esto es sin categoria
+            $this->categories = Category::where('id', 1)->first();
+            $this->category_id=1;
+            $this->subcategories = Subcategory::where('category_id', 1)->get();
+        }else{
+            //$this->categories = Category::all();
+            $this->categories = Category::pluck('name','id');
+        }
 
 
        // $categories = Category::all();
@@ -123,6 +124,7 @@ class ProductfamilieCreated extends Component
 
         //$modelos = Modelo::all();
        // return view('livewire.admin.productfamilie-created', compact('categories', 'brands', 'modelos'));
+
        return view('livewire.admin.productfamilie-created');
     }
 
@@ -203,6 +205,10 @@ class ProductfamilieCreated extends Component
         // $this->reset(['image']);
        // $this->open = false;
        // return view('livewire.admin.productcompuesto-create');
+
+       //$var= session()->put('lang', 'es');
+       //$valor_almacenado = session('idCarrito');
+       session(['idCarrito' => '123456']);
        return redirect()->route('productcompuesto.create', $product);
 
 
