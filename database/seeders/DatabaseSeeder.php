@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
+        $this->call(BrandSeeder::class);
         $this->call(CategorySeeder::class);
         $this->call(SubcategorySeeder::class);
         Storage::deleteDirectory('public/categories');
@@ -30,7 +31,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         //\App\Models\Category::factory(20)->create();
-        $this->call(BrandSeeder::class);
+
         \App\Models\Brand::factory(5)->create();
         \App\Models\Modelo::factory(5)->create();
 

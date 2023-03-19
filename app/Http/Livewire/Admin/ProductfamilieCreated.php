@@ -21,7 +21,7 @@ class ProductfamilieCreated extends Component
 
     public $categories=[], $subcategories=[], $modelos = [], $brands = [];
     public $categoryy="";
-    public $prod_servicio="", $subcategory_id=0, $category_id=0,  $brand_id, $modelo_id,  $gender="", $simplecompound="", $haveserialnumber=0;
+    public $prod_servicio="", $subcategory_id="", $category_id="",  $brand_id="", $modelo_id="",  $gender="", $simplecompound="", $haveserialnumber=0;
     public $name, $slug, $description, $price, $quantity;
     public $withcategory;//esta opcion vienen de configuracion 1 es con categoria
 
@@ -41,29 +41,30 @@ class ProductfamilieCreated extends Component
 
     public function mount(){
 
-        $this->withcategory = Configuration::pluck('withcategory');//es un array y el valor se guarda en this->withcategory[0]
-        if(!$this->withcategory[0]){//esto es sin categoria
-            $this->categories = Category::where('id', 1)->first();
-            $this->category_id = 1;
-            $this->subcategories = Subcategory::where('category_id', 1)->get();
-        }else{
+       // $this->withcategory = Configuration::pluck('withcategory');//es un array y el valor se guarda en this->withcategory[0]
+       //// if(!$this->withcategory[0]){//esto es sin categoria
+       //     $this->categories = Category::where('id', 1)->first();
+      //      $this->category_id = 1;
+      //      $this->subcategories = Subcategory::where('category_id', 1)->get();
+      //  }else{
             //$this->categories = Category::all();
             $this->categories = Category::pluck('name','id');
-        }
+     //   }
 
 
 
 
-       /// $this->brands = Brand::all();
-        $this->brands= Brand::pluck('name','id');
+       // $this->brands = Brand::all();
+       // $this->brands= Brand::pluck('name','id');
        /// $this->modelos = Modelo::all();
        $this->modelos = Modelo::pluck('name','id');
 
         $this->subcategories = [];
+        $this->brands = [];
         //$this->categoryy="";
 
         //$this->category_id=0;
-        $this->subcategory_id=0;
+       // $this->subcategory_id=0;
 
     }
 

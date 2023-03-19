@@ -15,16 +15,16 @@
 
         <x-slot name="content">
 
-            @if($this->withcategory[0])
+            {{-- @if($this->withcategory[0]) --}}
 
-            <div class="py-2 mb-1" wire:ignore>
+            <div class="py-2 mb-1">
                 <label>Categorias </label>
-                <select wire:model="category_id" class="py-0.5 rounded"  data-placeholder="Selecccione una subcategoria" style="height:50%; width:100%">
-                    <option value="0" selected disabled>escoge tu categoria</option>
+                <select wire:model="category_id" class="py-0.5 rounded" style="height:50%; width:100%">
+                    <option value="" selected disabled>escoge tu categoria</option>
                     @foreach($categories as $id=>$category)
-                        @if ($id == 1)
+                       {{--  @if ($id == 1)
                              @continue
-                        @endif
+                        @endif --}}
 
                         <option value="{{$id}}">{{$category}}</option>
 
@@ -34,18 +34,17 @@
                 <x-jet-input-error for="category_id" />
             </div>
 
-            @endif
+            {{-- @endif --}}
 
 
-            {{ $category_id }}
-            {{ $categoryy }}
+
 
 
             <div class="py-2 mb-1" >
 
-                <label>{{ $category_id }}Sub Categorias {{ $subcategory_id }}</label>
-                <select wire:model="subcategory_id" class="py-0.5 rounded" data-placeholder="Selecccione una subcategoria" style="height:50%; width:100%" >
-                    <option value="0" selected disabled>escoge tu subcategoria</option>
+                <label>Sub Categorias </label>
+                <select wire:model="subcategory_id" class="py-0.5 rounded" style="height:50%; width:100%" >
+                    <option value="" selected disabled>escoge tu subcategoria</option>
                     @foreach($subcategories as $subcategory)
                       <option value="{{$subcategory->id}}">{{$subcategory->name}}</option>
                     @endforeach
@@ -57,31 +56,43 @@
 
 
 
-                <div class="py-2 mb-1" wire:ignore>
+{{--                 <div class="py-2 mb-1" wire:ignore>
                     <label>Marcas</label>
                     <select wire:model="brand_id" class="py-2 select2mar"  style="height:50%; width:100%">
-                         <option value="0" selected disabled>Seleccione</option>
+                         <option value="" selected disabled>Seleccione</option>
                         @foreach($brands as $id=>$brand)
                         <option value="{{$id}}">{{$brand}}</option>
                         @endforeach
 
                     </select>
-                    <x-jet-input-error for="categories" />
-                </div>
+                    <x-jet-input-error for="brand_id" />
+                </div> --}}
 
+
+                <div class="py-2 mb-1">
+                    <label>Marcas</label>
+                    <select wire:model="brand_id" class="py-0.5 rounded" style="height:50%; width:100%">
+                         <option value="" selected disabled>Seleccione</option>
+                        @foreach($brands as $brand)
+                        <option value="{{$brand->id}}">{{$brand->name}}</option>
+                        @endforeach
+
+                    </select>
+                    <x-jet-input-error for="brand_id" />
+                </div>
 
                 {{ $brand_id }}
 
-                <div class="py-2 mb-1"  wire:ignore>
+                <div class="py-2 mb-1">
                     <label>Modelos</label>
-                    <select wire:model="modelo_id" class="py-2 select2mo"  style="height:50%; width:100%">
-                         <option value="0" selected disabled>Seleccione</option>
+                    <select wire:model="modelo_id" class="py-0.5 rounded "  style="height:50%; width:100%">
+                         <option value="" selected disabled>Seleccione</option>
                         @foreach($modelos as $id=>$modelo)
                         <option value="{{$id}}">{{$modelo}}</option>
                         @endforeach
 
                     </select>
-                    <x-jet-input-error for="categories" />
+                    <x-jet-input-error for="modelo_id" />
                 </div>
 
 
@@ -90,7 +101,7 @@
 
                 <div class="py-2 mb-1">
                     <label>Producto </label>
-                    <select wire:model="prod_servicio" class="py-0.5 rounded " data-placeholder="Selecccione" style="height:50%; width:100%">
+                    <select wire:model="prod_servicio" class="py-0.5 rounded " style="height:50%; width:100%">
                         <option value="" selected disabled >Seleccione</option>
 
                         <option value="1">producto terminado</option>
@@ -123,7 +134,7 @@
 
                 <div class="py-2 mb-2">
                     <label>Genero</label>
-                    <select wire:model="gender" class="py-0.5 rounded " data-placeholder="Seleccione" style="height:50%; width:100%">
+                    <select wire:model="gender" class="py-0.5 rounded " style="height:50%; width:100%">
                         <option value="" selected disabled>Seleccione</option>
 
                         <option value="1">Varon</option>

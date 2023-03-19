@@ -17,6 +17,13 @@ class SubcategorySeeder extends Seeder
     public function run()
     {
         Subcategory::create([
+            'name' => 'General',
+            'slug' => Str::slug('General'),
+            'state'=>1,
+            'category_id'=>1
+        ]);
+
+        Subcategory::create([
             'name' => 'bluzas floriadas',
             'slug' => Str::slug('bluzas floriadas'),
             'state'=>1,

@@ -23,11 +23,13 @@ class CategorySeeder extends Seeder
             'state'=>1,
         ]);
 
-        Category::create([
+        $category1 = Category::create([
             'name' => 'Ropas para Damas',
             'slug' => Str::slug('Ropas para Damas'),
             'state'=>1,
         ]);
+        $category1->brands()->sync([2,3,4]);
+
 
         Category::create([
             'name' => 'Ropas para Varones',

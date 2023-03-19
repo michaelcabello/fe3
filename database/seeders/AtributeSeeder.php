@@ -85,7 +85,7 @@ class AtributeSeeder extends Seeder
             'name' => '100m3',
             'state'=>1,
             'order'=>8,
-            'groupatribute_id'=>3
+            'groupatribute_id'=>4
         ]);
 
         Atribute::create([
