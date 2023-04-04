@@ -124,6 +124,22 @@ class AtributeSeeder extends Seeder
             'groupatribute_id'=>5
         ]);
 
+        Atribute::create([
+            'name' => 'lata chica',
+            'state'=>1,
+            'order'=>9,
+            'groupatribute_id'=>6
+        ]);
+
+
+        Atribute::create([
+            'name' => 'lata grande',
+            'state'=>1,
+            'order'=>10,
+            'groupatribute_id'=>6
+        ]);
+
+
 
 
     }

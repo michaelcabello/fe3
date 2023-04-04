@@ -46,6 +46,12 @@ class GroupatributeSeeder extends Seeder
             'order'=>5,
         ]);
 
+        Groupatribute::create([
+            'name' => 'Tamaño',
+            'state'=>1,
+            'order'=>6,
+        ]);
+
 
     }
 }
