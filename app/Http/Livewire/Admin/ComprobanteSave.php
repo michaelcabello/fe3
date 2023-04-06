@@ -90,7 +90,7 @@ use App\Models\Comprobante;
         }
 
 
-        
+
         public function render()
         {
                 $cart = Cart::getContent()->sortBy('name');
