@@ -16,6 +16,7 @@ class Initialinventory extends Model
     const ENPROCESO = 2;
     const TERMINADO = 3;
 
+    //relacion de muchos a muchos
     public function productatributes(){
         return $this->belongsToMany(Productatribute::class)->withTimestamps()->withPivot('stock');
     }

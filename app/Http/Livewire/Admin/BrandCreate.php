@@ -7,11 +7,12 @@ use App\Models\Brand;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class BrandCreate extends Component
 {
-
-    use WithFileUploads;  
+    use AuthorizesRequests;
+    use WithFileUploads;
     public $open = false;
     public $name, $state, $image, $identificador;
 
@@ -34,6 +35,7 @@ class BrandCreate extends Component
 
 
     public function save(){
+        $this->authorize('create', new Brand);
         $this->validate();
 
         $image = $this->image->store('brands', 'public');
@@ -50,11 +52,11 @@ class BrandCreate extends Component
             //'image' => $image,
             'image' => $urlimage,
         ]);
-        
+
         $this->reset(['open','name','image']);
 
         $this->emitTo('admin.brand-list','render');
-        
+
         $this->emit('alert','La marca se creo correctamente');
     }
 
@@ -62,6 +64,7 @@ class BrandCreate extends Component
 
     public function render()
     {
+        $this->authorize('create', new Brand);
         return view('livewire.admin.brand-create');
     }
 

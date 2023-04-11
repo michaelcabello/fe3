@@ -137,14 +137,14 @@ class ProductatributeController extends Controller
        // return $imagenServidor;
         $imagenServidor->fit(500, 500);
 
-        $imagenPath = public_path('productsatribute') . '/' . $nombreImagen;
+        $imagenPath = public_path('img/productsatribute') . '/' . $nombreImagen;
         $imagenServidor -> save($imagenPath);
 
        // return response()-> json(['imagen' => $nombreImagen ]);
 
         ModelsImage::create([
             //'url' => request()->file('file')->store('productsatribute'), //usar esto cuando guardamos sin storage link directo en la carpeta publica public en img
-            'url' => 'productsatribute/'.$nombreImagen,
+            'url' => 'img/productsatribute/'.$nombreImagen,
             'productatribute_id' => $productatribute->id,
             //'url' => "hola",
             //en las vistas cambiar ya no funciona Storage::url()

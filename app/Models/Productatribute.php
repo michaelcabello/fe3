@@ -27,6 +27,16 @@ class Productatribute extends Model
         return $this->belongsToMany(Atribute::class)->withTimestamps();
     }
 
+
+    //relacion de muchos a muchos
+    public function locales(){
+        return $this->belongsToMany(Local::class)->withTimestamps()->withPivot('stock', 'stockmin', 'pricesale', 'pricewholesale', 'pricesalemin');
+    }
+
+
+
+
+
     public function initialinventories(){
         return $this->belongsToMany(Initialinventory::class)->withTimestamps()->withPivot('stock');
     }

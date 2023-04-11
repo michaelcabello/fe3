@@ -15,6 +15,10 @@ use App\Http\Controllers\admin\ProductfamilieController;
 use App\Http\Livewire\Admin\ProductcompuestoEdit;
 use App\Http\Livewire\Admin\InventoryList;
 use App\Http\Controllers\Admin\ProductatributeController;
+use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\UsersRolesController;
+use App\Http\Controllers\admin\UsersPermissionsController;
+use App\Http\Controllers\Admin\RoleController;
 
 //Route::get('/', [HomeController::class, 'home'])->name('admin.home');
 Route::get('/tables', [TableController::class, 'showtables'])->name('admin.showtables');
@@ -22,6 +26,7 @@ Route::get('/tables', [TableController::class, 'showtables'])->name('admin.showt
 Route::get('/categories', CategoryList::class)->name('category.list');
 Route::get('/modelos', ModeloList::class)->name('modelo.list');
 Route::get('/marcas', BrandList::class)->name('brand.list');
+//Route::get('/empezarinventarioinicial', InventoryList::class)->name('inventory.list');
 Route::get('/inventarioinicial', InventoryList::class)->name('inventory.list');
 
 
@@ -65,3 +70,12 @@ Route::get('/xxx', [ProductfamilieController::class, 'create'])->name('admin.cre
 
 Route::get('/dropzone', [ProductatributeController::class, 'dropzone'])->name('admin.dropzone');
 Route::post('/dropzone', [ProductatributeController::class, 'dropzoneok'])->name('admin.dropzoneok');
+
+//Route::resource('usuarios', UserController::class)->names('admin.usuarios');
+Route::resource('user', UserController::class)->names('admin.user');
+
+Route::put('users/{user}/roles', [UsersRolesController::class, 'update'])->name('admin.user.roles.update')->middleware('role:Admin');
+Route::put('users/{user}/permissions', [UsersPermissionsController::class, 'update'])->name('admin.users.permissions.update')->middleware('role:Admin');
+
+Route::resource('role', RoleController::class)->names('admin.role');
+

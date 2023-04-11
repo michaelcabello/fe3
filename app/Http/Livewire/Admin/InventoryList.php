@@ -108,7 +108,7 @@ class InventoryList extends Component
                     $stock = $initialinventory_productatribute->stock +1;
                 }
 
-                //falta poner dinamico el initial inventory
+                //falta poner dinamico el initial inventory ahora esta 1
                 $productatribute->initialinventories()->sync([
                         1 => [
                             'stock' => $stock,
@@ -146,7 +146,12 @@ class InventoryList extends Component
  }
 
 
+ public function savestock(){
+//guardamos stock en la tabla locale_productatribute
 
+
+
+ }
 
 
 

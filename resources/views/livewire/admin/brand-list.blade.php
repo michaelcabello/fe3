@@ -42,8 +42,9 @@
 
 
 
-
-                            @livewire('admin.brand-create')
+                            @can('create Brand')
+                                @livewire('admin.brand-create')
+                            @endcan
 
             {{--                 <div>
                                  <input type="checkbox" class="flex items-center mr-2 leading-tight" wire-model="state"> Activos
@@ -186,11 +187,14 @@
 
                                             <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                                                 <a class="btn btn-blue"><i class="fa-sharp fa-solid fa-eye"></i></a>
-                                                <a wire:click="edit({{ $brandd }})" class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a>
-                                                <a class="btn btn-red" wire:click="$emit('deleteBrand', {{ $brandd->id }})" >
-                                                   <i class="fa-solid fa-trash-can"></i>
-
-                                                </a>
+                                                @can('update Brand')
+                                                  <a wire:click="edit({{ $brandd }})" class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                @endcan
+                                                @can('delete Brand')
+                                                    <a class="btn btn-red" wire:click="$emit('deleteBrand', {{ $brandd->id }})" >
+                                                    <i class="fa-solid fa-trash-can"></i>
+                                                    </a>
+                                                @endcan
 
 
 

@@ -21,4 +21,11 @@ class Local extends Model
     public function tipocomprobantes(){
         return $this->belongsToMany(Tipocomprobante::class, 'local_tipocomprobantes', 'local_id', 'tipocomprobante_id' )->withPivot('default','serie');
     }
+
+    //relacion de muchos a muchos
+    public function productatributes(){
+        return $this->belongsToMany(Productatribute::class)->withTimestamps()->withPivot('stock', 'stockmin', 'pricesale', 'pricewholesale', 'pricesalemin');
+    }
+
+
 }

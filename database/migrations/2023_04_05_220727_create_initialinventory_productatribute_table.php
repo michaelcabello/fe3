@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('initialinventory_productatribute', function (Blueprint $table) {
-            //$table->id();
-            $table->primary('initialinventory_id','productatribute_id');
+            $table->id();
+            //$table->primary('initialinventory_id','productatribute_id');
             $table->decimal('stock');
 
             $table->unsignedBigInteger('initialinventory_id');

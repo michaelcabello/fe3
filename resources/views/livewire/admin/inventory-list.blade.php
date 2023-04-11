@@ -31,11 +31,11 @@
 
 
                     <div class="flex items-center justify-center mb-2 mr-4 md:mb-0 sm:w-full">
-                        <x-jet-input type="text" wire:model="search"
+                        {{-- <x-jet-input type="text" wire:model="search"
                             class="flex items-center justify-center w-80 sm:w-full rounded-lg py-2.5"
-                            placeholder="buscar" />
+                            placeholder="buscar" /> --}}
 
-                            <input type="text" id="code" class="block w-full bg-gray-100" wire:keydown.enter.prevent="ScanCode($('#code').val())"/>
+                            <input type="text" id="code" class="block w-full bg-gray-100 items-center justify-center sm:w-full rounded-lg py-2.5" wire:keydown.enter.prevent="ScanCode($('#code').val())"/>
                     </div>
 
 

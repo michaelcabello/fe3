@@ -36,7 +36,7 @@
                                     </header>
 
                                 </article>
-
+                                @can('view Brand')
                                 <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/brands.jpg')}}" alt="">
@@ -46,7 +46,7 @@
                                     </header>
 
                                 </article>
-
+                                @endcan
                                 <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/categories.jpg')}}" alt="">

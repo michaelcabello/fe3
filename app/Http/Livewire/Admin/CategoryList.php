@@ -4,12 +4,12 @@ namespace App\Http\Livewire\Admin;
 use Livewire\Component;
 use App\Models\Category;
 use Livewire\WithPagination;
-
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 
 class CategoryList extends Component
 {
-
+    use AuthorizesRequests;
     use WithPagination;
     public $search, $categoriess, $state;
     public $sort='id';
@@ -23,6 +23,7 @@ class CategoryList extends Component
 
     public function render()
     {
+        $this->authorize('create', new Category);
 
         $categories = Category::where('name', 'like', '%' . $this->search . '%')->paginate(10);
         return view('livewire.admin.category-list', compact('categories'));

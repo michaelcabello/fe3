@@ -76,7 +76,7 @@ php artisan make:migration create_brand_category_table
 
 php artisan make:controller
 
-
+php artisan make:controller admin/RoleController
 
 ======================
 instalando shoping cart
@@ -155,3 +155,13 @@ ver ruta
 
 Route::get('/categoriess', CategoryList::class)->name('category.list');
 ==========================================================
+
+
+
+creando employee
+=================
+php artisan make:model Employee -m
+php artisan make:model Position -m
+
+
+php artisan make:controller Admin/BrandController -r -m Brand
