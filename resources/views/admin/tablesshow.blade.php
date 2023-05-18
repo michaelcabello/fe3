@@ -11,10 +11,10 @@
     <section class="">
 
         <div class="py-12">
-            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
+           {{--  <div class="mx-auto max-w-7xl sm:px-6 lg:px-8"> --}}
+                {{-- <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg"> --}}
 
-                        <div class="grid grid-cols-1 px-4 mx-auto mt-4 max-w-7xl sm:px-6 lg:px-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8">
+                        <div class="grid grid-cols-1 px-4 mx-auto mt-4 max-w-7xl sm:px-6 lg:px-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-8">
 
 
                                 <article>
@@ -32,10 +32,35 @@
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/1.jpg')}}" alt="">
                                     </figure>
                                     <header class="mt-2">
-                                        <h1 class="text-xl text-center text-gray-700">Impuestos</h1>
+                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('admin.user.index')}}">Usuarios</a></h1>
                                     </header>
 
                                 </article>
+
+
+                                <article>
+                                    <figure>
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/1.jpg')}}" alt="">
+                                    </figure>
+                                    <header class="mt-2">
+                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('permission.list')}}">Permisos</a></h1>
+                                    </header>
+
+                                </article>
+
+
+                                <article>
+                                    <figure>
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/1.jpg')}}" alt="">
+                                    </figure>
+                                    <header class="mt-2">
+                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('admin.role.index')}}">Roles</a></h1>
+                                    </header>
+
+                                </article>
+
+
+
                                 @can('view Brand')
                                 <article>
                                     <figure>
@@ -47,6 +72,7 @@
 
                                 </article>
                                 @endcan
+
                                 <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/categories.jpg')}}" alt="">
@@ -185,8 +211,8 @@
 
 
                         </div>
-                </div>
-            </div>
+                {{-- </div> --}}
+            {{-- </div> --}}
         </div>
 
 

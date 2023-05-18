@@ -27,7 +27,7 @@ class LocalSeeder extends Seeder
             'user_id'=> 1,
         ]);
 
-        Local::create([
+       /*  Local::create([
             'codigopostal' => '20654',
             'address' => 'Av. pizarro 999',
             'phone' => '7959969',
@@ -59,7 +59,7 @@ class LocalSeeder extends Seeder
             'serie' => '40',
             'state' => 1,
             'user_id'=> 4,
-        ]);
+        ]); */
 
 
 

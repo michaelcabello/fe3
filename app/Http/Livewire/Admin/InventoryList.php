@@ -95,6 +95,8 @@ class InventoryList extends Component
          //busca en la tabla productatribute
          $productatribute = Productatribute::where('codigo', $barcode)->first();
 
+         //dd($productatribute);
+
          if ($productatribute == null || empty($productatribute)) {
                  $this->mensaje = 'El producto no está registrado';
          } else {

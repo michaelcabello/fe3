@@ -19,6 +19,8 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\UsersRolesController;
 use App\Http\Controllers\admin\UsersPermissionsController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Livewire\Admin\PermissionList;
+use App\Http\Controllers\admin\ConfigurationController;
 
 //Route::get('/', [HomeController::class, 'home'])->name('admin.home');
 Route::get('/tables', [TableController::class, 'showtables'])->name('admin.showtables');
@@ -78,4 +80,9 @@ Route::put('users/{user}/roles', [UsersRolesController::class, 'update'])->name(
 Route::put('users/{user}/permissions', [UsersPermissionsController::class, 'update'])->name('admin.users.permissions.update')->middleware('role:Admin');
 
 Route::resource('role', RoleController::class)->names('admin.role');
+Route::get('/permission', PermissionList::class)->name('permission.list');
+
+
+//Route::resource('configuration', ConfigurationController::class)->only(['edit','update'])->names('admin.configuration')->middleware('permission:update Configuration');
+Route::resource('configuration', ConfigurationController::class)->only(['edit','update'])->names('admin.configuration');
 
