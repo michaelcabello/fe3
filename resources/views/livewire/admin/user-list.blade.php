@@ -40,7 +40,13 @@
                                 placeholder="buscar" />
                         </div>
 
-
+                        @can('User Create')
+                        <div class="flex items-center justify-center" >
+                            <a href="{{ route('admin.user.create') }}" class="items-center justify-center sm:flex btn btn-orange">
+                               <i class="mx-2 fa-regular fa-file"></i> Nuevo
+                            </a>
+                        </div>
+                        @endcan
 
                         {{-- @can('create User')
                                     @livewire('admin.brand-create')

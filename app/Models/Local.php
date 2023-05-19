@@ -10,7 +10,7 @@ class Local extends Model
     use HasFactory;
 
 
-//relacion uno a uno (un local pertenece a un usuario, el user_id foraneo esta en local)
+    //relacion uno a uno (un local pertenece a un usuario, el user_id foraneo esta en local)
     public function user()
     {
        return $this->belongsTo(User::class);
