@@ -9,8 +9,10 @@ use Livewire\WithPagination;
 
 use Livewire\WithFileUploads;
 use App\Models\Productatribute;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -26,8 +28,12 @@ class InventoryList extends Component
     public $cant='10';
     public $open_edit = false;
     public $readyToLoad = false;//para controlar el preloader inicia en false
+    public $total;
+    public $stateinventory;
+    public $initialinventory;
+    public $mensajedeestado;
 
-    protected $listeners = ['render', 'delete'];
+    protected $listeners = ['render', 'delete', 'ScanCode', 'finalizar'];
 
     protected $queryString = [
         'cant'=>['except'=>'10'],
@@ -41,6 +47,16 @@ class InventoryList extends Component
        // $this->identificador = rand();
        // $this->brand = new Brand();//se hace para inicializar el objeto e indicar que image es
        // $this->image ="";
+       $this->initialinventory = Initialinventory::where('local_id', Auth()->user()->local->id)->first();
+       $this->stateinventory = $this->initialinventory->state;
+       //if($this->stateinventory == 1)
+       if ($this->stateinventory == 1) {
+        $this->mensaje = "En proceso";
+       }else{
+        $this->mensaje = "Finalizado ...";
+       }
+
+
     }
 
     public function updatingSearch(){
@@ -82,7 +98,11 @@ class InventoryList extends Component
 
         //$products =[];
 
-        $initialinventory_productatributes = Initialinventory_productatribute::all();
+        //$initialinventory_productatributes = Initialinventory_productatribute::all();
+        $this->total = Initialinventory_productatribute::where('initialinventory_id', $this->initialinventory->id)->sum('stock');
+        $initialinventory_productatributes = Initialinventory_productatribute::where('initialinventory_id', $this->initialinventory->id)->paginate(5);
+        $this->stateinventory = $this->initialinventory->state;
+        //$initialinventory_productatributes = DB::table('initialinventory_productatribute')->paginate(5);
 
         return view('livewire.admin.inventory-list', compact('initialinventory_productatributes'));
     }
@@ -92,34 +112,94 @@ class InventoryList extends Component
  public function ScanCode($barcode,  $cant = 1)
  {
 
+    /* if ($this->stateinventory == 1){ */
          //busca en la tabla productatribute
          $productatribute = Productatribute::where('codigo', $barcode)->first();
 
          //dd($productatribute);
 
          if ($productatribute == null || empty($productatribute)) {
-                 $this->mensaje = 'El producto no está registrado';
+                 //$this->mensaje = 'El producto no está registrado';
+                 session()->flash('errormessage', 'el Producto con código   -'. ' '.$barcode .' '.'-   No se encuentra registrado.');
          } else {
                 //buscamos el producto en la tabla generada de muchos a muchos
                 // Initialinventory_productatribute::find($productatribute->id);
-                $initialinventory_productatribute = Initialinventory_productatribute::where('productatribute_id', $productatribute->id)->first();
+
+                $initialinventory_productatribute = Initialinventory_productatribute::where('productatribute_id', $productatribute->id)//busco el producto
+                                                                                    ->where('initialinventory_id', $this->initialinventory->id)->first();//se busca en el inventario 1,2,3,..  osea en el local 1,2,3
                  //si es primera vez lo pone stock 1, sino aumenta el stock en 1
                 if($initialinventory_productatribute==NULL){
-                    $stock = 1;
+                    //$stock = 1;
+                    Initialinventory_productatribute::create([
+                        'initialinventory_id' => Auth()->user()->local->id,
+                        'productatribute_id' => $productatribute->id,
+                        'stock' => 1,
+                     ]);
                 }else{
-                    $stock = $initialinventory_productatribute->stock +1;
+                   $stock = $initialinventory_productatribute->stock +1;
+                   $initialinventory_productatribute->stock = $stock;
+                   $initialinventory_productatribute->save();
                 }
 
+                //dd(Auth()->user()->local->id);
                 //falta poner dinamico el initial inventory ahora esta 1
-                $productatribute->initialinventories()->sync([
-                        1 => [
+                //la productatributes tiene una relacion de muchos a muchos con initialinventories
+                //guradmos el stock es el pivot,initialinventory_id, productatribute_id
+                //en el modelo Productatribute esta el withpivot('stock')
+                //estoy parado en productatribute tengo a la mano productatribute_id
+                //le pasamos initialinventory_id = Auth()->user()->local->id  y luego en un array el stock
+                //se debe crear el registro initial inventory al crear el local
+
+
+
+                /*  $productatribute->initialinventories()->sync([
+                    Auth()->user()->local->id => [
                             'stock' => $stock,
                         ],
                 ]);
+ */
+                /* Initialinventory::find(Auth()->user()->local->id)->productatributes()->sync([
+                    $productatribute->id=>[
+                        'stock' => $stock,
+                    ],
+                ]); */
+
+                $producto = $productatribute->slug;
+                $this->total = Initialinventory_productatribute::sum('stock');
+                session()->flash('message', 'Código agregado: '. $barcode. '   Producto agregado: ' . $producto );
+
 
 
          }
+    /* }else{
+
+    } */
+
+
  }
+
+
+public function finalizar(){
+    //buscatemos por local
+    //Auth()->user()->local->id
+    //$initialinventory = Initialinventory::where('local_id', 1)->first();
+    //dd($initialinventory);
+    //guardamos el stock en la tabla local_productatribute
+    $initialinventory_productatributes = Initialinventory_productatribute::where('initialinventory_id', $this->initialinventory->id)->get();
+    dd($initialinventory_productatributes);
+
+
+
+    if($this->initialinventory){
+        $this->initialinventory->state = 2;
+        $this->initialinventory->save();
+        $this->stateinventory = 2;
+        $this->mensaje = "Finalizado ...";
+
+    }
+    //session()->flash('message', 'Fin' );
+
+}
 
 
 

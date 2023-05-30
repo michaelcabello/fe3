@@ -11,12 +11,14 @@ use App\Models\Productfamilie;
 use App\Models\Productatribute;
 use Illuminate\Support\Collection;
 //use Illuminate\Http\Request;
+use App\Models\Local;
 
 class ProductcompuestoCreate extends Component
 {
     public $atributesphp=[];
     public $i, $j;
     public $product;
+    public $locales;//para guardar los productos en cada local
     //$atributes[][];
 
     public $createForm = [
@@ -27,6 +29,7 @@ class ProductcompuestoCreate extends Component
 
     public function mount(Productfamilie $product){
         $this->product = $product;//recibimos producto creado del popup
+        $this->locales = Local::all();
 
         $this->i=0;
         $this->j=0;
@@ -224,6 +227,13 @@ class ProductcompuestoCreate extends Component
 
             //$productatribute->atributes()->attach($res[$i]);
             $productatribute->atributes()->sync($res[$i]);
+            //aqui gurdamos los productos en cada local no uso sync porque elimina anteriores y solo guarda el ultimo
+            foreach ($this->locales as $local) {
+                $local->productatributes()->attach([
+                    $productatribute->id =>['stock'=>0]
+
+                ]);
+            }
         }
 
 

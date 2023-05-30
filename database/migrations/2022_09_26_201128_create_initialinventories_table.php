@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->default("Inventario Inicial");
             $table->date('datestart');
-            $table->date('dateend');
+            $table->date('dateend')->nullable();
             $table->unsignedBigInteger('local_id');
             $table->foreign('local_id')->references('id')->on('locals')->onDelete('cascade');
 

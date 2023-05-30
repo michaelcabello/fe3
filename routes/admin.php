@@ -21,6 +21,7 @@ use App\Http\Controllers\admin\UsersPermissionsController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Livewire\Admin\PermissionList;
 use App\Http\Controllers\admin\ConfigurationController;
+use App\Http\Livewire\Admin\InventoryListdos;
 
 //Route::get('/', [HomeController::class, 'home'])->name('admin.home');
 Route::get('/tables', [TableController::class, 'showtables'])->name('admin.showtables');
@@ -29,13 +30,14 @@ Route::get('/categories', CategoryList::class)->name('category.list');
 Route::get('/modelos', ModeloList::class)->name('modelo.list');
 Route::get('/marcas', BrandList::class)->name('brand.list');
 //Route::get('/empezarinventarioinicial', InventoryList::class)->name('inventory.list');
-Route::get('/inventarioinicial', InventoryList::class)->name('inventory.list');
+Route::get('/inventarioinicial', InventoryList::class)->name('inventory.list');//lista los inventarios
+Route::get('/inventariogeneral', InventoryListdos::class)->name('inventory.listdos');//lista los inventarios dos
 
 
 //Route::get('categories', [CategoryController::class, 'index']);
 Route::get('categoriess', CategoryListd::class)->name('category.listd');
 Route::get('products', ProductList::class)->name('product.list');
-Route::get('productcompuesto/{product}', ProductcompuestoCreate::class)->name('productcompuesto.create');
+Route::get('productcompuesto/{product}', ProductcompuestoCreate::class)->name('productcompuesto.create');//creamos el producto productatribute
 Route::get('productcompuestoedit/{product}', ProductcompuestoEdit::class)->name('productcompuesto.edit');
 
 

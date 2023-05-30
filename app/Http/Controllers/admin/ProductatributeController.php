@@ -10,9 +10,12 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Image;
+use App\Models\Local;
+use App\Models\Localproductatribute;
 
 class ProductatributeController extends Controller
 {
+    public $locales;
 
     public function pricesale(Productfamilie $product){
         //llama a la vista para modificar precios
@@ -41,6 +44,7 @@ class ProductatributeController extends Controller
 
     //cambia precios de venta de productatributes
     public function updatepricesale(Request $request){
+       $locales = Local::all();
        $val = $request;
        $valores = collect($val);//convertimos a collección
        $valores->pull('_token');//quita el registro que tiene el key (_token)
@@ -50,6 +54,13 @@ class ProductatributeController extends Controller
                 $productatribute->update([
                     'pricesale' => $value
                 ]);
+                foreach ($locales as $local) {//guardamos precio de venta en cada local
+                    $productatributelocal = Localproductatribute::where('local_id',$local->id)->where('productatribute_id', $productatribute->id);
+                    $productatributelocal->update([
+                        'pricesale' => $value
+                    ]);
+                    //$local->productatributes()
+                }
         }
         return Redirect::back()->with('flash', 'Los precios de venta fueron gravados con éxito');
        // return view('admin.productatributes.index', compact('product'));

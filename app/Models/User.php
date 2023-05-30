@@ -10,7 +10,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 //agregamos esto en el modelo user
-Use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -48,28 +48,25 @@ class User extends Authenticatable
 
     //tutorial de one one (un usuario tiene un local asignado)
     //https://desarrolloweb.com/articulos/relaciones-1-laravel-eloquent.html
-    public function local() {
+    public function local()
+    {
         return $this->hasOne(Local::class);
-      }
-
-
-      public function scopeAllowed($query)
-      {
-
-          if( auth()->user()->can('view', $this) )
-          {
-              return $query;
-          }
-
-          return $query->where('id', auth()->id());
-
-      }
-
-          //Relacion uno a uno
-    public function employee(){
-        return $this->hasOne(Employee::class);
     }
 
 
+    public function scopeAllowed($query)
+    {
 
+        if (auth()->user()->can('view', $this)) {
+            return $query;
+        }
+
+        return $query->where('id', auth()->id());
+    }
+
+    //Relacion uno a uno
+    public function employee()
+    {
+        return $this->hasOne(Employee::class);
+    }
 }

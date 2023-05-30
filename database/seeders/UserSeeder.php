@@ -47,6 +47,9 @@ class UserSeeder extends Seeder
             'name' => 'Vendedor',
         ]);
 
+
+
+
         //creando usuario admin
         $admin = User::create([
             'name' => 'Michael',
@@ -93,7 +96,29 @@ class UserSeeder extends Seeder
         ]);
 
 
+        $admin = User::create([
+            'name' => 'luis',
+            'email' => 'luis@ticomperu.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+        ]);
 
+        $admin = User::create([
+            'name' => 'leydy',
+            'email' => 'leydy@ticomperu.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+        ]);
+
+        $admin = User::create([
+            'name' => 'flor',
+            'email' => 'flor@ticomperu.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+        ]);
 
         //creando usuarioa sin employee, da error al mostrar datos por eso lo comente
 /*         User::create([
