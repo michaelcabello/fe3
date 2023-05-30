@@ -4,11 +4,13 @@ namespace App\Http\Livewire\Admin;
 
 use App\Models\Initialinventory;
 use App\Models\Initialinventory_productatribute;
+use App\Models\Localproductatribute;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 use Livewire\WithFileUploads;
 use App\Models\Productatribute;
+use Doctrine\DBAL\Driver\Mysqli\Initializer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\validation\Rule;
 use Illuminate\Support\Facades\Storage;
@@ -186,7 +188,17 @@ public function finalizar(){
     //dd($initialinventory);
     //guardamos el stock en la tabla local_productatribute
     $initialinventory_productatributes = Initialinventory_productatribute::where('initialinventory_id', $this->initialinventory->id)->get();
-    dd($initialinventory_productatributes);
+    //dd($initialinventory_productatributes);
+    //obtenemos el local
+    $local_id = Auth()->user()->local->id;
+    foreach ($initialinventory_productatributes as $ipa) {
+
+        $lpa = Localproductatribute::where('local_id',$local_id)
+                              ->where('productatribute_id',$ipa->productatribute_id)->first();
+
+        $lpa->stock = $ipa->stock;
+        $lpa->save();
+    }
 
 
 
