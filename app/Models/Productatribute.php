@@ -34,14 +34,9 @@ class Productatribute extends Model
     }
 
 
-
-
-
     public function initialinventories(){
         return $this->belongsToMany(Initialinventory::class)->withTimestamps()->withPivot('stock');
     }
-
-
 
 
     //relacion  de uno a muchos

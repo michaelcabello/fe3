@@ -16,8 +16,8 @@ class Local extends Model
        return $this->belongsTo(User::class);
     }
 
-        //relacion de muchos a muchos
-        //pongo esto local_tipocomprobantes porque genere mi tabla terminado en s, debi generar local_tipocomprobante
+    //relacion de muchos a muchos
+    //pongo esto local_tipocomprobantes porque genere mi tabla terminado en s, debi generar local_tipocomprobante
     public function tipocomprobantes(){
         return $this->belongsToMany(Tipocomprobante::class, 'local_tipocomprobantes', 'local_id', 'tipocomprobante_id' )->withPivot('default','serie');
     }

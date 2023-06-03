@@ -269,7 +269,7 @@
                                         <input type="number" id="r{{ $productt->id }}"
                                             wire:change="updateQty({{ $productt->id }}, $('#r' + {{ $productt->id }}).val() )"
                                             style="font-size: 1rem!important" class="text-center form-control"
-                                            value="{{ $productt->stock }}">
+                                            value="{{ $productt->stock }}" {{ $stateinventory == 2 ? 'disabled' : 'enabled' }} >
 
 
                                     </td>

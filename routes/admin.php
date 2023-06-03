@@ -21,7 +21,9 @@ use App\Http\Controllers\admin\UsersPermissionsController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Livewire\Admin\PermissionList;
 use App\Http\Controllers\admin\ConfigurationController;
+use App\Http\Livewire\Admin\InventorygeneralList;
 use App\Http\Livewire\Admin\InventoryListdos;
+
 
 //Route::get('/', [HomeController::class, 'home'])->name('admin.home');
 Route::get('/tables', [TableController::class, 'showtables'])->name('admin.showtables');
@@ -32,6 +34,7 @@ Route::get('/marcas', BrandList::class)->name('brand.list');
 //Route::get('/empezarinventarioinicial', InventoryList::class)->name('inventory.list');
 Route::get('/inventarioinicial', InventoryList::class)->name('inventory.list');//lista los inventarios
 Route::get('/inventariogeneral', InventoryListdos::class)->name('inventory.listdos');//lista los inventarios dos
+Route::get('/inventariog', InventorygeneralList::class)->name('inventorygeneral.lis');//lista los inventarios dos
 
 
 //Route::get('categories', [CategoryController::class, 'index']);

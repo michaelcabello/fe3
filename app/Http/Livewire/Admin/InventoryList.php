@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\validation\Rule;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Database\Eloquent\Collection;
 
 
 class InventoryList extends Component
@@ -34,6 +34,7 @@ class InventoryList extends Component
     public $stateinventory;
     public $initialinventory;
     public $mensajedeestado;
+    public $local_id;
 
     protected $listeners = ['render', 'delete', 'ScanCode', 'finalizar'];
 
@@ -114,7 +115,7 @@ class InventoryList extends Component
  public function ScanCode($barcode,  $cant = 1)
  {
 
-    /* if ($this->stateinventory == 1){ */
+     if ($this->stateinventory == 1){
          //busca en la tabla productatribute
          $productatribute = Productatribute::where('codigo', $barcode)->first();
 
@@ -173,9 +174,9 @@ class InventoryList extends Component
 
 
          }
-    /* }else{
+     }else{
 
-    } */
+    }
 
 
  }
@@ -187,19 +188,29 @@ public function finalizar(){
     //$initialinventory = Initialinventory::where('local_id', 1)->first();
     //dd($initialinventory);
     //guardamos el stock en la tabla local_productatribute
-    $initialinventory_productatributes = Initialinventory_productatribute::where('initialinventory_id', $this->initialinventory->id)->get();
+    $initialinventory_productatributes = Initialinventory_productatribute::where('initialinventory_id', $this->initialinventory->id)->get();//selecciona todo los productos del inventario actual
     //dd($initialinventory_productatributes);
     //obtenemos el local
-    $local_id = Auth()->user()->local->id;
-    foreach ($initialinventory_productatributes as $ipa) {
+    $this->local_id = Auth()->user()->local->id;
+    //$localproductatribute = Localproductatribute::where('local_id',$local_id);
+    //foreach (Initialinventory_productatribute::cursor() as $ipa) {//con cursor funciona
+    Initialinventory_productatribute::chunk(100, function (Collection $initialinventory_productatributes) {
+        //trataremos de poner esto para acelerar la busqueda
+        $initialinventory_productatributes = Initialinventory_productatribute::where('initialinventory_id', $this->initialinventory->id)->get();//selecciona todo los productos del inventario actual
+        foreach ($initialinventory_productatributes as $ipa) {
+            Localproductatribute::where('productatribute_id',$ipa->productatribute_id)
+                                        ->where('local_id',$this->local_id)->update(['stock' => $ipa->stock]);
 
-        $lpa = Localproductatribute::where('local_id',$local_id)
-                              ->where('productatribute_id',$ipa->productatribute_id)->first();
-
-        $lpa->stock = $ipa->stock;
-        $lpa->save();
-    }
-
+            //funcionaba todo lo comentado cuando estaba autoincremental
+            //dd($ipa->stock);
+            //dd($lpa->stock);
+            //dd($lpa);
+            //if ($lpa) {
+            //$lpa->$ipa->stock;
+            //$lpa->save();
+            //}
+        }
+    });
 
 
     if($this->initialinventory){

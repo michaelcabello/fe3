@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('initialinventory_productatribute', function (Blueprint $table) {
             $table->id();
             //$table->primary('initialinventory_id','productatribute_id');
-            $table->decimal('stock');
+            $table->double('stock');
 
             $table->unsignedBigInteger('initialinventory_id');
             $table->foreign('initialinventory_id')->references('id')->on('initialinventories')->onDelete('cascade');
