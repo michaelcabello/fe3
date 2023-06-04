@@ -24,6 +24,13 @@ return new class extends Migration
             $table->unsignedBigInteger('productatribute_id');
             $table->foreign('productatribute_id')->references('id')->on('productatributes')->onDelete('cascade');
 
+            //$table->unique(['initialinventory_id', 'productatribute_id']);//fallaba
+            //En este ejemplo, se ha agregado el segundo argumento 'initialinventory_productatribute_unique' al método unique()
+            //para proporcionar un nombre personalizado a la restricción única. Este nombre debe ser lo suficientemente corto
+            //para cumplir con los límites de tu base de datos.
+            $table->unique(['initialinventory_id', 'productatribute_id'], 'initialinventory_productatribute_unique');
+
+
             $table->timestamps();
         });
     }

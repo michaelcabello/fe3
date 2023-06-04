@@ -18,7 +18,7 @@ class InventorygeneralList extends Component
 
     public function render()
     {
-        $this->localproductatributes = Localproductatribute::get();
+        $this->localproductatributes = Localproductatribute::all();
         return view('livewire.admin.inventorygeneral-list');
     }
 }

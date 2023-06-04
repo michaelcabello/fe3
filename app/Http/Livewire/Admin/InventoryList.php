@@ -16,6 +16,7 @@ use Illuminate\validation\Rule;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Builder;
 
 
 class InventoryList extends Component
@@ -195,19 +196,21 @@ public function finalizar(){
     //$localproductatribute = Localproductatribute::where('local_id',$local_id);
     //foreach (Initialinventory_productatribute::cursor() as $ipa) {//con cursor funciona
     Initialinventory_productatribute::chunk(100, function (Collection $initialinventory_productatributes) {
-        //trataremos de poner esto para acelerar la busqueda
+        //trataremos de poner esto para acelerar la busqueda el chunk en 100
         $initialinventory_productatributes = Initialinventory_productatribute::where('initialinventory_id', $this->initialinventory->id)->get();//selecciona todo los productos del inventario actual
         foreach ($initialinventory_productatributes as $ipa) {
-            Localproductatribute::where('productatribute_id',$ipa->productatribute_id)
+           Localproductatribute::where('productatribute_id',$ipa->productatribute_id)
                                         ->where('local_id',$this->local_id)->update(['stock' => $ipa->stock]);
+
+           // $lpa = Localproductatribute::whereKey([$this->local_id, $ipa->productatribute_id])->first();
 
             //funcionaba todo lo comentado cuando estaba autoincremental
             //dd($ipa->stock);
-            //dd($lpa->stock);
+            //dd($lpa);
             //dd($lpa);
             //if ($lpa) {
-            //$lpa->$ipa->stock;
-            //$lpa->save();
+            //$lpa->stock = $ipa->stock;
+           // $lpa->save();
             //}
         }
     });

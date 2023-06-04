@@ -16,21 +16,21 @@ class Localproductatribute extends Model
 
     protected $table = "local_productatribute";
     //indicamos el primarykey compuesto
-   // protected $primaryKey = ['productatribute_id', 'local_id'];
+    // protected $primaryKey = ['productatribute_id', 'local_id'];
     //ponemos incremento en falso porque inhabilitamod id()
     protected $primaryKey = 'id';
-   // protected $primaryKey = null;
+    // protected $primaryKey = null;
     public $incrementing = false;
 
 
     //protected $primaryKey = ['local_id', 'productatribute_id'];
 
-/*     public function getKeyName()
+    /*     public function getKeyName()
     {
         return ['local_id','productatribute_id',];
     } */
 
-/*     public function getLivewireKeyName()
+    /*     public function getLivewireKeyName()
     {
         return $this->getAttribute('local_id') . '-' . $this->getAttribute('productatribute_id');
     } */
@@ -50,7 +50,7 @@ class Localproductatribute extends Model
     }
 
 
-/*     protected function setKeysForSaveQuery($query)
+    /*     protected function setKeysForSaveQuery($query)
     {
         foreach ($this->getKeyName() as $keyName) {
             $query->where($keyName, '=', $this->getKeyForSaveQuery($keyName));
@@ -60,7 +60,7 @@ class Localproductatribute extends Model
     } */
 
 
-/*     protected function getKeyForSaveQuery($keyName = null)
+    /*     protected function getKeyForSaveQuery($keyName = null)
     {
         if (is_null($keyName)) {
             $keyName = $this->getKeyName();
@@ -75,7 +75,7 @@ class Localproductatribute extends Model
  */
 
 
- /*    public function getLivewireKeyName()
+    /*    public function getLivewireKeyName()
     {
         return $this->getAttribute('productatribute_id') . '-' . $this->getAttribute('local_id');
     } */
@@ -96,13 +96,13 @@ class Localproductatribute extends Model
 
 
 
- /*    public function getKeyType()
+    /*    public function getKeyType()
     {
         return 'int';
     }
  */
 
-/*     public function getCasts()
+    /*     public function getCasts()
     {
         $casts = $this->casts;
 
