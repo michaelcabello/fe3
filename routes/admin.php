@@ -23,6 +23,7 @@ use App\Http\Livewire\Admin\PermissionList;
 use App\Http\Controllers\admin\ConfigurationController;
 use App\Http\Livewire\Admin\InventorygeneralList;
 use App\Http\Livewire\Admin\InventoryListdos;
+use App\Http\Livewire\Admin\InventoryList2;
 
 
 //Route::get('/', [HomeController::class, 'home'])->name('admin.home');
@@ -33,8 +34,10 @@ Route::get('/modelos', ModeloList::class)->name('modelo.list');
 Route::get('/marcas', BrandList::class)->name('brand.list');
 //Route::get('/empezarinventarioinicial', InventoryList::class)->name('inventory.list');
 Route::get('/inventarioinicial', InventoryList::class)->name('inventory.list');//lista los inventarios
+/* no usaremos porque lo controlaresmos con primarykey de laravel */
 Route::get('/inventariogeneral', InventoryListdos::class)->name('inventory.listdos');//lista los inventarios dos
 Route::get('/inventariog', InventorygeneralList::class)->name('inventorygeneral.lis');//lista los inventarios dos
+Route::get('/listadeinventarios', InventoryList2::class)->name('inventory.list2');//lista los inventarios dos
 
 
 //Route::get('categories', [CategoryController::class, 'index']);

@@ -15,8 +15,14 @@ class Inventory extends Model
     const TERMINADO = 2;
 
     //relacion de muchos a muchos
-    public function localproductatributes(){
+    public function localproductatributes()
+    {
         return $this->belongsToMany(Localproductatribute::class)->withTimestamps()->withPivot('stock');
     }
 
+    //Relacion uno a muhos inversa
+    public function local()
+    {
+        return $this->belongsTo(Local::class);
+    }
 }

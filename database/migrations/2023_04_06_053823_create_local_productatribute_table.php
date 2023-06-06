@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('local_productatribute', function (Blueprint $table) {
-           // $table->id();
+            $table->id();
 
             $table->unsignedBigInteger('local_id');
             $table->foreign('local_id')->references('id')->on('locals')->onDelete('cascade');
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('productatribute_id');
             $table->foreign('productatribute_id')->references('id')->on('productatributes')->onDelete('cascade');
 
-            $table->primary(['local_id','productatribute_id']);
+            //$table->primary(['local_id','productatribute_id']);//vamos a trabajar con primary keys
 
             $table->double('pricesale')->nullable();
             $table->double('pricewholesale')->nullable();
