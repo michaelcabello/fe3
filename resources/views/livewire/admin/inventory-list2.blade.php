@@ -40,7 +40,7 @@
 
 
 
-                      @livewire('admin.modelo-create')
+                      @livewire('admin.inventory-create')
 
                     {{--                 <div>
                                  <input type="checkbox" class="flex items-center mr-2 leading-tight" wire-model="state"> Activos

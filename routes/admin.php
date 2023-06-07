@@ -24,6 +24,7 @@ use App\Http\Controllers\admin\ConfigurationController;
 use App\Http\Livewire\Admin\InventorygeneralList;
 use App\Http\Livewire\Admin\InventoryListdos;
 use App\Http\Livewire\Admin\InventoryList2;
+use App\Http\Livewire\Admin\InventorytemporaryList;
 
 
 //Route::get('/', [HomeController::class, 'home'])->name('admin.home');
@@ -38,6 +39,7 @@ Route::get('/inventarioinicial', InventoryList::class)->name('inventory.list');/
 Route::get('/inventariogeneral', InventoryListdos::class)->name('inventory.listdos');//lista los inventarios dos
 Route::get('/inventariog', InventorygeneralList::class)->name('inventorygeneral.lis');//lista los inventarios dos
 Route::get('/listadeinventarios', InventoryList2::class)->name('inventory.list2');//lista los inventarios dos
+Route::get('/inventariotemporallist/{inventory}', InventorytemporaryList::class)->name('inventorytemporary.list');//lista los inventarios
 
 
 //Route::get('categories', [CategoryController::class, 'index']);

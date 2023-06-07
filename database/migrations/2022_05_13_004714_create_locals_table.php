@@ -11,18 +11,18 @@ return new class extends Migration
     {
         Schema::create('locals', function (Blueprint $table) {
             $table->id();
-
+            $table->string('name')->nullable();
             $table->string('codigopostal')->nullable();
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
             $table->string('movil')->nullable();
             $table->string('anexo')->nullable();
             $table->string('serie')->nullable();
-            $table->boolean('state')->default(true); 
+            $table->boolean('state')->default(true);
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            
+
 
             $table->timestamps();
         });

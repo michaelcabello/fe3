@@ -28,4 +28,11 @@ class Local extends Model
     }
 
 
+    //Relacion uno a muchos
+    public function inventories(){
+        return $this->hasMany(Inventory::class);
+    }
+
+
+
 }

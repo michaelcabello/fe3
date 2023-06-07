@@ -18,6 +18,7 @@ class LocalSeeder extends Seeder
     public function run()
     {
         Local::create([
+            'name' => 'nombre1',
             'codigopostal' => '15465',
             'address' => 'Av. petit Thouars 1255',
             'phone' => '2662540',
@@ -36,8 +37,9 @@ class LocalSeeder extends Seeder
         ]);
 
         Local::create([
+            'name' => 'nombre2',
             'codigopostal' => '15465',
-            'address' => 'Av. petit Thouars 1255',
+            'address' => 'Av.lima 1255',
             'phone' => '2633340',
             'movil' => '33339478',
             'anexo' => 'anexo2',
@@ -54,8 +56,9 @@ class LocalSeeder extends Seeder
         ]);
 
         Local::create([
+            'name' => 'nombre3',
             'codigopostal' => '15465',
-            'address' => 'Av. petit Thouars 1255',
+            'address' => 'Av. peru 1255',
             'phone' => '2633340',
             'movil' => '33339478',
             'anexo' => 'anexo3',
@@ -73,8 +76,9 @@ class LocalSeeder extends Seeder
 
 
         Local::create([
+            'name' => 'nombre4',
             'codigopostal' => '15465',
-            'address' => 'Av. petit Thouars 1255',
+            'address' => 'Av. Galvez 1255',
             'phone' => '2633340',
             'movil' => '33339478',
             'anexo' => 'anexo4',
