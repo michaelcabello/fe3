@@ -19,12 +19,18 @@ class InventorytemporaryList extends Component
     public $cant='10';
     public $search;
 
+    protected $listeners = ['ScanCode', 'finalizar'];
+
+
     protected $queryString = [
         'cant'=>['except'=>'10'],
         'sort'=>['except'=>'id'],
         'direction'=>['except'=>'desc'],
         'search'=>['except'=>''],
     ];
+
+
+
 
 
     public function mount(Inventory $inventory){
@@ -58,6 +64,8 @@ class InventorytemporaryList extends Component
                 $stockcontado = $inventorytemporary->stockcontado +1;
                 $inventorytemporary->stockcontado = $stockcontado;
                 $inventorytemporary->save();
+
+                session()->flash('message', 'Código agregado: '. $barcode. '   Producto agregado: ' . $inventorytemporary->name );
             }
 
 

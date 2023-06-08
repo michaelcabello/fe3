@@ -229,7 +229,7 @@
 
 
                                     <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                                        <a class="btn btn-blue"><i class="fa-sharp fa-solid fa-eye"></i></a>
+                                        <a class="btn btn-blue" href="{{ route('inventorytemporary.list', $inventoryy) }}"><i class="fa-sharp fa-solid fa-eye"></i></a>
                                         {{-- <a wire:click="edit({{ $inventoryy }})" class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a> --}}
                                         {{-- <a class="btn btn-red" wire:click="$emit('deleteModelo', {{ $inventoryy->id }})" >
                                                    <i class="fa-solid fa-trash-can"></i>

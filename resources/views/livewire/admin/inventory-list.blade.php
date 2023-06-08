@@ -80,7 +80,7 @@
 
 
 
-
+                    {{-- busca por código de barras --}}
                     <div class="flex items-center justify-center mb-2 mr-4 md:mb-0 sm:w-full">
                         {{-- <x-jet-input type="text" wire:model="search"
                             class="flex items-center justify-center w-80 sm:w-full rounded-lg py-2.5"
@@ -110,46 +110,6 @@
                     {{-- lo puse aqui porque en la parte superior no funcaba --}}
 
 
-
-                    {{-- @livewire('admin.productfamilie-create') --}} {{-- queda para mas adelante poder solicionar, el segundo select que no carga --}}
-
-                    {{-- genera productos en 2 pasos y con selec2 --}}
-
-                    {{--  @if ($withcategory[0])
-                             @livewire('admin.productfamilie-createa')
-                        @else
-                            <div class="flex items-center justify-center" >
-                                <a href="{{ route('productfamilie.createaa', $category)}}" class="items-center justify-center sm:flex btn btn-orange" >
-                                <i class="mx-2 fa-regular fa-file"></i> Nuevo
-                                </a >
-                            </div>
-                        @endif --}}
-                    {{-- genera productos en 2 pasos y con selec2 --}}
-
-
-                    {{-- @livewire('admin.productfamilie-created') --}}
-                    {{-- funciona pero sin select2 --}}
-
-                    {{--  /*esto no usaremos*/ --}}
-                    {{-- <div class="flex items-center justify-center" >
-                            <a href="{{ route('admin.create')}}" class="items-center justify-center sm:flex btn btn-orange" >
-                               <i class="mx-2 fa-regular fa-file"></i> Nuevo
-                            </a >
-
-                        </div> --}}
-                    {{-- /*esto no usaremos*/ --}}
-
-
-
-                    {{-- <div>
-                             <input type="checkbox" class="flex items-center mr-2 leading-tight" wire-model="state"> Activos
-                        </div> --}}
-
-                    {{--  <div class="flex items-center justify-center px-2 mt-2 mr-4 md:mt-0">
-
-                        <x-jet-input type="checkbox" wire:model="state" class="mx-1" />
-                        Activos
-                    </div> --}}
 
                 </div>
 

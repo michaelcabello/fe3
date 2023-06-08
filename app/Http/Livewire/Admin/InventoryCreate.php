@@ -8,6 +8,7 @@ use Livewire\Component;
 use App\Models\Inventory;
 use App\Models\Inventorytemporary;
 use App\Models\Localproductatribute;
+use Illuminate\Support\Facades\DB;
 
 class InventoryCreate extends Component
 {
@@ -40,10 +41,10 @@ class InventoryCreate extends Component
     }
 
 
-    /*     public function updated($propertyNameeer)
+    public function updated($propertyNameeer)
     {
         $this->validateOnly($propertyNameeer);
-    } */
+    }
 
     //updating antes que se modifica updated despues que se modifica
     public function updatingOpen()
@@ -59,39 +60,43 @@ class InventoryCreate extends Component
     public function save()
     {
         $this->validate();
-        //dd("okoko");
-        //guardamos el nuevo inventario
-
-        $inventory = Inventory::create([
-            'local_id' => $this->local_id,
-            'name' => $this->name,
-            'datestart' => Carbon::now(),
-            'state' => 1,
-            'user_id' => 1,
-        ]);
-
-        //llenamos el inventorytemporary
-
-        $local_productatributes = Localproductatribute::where('local_id', $this->local_id)->get(); //selecciona todo los productos del inventario actual
-        foreach ($local_productatributes as $lpa) {
-
-            Inventorytemporary::create([
-                'codigo' => $lpa->productatribute->codigo,
-                'name' => $lpa->productatribute->slug,
-                'stocksistema' => $lpa->stock,
-                'stockcontado' => 0,
-                'diferencia' => $lpa->stock,
-                'inventory_id' => $inventory->id,
+        //ahora hay que restringir y hacer que grabe todo o nada  cabecera y detalle
+        DB::beginTransaction();
+        try {
+            //guardamos el nuevo inventario cabecera
+            $inventory = Inventory::create([
                 'local_id' => $this->local_id,
-                'local_productatribute_id' => $lpa->id,
+                'name' => $this->name,
+                'datestart' => Carbon::now(),
+                'state' => 1,
+                'user_id' => 1,
             ]);
+            //llenamos el inventorytemporary detalle
+            $local_productatributes = Localproductatribute::where('local_id', $this->local_id)->get(); //selecciona todo los productos del inventario actual
+            foreach ($local_productatributes as $lpa) {
+                Inventorytemporary::create([
+                    'codigo' => $lpa->productatribute->codigo,
+                    'name' => $lpa->productatribute->slug,
+                    'stocksistema' => $lpa->stock,
+                    'stockcontado' => 0,
+                    'diferencia' => $lpa->stock,
+                    'inventory_id' => $inventory->id,
+                    'local_id' => $this->local_id,
+                    'local_productatribute_id' => $lpa->id,
+                ]);
+            }
+
+            DB::commit();
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            throw $th;
         }
 
-        //ahora hay que restringir y hacer que grabe todo o nada
+
 
         //redireccionar para listar el inventario creado
-
-
+        return redirect()->route('inventorytemporary.list', $inventory);
     }
 
 

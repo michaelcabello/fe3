@@ -5,8 +5,10 @@
     <x-slot name="header">
         <div class="flex items-center">
             <h2 class="mr-2 text-xl font-semibold leading-tight text-gray-600">
-                Inventario Inicial {{ $inventory->name }} {{-- {{ $mensaje }} no funciona aqui mas abajo si--}}
+                Inventario {{ $inventory->name }} {{-- {{ $mensaje }} no funciona aqui mas abajo si--}}
             </h2>
+
+            <a href="{{ route('inventory.list2') }}">Regresar</a>
 
             {{-- <div class="mb-4 mr-4">
                 <x-jet-label value="Fecha de Emisión" />
@@ -107,49 +109,7 @@
                     @endif
 
 
-                    {{-- lo puse aqui porque en la parte superior no funcaba --}}
 
-
-
-                    {{-- @livewire('admin.productfamilie-create') --}} {{-- queda para mas adelante poder solicionar, el segundo select que no carga --}}
-
-                    {{-- genera productos en 2 pasos y con selec2 --}}
-
-                    {{--  @if ($withcategory[0])
-                             @livewire('admin.productfamilie-createa')
-                        @else
-                            <div class="flex items-center justify-center" >
-                                <a href="{{ route('productfamilie.createaa', $category)}}" class="items-center justify-center sm:flex btn btn-orange" >
-                                <i class="mx-2 fa-regular fa-file"></i> Nuevo
-                                </a >
-                            </div>
-                        @endif --}}
-                    {{-- genera productos en 2 pasos y con selec2 --}}
-
-
-                    {{-- @livewire('admin.productfamilie-created') --}}
-                    {{-- funciona pero sin select2 --}}
-
-                    {{--  /*esto no usaremos*/ --}}
-                    {{-- <div class="flex items-center justify-center" >
-                            <a href="{{ route('admin.create')}}" class="items-center justify-center sm:flex btn btn-orange" >
-                               <i class="mx-2 fa-regular fa-file"></i> Nuevo
-                            </a >
-
-                        </div> --}}
-                    {{-- /*esto no usaremos*/ --}}
-
-
-
-                    {{-- <div>
-                             <input type="checkbox" class="flex items-center mr-2 leading-tight" wire-model="state"> Activos
-                        </div> --}}
-
-                    {{--  <div class="flex items-center justify-center px-2 mt-2 mr-4 md:mt-0">
-
-                        <x-jet-input type="checkbox" wire:model="state" class="mx-1" />
-                        Activos
-                    </div> --}}
 
                 </div>
 
