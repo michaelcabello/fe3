@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('customers', function (Blueprint $table) {
+        Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
+
             $table->string('numdoc')->unique();
             $table->string('nomrazonsocial')->unique();
             $table->string('address')->nullable();
@@ -30,6 +31,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tipodocumento_id')->nullable();
             $table->foreign('tipodocumento_id')->references('id')->on('tipodocumentos')->onDelete('cascade');
 
+
             $table->timestamps();
         });
     }
@@ -41,6 +43,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customers');
+        Schema::dropIfExists('suppliers');
     }
 };

@@ -23,6 +23,8 @@ use App\Models\Comprobante;
         public $serie, $numero;
         public $customer_id;
         public $numdoc;
+        public $itemsQuantity;
+
 
         //public $default;
 
@@ -31,16 +33,16 @@ use App\Models\Comprobante;
                 $ltc = Local_tipocomprobante::where('local_id', Auth::user()->local->id )
                                                 ->where('default',1)->get();
 
-                $this->tipocomprobante_id = $ltc[0]['tipocomprobante_id'];
-                $this->serie = $ltc[0]['serie'];
+                $this->tipocomprobante_id = $ltc[0]['tipocomprobante_id'];//obtienen el tipo de comprobante
+                $this->serie = $ltc[0]['serie'];//obtienen la serie
 
 
                // $this->$default = $ltc[0]['default'];
-                $this->total  = Cart::getTotal();
+                $this->total  = Cart::getTotal();//inicializxa el total del comprobante
                 //$this->itemsQuantity = Cart::getTotalQuantity();
                // $consulta = Comprobante::select("numero")->latest()->first();
                 $consulta = Comprobante::where('local_id', Auth::user()->local->id)
-                                        ->where('tipocomprobante_id', $this->tipocomprobante_id )->first();
+                                        ->where('tipocomprobante_id', $this->tipocomprobante_id )->first();//
                 //dd($consulta);
                // $this->numero = Comprobante::all();
                if(isset($consulta))//isset comprueba que consulta este definita osea consulta no es null
@@ -146,17 +148,17 @@ use App\Models\Comprobante;
         {
                 $title = '';
 
-                $exist = Cart::get($product->codigobarras);
+                $exist = Cart::get($product->codigobarras);//exist es el carrito
                 //dd($exist->price);
                 if ($exist)
                        // $title = 'Cantidad actualizada*';
-                        $price = $exist->price;
+                        $price = $exist->price;//price es la columna del carrito
                 else
                        // $title = 'Producto agregado*';
                        $price = $product->saleprice;
 
 
-
+            //importante si el producto ya existe el add adiciona un producto
                 Cart::add($product->codigobarras, $product->name, $price, $cant, $product->image);
 
                 $this->total = Cart::getTotal();

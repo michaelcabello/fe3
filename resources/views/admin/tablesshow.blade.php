@@ -29,7 +29,7 @@
 
                                 <article>
                                     <figure>
-                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/1.jpg')}}" alt="">
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/usuarios.jpg')}}" alt="">
                                     </figure>
                                     <header class="mt-2">
                                         <h1 class="text-xl text-center text-gray-700"><a href="{{route('admin.user.index')}}">Usuarios</a></h1>
@@ -40,7 +40,7 @@
 
                                 <article>
                                     <figure>
-                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/1.jpg')}}" alt="">
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/permisos.jpg')}}" alt="">
                                     </figure>
                                     <header class="mt-2">
                                         <h1 class="text-xl text-center text-gray-700"><a href="{{route('permission.list')}}">Permisos</a></h1>
@@ -51,7 +51,7 @@
 
                                 <article>
                                     <figure>
-                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/1.jpg')}}" alt="">
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/roles.jpg')}}" alt="">
                                     </figure>
                                     <header class="mt-2">
                                         <h1 class="text-xl text-center text-gray-700"><a href="{{route('admin.role.index')}}">Roles</a></h1>
@@ -130,10 +130,51 @@
 
                                 <article>
                                     <figure>
-                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/1.jpg')}}" alt="">
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/compras.jpg')}}" alt="">
                                     </figure>
                                     <header class="mt-2">
-                                        <h1 class="text-xl text-center text-gray-700">Configuraciones</h1>
+                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('admin.shopping.index')}}">Compras</a></h1>
+                                    </header>
+
+                                </article>
+
+                                <article>
+                                    <figure>
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/ingresodemercaderias.jpg')}}" alt="">
+                                    </figure>
+                                    <header class="mt-2">
+                                        <h1 class="text-xl text-center text-gray-700">Ingreso de Mercaderias</h1>
+                                    </header>
+
+                                </article>
+
+                                <article>
+                                    <figure>
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/trasladodemercaderias.jpg')}}" alt="">
+                                    </figure>
+                                    <header class="mt-2">
+                                        <h1 class="text-xl text-center text-gray-700">Traslado de Mercaderias</h1>
+                                    </header>
+
+                                </article>
+
+                                <article>
+                                    <figure>
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/pos.jpg')}}" alt="">
+                                    </figure>
+                                    <header class="mt-2">
+                                        <h1 class="text-xl text-center text-gray-700">POS</h1>
+                                    </header>
+
+                                </article>
+
+
+                                <article>
+                                    <figure>
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/ecommerce.jpg')}}" alt="">
+                                    </figure>
+                                    <header class="mt-2">
+                                        <h1 class="text-xl text-center text-gray-700">Web</h1>
                                     </header>
 
                                 </article>
@@ -163,48 +204,7 @@
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/1.jpg')}}" alt="">
                                     </figure>
                                     <header class="mt-2">
-                                        <h1 class="text-xl text-center text-gray-700">Categorias</h1>
-                                    </header>
-
-                                </article>
-
-
-                                <article>
-                                    <figure>
-                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/1.jpg')}}" alt="">
-                                    </figure>
-                                    <header class="mt-2">
-                                        <h1 class="text-xl text-center text-gray-700">Configuraciones</h1>
-                                    </header>
-
-                                </article>
-
-                                <article>
-                                    <figure>
-                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/1.jpg')}}" alt="">
-                                    </figure>
-                                    <header class="mt-2">
-                                        <h1 class="text-xl text-center text-gray-700">Impuestos</h1>
-                                    </header>
-
-                                </article>
-
-                                <article>
-                                    <figure>
-                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/1.jpg')}}" alt="">
-                                    </figure>
-                                    <header class="mt-2">
-                                        <h1 class="text-xl text-center text-gray-700">Marcas</h1>
-                                    </header>
-
-                                </article>
-
-                                <article>
-                                    <figure>
-                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/1.jpg')}}" alt="">
-                                    </figure>
-                                    <header class="mt-2">
-                                        <h1 class="text-xl text-center text-gray-700">Categorias</h1>
+                                        <h1 class="text-xl text-center text-gray-700">Sub-Categorias</h1>
                                     </header>
 
                                 </article>
