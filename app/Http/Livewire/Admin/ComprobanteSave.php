@@ -189,7 +189,7 @@ use App\Models\Comprobante;
         // actualizar cantidad item en carrito
         public function updateQty($product, $price, $cant = 1)
         {
-                // dd($product);
+                //dd($product);
                 if ($cant <= 0)
                         $this->removeItem($product);
                 else

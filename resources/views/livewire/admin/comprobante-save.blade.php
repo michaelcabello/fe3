@@ -275,7 +275,7 @@
                                            {{--  <div class="text-center">${{number_format($item->price,2)}}</div> --}}
                                                 <div class="w-20 text-lg text-center">
                                                     <input type="text" id="p{{$item->id}}"
-                                                    wire:change="updatePrice({{$item->id}}, $('#p' + {{$item->id}}).val(), $('#r' + {{$item->id}}).val())"
+                                                    wire:change="updatePrice({{$item->id}}, $event.target.value, $('#r' + {{$item->id}}).val())"
                                                     style="font-size: 1rem!important"
                                                     class="text-center form-control"
                                                     value="{{number_format($item->price,2)}}"
@@ -285,7 +285,7 @@
                                         <td class="p-2 whitespace-nowrap">
                                                 <div class="w-20 text-lg text-center">
                                                     <input type="number" id="r{{$item->id}}"
-                                                    wire:change="updateQty({{$item->id}}, $('#p' + {{$item->id}}).val(), $('#r' + {{$item->id}}).val() )"
+                                                    wire:change="updateQty({{$item->id}}, $('#p' + '{{$item->id}}').val(), $event.target.value )"
                                                     style="font-size: 1rem!important"
                                                     class="text-center form-control"
                                                     value="{{$item->quantity}}"

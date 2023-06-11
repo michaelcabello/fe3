@@ -37,6 +37,12 @@ return new class extends Migration
             $table->unsignedBigInteger('currency_id')->nullable();
             $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
 
+            //indicara el usuario que esta realizando la compra
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            //
+
             $table->text('nota')->nullable();
 
             $table->timestamps();

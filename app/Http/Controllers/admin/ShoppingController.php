@@ -23,10 +23,10 @@ class ShoppingController extends Controller
 
     public function create()
     {
-        $suppliers = Supplier::all();
-        $currencies = Currency::all();
-        $tipocomprobantes = Tipocomprobante::all();
-        return view('admin.shoppings.create', compact('suppliers', 'currencies', 'tipocomprobantes'));
+        //$suppliers = Supplier::all();
+        //$currencies = Currency::all();
+        //$tipocomprobantes = Tipocomprobante::all();
+        return view('admin.shoppings.create');
     }
 
 
