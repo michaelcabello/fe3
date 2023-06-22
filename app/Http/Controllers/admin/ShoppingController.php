@@ -100,24 +100,13 @@ class ShoppingController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Shopping  $shopping
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Shopping $shopping)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Shopping  $shopping
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Shopping $shopping)
     {
         //

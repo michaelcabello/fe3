@@ -93,6 +93,11 @@ class Localproductatribute extends Model
     }
 
 
+    //relacion con los detalles de envio
+    public function detalleEnvios()
+    {
+        return $this->hasMany(Local_productatribute_shipment::class, 'local_productatribute_id');
+    }
 
 
 

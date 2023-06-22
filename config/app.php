@@ -199,6 +199,7 @@ return [
         Darryldecode\Cart\CartServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        //App\Providers\MultipleCartServiceProvider::class,
     ],
 
     /*

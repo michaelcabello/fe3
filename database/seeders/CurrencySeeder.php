@@ -16,17 +16,17 @@ class CurrencySeeder extends Seeder
     public function run()
     {
         Currency::create([
-            'name' => 'Nuevo sol Peruano',    
-            'abbreviation' => 'S', 
-            'default' => 1, 
+            'name' => 'Nuevo sol Peruano',
+            'abbreviation' => 'S/',
+            'default' => 1,
             'state' => 1,
 
         ]);
 
         Currency::create([
-            'name' => 'Dolar UE',    
-            'abbreviation' => 'USD', 
-            'default' => 0, 
+            'name' => 'Dolar UE',
+            'abbreviation' => 'USD',
+            'default' => 0,
             'state' => 1,
 
         ]);

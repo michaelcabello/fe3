@@ -153,7 +153,7 @@
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/trasladodemercaderias.jpg')}}" alt="">
                                     </figure>
                                     <header class="mt-2">
-                                        <h1 class="text-xl text-center text-gray-700">Traslado de Mercaderias</h1>
+                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('admin.shipment.index')}}">Traslado de Mercaderias</a></h1>
                                     </header>
 
                                 </article>

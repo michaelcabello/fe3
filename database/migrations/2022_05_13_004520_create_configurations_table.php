@@ -28,6 +28,7 @@ return new class extends Migration
             $table->text('nota1')->nullable();
             $table->text('nota2')->nullable();
             $table->text('nota3')->nullable();
+            $table->double('igv')->default(18);
 
             $table->integer('numdecimalesproducto')->nullable();
             $table->integer('numdecimalescomprobante')->nullable();

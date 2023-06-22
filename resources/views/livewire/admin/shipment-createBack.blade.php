@@ -1,7 +1,7 @@
 <div>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Compras') }}
+            {{ __('Envio de Mercaderias') }}
         </h2>
     </x-slot>
 
@@ -15,113 +15,43 @@
                     <div class="card-body box-profile">
                         <div>
 
-                            <h3 class="mt-2 mb-5 text-center underline">Nueva Compra</h3>
+                            <h3 class="mt-2 mb-5 text-center underline">Nuevo Envio</h3>
 
 
                             {{-- <div class="py-2 mb-1" wire:ignore> --}}
                             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-6">
-                                <div class="mb-4 mr-4 ">
-                                    {{-- <label>Proveedores </label> --}}
-                                    <x-jet-label value="Proveedores" />
-                                    {{-- select2 --}}
-                                    <select wire:model="supplier_id"
-                                        class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
-                                        data-placeholder="Selecccione un Proveedor" style="width:100%">
-                                        <option value="" selected disabled>Seleccione</option>
-                                        @foreach ($suppliers as $supplier)
-                                            <option value="{{ $supplier->id }}">{{ $supplier->nomrazonsocial }}</option>
-                                        @endforeach
-
-                                    </select>
-                                    <x-jet-input-error for="supplier_id" />
-                                </div>
-
-                                <div class="mb-4 mr-4" wire:ignore >
-                                    <x-jet-label value="Fecha de Emisión" />
-                                    <x-jet-input id="datepicker" wire:model="fechaemision" type="text" class="w-full h-10"
-                                        value="{{ old('fechaemision') }}" placeholder="fecha de compra" />
-                                    <x-jet-input-error for="fechaemision" />
-                                </div>
 
 
-                                <div class="mb-4 mr-4">
-                                    <x-jet-label value="Fecha de Vencimiento:" />
-                                    <x-jet-input id="datepicker2" type="text" wire:model="fechavencimiento"
-                                        value="{{ old('fechavencimiento') }}" placeholder="fecha de pago"
-                                        class="w-full" />
-                                    <x-jet-input-error for="fechavencimiento" />
-                                </div>
+                               {{--  <div class="mb-4 mr-4" wire:ignore >
+                                    <x-jet-label value="Fecha de Envio" />
+                                    <x-jet-input id="datepicker" wire:model="fechaenvio" type="text" class="w-full h-10"
+                                        value="{{ old('fechaenvio') }}" placeholder="fecha de compra" />
+                                    <x-jet-input-error for="fechaenvio" />
+                                </div> --}}
 
 
 
                                 <div class="mb-1 mr-4">
-                                    <x-jet-label value="Forma de pago:" />
-
-                                    <select wire:model="formadepago"
-                                        class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                        data-placeholder="Selecccione forma de pago" style="width:100%">
-                                        <option value="" selected disabled>Seleccione</option>
-
-                                        <option value="Contado">Contado</option>
-
-                                        <option value="Credito">Credito</option>
-                                    </select>
-                                    <x-jet-input-error for="formadepago" />
-                                </div>
-
-
-
-                                <div class="mb-1 mr-4">
-                                    <x-jet-label value="Tipo Comprobante" />
-                                    <select wire:model="tipocomprobante_id"
+                                    <x-jet-label value="Local a donde se enviará" />
+                                    <select wire:model="local_recibe_id"
                                         class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                         data-placeholder="Selecccione la moneda" style="width:100%">
                                         <option value="" selected disabled>Seleccione</option>
-                                        @foreach ($tipocomprobantes as $tipocomprobante)
-                                            <option value="{{ $tipocomprobante->id }}">{{ $tipocomprobante->name }}
+                                        @foreach ($locales as $local)
+                                            <option value="{{ $local->id }}">{{ $local->name }}
                                             </option>
                                         @endforeach
 
                                     </select>
-                                    <x-jet-input-error for="supplier_id" />
-
-
+                                    <x-jet-input-error for="local_recibe_id" />
                                 </div>
 
 
-                                <div class="mb-1 mr-4">
-                                    <x-jet-label value="Serie-Numero" />
-                                    <x-jet-input type="text" placeholder="Serie - Número" class="w-full h-10 uppercase"
-                                        wire:model="serienumero" />
-                                    <x-jet-input-error for="serienumero" />
-                                </div>
-
-
-                                <div class="mb-1 mr-4">
-                                    <x-jet-label value="Moneda" />
-                                    <select wire:model="currency_id"
-                                        class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                        data-placeholder="Selecccione la moneda" style="width:100%">
-                                        <option value="" selected disabled>Seleccione</option>
-                                        @foreach ($currencies as $currency)
-                                            <option value="{{ $currency->id }}">{{ $currency->name }}</option>
-                                        @endforeach
-
-                                    </select>
-                                    <x-jet-input-error for="currency_id" />
-                                </div>
-
-
-                                <div class="col-span-2 mr-4">
-                                    <x-jet-label value="Imagen del comprobante" />
-                                    {{-- <label>Imagen del comprobante</label> --}}
-                                    <input type="file" wire:model="photo" id="file" accept="image/*">
-                                </div>
 
                                 <div class="col-span-2 form-group {{ $errors->has('nota') ? 'text-danger' : '' }} ">
                                     {{-- <label>Nota de la compra</label> --}}
                                     <textarea rows="2" wire:model="nota" class="w-full form-control"
-                                        placeholder="Ingrese Nota del Comprobante ">{{ old('nota') }}</textarea>
+                                        placeholder="Ingrese Nota del Envío ">{{ old('nota') }}</textarea>
                                     {!! $errors->first('nota', '<span class="help-block">:message</span>') !!}
 
 
@@ -177,14 +107,9 @@
                                                                 <div class="font-semibold text-left">Nombre</div>
                                                             </th>
                                                             <th class="p-2 whitespace-nowrap">
-                                                                <div class="font-semibold text-center">precio</div>
-                                                            </th>
-                                                            <th class="p-2 whitespace-nowrap">
                                                                 <div class="font-semibold text-center">cantidad</div>
                                                             </th>
-                                                            <th class="p-2 whitespace-nowrap">
-                                                                <div class="font-semibold text-center">Subtotal</div>
-                                                            </th>
+
                                                             <th class="p-2 whitespace-nowrap">
                                                                 <div class="font-semibold text-center">Acciones</div>
                                                             </th>
@@ -204,10 +129,9 @@
                                                                 <div class="text-left">{{ $item->id }}</div>
                                                             </td>
                                                             <td class="p-2 whitespace-nowrap">
-                                                                <div class="font-medium text-left text-green-500">{{-- {{ $item->name }} --}}</div>
+                                                                <div class="font-medium text-left text-green-500"> {{ $item->name }} </div>
                                                             </td>
-                                                            <td class="p-2 whitespace-nowrap">
-                                                               {{--  <div class="text-center">${{number_format($item->price,2)}}</div> --}}
+                                                        {{--     <td class="p-2 whitespace-nowrap">
                                                                     <div class="w-20 text-lg text-center">
                                                                         <input type="text" id="p{{$item->id}}"
                                                                         wire:change="updatePrice('{{ is_numeric($item->id) ? $item->id : addslashes($item->id) }}', $('#p' + '{{$item->id}}').val(), $('#r' + '{{$item->id}}').val())"
@@ -216,7 +140,7 @@
                                                                         value="{{number_format($item->price,2)}}"
                                                                         >
                                                                     </div>
-                                                            </td>
+                                                            </td> --}}
 
                                                             <td class="p-2 whitespace-nowrap">
                                                                     <div class="w-20 text-lg text-center">
@@ -231,9 +155,6 @@
 
 
 
-                                                            <td class="p-2 whitespace-nowrap">
-                                                                <div class="text-lg text-center">${{number_format($item->price * $item->quantity,2)}}</div>
-                                                            </td>
 
                                                             <td class="p-2 whitespace-nowrap">
                                                                 <a class="ml-2 btn btn-red">

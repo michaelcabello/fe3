@@ -26,6 +26,8 @@ use App\Http\Livewire\Admin\InventoryListdos;
 use App\Http\Livewire\Admin\InventoryList2;
 use App\Http\Livewire\Admin\InventorytemporaryList;
 use App\Http\Controllers\admin\ShoppingController;
+use App\Http\Controllers\admin\ShipmentController;
+use App\Http\Livewire\Admin\ShipmentEdit;
 
 //Route::get('/', [HomeController::class, 'home'])->name('admin.home');
 Route::get('/tables', [TableController::class, 'showtables'])->name('admin.showtables');
@@ -42,6 +44,10 @@ Route::get('/listadeinventarios', InventoryList2::class)->name('inventory.list2'
 Route::get('/inventariotemporallist/{inventory}', InventorytemporaryList::class)->name('inventorytemporary.list');//lista los inventarios
 //compra de mercaderias shopping
 Route::resource('shopping', ShoppingController::class)->names('admin.shopping');
+//envio de mercaderias entre locales
+//php artisan make:controller admin/ShipmentController -r -m Shipment
+Route::resource('shipment', ShipmentController::class)->names('admin.shipment');
+Route::get('/shipments/{shipment}', ShipmentEdit::class)->name('shipment.edit');
 
 
 

@@ -22,6 +22,8 @@ return new class extends Migration
             $table->unsignedBigInteger('productatribute_id');
             $table->foreign('productatribute_id')->references('id')->on('productatributes')->onDelete('cascade');
 
+            //$table->string('codigo')->unique();//se genera
+
             //$table->primary(['local_id','productatribute_id']);//vamos a trabajar con primary keys
 
             $table->double('pricesale')->nullable();

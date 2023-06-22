@@ -84,6 +84,7 @@ class ShoppingList extends Component
 
             ->orderBy($this->sort, $this->direction)->paginate($this->cant);
             //pongo esto y no funciona  ->orWhere('nomrazonsocial', 'like', '%' .$this->search. '%')
+            //dd($shoppings);
          }else{
             $shoppings =[];
         }
