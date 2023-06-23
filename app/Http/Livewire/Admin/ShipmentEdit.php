@@ -10,6 +10,7 @@ use App\Models\Productatribute;
 use App\Models\Localproductatribute;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Local_productatribute_shipment;
+use Carbon\Carbon;
 
 class ShipmentEdit extends Component
 {
@@ -112,7 +113,7 @@ class ShipmentEdit extends Component
 
     public function render()
     {
-        $this->local_productatribute_shipments = Local_productatribute_shipment::where('shipment_id', $this->shipment->id)->get(); //selecciona todo los productos del inventario actual
+        $this->local_productatribute_shipments = Local_productatribute_shipment::where('shipment_id', $this->shipment->id)->get(); //selecciona todo los productos del envio actuatual
         $this->total = Local_productatribute_shipment::where('shipment_id', $this->shipment->id)->sum('quantity');
         $this->shipment->total = $this->total;
         $this->shipment->save();
@@ -143,6 +144,20 @@ class ShipmentEdit extends Component
 
     }
 
+    public function enviar(){
+       // $this->local_productatribute_shipments = Local_productatribute_shipment::where('shipment_id', $this->shipment->id)->get();
+       foreach ($this->local_productatribute_shipments as $lpas) {
+            //buscamos en local_productatribute
+            $lpa = Localproductatribute::where('local_id', Auth()->user()->local->id)
+                                        ->where('id', $lpas->local_productatribute_id)->first();
+            $lpa->stock = $lpa->stock - $lpas->quantity;
+            $lpa->save();
+       }
+       //actualizamos el shipment
+       $this->shipment->state = 2;
+       $this->shipment->fechaaceptacion = Carbon::now();
+       $this->shipment->save();
 
+    }
 
 }

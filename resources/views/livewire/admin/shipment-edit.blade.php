@@ -83,9 +83,7 @@
                         {{-- si esta en proceso se muestra boton Enviar --}}
                         <div class="flex items-center justify-center">
 
-                            <a wire:click="$emit('finalizar', 'inventario')"
-                                class="items-center justify-center sm:flex btn btn-orange">
-
+                            <a wire:click="$emit('enviar')" class="items-center justify-center sm:flex btn btn-orange">
                                 <i class="mx-2 fa-regular fa-file"></i> Enviar
                             </a>
                         </div>
