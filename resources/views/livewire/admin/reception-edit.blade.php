@@ -1,13 +1,10 @@
 <div>
     {{-- <div wire:init="loadBrands"> --}}
 
-
     <x-slot name="header">
         <div class="flex items-center">
             <h2 class="mr-2 text-xl font-semibold leading-tight text-gray-600">
-                Envio de Mercaderia {{-- {{ $shipment->name }} --}} {{-- {{ $mensaje }} no funciona aqui mas abajo si --}}
-               {{--  al Local :  {{ $local_recibe }} , ubicado en : {{ $address_local_recibe }} --}}
-               al Local :  {{  $shipment->localRecibe->name }} , ubicado en : {{  $shipment->localRecibe->address }}
+                Recepción de Mercaderia enviado por el Local :  {{  $reception->localEnvia->name }} , ubicado en : {{  $reception->localEnvia->address }}
             </h2>
 
             <a href="{{ route('admin.shipment.index') }}">Regresar</a>
@@ -73,18 +70,18 @@
                         {{-- <input type="text" id="code" value="" class="block w-full items-center justify-center sm:w-full rounded-lg py-2.5" wire:keydown.enter.prevent="ScanCode($('#code').val())"/> --}}
                         <input type="text" id="code" value=""
                             class="block w-full items-center justify-center sm:w-full rounded-lg py-2.5"
-                            wire:keydown.enter.prevent="$emit('ScanCode', $('#code').val())" />
+                        />
                     </div>
 
 
                     {{-- lo puse aqui porque en la parte superior no funcaba --}}
 
-                    @if ($stateshipment == 1)
+                    @if ($statereception == 2)
                         {{-- si esta en proceso se muestra boton Enviar --}}
                         <div class="flex items-center justify-center">
 
-                            <a wire:click="$emit('enviarr')" class="items-center justify-center sm:flex btn btn-orange">
-                                <i class="mx-2 fa-regular fa-file"></i> Enviar
+                            <a wire:click="$emit('confirmarr')" class="items-center justify-center sm:flex btn btn-orange">
+                                <i class="mx-2 fa-regular fa-file"></i> Confirmar
                             </a>
                         </div>
                     @endif
@@ -161,10 +158,7 @@
                                 </th>
 
 
-                                <th scope="col"
-                                    class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">
-                                    ACCIONES
-                                </th>
+
                             </tr>
                         </thead>
 
@@ -182,6 +176,7 @@
                                     <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
 
                                         {{ $lpas->localproductatribute->productatribute->codigo }}
+                                        {{ $lpas->localproductatribute->id }}
 
                                     </td>
 
@@ -211,11 +206,10 @@
 
 
                                     <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                        <input type="number" id="r{{ $lpas->id }}"
-                                            wire:change="updateQty({{ $lpas->id }}, $('#r' + {{ $lpas->id }}).val() )"
+                                        <input type="number"
                                             style="font-size: 1rem!important" class="text-center form-control"
                                             value="{{ $lpas->quantity }}"
-                                            {{ $stateshipment == 2 ? 'disabled' : 'enabled' }}>
+                                            disabled >
 
 
                                     </td>
@@ -226,20 +220,6 @@
 
 
 
-                                    <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                                        {{-- <a class="btn btn-blue"
-                                            href="{{ route('admin.productatribute.pricesale', $productt->productatribute->productfamilie->id) }}"><i
-                                                class="fa-sharp fa-solid fa-eye"></i></a> --}}
-                                        {{-- <a wire:click="edit({{ $productt }})" class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a> --}}
-                                        <a class="btn btn-red"
-                                            wire:click="$emit('deleteProduct', {{ $lpas->id }})">
-                                            <i class="fa-solid fa-trash-can"></i>
-
-                                        </a>
-
-
-
-                                    </td>
                                 </tr>
                             @endforeach
                             <!-- More people... -->
@@ -343,51 +323,27 @@
         @endpush
 
         @push('scripts')
-            <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
 
-
-            <script>
-                new Pikaday({
-                    field: document.getElementById('datepicker'),
-                    format: 'D MMM YYYY',
-
-                });
-
-                new Pikaday({
-                    field: document.getElementById('datepicker2'),
-                    format: 'D MMM YYYY',
-
-                });
-            </script>
 
 
             <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    livewire.on('ScanCode', action => {
-                        $('#code').val('')
-                    })
-                })
-            </script>
-
-
-            <script>
-                Livewire.on('enviarr', modeloId => {
+                Livewire.on('confirmarr', modeloId => {
                     Swal.fire({
-                        title: 'Estas seguro de Enviar los productos ?',
+                        title: 'Estas seguro de Aceptar los productos ?',
                         text: "No se podrá revertir!",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'Si, Enviar!'
+                        confirmButtonText: 'Si, Aceptar!'
                     }).then((result) => {
                         if (result.isConfirmed) {
 
-                            Livewire.emitTo('admin.shipment-edit', 'enviar', modeloId);
+                            Livewire.emitTo('admin.reception-edit', 'confirmar', modeloId);
 
                             Swal.fire(
-                                'Productos enviados!',
-                                'El EnvioFinalizó',
+                                'Productos Aceptados!',
+                                'La Aceptación Finalizó',
                                 'success'
                             )
                         }

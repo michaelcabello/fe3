@@ -98,7 +98,7 @@
                     @if($stateinventory == 1) {{-- si esta en proceso se muestra boton finalizar --}}
                     <div class="flex items-center justify-center">
 
-                        <a wire:click="$emit('finalizar', 'inventario')"
+                        <a wire:click="$emit('finalizarr')"
                             class="items-center justify-center sm:flex btn btn-orange">
 
                             <i class="mx-2 fa-regular fa-file"></i> Finalizar
@@ -385,7 +385,7 @@
 
 
             <script>
-                Livewire.on('finalizar', modeloId => {
+                Livewire.on('finalizarr', modeloId => {
                     Swal.fire({
                         title: 'Estas seguro de terminar el Inventario Inicial ?',
                         text: "No se podrá revertir!",
@@ -409,8 +409,5 @@
                 })
             </script>
         @endpush
-
-
-
 
 </div>

@@ -6,14 +6,14 @@ use App\Models\Local;
 use Livewire\Component;
 use App\Models\Shipment;
 use Livewire\WithPagination;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+//use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 
 class ShipmentList extends Component
 {
 
-    use AuthorizesRequests;
+    // use AuthorizesRequests;
     use WithPagination;
     public $shopping;
     public $search;
@@ -46,12 +46,39 @@ class ShipmentList extends Component
 
         if ($this->readyToLoad) {
 
-            $shipments = Shipment::with('localRecibe')->addSelect([
+            // Agregar condición de usuario logueado
+
+            /* $shipments = Shipment::with('localRecibe')->where('local_envia_id', Auth()->user()->local->id)->addSelect([
                 'name' => Local::select('name')
                     ->whereColumn('id', 'shipments.local_recibe_id')
             ])->where('id', 'like', '%' . $this->search . '%')->orWhereHas('localRecibe', function (Builder $query) {
                 $query->where('name', 'like', '%' . $this->search . '%');
-            })->orderBy($this->sort, $this->direction)->paginate($this->cant);
+            })->orderBy($this->sort, $this->direction)->paginate($this->cant); */
+
+           // $shipments = Shipment::where('local_envia_id', 1)->paginate($this->cant);
+
+            /*              $shipments = Shipment::with('localRecibe')
+            ->where(function ($query) {
+                $query->where('local_envia_id', 1);
+
+            })
+            ->orWhereHas('localRecibe', function (Builder $query) {
+                $query->where('name', 'like', '%' . $this->search . '%');
+            })
+            ->orderBy($this->sort, $this->direction)
+            ->paginate($this->cant); */
+
+
+            $shipments = Shipment::with('localRecibe')
+                ->where('local_envia_id', Auth()->user()->local->id)//esta parte es para restringir osea mostrar solo sus envios
+                ->where(function ($query) {
+                    $query->where('id', 'like', '%' . $this->search . '%')
+                        ->orWhereHas('localRecibe', function ($query) {
+                            $query->where('name', 'like', '%' . $this->search . '%');
+                        });
+                })
+                ->orderBy($this->sort, $this->direction)
+                ->paginate($this->cant);
         } else {
             $shipments = [];
         }

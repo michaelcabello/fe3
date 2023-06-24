@@ -150,10 +150,21 @@
 
                                 <article>
                                     <figure>
-                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/trasladodemercaderias.jpg')}}" alt="">
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/trasladodemercaderias.jpg')}}" alt="Envio de Mercaderias">
                                     </figure>
                                     <header class="mt-2">
-                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('admin.shipment.index')}}">Traslado de Mercaderias</a></h1>
+                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('admin.shipment.index')}}">Envío de Mercaderias</a></h1>
+                                    </header>
+
+                                </article>
+
+
+                                <article>
+                                    <figure>
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/recepciondemercaderias.jpg')}}" alt="Recepción de Mercaderias">
+                                    </figure>
+                                    <header class="mt-2">
+                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('admin.reception.index')}}">Recepción de Mercaderias</a></h1>
                                     </header>
 
                                 </article>

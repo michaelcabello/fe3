@@ -18,9 +18,9 @@ class Localproductatribute extends Model
     //indicamos el primarykey compuesto
     // protected $primaryKey = ['productatribute_id', 'local_id'];
     //ponemos incremento en falso porque inhabilitamod id()
-    protected $primaryKey = 'id';
+    //protected $primaryKey = 'id';
     // protected $primaryKey = null;
-    public $incrementing = false;
+    //public $incrementing = false;
 
 
     //protected $primaryKey = ['local_id', 'productatribute_id'];
@@ -38,16 +38,16 @@ class Localproductatribute extends Model
 
 
 
-    protected $casts = [
+    /* protected $casts = [
         'local_id' => 'integer',
         'productatribute_id' => 'integer',
         // Otros campos y tipos de datos
-    ];
+    ]; */
 
-    public function getLivewireKeyName()
+/*     public function getLivewireKeyName()
     {
         return $this->getAttribute('local_id') . '-' . $this->getAttribute('productatribute_id');
-    }
+    } */
 
 
     /*     protected function setKeysForSaveQuery($query)

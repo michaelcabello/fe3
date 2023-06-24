@@ -28,6 +28,8 @@ use App\Http\Livewire\Admin\InventorytemporaryList;
 use App\Http\Controllers\admin\ShoppingController;
 use App\Http\Controllers\admin\ShipmentController;
 use App\Http\Livewire\Admin\ShipmentEdit;
+use App\Http\Controllers\admin\ReceptionController;
+use App\Http\Livewire\Admin\ReceptionEdit;
 
 //Route::get('/', [HomeController::class, 'home'])->name('admin.home');
 Route::get('/tables', [TableController::class, 'showtables'])->name('admin.showtables');
@@ -48,6 +50,10 @@ Route::resource('shopping', ShoppingController::class)->names('admin.shopping');
 //php artisan make:controller admin/ShipmentController -r -m Shipment
 Route::resource('shipment', ShipmentController::class)->names('admin.shipment');
 Route::get('/shipments/{shipment}', ShipmentEdit::class)->name('shipment.edit');
+//php artisan make:controller admin/ReceptionController
+//Route::resource('reception', ReceptionController::class)->names('admin.reception');
+Route::get('reception', [ReceptionController::class, 'index'])->name('admin.reception.index');//lista recepciones para conformar
+Route::get('/receptions/{reception}', ReceptionEdit::class)->name('reception.edit');
 
 
 
@@ -56,6 +62,7 @@ Route::get('categoriess', CategoryListd::class)->name('category.listd');
 Route::get('products', ProductList::class)->name('product.list');
 Route::get('productcompuesto/{product}', ProductcompuestoCreate::class)->name('productcompuesto.create');//creamos el producto productatribute
 Route::get('productcompuestoedit/{product}', ProductcompuestoEdit::class)->name('productcompuesto.edit');
+
 
 
 Route::resource('productatribute', ProductatributeController::class)->names('admin.productatribute');
@@ -104,4 +111,10 @@ Route::get('/permission', PermissionList::class)->name('permission.list');
 
 //Route::resource('configuration', ConfigurationController::class)->only(['edit','update'])->names('admin.configuration')->middleware('permission:update Configuration');
 Route::resource('configuration', ConfigurationController::class)->only(['edit','update'])->names('admin.configuration');
+
+
+Route::get('/logout', function () {
+    auth()->logout();
+    return redirect('/login');
+});
 
