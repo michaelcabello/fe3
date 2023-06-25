@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Local;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -22,7 +23,7 @@ class ProductSent extends Notification
 
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail','database'];
     }
 
 
@@ -37,6 +38,18 @@ class ProductSent extends Notification
                     ->action('ver Envio', url('admin/shipments/'.strval($this->shipment->id)))
                     ->line('Hasta Pronto');
 
+    }
+
+
+    public function toDatabase($notifiable)
+    {
+        //notifiable es un campo agregado en la tabla user
+        /* $notifiable->notification +=1;
+        $notifiable->save(); */
+        return [
+           'url'=>route('shipment.edit',$this->shipment->id),
+           'message'=> 'Has recibido un mensaje de ' . Local::find($this->shipment->local_envia_id)->name
+        ];
     }
 
 

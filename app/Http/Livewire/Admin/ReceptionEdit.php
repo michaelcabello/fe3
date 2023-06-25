@@ -101,9 +101,5 @@ class ReceptionEdit extends Component
         $this->reception->save();
 
 
-
-
-
-
     }
 }
