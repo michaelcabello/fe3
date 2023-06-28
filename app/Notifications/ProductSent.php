@@ -7,6 +7,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\BroadcastMessage;
+
 
 class ProductSent extends Notification
 {
@@ -23,7 +25,8 @@ class ProductSent extends Notification
 
     public function via($notifiable)
     {
-        return ['mail','database'];
+        return ['mail', 'database', 'broadcast'];
+
     }
 
 
@@ -44,12 +47,26 @@ class ProductSent extends Notification
     public function toDatabase($notifiable)
     {
         //notifiable es un campo agregado en la tabla user
-        /* $notifiable->notification +=1;
-        $notifiable->save(); */
+        //$notifiable->notification +=1;
+        $local = Local::where('user_id', $notifiable->id)->first();
+        $local->notification +=1;
+        $local->save();
         return [
-           'url'=>route('shipment.edit',$this->shipment->id),
-           'message'=> 'Has recibido un mensaje de ' . Local::find($this->shipment->local_envia_id)->name
+           'shipment'=>$this->shipment->id,//guardo el shipment
+           'url'=>route('reception.edit',$this->shipment->id),
+           'message'=> 'Has recibido un mensaje de ' . Local::find($this->shipment->local_envia_id)->name,
+           'state'=> 2
         ];
+    }
+
+
+
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            /* 'id' => $this->shipment->id,
+            'message'=> 'Has recibido un mensaje de ' . Local::find($this->shipment->local_envia_id)->name, */
+        ]);
     }
 
 

@@ -7,6 +7,9 @@ use App\Models\Shipment;
 use App\Models\Localproductatribute;
 use App\Models\Local_productatribute_shipment;
 use Carbon\Carbon;
+use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Support\Facades\Auth;
 
 class ReceptionEdit extends Component
 {
@@ -37,7 +40,7 @@ class ReceptionEdit extends Component
 
     public function mount(Shipment $reception)
     {
-        $this->reception = $reception;
+        $this->reception = $reception;//es el shipment
         //$local = Local::find($this->shipment->id);
         //$this->local_recibe = $local->name;
         //$this->address_local_recibe = $local->address;
@@ -99,7 +102,17 @@ class ReceptionEdit extends Component
         $this->reception->state = 3;
         $this->reception->fechaaceptacion = Carbon::now();
         $this->reception->save();
+        //$notification = Notification->all();
+        //dd($notification);
 
+
+        DatabaseNotification::where('data->shipment', $this->reception->id)->delete();
+           // ->update(['data->state' => 3]);
+        $user = Auth::user();
+        $user->notification -= 1;
+        $user->save();
+
+        $this->emitTo('notification-shipment', 'cantidad');//para renderizar la cantidad de envios pendientes, pero no renderiza
 
     }
 }

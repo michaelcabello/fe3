@@ -8,10 +8,13 @@ class NotificationShipment extends Component
 {
 
     public $notifications;
+    public $noti;
 
+    protected $listeners = ['cantidad'];
 
     public function mount(){
-        $this->notifications = auth()->user()->notifications;
+        $this->notifications = auth()->user()->notifications;//trae todas las notificaciones
+        $this->noti = auth()->user()->local->notification;//para mostrar la cantidad de notificaciones
     }
 
     public function read($notification_id){
@@ -21,6 +24,20 @@ class NotificationShipment extends Component
 
     public function render()
     {
+        $this->notifications = auth()->user()->notifications;//trae todas las notificaciones
+        $this->noti = auth()->user()->local->notification;
         return view('livewire.admin.notification-shipment');
     }
+
+
+    public function resetNotificationCount(){
+        //auth()->user()->notification = 0;
+        //auth()->user()->save();
+    }
+
+    public function cantidad(){
+        $this->notifications = auth()->user()->notifications;//trae todas las notificaciones
+        $this->noti = auth()->user()->local->notification;
+    }
+
 }

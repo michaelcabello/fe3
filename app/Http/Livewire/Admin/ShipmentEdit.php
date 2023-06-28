@@ -176,6 +176,8 @@ class ShipmentEdit extends Component
         $userrecibe->notify(new ProductSent($this->shipment));
         //habia un problema lo solucione comentando   <p>{{ session('flash') }}</p>   de app
 
+        $this->emitTo('notification-shipment', 'cantidad');//para renderizar la cantidad de envios pendientes, pero no renderiza
+
         //se relaciona con x-banner de layout
         /* $request->session()->flash('flash.banner', 'Tuhhhhhhhhhh mensaje fue enviado');
         $request->session()->flash('flash.bannerStyle', 'success'); */

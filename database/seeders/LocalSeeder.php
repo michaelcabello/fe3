@@ -18,7 +18,7 @@ class LocalSeeder extends Seeder
     public function run()
     {
         Local::create([
-            'name' => 'nombre1',
+            'name' => 'primer local',
             'codigopostal' => '15465',
             'address' => 'Av. petit Thouars 1255',
             'phone' => '2662540',
@@ -26,18 +26,18 @@ class LocalSeeder extends Seeder
             'anexo' => 'anexo1',
             'serie' => '10',
             'state' => 1,
-            'user_id'=> 1,
+            'user_id'=> 4,
         ]);
 
         Initialinventory::create([
             'name' => 'Local 1 inventario inicial',
             'datestart' => '2023-05-23',
             'local_id' => 1,
-            'user_id' => 1,
+            'user_id' => 4,
         ]);
 
         Local::create([
-            'name' => 'nombre2',
+            'name' => 'segundo local',
             'codigopostal' => '15465',
             'address' => 'Av.lima 1255',
             'phone' => '2633340',
@@ -45,18 +45,18 @@ class LocalSeeder extends Seeder
             'anexo' => 'anexo2',
             'serie' => '12',
             'state' => 1,
-            'user_id'=> 2,
+            'user_id'=> 1,
         ]);
 
         Initialinventory::create([
             'name' => 'Local 2 inventario inicial',
             'datestart' => '2023-05-23',
             'local_id' => 2,
-            'user_id' => 2,
+            'user_id' => 1,
         ]);
 
         Local::create([
-            'name' => 'nombre3',
+            'name' => 'tercer local',
             'codigopostal' => '15465',
             'address' => 'Av. peru 1255',
             'phone' => '2633340',
@@ -71,12 +71,12 @@ class LocalSeeder extends Seeder
             'name' => 'Local 3 inventario inicial',
             'datestart' => '2023-05-23',
             'local_id' => 3,
-            'user_id' => 3,
+            'user_id' => 2,
         ]);
 
 
         Local::create([
-            'name' => 'nombre4',
+            'name' => 'Cuarto Local',
             'codigopostal' => '15465',
             'address' => 'Av. Galvez 1255',
             'phone' => '2633340',
@@ -84,14 +84,14 @@ class LocalSeeder extends Seeder
             'anexo' => 'anexo4',
             'serie' => '14',
             'state' => 1,
-            'user_id'=> 4,
+            'user_id'=> 2,
         ]);
 
         Initialinventory::create([
             'name' => 'Local 4 inventario inicial',
             'datestart' => '2023-05-23',
             'local_id' => 4,
-            'user_id' => 4,
+            'user_id' => 2,
         ]);
 
        /*  Local::create([
