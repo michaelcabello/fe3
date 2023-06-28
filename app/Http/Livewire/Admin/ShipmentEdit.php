@@ -172,7 +172,9 @@ class ShipmentEdit extends Component
 
         //dd($this->shipment);
 
-        $userrecibe = User::find($this->shipment->local_recibe_id); //usuario a quien estamos enviando
+        $local = Local::find($this->shipment->local_recibe_id); //usuario a quien estamos enviando
+        //$userrecibe = $local->user->id;
+        $userrecibe = User::find($local->user_id);
         $userrecibe->notify(new ProductSent($this->shipment));
         //habia un problema lo solucione comentando   <p>{{ session('flash') }}</p>   de app
 

@@ -47,10 +47,12 @@ class ProductSent extends Notification
     public function toDatabase($notifiable)
     {
         //notifiable es un campo agregado en la tabla user
-        //$notifiable->notification +=1;
-        $local = Local::where('user_id', $notifiable->id)->first();
+        $notifiable->notification +=1;
+        $notifiable->save();
+     /*    $local = Local::where('user_id', $notifiable->id)->first();
         $local->notification +=1;
-        $local->save();
+        $local->save(); */
+
         return [
            'shipment'=>$this->shipment->id,//guardo el shipment
            'url'=>route('reception.edit',$this->shipment->id),
