@@ -6,14 +6,15 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Local;
 use Livewire\Component;
+use App\Models\Employee;
 use App\Models\Shipment;
 use Livewire\WithPagination;
 use App\Models\Productatribute;
 use App\Notifications\ProductSent;
 use App\Models\Localproductatribute;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Local_productatribute_shipment;
-use Illuminate\Support\Facades\Session;
 
 class ShipmentEdit extends Component
 {
@@ -75,7 +76,7 @@ class ShipmentEdit extends Component
 
         //buscamos el producto en Localproductatribute
         $local_productatribute = Localproductatribute::with('productatribute')
-            ->where('local_id', Auth()->user()->local->id)
+            ->where('local_id', Auth()->user()->employee->local->id)
             ->whereHas('productatribute', function ($query) {
                 $query->where('codigo', $this->search);
             })->first();
@@ -158,7 +159,7 @@ class ShipmentEdit extends Component
         // $this->local_productatribute_shipments = Local_productatribute_shipment::where('shipment_id', $this->shipment->id)->get();
         foreach ($this->local_productatribute_shipments as $lpas) {
             //buscamos en local_productatribute
-            $lpa = Localproductatribute::where('local_id', Auth()->user()->local->id)
+            $lpa = Localproductatribute::where('local_id', Auth()->user()->employee->local->id)
                                          ->where('productatribute_id', $lpas->localproductatribute->productatribute_id)->first();
                 //->where('id', $lpas->local_productatribute_id)->first();
             $lpa->stock = $lpa->stock - $lpas->quantity;
@@ -172,9 +173,11 @@ class ShipmentEdit extends Component
 
         //dd($this->shipment);
 
-        $local = Local::find($this->shipment->local_recibe_id); //usuario a quien estamos enviando
+        //$local = Local::find($this->shipment->local_recibe_id); //usuario a quien estamos enviando
         //$userrecibe = $local->user->id;
-        $userrecibe = User::find($local->user_id);
+       // $userrecibe = Employee::find($local->user_id);//buscamos el empleado relacionado con el local
+        //$userrecibe = User::find($local->user_id);
+        $userrecibe = User::find($this->shipment->user_recibe_id);
         $userrecibe->notify(new ProductSent($this->shipment));
         //habia un problema lo solucione comentando   <p>{{ session('flash') }}</p>   de app
 

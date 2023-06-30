@@ -2,30 +2,34 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Models\Employee;
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Local;
 use Livewire\Component;
-use App\Models\Shipment;
 
+use App\Models\Shipment;
 use Illuminate\Support\Facades\Auth;
 
 
 class ShipmentCreate extends Component
 {
     public $open = false;
-    public $name, $local_recibe_id="";
-    public $locales;
+    public $name, $local_recibe_id="", $user_recibe_id="";
+    public $locales, $users, $employees=[];
 
 
     protected $rules = [
         'local_recibe_id' => 'required',
+        'user_recibe_id' => 'required',
         'name' => 'required',
 
     ];
 
     public function mount()
     {
-        $this->locales = Local::where('id', '!=', Auth::user()->local->id)->get();
+        $this->locales = Local::where('id', '!=', Auth::user()->employee->local->id)->get();
+       //$this->employees = [];
     }
 
 
@@ -50,6 +54,17 @@ class ShipmentCreate extends Component
         }
     }
 
+
+
+    public function updatedLocalRecibeId($value){
+        $this->employees = Employee::where('local_id', $value)->get();
+
+       // $this->reset(['provincia_id', 'distrito_id']);
+    }
+
+
+
+
     public function saveok()
     {
         $this->validate();
@@ -58,12 +73,14 @@ class ShipmentCreate extends Component
         //guardamos el nuevo inventario cabecera
         $shipment = Shipment::create([
             'name' => $this->name,
-            'local_envia_id' => Auth::user()->local->id,
+            'local_envia_id' => Auth::user()->employee->local->id,
             'local_recibe_id' => $this->local_recibe_id,
             'fechaenvio' => Carbon::now(),
             'state' => 1,
             'total' => 0,
             'nota' => "",
+            'user_id' => Auth::user()->id,
+            'user_recibe_id' => $this->user_recibe_id,
         ]);
 
 

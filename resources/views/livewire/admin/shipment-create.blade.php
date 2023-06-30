@@ -16,7 +16,7 @@
 
 
             <div class="py-2 mb-1 mr-4">
-                <x-jet-label value="Local" />
+                <x-jet-label value="Local a donde se enviará la mercadería" />
                 <select wire:model="local_recibe_id"
                     class="h-8 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     data-placeholder="Selecccione el Local" style="height:70%; width:100%">
@@ -29,6 +29,24 @@
                 </select>
                 <x-jet-input-error for="local_recibe_id" />
             </div>
+
+
+            <div class="py-2 mb-1 mr-4">
+                <x-jet-label value="Usuario que recibirá o solicitó la mercadería" />
+                <select wire:model="user_recibe_id"
+                    class="h-8 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    data-placeholder="Selecccione el usuario que recibira" style="height:70%; width:100%">
+                    <option value="" selected disabled>Seleccione</option>
+                    @foreach ($employees as $employee)
+                        <option value="{{ $employee->user->id }}">{{ $employee->user->name }}
+                        </option>
+                    @endforeach
+
+                </select>
+                <x-jet-input-error for="user_recibe_id" />
+            </div>
+
+
 
 
             <div class="mb-4">

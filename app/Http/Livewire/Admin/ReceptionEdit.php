@@ -2,14 +2,15 @@
 
 namespace App\Http\Livewire\Admin;
 
+use Carbon\Carbon;
+use App\Models\User;
 use Livewire\Component;
 use App\Models\Shipment;
 use App\Models\Localproductatribute;
-use App\Models\Local_productatribute_shipment;
-use Carbon\Carbon;
-use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Notifications\Notification;
+use App\Models\Local_productatribute_shipment;
+use Illuminate\Notifications\DatabaseNotification;
 
 class ReceptionEdit extends Component
 {
@@ -40,11 +41,11 @@ class ReceptionEdit extends Component
 
     public function mount(Shipment $reception)
     {
-        $this->reception = $reception;//es el shipment
+        $this->reception = $reception; //es el shipment
         //$local = Local::find($this->shipment->id);
         //$this->local_recibe = $local->name;
         //$this->address_local_recibe = $local->address;
-        $this->local_productatribute_shipments = Local_productatribute_shipment::where('shipment_id', $this->reception->id)->get();//tiene los productos para aceptar
+        $this->local_productatribute_shipments = Local_productatribute_shipment::where('shipment_id', $this->reception->id)->get(); //tiene los productos para aceptar
 
         $this->total = Local_productatribute_shipment::where('shipment_id', $this->reception->id)->sum('quantity');
 
@@ -77,42 +78,49 @@ class ReceptionEdit extends Component
     public function confirmar()
     {
 
-        // $this->local_productatribute_shipments = Local_productatribute_shipment::where('shipment_id', $this->shipment->id)->get();
-        foreach ($this->local_productatribute_shipments as $lpas) {
-            //buscamos en local_productatribute
-            /* $lpa = Localproductatribute::where('local_id', Auth()->user()->local->id)
-                                        ->where('id', $lpas->local_productatribute_id)->first(); */
-            //$local = Localproductatribute::where('local_id', Auth()->user()->local->id)->first();
-            //dd(Auth()->user()->local->id);
-            //$prod = Localproductatribute::where('id', $lpas->local_productatribute_id)->first();
-            //dd($lpas->local_productatribute_id);
+        if ($this->reception->state == 3) { //puede que ontra sesion ya lo confirmaron por eso restringimos
+            /* return view('livewire.admin.reception-edit'); */
+        } else {
 
-            //dd($lpas->localproductatribute->productatribute_id);//tiene el codigo de productatribute_id
-            //buscamos por local y por producto
-            $lpa = Localproductatribute::where('local_id', Auth()->user()->local->id)
-                                ->where('productatribute_id', $lpas->localproductatribute->productatribute_id)->first();
 
-           /*  if ($lpa) { */
+            // $this->local_productatribute_shipments = Local_productatribute_shipment::where('shipment_id', $this->shipment->id)->get();
+            foreach ($this->local_productatribute_shipments as $lpas) {
+                //buscamos en local_productatribute
+                /* $lpa = Localproductatribute::where('local_id', Auth()->user()->local->id)
+                            ->where('id', $lpas->local_productatribute_id)->first(); */
+                //$local = Localproductatribute::where('local_id', Auth()->user()->local->id)->first();
+                //dd(Auth()->user()->local->id);
+                //$prod = Localproductatribute::where('id', $lpas->local_productatribute_id)->first();
+                //dd($lpas->local_productatribute_id);
+
+                //dd($lpas->localproductatribute->productatribute_id);//tiene el codigo de productatribute_id
+                //buscamos por local y por producto
+                $lpa = Localproductatribute::where('local_id', Auth()->user()->employee->local->id)
+                    ->where('productatribute_id', $lpas->localproductatribute->productatribute_id)->first();
+
+                /*  if ($lpa) { */
                 $lpa->stock = $lpa->stock + $lpas->quantity;
                 $lpa->save();
-           /*  } */
+                /*  } */
+            }
+            //actualizamos el shipment
+            $this->reception->state = 3;
+            $this->reception->userqueacepta_id = Auth::user()->id;
+            $this->reception->fechaaceptacion = Carbon::now();
+            $this->reception->save();
+            //$notification = Notification->all();
+            //dd($notification);
+
+
+            DatabaseNotification::where('data->shipment', $this->reception->id)->delete();
+            // ->update(['data->state' => 3]);
+            //$user = Auth::user();
+            $user = User::find($this->reception->user_recibe_id);//busco al usuario que solicito, el tienen la notificacion
+            $user->notification -= 1;//disminuimos la notificacion del usuario
+            $user->save();
+
+            $this->emitTo('notification-shipment', 'cantidad'); //para renderizar la cantidad de envios pendientes, pero no renderiza
 
         }
-        //actualizamos el shipment
-        $this->reception->state = 3;
-        $this->reception->fechaaceptacion = Carbon::now();
-        $this->reception->save();
-        //$notification = Notification->all();
-        //dd($notification);
-
-
-        DatabaseNotification::where('data->shipment', $this->reception->id)->delete();
-           // ->update(['data->state' => 3]);
-        $user = Auth::user();
-        $user->notification -= 1;
-        $user->save();
-
-        $this->emitTo('notification-shipment', 'cantidad');//para renderizar la cantidad de envios pendientes, pero no renderiza
-
     }
 }

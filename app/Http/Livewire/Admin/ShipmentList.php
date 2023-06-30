@@ -70,7 +70,7 @@ class ShipmentList extends Component
 
 
             $shipments = Shipment::with('localRecibe')
-                ->where('local_envia_id', Auth()->user()->local->id)//esta parte es para restringir osea mostrar solo sus envios
+                ->where('local_envia_id', Auth()->user()->employee->local->id)//esta parte es para restringir osea mostrar solo sus envios
                 ->where(function ($query) {
                     $query->where('id', 'like', '%' . $this->search . '%')
                         ->orWhereHas('localRecibe', function ($query) {

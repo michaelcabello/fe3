@@ -50,10 +50,10 @@ class User extends Authenticatable
 
     //tutorial de one one (un usuario tiene un local asignado)
     //https://desarrolloweb.com/articulos/relaciones-1-laravel-eloquent.html
-    public function local()
+/*     public function local()
     {
         return $this->hasOne(Local::class);
-    }
+    } */
 
 
     public function scopeAllowed($query)

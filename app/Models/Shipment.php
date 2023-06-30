@@ -9,8 +9,7 @@ class Shipment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','fechaenvio','fechaaceptacion','local_envia_id', 'local_recibe_id', 'state', 'total','nota'];
-
+    protected $fillable = ['name','fechaenvio','fechaaceptacion','local_envia_id', 'local_recibe_id', 'state', 'total','nota','user_id','user_recibe_id'];
 
     // Relación con el local que envía el envío
     public function localEnvia()
@@ -23,6 +22,20 @@ class Shipment extends Model
     {
         return $this->belongsTo(Local::class, 'local_recibe_id');
     }
+
+
+    // Relación con el usuario que recepciona
+     public function userAcepta()
+    {
+        return $this->belongsTo(User::class, 'userqueacepta_id');
+    }
+
+    // Relación con el usuario que solicito el envio o el usuario a quien se notifico
+    public function userRecibe()
+    {
+        return $this->belongsTo(User::class, 'user_recibe_id');
+    }
+
 
     // Relación con los detalles de envío
     public function detalleEnvios()

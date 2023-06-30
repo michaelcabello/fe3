@@ -27,15 +27,15 @@ class LocalSeeder extends Seeder
             'anexo' => 'anexo1',
             'serie' => '10',
             'state' => 1,
-            'user_id'=> 4,
+            //'user_id'=> 4,
         ]);
 
-        Initialinventory::create([
+/*         Initialinventory::create([
             'name' => 'Local 1 inventario inicial',
             'datestart' => '2023-05-23',
             'local_id' => 1,
-            'user_id' => 4,
-        ]);
+            'user_id' => 1,
+        ]); */
 
         Local::create([
             'name' => 'segundo local',
@@ -47,15 +47,15 @@ class LocalSeeder extends Seeder
             'anexo' => 'anexo2',
             'serie' => '12',
             'state' => 1,
-            'user_id'=> 1,
+            //'user_id'=> 1,
         ]);
 
-        Initialinventory::create([
+/*         Initialinventory::create([
             'name' => 'Local 2 inventario inicial',
             'datestart' => '2023-05-23',
             'local_id' => 2,
-            'user_id' => 1,
-        ]);
+            'user_id' => 2,
+        ]); */
 
         Local::create([
             'name' => 'tercer local',
@@ -67,16 +67,16 @@ class LocalSeeder extends Seeder
             'anexo' => 'anexo3',
             'serie' => '13',
             'state' => 1,
-            'user_id'=> 3,
+           // 'user_id'=> 3,
         ]);
 
-        Initialinventory::create([
+/*         Initialinventory::create([
             'name' => 'Local 3 inventario inicial',
             'datestart' => '2023-05-23',
             'local_id' => 3,
             'user_id' => 2,
         ]);
-
+ */
 
         Local::create([
             'name' => 'Cuarto Local',
@@ -88,15 +88,15 @@ class LocalSeeder extends Seeder
             'anexo' => 'anexo4',
             'serie' => '14',
             'state' => 1,
-            'user_id'=> 2,
+           // 'user_id'=> 2,
         ]);
 
-        Initialinventory::create([
+/*         Initialinventory::create([
             'name' => 'Local 4 inventario inicial',
             'datestart' => '2023-05-23',
             'local_id' => 4,
             'user_id' => 2,
-        ]);
+        ]); */
 
        /*  Local::create([
             'codigopostal' => '20654',

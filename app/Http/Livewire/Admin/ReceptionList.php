@@ -37,7 +37,7 @@ class ReceptionList extends Component
 
 
             $receptions = Shipment::with('localRecibe')
-                ->where('local_recibe_id', Auth()->user()->local->id)->where('state', '<>', 1)//esta parte es para restringir osea mostrar solo mis recepciones
+                ->where('local_recibe_id', Auth()->user()->employee->local->id)->where('state', '<>', 1)//esta parte es para restringir osea mostrar solo mis recepciones
                 ->where(function ($query) {
                     $query->where('id', 'like', '%' . $this->search . '%')
                         ->orWhereHas('localEnvia', function ($query) {

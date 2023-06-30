@@ -67,6 +67,7 @@ class UserSeeder extends Seeder
             'dni' => '10133423',
             'gender' => 1,
             'user_id' => $admin->id,
+            'local_id' => 1,
             'position_id' => $positionadmin->id,
 
         ]);
@@ -91,6 +92,7 @@ class UserSeeder extends Seeder
             'dni' => '14533423',
             'gender' => 1,
             'user_id' => $seller->id,
+            'local_id' => 1,
             'position_id' => $positionseller->id,
 
         ]);
@@ -104,6 +106,23 @@ class UserSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
 
+        //creando empleado vendedor seller
+        Employee::create([
+            'address' => 'Av lopez cadiz 1791',
+            'movil' => '996559478',
+            'dni' => '14533423',
+            'gender' => 1,
+            'user_id' => $admin->id,
+            'local_id' => 2,
+            'position_id' => $positionseller->id,
+
+        ]);
+
+
+
+
+
+
         $admin = User::create([
             'name' => 'leydy',
             'email' => 'leydy@ticomperu.com',
@@ -112,6 +131,22 @@ class UserSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
 
+        //creando empleado vendedor seller
+        Employee::create([
+            'address' => 'Av lopez cadiz 1791',
+            'movil' => '996559478',
+            'dni' => '14533423',
+            'gender' => 1,
+            'user_id' => $admin->id,
+            'local_id' => 2,
+            'position_id' => $positionseller->id,
+
+        ]);
+
+
+
+
+
         $admin = User::create([
             'name' => 'flor',
             'email' => 'flor@ticomperu.com',
@@ -119,6 +154,21 @@ class UserSeeder extends Seeder
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ]);
+
+        //creando empleado vendedor seller
+        Employee::create([
+            'address' => 'Av lopez cadiz 1791',
+            'movil' => '996559478',
+            'dni' => '14533423',
+            'gender' => 1,
+            'user_id' => $admin->id,
+            'local_id' => 3,
+            'position_id' => $positionseller->id,
+
+        ]);
+
+
+
 
         //creando usuarioa sin employee, da error al mostrar datos por eso lo comente
 /*         User::create([

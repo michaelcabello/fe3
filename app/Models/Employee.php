@@ -15,9 +15,14 @@ class Employee extends Model
     const FEMENINO = 2;
 
     //Relacion uno a uno
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-
+    // Relación de uno a muchos inversa
+    public function local()
+    {
+        return $this->belongsTo(Local::class);
+    }
 }

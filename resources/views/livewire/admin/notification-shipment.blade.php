@@ -7,7 +7,7 @@
                     class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition bg-white border border-transparent rounded-md hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50">
                     Envios
                     @if(auth()->user()->id)
-                    <span class="inline-flex items-center justify-center px-2 py-1 ml-2 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">{{ $notifications->count() }}  {{ $noti }}</span>
+                    <span class="inline-flex items-center justify-center px-2 py-1 ml-2 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">{{-- {{ $notifications->count() }} --}}  {{ $noti }}</span>
                     @endif
                 </button>
             </span>

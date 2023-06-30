@@ -24,15 +24,22 @@ return new class extends Migration
 
             $table->double('total', 8, 2)->nullable();//precio venta
 
-
             $table->unsignedBigInteger('local_envia_id')->nullable();//local que envia
             $table->foreign('local_envia_id')->references('id')->on('locals')->onDelete('cascade');
 
             $table->unsignedBigInteger('local_recibe_id')->nullable();//local que recibe
             $table->foreign('local_recibe_id')->references('id')->on('locals')->onDelete('cascade');
 
-
             $table->text('nota')->nullable();
+
+            $table->unsignedBigInteger('userqueacepta_id')->nullable();
+            $table->foreign('userqueacepta_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->unsignedBigInteger('user_recibe_id')->nullable();//usuario que recibe la notificacion
+            $table->foreign('user_recibe_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();
         });

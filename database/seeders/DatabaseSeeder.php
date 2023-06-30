@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Initialinventory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
@@ -46,8 +47,10 @@ class DatabaseSeeder extends Seeder
         $this->call(UmSeeder::class);
 
         \App\Models\Product::factory(10)->create();
-        $this->call(UserSeeder::class);
         $this->call(LocalSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(InitialinventorySeeder::class);
+
 
         $this->call(TipocomprobanteSeeder::class);
         $this->call(TipodocumentoSeeder::class);

@@ -11,10 +11,12 @@ class Local extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
     //relacion uno a uno (un local pertenece a un usuario, el user_id foraneo esta en local)
-    public function user()
+/*     public function user()
     {
        return $this->belongsTo(User::class);
-    }
+    } */
+
+
 
     //relacion de muchos a muchos
     //pongo esto local_tipocomprobantes porque genere mi tabla terminado en s, debi generar local_tipocomprobante
@@ -27,12 +29,14 @@ class Local extends Model
         return $this->belongsToMany(Productatribute::class)->withTimestamps()->withPivot('stock', 'stockmin', 'pricesale', 'pricewholesale', 'pricesalemin');
     }
 
-
     //Relacion uno a muchos
     public function inventories(){
         return $this->hasMany(Inventory::class);
     }
 
-
+    public function employees()
+    {
+       return $this->hasMany(Employee::class);
+    }
 
 }

@@ -50,7 +50,7 @@
                     {{-- @if ($receptions->count()) --}}
 
 
-                     @if (count($receptions))
+                    @if (count($receptions))
 
 
                         <table class="min-w-full divide-y divide-gray-200">
@@ -119,7 +119,8 @@
 
 
                                     <th scope="col"
-                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase" wire:click="order('state')">
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                        wire:click="order('state')">
                                         Estado
                                         @if ($sort == 'state')
                                             @if ($direction == 'asc')
@@ -136,7 +137,8 @@
 
 
                                     <th scope="col"
-                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase" wire:click="order('total')">
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                        wire:click="order('total')">
                                         Total
                                         @if ($sort == 'total')
                                             @if ($direction == 'asc')
@@ -151,8 +153,45 @@
 
                                     </th>
 
+
                                     <th scope="col"
-                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase" wire:click="order('name')">
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                        wire:click="order('userrecibe')">
+                                        Usuario que Solicito
+                                        @if ($sort == 'name')
+                                            @if ($direction == 'asc')
+                                                <i class="float-right mt-1 fas fa-sort-alpha-up-alt"></i>
+                                            @else
+                                                <i class="float-right mt-1 fas fa-sort-alpha-down-alt"></i>
+                                            @endif
+                                        @else
+                                            <i class="float-right mt-1 fas fa-sort"></i>
+                                        @endif
+
+
+                                    </th>
+
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                        wire:click="order('userqueacepto')">
+                                        Usuario que acepto
+                                        @if ($sort == 'name')
+                                            @if ($direction == 'asc')
+                                                <i class="float-right mt-1 fas fa-sort-alpha-up-alt"></i>
+                                            @else
+                                                <i class="float-right mt-1 fas fa-sort-alpha-down-alt"></i>
+                                            @endif
+                                        @else
+                                            <i class="float-right mt-1 fas fa-sort"></i>
+                                        @endif
+
+
+                                    </th>
+
+
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                        wire:click="order('name')">
                                         Local que Envio
                                         @if ($sort == 'name')
                                             @if ($direction == 'asc')
@@ -187,7 +226,7 @@
                                             {{ $reception->fechaenvio }}
                                         </td>
                                         <td class="items-center px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                            {{ $reception->fechaaceptacion  }}
+                                            {{ $reception->fechaaceptacion }}
 
                                         </td>
 
@@ -205,19 +244,32 @@
                                             {{ $reception->total }}
                                         </td>
 
+                                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                            @if ($reception->userRecibe)
+                                                {{ $reception->userRecibe->name }}
+                                            @endif
+
+                                        </td>
 
                                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                             {{  $reception->localEnvia->name }} - {{  $reception->localEnvia->address }}
+                                            @if ($reception->userAcepta)
+                                                {{ $reception->userAcepta->name }}
+                                            @endif
+
+                                        </td>
+
+                                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                            {{ $reception->localEnvia->name }} - {{ $reception->localEnvia->address }}
 
 
                                         </td>
 
 
                                         <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                                            <a href="{{ route('reception.edit', $reception) }}"
-                                            class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            <a href="{{ route('reception.edit', $reception) }}" class="btn btn-green"><i
+                                                    class="fa-solid fa-pen-to-square"></i></a>
 
-                                           {{--  @can('shipment Update')
+                                            {{--  @can('shipment Update')
                                                 <a href="{{ route('admin.shipment.edit', $reception) }}"
                                                     class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a>
                                             @endcan --}}
@@ -303,5 +355,3 @@
     </div>
 
 </div>
-
-
