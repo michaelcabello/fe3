@@ -86,6 +86,11 @@ class Localproductatribute extends Model
         return $this->belongsTo(Productatribute::class, 'productatribute_id');
     }
 
+    public function local()
+    {
+        return $this->belongsTo(Local::class, 'local_id');
+    }
+
     //de muchos a muchos
     public function inventories()
     {

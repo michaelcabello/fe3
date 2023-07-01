@@ -244,7 +244,7 @@ class ShoppingCreate extends Component
                     ]);
 
                     //actualizamos el stock em local_productatributes
-                    $localproductatribute = Localproductatribute::where('local_id', Auth::user()->local->id)->where('productatribute_id', $item->attributes[0])->first();
+                    $localproductatribute = Localproductatribute::where('local_id', Auth::user()->employee->local->id)->where('productatribute_id', $item->attributes[0])->first();
                     //dd($localproductatribute);
                     $localproductatribute->stock = $localproductatribute->stock + $item->quantity;
                     $localproductatribute->save();

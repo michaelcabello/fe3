@@ -52,7 +52,7 @@ class InventoryList extends Component
         // $this->identificador = rand();
         // $this->brand = new Brand();//se hace para inicializar el objeto e indicar que image es
         // $this->image ="";
-        $this->initialinventory = Initialinventory::where('local_id', Auth()->user()->local->id)->first();
+        $this->initialinventory = Initialinventory::where('local_id', Auth()->user()->employee->local->id)->first();
         $this->stateinventory = $this->initialinventory->state;
         //if($this->stateinventory == 1)
         if ($this->stateinventory == 1) {

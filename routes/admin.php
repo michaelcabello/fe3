@@ -30,6 +30,8 @@ use App\Http\Controllers\admin\ShipmentController;
 use App\Http\Livewire\Admin\ShipmentEdit;
 use App\Http\Controllers\admin\ReceptionController;
 use App\Http\Livewire\Admin\ReceptionEdit;
+use App\Http\Livewire\Admin\LocalproductatributestockList;
+use App\Http\Livewire\Admin\LocalproductatributestocktotalesList;
 
 //Route::get('/', [HomeController::class, 'home'])->name('admin.home');
 Route::get('/tables', [TableController::class, 'showtables'])->name('admin.showtables');
@@ -44,6 +46,8 @@ Route::get('/inventariogeneral', InventoryListdos::class)->name('inventory.listd
 Route::get('/inventariog', InventorygeneralList::class)->name('inventorygeneral.lis');//lista los inventarios dos
 Route::get('/listadeinventarios', InventoryList2::class)->name('inventory.list2');//lista los inventarios dos
 Route::get('/inventariotemporallist/{inventory}', InventorytemporaryList::class)->name('inventorytemporary.list');//lista los inventarios
+Route::get('/stockdeproductos/{local}', LocalproductatributestockList::class)->name('localproductatributestock.list');//lista de stock local product atribute stock
+Route::get('/stockdeproductostotales/{productatribute_id}', LocalproductatributestocktotalesList::class)->name('localproductatributestocktotales.list');//lista de stock local product atribute stock
 //compra de mercaderias shopping
 Route::resource('shopping', ShoppingController::class)->names('admin.shopping');
 //envio de mercaderias entre locales
