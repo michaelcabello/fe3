@@ -71,4 +71,11 @@ class User extends Authenticatable
     {
         return $this->hasOne(Employee::class);
     }
+
+
+    //relacion de uno a muchos
+    public function sales(){
+        return $this->hasMany(Sale::class);
+    }
+
 }

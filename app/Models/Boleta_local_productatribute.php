@@ -5,14 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+class Boleta_local_productatribute extends Model
 {
     use HasFactory;
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    public function sales(){
-        return $this->hasMany(Sale::class);
-    }
-
-
+    protected $table = "boleta_local_productatribute";
 }

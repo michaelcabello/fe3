@@ -200,6 +200,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         //App\Providers\MultipleCartServiceProvider::class,
+        //App\Providers\WishListProvider::class,
     ],
 
     /*

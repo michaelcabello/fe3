@@ -32,6 +32,7 @@ use App\Http\Controllers\admin\ReceptionController;
 use App\Http\Livewire\Admin\ReceptionEdit;
 use App\Http\Livewire\Admin\LocalproductatributestockList;
 use App\Http\Livewire\Admin\LocalproductatributestocktotalesList;
+use App\Http\Controllers\admin\SaleController;
 
 //Route::get('/', [HomeController::class, 'home'])->name('admin.home');
 Route::get('/tables', [TableController::class, 'showtables'])->name('admin.showtables');
@@ -50,6 +51,10 @@ Route::get('/stockdeproductos/{local}', LocalproductatributestockList::class)->n
 Route::get('/stockdeproductostotales/{productatribute_id}', LocalproductatributestocktotalesList::class)->name('localproductatributestocktotales.list');//lista de stock local product atribute stock
 //compra de mercaderias shopping
 Route::resource('shopping', ShoppingController::class)->names('admin.shopping');
+Route::get('sale', [SaleController::class, 'index'])->name('admin.sale.index');
+Route::get('sale/create', [SaleController::class, 'create'])->name('admin.sale.create');
+
+
 //envio de mercaderias entre locales
 //php artisan make:controller admin/ShipmentController -r -m Shipment
 Route::resource('shipment', ShipmentController::class)->names('admin.shipment');

@@ -174,7 +174,7 @@
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/pos.jpg')}}" alt="">
                                     </figure>
                                     <header class="mt-2">
-                                        <h1 class="text-xl text-center text-gray-700">POS</h1>
+                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('admin.sale.index')}}">POS</a></h1>
                                     </header>
 
                                 </article>
