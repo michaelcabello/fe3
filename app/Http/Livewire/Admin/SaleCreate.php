@@ -8,10 +8,11 @@ use App\Models\Customer;
 use App\Models\Tipocomprobante;
 use Illuminate\Support\Facades\DB;
 use App\Models\Localproductatribute;
-use Darryldecode\Cart\Facades\CartFacade as Cart;
-use App\Models\Boleta_local_productatribute;
-use App\Models\Boleta;
-
+//use Darryldecode\Cart\Facades\CartFacade as Cart;
+//use App\Models\Boleta_local_productatribute;
+//use App\Models\Boleta;
+//use App\Http\Livewire\Admin\SalesCart;
+use Illuminate\Support\Collection;
 
 class SaleCreate extends Component
 {
@@ -22,34 +23,55 @@ class SaleCreate extends Component
     public $photo, $nota, $subtotal, $igv, $total, $tipodecambio_id;
     public $serie, $numero, $search, $boleta;
 
-    //public $cartVentas;
+    public $salesCartInstance = 'salesCart';
+    public $cart;
 
-/*     public function mount(Boleta $boleta)
+    public function mount()
     {
-        $this->boleta = $boleta;
-        $this->cartVentas = $cartVentas;
-        $this->cartVentas = new Cart();
-    } */
+        $this->cart = session('cart', new Collection());
+        $this->listeners['cartUpdated'] = 'updatedCart';
+        //$items =  $this->cart ;
+       // $this->total = 0;
+    }
 
-    public function mount(Boleta $boleta)
+
+    public function addToCart($productId, $name, $price, $quantity = 1)
     {
-        $this->boleta = $boleta;
+        if ($this->cart) {
+            if ($this->cart->has($productId)) {
+                $product = $this->cart->get($productId);
+                $product['quantity'] += $quantity;
+            } else {
+                $product = [
+                    'id' => $productId,
+                    'name' => $name,
+                    'price' => $price,
+                    'quantity' => $quantity,
+                ];
+            }
 
-/*         $this->cartVentas = new Cart(
-            'cart',
-            session(),
-            app(Dispatcher::class),
-            'default',
-            'cart_content'
-        ); */
+            $this->cart->put($productId, $product);
+            session(['cart' => $this->cart]);
+        }
+    }
 
+    public function getTotal()
+    {
+        $this->total = 0;
 
+        if ($this->cart) {
+            foreach ($this->cart as $product) {
+                $this->total += $product['price'] * $product['quantity'];
+            }
+        }
+
+        return $this->total;
     }
 
 
 
 
-    public function ScanCode($barcode,  $cant = 1)
+    public function ScanCode($barcode,  $quantity = 1)
     {
         $this->search = $barcode;
 
@@ -73,70 +95,66 @@ class SaleCreate extends Component
            // $this->emit('alert', $this->mensaje);
         } else {
 
-            if ($this->InCart($local_productatribute->productatribute->codigo)) {
-                $this->IncreaseQuantity($local_productatribute->productatribute, $cant = 1);
-                return;
-            }
+            $this->addToCart(
+                $local_productatribute->productatribute->codigo,
+                $local_productatribute->productatribute->slug,
+                $local_productatribute->productatribute->pricesale,
+                $quantity
+            );
+            $this->total = $this->getTotal();
 
-            //ingresamos al producto nuevo
-            Cart::add($local_productatribute->productatribute->codigo, $local_productatribute->productatribute->slug, $local_productatribute->productatribute->pricesale, $cant, $local_productatribute->productatribute->id);
-
-            $this->total = Cart::getTotal();
-            //$total = Cart::getTotal();
 
         }
     }
 
 
-
-
-    public function InCart($productId)
+    public function removeFromCart($productId)
     {
-        $exist = Cart::get($productId);
-        if ($exist)
-            return true;
-        else
-            return false;
-    }
-
-
-    public function IncreaseQuantity($product, $cant = 1)
-    {
-        //$title = '';
-
-        $exist = Cart::get($product->codigo); //exist es el carrito
-        //dd($exist->price);
-        if ($exist) {
-            $this->mensaje = 'Cantidad actualizada';
-            $price = $exist->price; //price es la columna del carrito
-        } else {
-            //$title = 'Producto agregado';
-            $price = $product->pricesale;
+        if ($this->cart->has($productId)) {
+            $this->cart->forget($productId);
+            session()->put('cart', $this->cart);
         }
-
-
-        //importante si el producto ya existe el add adiciona un producto no es necesario poner cant = cant +1
-        //Cart::add($product->codigo, $product->slug, $price, $cant, $product->id);
-        Cart::add($product->codigo, $product->slug, $price, $cant, $product->id);
-        //$title = 'producto agregado';
-        $this->total = Cart::getTotal();
-        $this->itemsQuantity = Cart::getTotalQuantity();
-
-        $this->emit('alert', $this->mensaje);
     }
 
+    public function updateQuantity($productId, $quantity)
+    {
+        if ($this->cart->has($productId)) {
+            $product = $this->cart->get($productId);
+            $product['quantity'] = $quantity;
+            $this->cart->put($productId, $product);
+            session()->put('cart', $this->cart);
+        }
+    }
 
+    public function clearCart()
+    {
+        session()->forget('cart');
+        $this->cart = new Collection();
+    }
 
+    public function updated($propertyName)
+    {
+        if ($propertyName === 'cart') {
+            $this->emit('cartUpdated');
+        }
+    }
 
+    public function updatedCart()
+    {
+        $this->emit('cartUpdated');
+    }
 
 
     public function render()
     {
-        $cart = Cart::getContent()->sortBy('name');
+        //$cart = Cart::getContent()->sortBy('name');
+        $cart = $this->cart;
+        //$total = $this->total;
         $customers = Customer::all();
         $currencies = Currency::all();
         $tipocomprobantes = Tipocomprobante::all();
-        $this->total  = Cart::getTotal();
+        $this->total = $this->getTotal();
+       //$this->listeners['cartUpdated'] = 'updatedCart';
 
         return view('livewire.admin.sale-create', compact('customers', 'currencies', 'tipocomprobantes', 'cart'));
     }
