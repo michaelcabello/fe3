@@ -33,7 +33,7 @@
                 </select>
                 <x-jet-input-error for="category_id" />
             </div>
-
+            {{ $category_id }}
             {{-- @endif --}}
 
 
@@ -53,7 +53,7 @@
                 <x-jet-input-error for="subcategory_id" />
             </div>
 
-
+            {{ $subcategory_id }}
 
 
 {{--                 <div class="py-2 mb-1" wire:ignore>

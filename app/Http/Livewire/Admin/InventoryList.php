@@ -136,7 +136,7 @@ class InventoryList extends Component
                 if ($initialinventory_productatribute == NULL) {
                     //$stock = 1;
                     Initialinventory_productatribute::create([
-                        'initialinventory_id' => Auth()->user()->local->id,
+                        'initialinventory_id' => Auth()->user()->employee->local->id,
                         'productatribute_id' => $productatribute->id,
                         'stock' => 1,
                     ]);
@@ -188,7 +188,7 @@ class InventoryList extends Component
         $initialinventory_productatributes = Initialinventory_productatribute::where('initialinventory_id', $this->initialinventory->id)->get(); //selecciona todo los productos del inventario actual
         //dd($initialinventory_productatributes);
         //obtenemos el local
-        $this->local_id = Auth()->user()->local->id;
+        $this->local_id = Auth()->user()->employee->local->id;
         //$localproductatribute = Localproductatribute::where('local_id',$local_id);
         //foreach (Initialinventory_productatribute::cursor() as $ipa) {//con cursor funciona
         Initialinventory_productatribute::chunk(100, function (Collection $initialinventory_productatributes) {

@@ -10,7 +10,7 @@ class Atribute extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'state','order'
+        'name', 'state', 'order'
     ];
 
 
@@ -18,13 +18,20 @@ class Atribute extends Model
     //de uno a muchos inversa
     public function groupatribute()
     {
-        return $this->belongsTo(Groupatribute::class);  
+        return $this->belongsTo(Groupatribute::class);
     }
 
 
     //Relacion muchos a muchos
-    public function productsatributes(){
+    public function productsatributes()
+    {
         return $this->belongsToMany('App\Models\Productatribute');
     }
 
+
+    //relacion  de uno a muchos
+    public function atribute_productatributes()
+    {
+        return $this->hasMany(Atribute_productatribute::class);
+    }
 }

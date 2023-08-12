@@ -16,6 +16,13 @@ class Productfamilie extends Model
     const SERVICIO = 3;
 
 
+
+    //URL AMIGABLES
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     protected $fillable = [
         'name', 'description', 'state','order','simplecompuesto','tienenumerodeserie','genero', 'category_id','modelo_id','brand_id'
     ];
@@ -29,7 +36,7 @@ class Productfamilie extends Model
     //de uno a muchos
     public function productatributes()
     {
-        return $this->hasMany(Productatribute::class);  
+        return $this->hasMany(Productatribute::class);
     }
 
     //Relacion uno a muhos inversa

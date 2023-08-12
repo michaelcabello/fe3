@@ -21,6 +21,13 @@ class Subcategory extends Model
 
     }
 
+    //URL AMIGABLES
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+
 
     //Relacion uno a muchos
     public function productfamilies(){

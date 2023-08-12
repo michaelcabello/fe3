@@ -13,6 +13,7 @@ class BrandList extends Component
 {
 
     use WithPagination;
+
     use WithFileUploads;
     public $search, $image, $brand, $state;
     public $sort='id';

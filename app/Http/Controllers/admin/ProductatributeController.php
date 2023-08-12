@@ -16,9 +16,15 @@ use App\Models\Localproductatribute;
 class ProductatributeController extends Controller
 {
     public $locales;
-
-    public function pricesale(Productfamilie $product){
+    public function pricesale(Productfamilie  $product){
+    //public function pricesale($product){
+        //aqui no se porque razon no funciona el modelbinding
+        //era porque se redefinio la url como rutas amigables
         //llama a la vista para modificar precios
+        //dd("ok");
+        //dd($product);
+        //$product = Productfamilie::find($product);
+        //dd($product);
         return view('admin.productatributes.pricesale', compact('product'));
     }
 

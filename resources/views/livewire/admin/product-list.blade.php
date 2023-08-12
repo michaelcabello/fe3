@@ -160,29 +160,29 @@
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
 
-                                    @foreach ($products as $productt)
+                                    @foreach ($products as $product)
 
                                         <tr>
 
                                             <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                                {{$productt->id}}
+                                                {{$product->id}}
                                             </td>
 
                                             <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                                 {{-- {{$productt->name}} --}}     {{$productt->productfamilie->name}}
-                                            </td>
-
-
-                                            <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-
-                                                    {{ $productt->codigo }}
-
+                                                 {{-- {{$product->name}} --}}     {{$product->productfamilie->name}}
                                             </td>
 
 
                                             <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
 
-                                                     @foreach ($productt->atributes as $atribute)
+                                                    {{ $product->codigo }}
+
+                                            </td>
+
+
+                                            <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+
+                                                     @foreach ($product->atributes as $atribute)
                                                         {{ $atribute->name}}
                                                         @if (!$loop->last)
                                                         -
@@ -194,15 +194,15 @@
 
 
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                @switch($productt->state)
+                                                @switch($product->state)
                                                     @case(0)
-                                                        <span wire:click="activar({{ $productt }})"
+                                                        <span wire:click="activar({{ $product }})"
                                                             class="inline-flex px-2 text-xs font-semibold leading-5 text-red-800 bg-red-100 rounded-full cursor-pointer">
                                                             inactivo
                                                         </span>
                                                     @break
                                                     @case(1)
-                                                        <span wire:click="desactivar({{ $productt }})"
+                                                        <span wire:click="desactivar({{ $product }})"
                                                             class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full cursor-pointer">
                                                             activo
                                                         </span>
@@ -217,9 +217,10 @@
 
 
                                             <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                                                <a class="btn btn-blue" href="{{ route('admin.productatribute.pricesale', $productt->productfamilie->id) }}"><i class="fa-sharp fa-solid fa-eye"></i></a>
-                                                {{-- <a wire:click="edit({{ $productt }})" class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a> --}}
-                                                <a class="btn btn-red" wire:click="$emit('deleteProduct', {{ $productt->id }})" >
+                                                {{-- puedo llamar asi tambien $product->productfamilie->slug --}}
+                                                <a class="btn btn-blue" href="{{ route('admin.productatribute.pricesale', $product->productfamilie) }}"><i class="fa-sharp fa-solid fa-eye"></i></a>
+                                                {{-- <a wire:click="edit({{ $product }})" class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a> --}}
+                                                <a class="btn btn-red" wire:click="$emit('deleteProduct', {{ $product->id }})" >
                                                    <i class="fa-solid fa-trash-can"></i>
 
                                                 </a>

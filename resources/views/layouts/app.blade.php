@@ -99,6 +99,7 @@
 
        {{-- <script src="https://js.pusher.com/7.2/pusher.min.js"></script> --}}
        <script src="{{ mix('js/app.js') }}"></script>
+
         @auth
             <script>
                 Echo.private('App.Models.User.' + {{ Auth::user()->id }})

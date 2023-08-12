@@ -72,7 +72,7 @@ class ProductcompuestoCreate extends Component
        // dd(collect($this->atributesphp)->all());
        //datos tiene lo escogido
        $datos = $this->atributesphp;
-
+        //cuando guarda el producto sin atributos
        if($datos==NULL){
             $productatribute = Productatribute::create([
                 'codigo' => $random = Str::random(10),
@@ -250,7 +250,8 @@ class ProductcompuestoCreate extends Component
 
 
        //return redirect()->route('productcompuesto.list', $this->product->id);
-       return redirect()->route('admin.productatribute.pricesale', $this->product->id);
+       //return redirect()->route('admin.productatribute.pricesale', $this->product->id);
+       return redirect()->route('admin.productatribute.pricesale', $this->product->slug);
 
     }
 

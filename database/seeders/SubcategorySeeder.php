@@ -19,13 +19,13 @@ class SubcategorySeeder extends Seeder
         Subcategory::create([
             'name' => 'General',
             'slug' => Str::slug('General'),
-            'state'=>1,
+            'state'=>0,
             'category_id'=>1
         ]);
 
         Subcategory::create([
-            'name' => 'bluzas floriadas',
-            'slug' => Str::slug('bluzas floriadas'),
+            'name' => 'bluzas',
+            'slug' => Str::slug('bluzas'),
             'state'=>1,
             'category_id'=>2
         ]);
@@ -65,8 +65,8 @@ class SubcategorySeeder extends Seeder
         ]);
 
         Subcategory::create([
-            'name' => 'pantalon pitillo',
-            'slug' => Str::slug('pantalon pitillo'),
+            'name' => 'pantalon',
+            'slug' => Str::slug('pantalon'),
             'state'=>1,
             'category_id'=>2
         ]);
@@ -95,7 +95,7 @@ class SubcategorySeeder extends Seeder
         Subcategory::create([
             'name' => 'Refrigeradoras',
             'slug' => Str::slug('Refrigeradoras'),
-            'state'=>1,
+            'state'=>0,
             'category_id'=>4
         ]);
 
@@ -170,7 +170,7 @@ class SubcategorySeeder extends Seeder
             'category_id'=>7
         ]);
 
-        Subcategory::create([
+       /*  Subcategory::create([
             'name' => 'Agua',
             'slug' => Str::slug('Agua'),
             'state'=>1,
@@ -224,9 +224,9 @@ class SubcategorySeeder extends Seeder
             'slug' => Str::slug('Mueble de Dormitorio'),
             'state'=>1,
             'category_id'=>10
-        ]);
+        ]); */
 
-        Subcategory::create([
+/*         Subcategory::create([
             'name' => 'Sacos Mineros',
             'slug' => Str::slug('Sacos Mineros'),
             'state'=>1,
@@ -239,7 +239,7 @@ class SubcategorySeeder extends Seeder
             'state'=>1,
             'category_id'=>11
         ]);
-
+ */
 
     }
 }

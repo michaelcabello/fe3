@@ -75,7 +75,7 @@ Route::get('productcompuestoedit/{product}', ProductcompuestoEdit::class)->name(
 
 
 Route::resource('productatribute', ProductatributeController::class)->names('admin.productatribute');
-Route::get('productatributepricesale/{product}', [ProductatributeController::class, 'pricesale'])->name('admin.productatribute.pricesale');//lista productos generados para modificar precio de venta
+Route::get('productatributepricesale/{product}', [ProductatributeController::class, 'pricesale'])->name('admin.productatribute.pricesale');
 Route::get('productatributepricepurchase/{product}', [ProductatributeController::class, 'pricepurchase'])->name('admin.productatribute.pricepurchase');//lista productos generados para modificar precio de compra
 Route::get('productatributepricewholesale/{product}', [ProductatributeController::class, 'pricewholesale'])->name('admin.productatribute.pricewholesale');//lista productos generados para modificar precio de venta al por mayor
 Route::get('productatributecodigo/{product}', [ProductatributeController::class, 'codigo'])->name('admin.productatribute.codigo');//lista productos generados para modificar codigo

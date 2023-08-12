@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Admin\CategoryList;
 use App\Http\Livewire\Admin\ComprobanteList;
 use App\Http\Livewire\Admin\ComprobanteSave;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Livewire\LpaList;
+use App\Http\Livewire\ProductDetail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,9 +19,16 @@ use App\Http\Livewire\Admin\ComprobanteSave;
 |
 */
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('welcome');
-});
+}); */
+
+Route::get('/', WelcomeController::class);
+Route::get('/products/{subcategory}', LpaList::class)->name('product.list.ecommerce');
+Route::get('/productdetail/{product}', ProductDetail::class)->name('product.detail.ecommerce');
+
+
+
 
 //para cargar stock en locales
 //usamos sync para poner stock 0

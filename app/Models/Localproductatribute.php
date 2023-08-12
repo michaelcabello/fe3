@@ -11,8 +11,8 @@ class Localproductatribute extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['productatribute_id', 'local_id', 'pricesale', 'pricewholesale', 'pricesalemin', 'stock', 'stockmin'];
-    // protected $guarded = ['productatribute_id', 'local_id','created_at', 'updated_at'];
+    //protected $fillable = ['productatribute_id', 'local_id', 'pricesale', 'pricewholesale', 'pricesalemin', 'stock', 'stockmin'];
+     protected $guarded = ['productatribute_id', 'local_id','created_at', 'updated_at'];
 
     protected $table = "local_productatribute";
     //indicamos el primarykey compuesto

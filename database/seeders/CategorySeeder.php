@@ -20,11 +20,11 @@ class CategorySeeder extends Seeder
         Category::create([
             'name' => 'General',
             'slug' => Str::slug('General'),
-            'state'=>1,
+            'state'=>0,
         ]);
 
         $category1 = Category::create([
-            'name' => 'Ropas para Damas',
+            'name' => 'Damas',
             'slug' => Str::slug('Ropas para Damas'),
             'state'=>1,
         ]);
@@ -32,58 +32,58 @@ class CategorySeeder extends Seeder
 
 
         Category::create([
-            'name' => 'Ropas para Varones',
+            'name' => 'Varones',
             'slug' => Str::slug('Ropas para Varones'),
             'state'=>1,
         ]);
 
         Category::create([
-            'name' => 'artefactos electricos',
-            'slug' => Str::slug('artefactos electricos'),
+            'name' => 'Niños',
+            'slug' => Str::slug('Niños'),
             'state'=>1,
         ]);
 
         Category::create([
-            'name' => 'Computo',
-            'slug' => Str::slug('computo'),
+            'name' => 'Niñas',
+            'slug' => Str::slug('Niñas'),
             'state'=>1,
         ]);
 
         Category::create([
             'name' => 'Cereales',
             'slug' => Str::slug('Cereales'),
-            'state'=>1,
+            'state'=>0,
         ]);
 
         Category::create([
             'name' => 'Lacteos',
             'slug' => Str::slug('Lacteos'),
-            'state'=>1,
+            'state'=>0,
         ]);
 
         Category::create([
             'name' => 'Refrescos',
             'slug' => Str::slug('Refrescos'),
-            'state'=>1,
+            'state'=>0,
         ]);
 
         Category::create([
             'name' => 'Licores',
             'slug' => Str::slug('Licores'),
-            'state'=>1,
+            'state'=>0,
         ]);
 
         Category::create([
             'name' => 'Muebles',
             'slug' => Str::slug('muebles'),
-            'state'=>1,
+            'state'=>0,
         ]);
 
 
         Category::create([
             'name' => 'sacos de polipropileno',
             'slug' => Str::slug('sacos de polipropileno'),
-            'state'=>1,
+            'state'=>0,
         ]);
 
 
