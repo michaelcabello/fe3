@@ -40,18 +40,19 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
     <!--modernizr min js here-->
-    <script src="{{ asset('assets/js/vendor/modernizr-3.7.1.min.js') }}"></script>
+     <script src="{{ asset('assets/js/vendor/modernizr-3.7.1.min.js') }}"></script>
 
 
     <!-- Structured Data  -->
-    <script type="application/ld+json">
+{{--     <script type="application/ld+json">
         {
         "@context": "http://schema.org",
         "@type": "WebSite",
         "name": "Replace_with_your_site_title",
         "url": "Replace_with_your_site_URL"
         }
-    </script>
+    </script> --}}
+    @livewireStyles
 </head>
 
 <body>
@@ -350,33 +351,7 @@
     <!--newsletter section start-->
 
 
-    <section class="mt-8 newsletter_section pb-95">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="newsletter_inner d-flex justify-content-between align-items-center">
-                        <div class="newsletter_text">
-                            <h3>keep connected</h3>
-                            <p>Get updates by subscribe our weekly newsletter</p>
-                        </div>
-                        <div class="newsletter_subscribe">
-                            <form id="mc-form">
-                                <input class="border-0" id="mc-email" type="email" autocomplete="off" placeholder="Enter your email address">
-                                <i class="icon-envelope-open icons"></i>
-                                <button class="border-0" id="mc-submit">Subscribe</button>
-                            </form>
-                            <!-- mailchimp-alerts Start -->
-                            <div class="mailchimp-alerts text-centre">
-                                <div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->
-                                <div class="mailchimp-success"></div><!-- mailchimp-success end -->
-                                <div class="mailchimp-error"></div><!-- mailchimp-error end -->
-                            </div><!-- mailchimp-alerts end -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
     <!--newsletter section end-->
 
     <!--footer area start-->
@@ -516,25 +491,26 @@
 <!-- JS
 ============================================ -->
 
-<script src="{{ asset('assets/js/vendor/jquery-3.4.1.min.js') }}"></script>
+ <script src="{{ asset('assets/js/vendor/jquery-3.4.1.min.js') }}"></script>
 <script src="{{ asset('assets/js/vendor/popper.js') }}"></script>
 <script src="{{ asset('assets/js/vendor/bootstrap.min.js') }}"></script>
+{{-- <script src="{{ asset('assets/js/slick.min.js') }}"></script> al activar esto el livewiere demora en cargar o muestra luego de activar ubn text de prueba--}}
 <script src="{{ asset('assets/js/slick.min.js') }}"></script>
 <script src="{{ asset('assets/js/wow.min.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.scrollup.min.js') }}"></script>
 <script src="{{ asset('assets/js/images-loaded.min.js') }}"></script>
 <script src="{{ asset('assets/js/isotope.pkgd.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.nice-select.js') }}"></script>
+{{-- <script src="{{ asset('assets/js/jquery.nice-select.js') }}"></script> --}}
 <script src="{{ asset('assets/js/tippy-bundle.umd.js') }}"></script>
 <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.magnific-popup.min.js') }}"></script>
 <script src="{{ asset('assets/js/mailchimp-ajax.js') }}"></script>
 
-<!-- Main JS -->
-<script src="{{ asset('assets/js/main.js') }}"></script>
+
+ <script src="{{ asset('assets/js/main.js') }}"></script>
 
 
-
+ @livewireScripts
 </body>
 
 </html>

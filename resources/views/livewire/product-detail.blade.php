@@ -1,8 +1,7 @@
 <div>
-
     {{-- Because she competes with no one, no one can compete with her. --}}
     <x-slot name="menu">
-         @include('menu')
+        @include('menu')
     </x-slot>
 
     <div>
@@ -70,63 +69,173 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="product_d_right">
-
+                        <form action="#">
                             <div>
-
-
-                                {{-- {{ $atributes['Tallas'][0] }} --}}
+                                @foreach ($atributes as $groupName => $groupValues)
+                                    <div>
+                                        <label for="{{ $groupName }}">{{ $groupName }}</label>
+                                        <select id="{{ $groupName }}" wire:model="selectedAttributes.{{ $groupName }}">
+                                            @foreach ($groupValues as $attribute)
+                                                <option value="{{ $attribute[0] }}">{{ $attribute[1] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                @endforeach
                             </div>
-
+                           {{--  <h1>{{ $selectedAttributes }} </h1> --}}
                             <h1>{{ $productfamilie->name }} </h1>
 
-                         {{--    {{ $tallas }} --}}
 
-                             <h1>Selecciona un Atributo:</h1>
-
-
-
-                             <div class="flex">
-                                {{-- <label for="Tallas">Tallas</label> --}}
-                                <select wire:model="tallas_id">
-                                    <option value="" selected disabled>Tallas</option>
-                                    @foreach ($tallas as $id=>$name)
-                                        <option value="{{$id}}">{{$name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <p>{{ $tallas_id }}</p>
-                            <br>
-                            <hr>
-
-                            <div>
-                                {{-- <label for="Colores">Colores</label> --}}
-                                <select wire:model="colores_id" >
-                                    <option value="" selected disabled>Colores</option>
-                                    @foreach ($colores as $id=>$name)
-                                        <option value="{{$id}}">{{$name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <p>{{ $colores_id }}</p>
-
-                            <br>
-                            <hr>
                             <ul>
                                 <div>
 
                                     <p>{{ $productfamilie->description }}</p>
 
 
+                                    {{-- @foreach ($groupedAttributes as $groupName => $attributes)
+                                        <label for="{{ $groupName }}">{{ $groupName }}</label>
+                                        <select wire:model="selectedAttributes.{{ $groupName }}" id="{{ $groupName }}">
+                                            <option value="" selected disabled>Seleccione un(a)
+                                                {{ $groupName }}</option>
+                                            @foreach ($attributes as $attribute)
+                                                <option value="{{ $attribute }}">{{ $attribute }}</option>
+                                            @endforeach
+                                        </select>
+                                        <hr>
+                                    @endforeach --}}
+                                    <p>{{  $selectedTallas }} hola</p>
+
+                                    {{--  <ul>
+                                            <div>
+
+
+                                                <ul>
+                                                    <div>
+
+                                                        @foreach ($groupedAttributes as $groupName => $attributes)
+                                                        <label for="{{ $groupName }}">{{ $groupName }}</label>
+                                                        <select name="{{ $groupName }}" id="{{ $groupName }}">
+                                                            <option value="" selected disabled>Seleccione un(a) {{ $groupName }}</option>
+                                                            @foreach ($attributes as $attribute)
+                                                                <option value="{{ $attribute['atributeId'] }}">{{ $attribute['atributeName'] }}  {{ $attribute['productAtributeId'] }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <hr>
+                                                    @endforeach
+                                                    </div>
+                                                </ul>
+                                            </div>
+                                        </ul> --}}
+
+
 
 
                                 </div>
                             </ul>
+                            <div class="product_ratting_review d-flex align-items-center">
+                                <div class=" product_ratting">
+                                    <ul class="d-flex">
+                                        <li><a href="#"><i class="ion-ios-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-ios-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-ios-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-ios-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-ios-star"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product_review">
+                                    <ul class="d-flex">
+                                        <li>4 reviews</li>
+                                        <li>Write your review</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="price_box">
+                                <span class="current_price">$39.00</span>
+                            </div>
+                            <div class="product_availalbe">
+                                <ul class="d-flex">
+                                    <li><i class="icon-layers icons"></i> Only <span>15</span> left </li>
+                                    <li>Availalbe: <span class="stock">In Stock</span></li>
+                                </ul>
+                            </div>
+                            <div class="product_desc">
+                                <p>A t-shirt that comes in three colors (red, white and blue) and three sizes (small,
+                                    medium, large) is a configurable product. </p>
+                            </div>
+                            <div class="product_variant">
+                                <div class="filter__list widget_color d-flex align-items-center">
+                                    <h3>select color</h3>
+                                    <ul>
+                                        <li>
+                                            <input type="checkbox">
+                                            <span class="checkmark color1"></span>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox">
+                                            <span class="checkmark color2"></span>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox">
+                                            <span class="checkmark color3"></span>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox">
+                                            <span class="checkmark color5"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="filter__list widget_size d-flex align-items-center">
+                                    <h3>select size</h3>
+                                    <ul>
+                                        <li>
+                                            <a href="javascript:void(0)">S </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)"> M</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">L</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)"> XL</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">XLL</a>
+                                        </li>
+                                    </ul>
+                                </div>
 
-
-
-
+                                <div class="variant_quantity_btn d-flex">
+                                    <div class="border pro-qty">
+                                        <input min="1" max="100" type="number" value="1">
+                                    </div>
+                                    <button class="button btn btn-primary" type="submit"><i
+                                            class="ion-android-add"></i> Add To Cart</button>
+                                    <a class="wishlist" href="wishlist.html"><i class="ion-ios-heart"></i></a>
+                                </div>
+                            </div>
+                            <div class="product_sku">
+                                <p><span>SKU: </span> #ABC123456</p>
+                            </div>
+                            <div class="product_tags d-flex">
+                                <span>tags: </span>
+                                <ul class="d-flex">
+                                    <li><a href="#">fashion,</a></li>
+                                    <li><a href="#">clothings,</a></li>
+                                    <li><a href="#">accessorires</a></li>
+                                </ul>
+                            </div>
+                            <div class="priduct_social d-flex">
+                                <span>SHARE: </span>
+                                <ul>
+                                    <li><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-googleplus-outline"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-pinterest"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                                </ul>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -662,27 +771,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div>
         <hr>
-        Perú<p>{{ $colores_id }}</p>
     </div>
 </div>

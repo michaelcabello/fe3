@@ -117,7 +117,7 @@
                                                 <li><span>(2)</span></li>
                                             </ul>
                                         </div>
-                                        <h4 class="product_name"><a href="{{ route('product.detail.ecommerce', $product) }}"> {{ $product->name }} </a></h4>
+                                        <h4 class="product_name"><a href="{{ route('product.single.ecommerce', $product) }}"> {{ $product->name }} </a></h4>
                                         <div class="price_box">
                                             <span class="current_price"> {{ $product->productatributes->min('pricesale') }} </span>
                                             <span class="old_price"> {{ $product->pricesale }} </span>

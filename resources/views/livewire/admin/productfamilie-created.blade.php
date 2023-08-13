@@ -53,6 +53,7 @@
                 <x-jet-input-error for="subcategory_id" />
             </div>
 
+            <input type="text" wire:model="subcategory_id">
             {{ $subcategory_id }}
 
 
