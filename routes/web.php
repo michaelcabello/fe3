@@ -7,8 +7,10 @@ use App\Http\Livewire\Admin\ComprobanteList;
 use App\Http\Livewire\Admin\ComprobanteSave;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Livewire\LpaList;
+use App\Http\Livewire\LpaListd;
 use App\Http\Livewire\ProductDetail;
 use App\Http\Livewire\ProductSingle;
+use App\Http\Livewire\ProductSingled;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,8 +28,10 @@ use App\Http\Livewire\ProductSingle;
 
 Route::get('/', WelcomeController::class);
 Route::get('/products/{subcategory}', LpaList::class)->name('product.list.ecommerce');
+Route::get('/productsd/{subcategory}', LpaListd::class)->name('product.listd.ecommerce');
 Route::get('/productdetail/{product}', ProductDetail::class)->name('product.detail.ecommerce');
 Route::get('/productsingle/{product}', ProductSingle::class)->name('product.single.ecommerce');
+Route::get('/productsingled/{product}', ProductSingled::class)->name('product.singled.ecommerce');
 
 
 

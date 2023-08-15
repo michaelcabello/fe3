@@ -34,7 +34,8 @@
     <section class="product_details">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 col-md-6">
+
+                <div wire:ignore class="col-lg-6 col-md-6">
                     <div class="product_zoom_gallery">
                         <div class="zoom_gallery_inner d-flex">
                             <div class="zoom_tab_img">
@@ -68,11 +69,11 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-6 col-md-6">
                     <div class="product_d_right">
 
                             <div>
-
 
                                 {{-- {{ $atributes['Tallas'][0] }} --}}
                             </div>

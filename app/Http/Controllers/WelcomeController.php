@@ -25,6 +25,6 @@ class WelcomeController extends Controller
 
         $categories = Category::where('state', 1)->get();
 
-        return view('welcome', compact('categories'))->layout('layouts.appweb');
+        return view('welcomed', compact('categories'))->layout('layouts.appwebd');
     }
 }
