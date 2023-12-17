@@ -23,28 +23,27 @@ class CategoryPolicy
         //
     }
 
-
     public function view(User $user, Category $category)
     {
-        return $user->hasPermissionTo('view Category');
+        return $user->hasPermissionTo('Category View');
     }
 
 
     public function create(User $user)
     {
-        return $user->hasPermissionTo('create Category');
+        return $user->hasPermissionTo('Category Create');
     }
 
 
     public function update(User $user, Category $category)
     {
-        return $user->hasPermissionTo('update Category');
+        return $user->hasPermissionTo('Category Update');
     }
 
 
     public function delete(User $user, Category $category)
     {
-        return $user->hasPermissionTo('delete Category');
+        return $user->hasPermissionTo('Category Delete');
     }
 
 

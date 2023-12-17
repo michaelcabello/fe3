@@ -8,9 +8,15 @@ use App\Http\Livewire\Admin\ComprobanteSave;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Livewire\LpaList;
 use App\Http\Livewire\LpaListd;
+use App\Http\Livewire\LpaListt;
 use App\Http\Livewire\ProductDetail;
 use App\Http\Livewire\ProductSingle;
 use App\Http\Livewire\ProductSingled;
+use App\Http\Livewire\ProductSinglet;
+use App\Http\Livewire\ShoppingCart;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SubcategoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,12 +32,25 @@ use App\Http\Livewire\ProductSingled;
     return view('welcome');
 }); */
 
+
 Route::get('/', WelcomeController::class);
 Route::get('/products/{subcategory}', LpaList::class)->name('product.list.ecommerce');
 Route::get('/productsd/{subcategory}', LpaListd::class)->name('product.listd.ecommerce');
+Route::get('/productst/{subcategory}', LpaListt::class)->name('product.listt.ecommerce');
 Route::get('/productdetail/{product}', ProductDetail::class)->name('product.detail.ecommerce');
 Route::get('/productsingle/{product}', ProductSingle::class)->name('product.single.ecommerce');
 Route::get('/productsingled/{product}', ProductSingled::class)->name('product.singled.ecommerce');
+Route::get('/productsinglet/{product}', ProductSinglet::class)->name('product.singlet.ecommerce');
+
+Route::get('/shoppingcart', ShoppingCart::class)->name('shoppingcart.ecommerce');
+
+
+Route::get('categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
+Route::get('search', SearchController::class)->name('search');
+//lista de todas las categorias
+Route::get('/categorias', [CategoryController::class, 'index'])->name('category.list.ecommerce');
+//listta subcategorias que pertenecen a una categoria
+Route::get('/subcategorias/{category}', [SubcategoryController::class, 'index'])->name('subcategory.list.ecommerce');
 
 
 
@@ -50,6 +69,12 @@ Route::get('cargar/', function () {
         ]);
         }
 });
+
+
+Route::get('limpiar/', function () {
+    session()->forget('carttx');
+});
+
 
 
 

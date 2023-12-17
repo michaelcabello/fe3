@@ -1,6 +1,6 @@
-<x-app-layout>
+<x-appwebt-layout>
 
-    <ul class="mx-12">
+     <ul class="mx-12">
         @foreach ($categories as $category)
             <li class="flex-1 py-4 mx-6 my-2 space-y-2 bg-white shadow">{{ $category->name }}</li>
             <ul class="mx-12 space-y-2">
@@ -11,4 +11,15 @@
         @endforeach
     </ul>
 
-</x-app-layout>
+
+  <ul class="mx-12">
+    @foreach ($categories as $category)
+        <li class="flex-1 py-4 mx-6 my-2 space-y-2 bg-white shadow">{{ $category->name }}</li>
+
+    @endforeach
+</ul>
+
+
+
+
+</x-appwebt-layout>

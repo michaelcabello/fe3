@@ -23,29 +23,28 @@ class BrandPolicy
         //
     }
 
-
     public function view(User $user, Brand $brand)
     {
 
-        return $user->hasPermissionTo('view Brand');
+        return $user->hasPermissionTo('Brand View');
     }
 
 
     public function create(User $user)
     {
-        return $user->hasPermissionTo('create Brand');
+        return $user->hasPermissionTo('Brand Create');
     }
 
 
     public function update(User $user, Brand $brand)
     {
-        return $user->hasPermissionTo('update Brand');
+        return $user->hasPermissionTo('Brand Update');
     }
 
 
     public function delete(User $user, Brand $brand)
     {
-        return $user->hasPermissionTo('delete Brand');
+        return $user->hasPermissionTo('Brand Delete ');
     }
 
 
@@ -59,4 +58,5 @@ class BrandPolicy
     {
         //
     }
+
 }

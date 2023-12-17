@@ -18,8 +18,13 @@ return new class extends Migration
 
             $table->string('name')->nullable();
             $table->string('slug')->nullable();
-            $table->boolean('state')->default(1);
+            $table->boolean('state')->nullable();
             $table->string('image')->nullable();
+            $table->integer('order')->nullable();
+
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
+            $table->text('keywords')->nullable();
 
             $table->timestamps();
         });

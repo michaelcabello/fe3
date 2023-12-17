@@ -55,8 +55,9 @@
                                 @endif --}}
                                {{-- genera productos en 2 pasos y con selec2 --}}
 
-
+                                @can('Product Create')
                                  @livewire('admin.productfamilie-created')
+                                @endcan
                                 {{-- funciona pero sin select2 --}}
 
                                 {{--  /*esto no usaremos*/ --}}
@@ -218,12 +219,15 @@
 
                                             <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                                                 {{-- puedo llamar asi tambien $product->productfamilie->slug --}}
-                                                <a class="btn btn-blue" href="{{ route('admin.productatribute.pricesale', $product->productfamilie) }}"><i class="fa-sharp fa-solid fa-eye"></i></a>
+                                                @can('Product Update')
+                                                    <a class="btn btn-blue" href="{{ route('admin.productatribute.pricesale', $product->productfamilie) }}"><i class="fa-sharp fa-solid fa-eye"></i></a>
+                                                @endcan
                                                 {{-- <a wire:click="edit({{ $product }})" class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a> --}}
-                                                <a class="btn btn-red" wire:click="$emit('deleteProduct', {{ $product->id }})" >
-                                                   <i class="fa-solid fa-trash-can"></i>
-
-                                                </a>
+                                                @can('Product Delete')
+                                                    <a class="btn btn-red" wire:click="$emit('deleteProduct', {{ $product->id }})" >
+                                                    <i class="fa-solid fa-trash-can"></i>
+                                                    </a>
+                                                @endcan
 
 
 

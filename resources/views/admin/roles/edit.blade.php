@@ -70,7 +70,15 @@
 
                     {{-- @include('admin.permissions.checkboxes', ['model' => $user]) --}}
                     @include('admin.permissions.checkboxes', ['model' => $role])
+
+
+
                 </div>
+
+                <x-jet-danger-button class="w-full mt-4 mb-3" type="submit">
+                    <i class="mx-2 fa-regular fa-floppy-disk"></i> Actualizar Rol
+                </x-jet-danger-button>
+
             </div>
 
         </div>

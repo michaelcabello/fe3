@@ -11,16 +11,16 @@ class Brand extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'slug', 'state','image'
+        'name', 'slug', 'state', 'order', 'image', 'title', 'description','keywords' ,'created_at', 'updated_at'
     ];
 
-    
+
     public function setNameAttribute($name)
     {
         $this->attributes['name'] = $name;
         $this->attributes['slug'] = str::slug($name);
     }
-  
+
 
     //Relacion uno a muchos
     public function productfamilies(){

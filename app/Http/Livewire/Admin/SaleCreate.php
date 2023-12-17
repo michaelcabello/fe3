@@ -35,10 +35,13 @@ class SaleCreate extends Component
     public $cart;
     public $cartdos;
 
-
     public function mount()
     {
+        
         $this->cart = session('cart', new Collection());
+        // establece la propiedad $cart en el contenido de la sesión con la clave 'cart' si existe,
+        //y si no existe (por ejemplo, en la primera carga de la página), crea una nueva colección vacía y la asigna a la propiedad $cart.
+        //Esto asegura que siempre haya una instancia de Collection disponible para trabajar con los productos en el carrito.
         $this->cartdos = session('cartdos', new Collection());
     }
 
@@ -321,7 +324,6 @@ class SaleCreate extends Component
         $tipocomprobantes = Tipocomprobante::all();
         $this->total = $this->getTotal();
         $this->totaldos = $this->getTotaldos();
-
 
 
 

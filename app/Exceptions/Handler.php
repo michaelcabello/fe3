@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+//use Illuminate\Auth\Access\AuthorizationException;//agregue por sugerencia de chat gpt
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -47,4 +48,15 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    //agregue por sugerencia de chat gpt
+    /* public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof AuthorizationException) {
+            return response()->view('errors.403', [], 403);
+        }
+
+        return parent::render($request, $exception);
+    } */
+
 }

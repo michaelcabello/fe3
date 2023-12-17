@@ -6,7 +6,6 @@
 
     </div>
 
-
     <x-jet-dialog-modal wire:model="open">
         <x-slot name="title">
             Crear Nueva Marca
@@ -15,18 +14,59 @@
         <x-slot name="content">
 
             <div class="mb-4">
-                <x-jet-label value="Modelo" />
-                <x-jet-input type="text" class="w-full" wire:model="name" />
+                <x-jet-label value="Marca" />
+                <x-jet-input type="text" class="w-full uppercase" wire:model="name" />
                 <x-jet-input-error for="name"/>
             </div>
 
-             <div class="mb-4">
-                Estado
-                <x-jet-input type="checkbox" wire:model="state" />
-                <x-jet-input-error for="state"/>
+            @can('Web View')
+                <div class="mb-4">
+                    <x-jet-label value="Title Google" />
+                    <x-jet-input type="text" class="w-full" wire:model="title" />
+                    <x-jet-input-error for="title"/>
+                </div>
+
+                <div class="mb-4">
+                    <x-jet-label value="Description Google" />
+
+                    {{-- <textarea name="description" rows="5" cols="50">Descripción para google</textarea> --}}
+
+
+                        <textarea
+                        {{-- wire:model.defer="content" --}}
+                        wire:model="description"
+                        class="w-full form-control"
+                        rows="5">
+                        </textarea>
+
+
+                    <x-jet-input-error for="description"/>
+                </div>
+
+                <div class="mb-4">
+                    <x-jet-label value="Keywords Google" />
+                    <x-jet-input type="text" class="w-full" wire:model="keywords" />
+                    <x-jet-input-error for="keywords"/>
+                </div>
+            @endcan
+
+            <div class="flex row">
+                <div class="mb-4 mr-4">
+                    <x-jet-label value="Estado" />
+                    <x-jet-input type="checkbox" wire:model="state" />
+                    <x-jet-input-error for="state"/>
+                </div>
+
+                <div class="mb-4">
+                    <x-jet-label value="Orden" />
+                    <x-jet-input type="number" class="w-full" wire:model="order" />
+                    <x-jet-input-error for="order"/>
+                </div>
             </div>
 
-            <div class="mb-4">
+
+            <div class="box-border p-4 mb-4 border-2 rounded-md">
+                <x-jet-label value="Seleccione una Imagen" class="mb-2" />
                 <input type="file" wire:model="image" id="{{$identificador}}">
                 <x-jet-input-error for="image"/>
                 <p class="text-red-400">tamaño 300px ancho por 200px alto</p>

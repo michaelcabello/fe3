@@ -1,3 +1,31 @@
+
+
+<div class="header-middel">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-5 col-md-5 col-sm-3 col-xs-5">
+                <div class="logo">
+                    <a href="/"><img src="/images/logo/logo.png" alt="" /></a>
+                </div>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-9 col-xs-7">
+                <div class="flex text-right cart-btn">
+                    <span class="shop_contact_no"><i class="fa fa-phone"></i> 996929478</span>
+
+                    {{-- <a href="#" class="cart-btns" title="cart"> --}}
+                    <a href="{{ route('shoppingcart.ecommerce') }}" title="cart">
+                        <strong>shopping cart</strong>
+                        <span class="icon"><i class="fa fa-shopping-cart"></i></span>
+                        <span class="cart-total">@livewire('total-product')</span>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="main-menu">
     <div class="container">
         <div class="row">
@@ -180,4 +208,13 @@
             </form>
         </div>
     </div>
+
+    <!--Offset wrapper start here-->
+    <div class="offset-overlay"></div>
+    <div class="offset-area">
+        <!--Cart area start-->
+        @livewire('dropdown-cart')
+        <!--Cart area end-->
+    </div>
+
 </div>

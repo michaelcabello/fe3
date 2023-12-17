@@ -12,6 +12,7 @@ use App\Models\Localproductatribute;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Productatribute_shopping;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
+
 use Illuminate\Support\Facades\DB;
 //use Gloudemans\Shoppingcart\Facades\Cart;
 

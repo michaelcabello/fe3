@@ -25,7 +25,7 @@
     <!-- magnific popup css -->
     <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
     <!-- font-awesome css -->
-    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+   {{--  <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}"> --}}
     <!-- fancybox css -->
     <link rel="stylesheet" href="{{ asset('css/jquery.fancybox.css') }}">
     <!-- flaticon css -->
@@ -98,111 +98,13 @@
                 </div>
             </div>
         </div>
-        <div class="header-middel">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-5 col-md-5 col-sm-3 col-xs-5">
-                        <div class="logo">
-                            <a href="index.html"><img src="/images/logo/logo.png" alt="" /></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-7 col-md-7 col-sm-9 col-xs-7">
-                        <div class="text-right cart-btn">
-                            <span class="shop_contact_no"><i class="fa fa-phone"></i> +91 213456789</span>
-                            <a href="#" class="cart-btns" title="cart">
-                                <strong>shopping cart</strong>
-                                <span class="icon"><i class="fa fa-shopping-cart"></i></span>
-                                <span class="cart-total">2</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
 
 
 
         {{ $menud }}
 
 
-
-        <!--Offset wrapper start here-->
-        <div class="offset-overlay"></div>
-        <div class="offset-area">
-            <!--Cart area start-->
-            <div class="offset-cart-area offset-body">
-                <div class="offset-heading">
-                    <h3>Cart lists</h3><i class="close-offset flaticon-letter-x"></i>
-                </div>
-                <div class="cart-list">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td class="product-img">
-                                    <div class="pro-img">
-                                        <img src="images/products/1.jpg" alt="" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="pro-con">
-                                        <h4><a href="#">Product title</a></h4>
-                                        <del>$450</del>
-                                        <strong>$375</strong>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="item-pro">
-                                        <input type="number" value="1">
-                                    </div>
-                                </td>
-                                <td><span class="close"><i class="flaticon-letter-x"></i></span></td>
-                            </tr>
-                            <tr>
-                                <td class="product-img">
-                                    <div class="pro-img">
-                                        <img src="images/products/1.jpg" alt="" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="pro-con">
-                                        <h4><a href="#">Product title</a></h4>
-                                        <strong>$375</strong>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="item-pro">
-                                        <input type="number" value="1">
-                                    </div>
-                                </td>
-                                <td><span class="close"><i class="flaticon-letter-x"></i></span></td>
-                            </tr>
-                            <tr>
-                                <td class="product-img">
-                                    <div class="pro-img">
-                                        <img src="images/products/1.jpg" alt="" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="pro-con">
-                                        <h4><a href="#">Product title</a></h4>
-                                        <del>$450</del>
-                                        <strong>$375</strong>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="item-pro">
-                                        <input type="number" value="1">
-                                    </div>
-                                </td>
-                                <td><span class="close"><i class="flaticon-letter-x"></i></span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <a href="#" class="btn1 floatright mr-t25">checkout</a>
-                </div>
-            </div>
-            <!--Cart area end-->
-        </div>
         <!--Offset wrapper end here-->
     </header>
 
@@ -269,9 +171,9 @@
     <!-- bootstrap js -->
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <!-- owl.carousel js -->
-    <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+
     <!-- magnific popup js -->
-    <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+
     <!-- meanmenu js -->
     <script src="{{ asset('js/jquery.meanmenu.js') }}"></script>
     <!-- jarallax js -->
@@ -292,7 +194,8 @@
     <script src="{{ asset('js/plugins.js') }}"></script>
     <!-- main js -->
     <script src="{{ asset('js/main.js') }}"></script>
-
+    <script src="https://kit.fontawesome.com/ae5eaac834.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
     @livewireScripts
 
 </body>

@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Configuration;
 
 return new class extends Migration
 {
@@ -17,6 +18,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('logo')->nullable();
+            $table->enum('typeimage', [Configuration::AWS, Configuration::LOCAL, Configuration::STORAGE])->default(Configuration::STORAGE);
             $table->string('razonsocial')->nullable();
             $table->string('ruc', 11)->nullable();
             $table->string('certificado')->nullable();

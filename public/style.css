@@ -5,10 +5,10 @@
     Author: webstrot
     Version: 1.0
 ---------------------------------------
-    
+
     CSS INDEX
     ===================
-	
+
     1. Theme Default CSS (body, link color, section etc)
 	2. Header area start here
 	3. Slider area start here
@@ -52,7 +52,7 @@ main {
 }
 
 /* ....................................
-1.1 Reset CSS 
+1.1 Reset CSS
 .......................................*/
 a {
   transition: all 0.3s;
@@ -4117,7 +4117,7 @@ header .mobilemenu3 .mean-container a.meanmenu-reveal {
 	position:absolute;
 	top:50%;
 	float:left;
-	width:100%;	
+	width:100%;
 }
 .carousel-nevigation > .prev{
 	left:-138px;
@@ -10149,4 +10149,53 @@ footer .footer-top-two .foo-social ul li a:hover {
 .checkout-area .checkout-process .paymethods .btn1 {
   border-radius: 50px;
   margin-top: 30px;
+}
+.clickable {
+    cursor: pointer;
+}
+
+th[style="text-align: center;"] {
+    text-align: center !important; /* Alinea el título "Quantity" al centro */
+}
+
+input[type="number"] {
+    text-align: center !important; /* Alinea el contenido del campo de entrada al centro */
+    font-size: 14px; /* Ajusta el tamaño del texto a tu preferencia */
+    /* Otros estilos opcionales */
+    width: 50px; /* Ancho del campo de entrada */
+    padding: 5px; /* Relleno interno del campo de entrada */
+}
+
+tr > td {
+    vertical-align: middle !important; /* Centra verticalmente los elementos en la fila */
+}
+
+/* Estilo para agregar un margen superior al precio */
+/* Ajusta la cantidad de margen según tu preferencia */
+
+/* td .amount {
+    margin-top: 5px !important;
+} */
+
+
+/* Estilo para agregar una línea en la parte inferior de la fila */
+.product-row {
+    border-bottom: 3px solid #ccc; /* Ajusta el estilo de la línea según tus preferencias */
+}
+
+.fas.fa-trash {
+    color: red;
+}
+
+
+/* Estilo para la fila del total */
+.total-row {
+    /* Agrega estilos según sea necesario */
+    background-color: #f2f2f2; /* Ejemplo de fondo de color gris claro */
+    font-weight: bold; /* Ejemplo de negrita para el total */
+}
+
+/* Estilo para aumentar la altura de la fila de total */
+.total-row td {
+    height: 60px; /* Ajusta la altura según tus necesidades */
 }

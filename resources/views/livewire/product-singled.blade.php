@@ -11,7 +11,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="breadcumb-cont">
                         <h2>Single product</h2>
-                        <p>This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat.</p>
+                        <p>This is Photoshop's version  of Lorem Ipsum. bibendum auctor, nisi elit consequat.</p>
                     </div>
                 </div>
                 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -92,7 +92,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <p>{{ $tallas_id }}</p>
+                                        <p>{{ $tallas_id }} {{ $i }} </p>
                                     </td>
                                 </tr>
                                 <tr>
@@ -120,7 +120,10 @@
 
 
                         <p>Free shipping on int'l orders usd $150+</p>
-                        <a href="#" class="btn1">ADD TO CART</a>
+
+                        <a wire:click="addItem" class="btn1 clickable"> COMPRAR </a>
+                        <a wire:click="clearCart" class="btn1 clickable"> LIMPIAR </a>
+
                         <div class="servs">
                             <div class="col-sm-4 pd-l0">
                                 <div class="serv-list">
@@ -141,6 +144,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

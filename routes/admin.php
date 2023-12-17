@@ -33,9 +33,15 @@ use App\Http\Livewire\Admin\ReceptionEdit;
 use App\Http\Livewire\Admin\LocalproductatributestockList;
 use App\Http\Livewire\Admin\LocalproductatributestocktotalesList;
 use App\Http\Controllers\admin\SaleController;
+use App\Http\Controllers\admin\BrandController;
+
 
 //Route::get('/', [HomeController::class, 'home'])->name('admin.home');
 Route::get('/tables', [TableController::class, 'showtables'])->name('admin.showtables');
+
+Route::post('/marcas/import',[BrandController::class,'importStore'])->name('brand.importstore');
+
+Route::get('/marcas/reportpdf',[BrandController::class,'pdfReport'])->name('brand.reportpdf');
 
 Route::get('/categories', CategoryList::class)->name('category.list');
 Route::get('/modelos', ModeloList::class)->name('modelo.list');

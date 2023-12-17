@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'driver' => env('SESSION_DRIVER', 'database'),
+    'driver' => env('SESSION_DRIVER', 'database'),//aqui se indica si la sesion es database o file
 
     /*
     |--------------------------------------------------------------------------

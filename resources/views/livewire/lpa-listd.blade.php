@@ -167,6 +167,7 @@
                     </div>
                     <div class="col-sm-12">
                         <div id="products" class="row">
+
                             @foreach ($products as $product)
                             <div class="item col-md-4 col-sm-6 col-xs-12">
                                 <div class="product-list">
@@ -187,6 +188,7 @@
                                 </div>
                             </div>
                             @endforeach
+
 
                         </div>
                     </div>

@@ -16,7 +16,7 @@
 
                         <div class="grid grid-cols-1 px-4 mx-auto mt-4 max-w-7xl sm:px-6 lg:px-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-8">
 
-
+                                @can('Configuration View')
                                 <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/configuraciones.jpg')}}" alt="Configuraciones">
@@ -26,7 +26,9 @@
                                     </header>
 
                                 </article>
+                                @endcan
 
+                                @can('User View')
                                 <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/usuarios.jpg')}}" alt="">
@@ -36,8 +38,9 @@
                                     </header>
 
                                 </article>
+                                @endcan
 
-
+                                @can('Permission View')
                                 <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/permisos.jpg')}}" alt="">
@@ -47,8 +50,9 @@
                                     </header>
 
                                 </article>
+                                @endcan
 
-
+                                @can('Role View')
                                 <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/roles.jpg')}}" alt="">
@@ -58,10 +62,10 @@
                                     </header>
 
                                 </article>
+                                @endcan
 
 
-
-                                @can('view Brand')
+                                @can('Brand View')
                                 <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/brands.jpg')}}" alt="">
@@ -73,6 +77,7 @@
                                 </article>
                                 @endcan
 
+                                @can('Category View')
                                 <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/categories.jpg')}}" alt="">
@@ -83,9 +88,9 @@
                                     </header>
 
                                 </article>
+                                @endcan
 
-
-
+                                @can('Modelo View')
                                 <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/modelos.jpg')}}" alt="">
@@ -95,7 +100,10 @@
                                     </header>
 
                                 </article>
+                                @endcan
 
+
+                                @can('Product View')
                                 <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/products.jpg')}}" alt="">
@@ -105,7 +113,9 @@
                                     </header>
 
                                 </article>
+                                @endcan
 
+                                @can('Initialinventory View')
                                 <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/inventarioinicial.jpg')}}" alt="">
@@ -115,7 +125,9 @@
                                     </header>
 
                                 </article>
+                                @endcan
 
+                                @can('Inventory View')
                                 <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/inventario2.jpg')}}" alt="">
@@ -125,9 +137,9 @@
                                     </header>
 
                                 </article>
+                                @endcan
 
-
-
+                                @can('Shopping View')
                                 <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/compras.jpg')}}" alt="">
@@ -137,6 +149,7 @@
                                     </header>
 
                                 </article>
+                                @endcan
 
                                 <article>
                                     <figure>
@@ -169,6 +182,7 @@
 
                                 </article>
 
+                                @can('Sale View')
                                 <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/pos.jpg')}}" alt="">
@@ -178,6 +192,7 @@
                                     </header>
 
                                 </article>
+                                @endcan
 
 
                                 <article>

@@ -19,13 +19,13 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
           //$table->unsignedBigInteger('category_id')->nullable(); //activo para el recursivo
-            $table->boolean('state')->default(true);
+            $table->boolean('state')->default(1);
 
             $table->text('shortdescription')->nullable();
             $table->text('longdescription')->nullable();
             $table->integer('order')->nullable();
 
-            $table->string('image', 2048)->default('categories/default.jpg')->nullable();
+            $table->string('image', 2048)->default('/storage/categories/default.jpg')->nullable();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
             $table->text('keywords')->nullable();

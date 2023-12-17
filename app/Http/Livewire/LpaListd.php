@@ -22,8 +22,8 @@ class LpaListd extends Component
 
     public function mount(Subcategory $subcategory)
     {
-        $this->localId = 1;
-        $this->subcategoryslug = $subcategory;
+        $this->localId = 1;//1 porque 1 sera la tienda electronica
+        $this->subcategoryslug = $subcategory;//subcategory viene del menu
 
         // $subcategoria = Subcategory::with('productfamilies.productatributes.locales')->find($this->subcategoryId);
     }
@@ -73,9 +73,7 @@ class LpaListd extends Component
 
 
 
-
-
-
+    //listamos todos los productos del local 1 que tengan stock
     public function getProductFamilies()
     {
         $subcategory = Subcategory::with(['productfamilies' => function ($query) {
