@@ -1,98 +1,347 @@
 <div>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Comprobantes') }}
-        </h2>
-    </x-slot>
-    
-    <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg p-2">
-                {{-- <h1>Lista de Comprobantes de Venta </h1> --}}
+    <div wire:init="loadComprobantes">
 
 
-                <x-a href="{{ route('comprobante.create')}}" class="p-1 bg-green-600 hover:bg-green-800"> Crear Comprobante</x-a>
-                
-                <div class="flex mt-4">
-                    <x-jet-input wire:model="name" class="block w-full bg-gray-100"/>
+        <x-slot name="header">
+            <div class="flex items-center">
+                <h2 class="text-xl font-semibold leading-tight text-gray-600">
+                    Lista de Ventas y Comprobantes
+                </h2>
+            </div </x-slot>
 
-                    <x-jet-secondary-button class="ml-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                          </svg>
-
-                    </x-jet-secondary-button>
-                </div>
+            <!-- This example requires Tailwind CSS v2.0+ -->
+            <div class="container py-12 mx-auto border-gray-400 max-w-7xl sm:px-6 lg:px-8">
 
 
 
+                <x-table>
 
-                <table class="w-full mb-3 table-auto">
-                    <thead>
-                        <tr>
-                            <th class="p-3">ID</th>
-                            <th class="p-3">Tipo Comprobante</th>
-                            <th class="p-3">Serie</th>
-                            <th class="p-3">Número</th>
-                            <th class="p-3">Fecha</th>
-                            <th class="p-3">Cliente</th>
-                           
-                            <th class="p-3">Total</th>
-                            <th class="p-3">Acciones</th>
-                        </tr>
-                    </thead>
-                    
-                    
-                    <tbody>
-                        @forelse($comprobantes as $comprobante)
-                        <tr>
-                            <td class="p-3 border">{{ $comprobante->id }}</td>
-                            <td class="p-3 border">{{ $comprobante->tipo}}</td>
-                            <td class="p-3 border">{{ $comprobante->serie }}</td>
-                            <td class="p-3 border">{{ $comprobante->numero }}</td>
-                            <td class="p-3 border">{{ $comprobante->fechaemision }}</td>
-                            <td class="p-3 border">{{ $comprobante->customer_id }}</td>
-                            <td class="p-3 border">{{ $comprobante->total }}</td>
-                            <td class="flex justify-center p-3 border">
-                                <x-a class="p-1 mr-1 bg-blue-600" href="#">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    <div class="items-center px-6 py-4 bg-gray-200 sm:flex">
+
+                        <div class="flex items-center justify-center mb-2 md:mb-0">
+                            <span>Mostrar </span>
+                            <select wire:model="cant"
+                                class="block p-7 py-2.5 ml-3 mr-3 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                                <option value="10"> 10 </option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span class="mr-3">registros</span>
+                        </div>
+
+
+                        <div class="flex items-center justify-center mb-2 mr-4 md:mb-0 sm:w-full">
+                            <x-jet-input type="text" wire:model="search"
+                                class="flex items-center justify-center w-80 sm:w-full rounded-lg py-2.5"
+                                placeholder="Buscar" />
+                        </div>
+                        {{-- @can('sale Create') --}}
+                            <div class="flex items-center justify-center">
+                                <a href="{{ route('admin.comprobante.create') }}"
+                                    class="items-center justify-center sm:flex btn btn-orange">
+                                    <i class="mx-2 fa-regular fa-file"></i> Nuevo
+                                </a>
+                            </div>
+                        {{-- @endcan --}}
+
+                        {{-- @can('create User')
+                                    @livewire('admin.brand-create')
+                                @endcan --}}
+
+
+                        {{-- <div class="flex items-center justify-center px-2 mt-2 mr-4 md:mt-0">
+
+                                    <x-jet-input type="checkbox" wire:model="state" class="mx-1" />
+                                    Activos
+                                </div> --}}
+
+                    </div>
+
+
+
+                    {{-- @if ($comprobantes->count()) --}}
+
+
+                     @if (count($comprobantes))
+
+
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+
+                                    <th scope="col"
+                                        class="w-24 px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase cursor-pointer"
+                                        wire:click="order('id')">
+
+                                        ID
+
+                                        @if ($sort == 'id')
+                                            @if ($direction == 'asc')
+                                                <i class="float-right mt-1 fas fa-sort-alpha-up-alt"></i>
+                                            @else
+                                                <i class="float-right mt-1 fas fa-sort-alpha-down-alt"></i>
+                                            @endif
+                                        @else
+                                            <i class="float-right mt-1 fas fa-sort"></i>
+                                        @endif
+                                    </th>
+
+
+
+
+
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase cursor-pointer"
+                                        wire:click="order('fechaemision')">
+
+                                        Fecha de Emisión
+                                        @if ($sort == 'fechaemision')
+                                            @if ($direction == 'asc')
+                                                <i class="float-right mt-1 fas fa-sort-alpha-up-alt"></i>
+                                            @else
+                                                <i class="float-right mt-1 fas fa-sort-alpha-down-alt"></i>
+                                            @endif
+                                        @else
+                                            <i class="float-right mt-1 fas fa-sort"></i>
+                                        @endif
+
+                                    </th>
+
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase cursor-pointer"
+                                        wire:click="order('nomrazonsocial')">
+
+                                        Proveedor
+                                        @if ($sort == 'nomrazonsocial')
+                                            @if ($direction == 'asc')
+                                                <i class="float-right mt-1 fas fa-sort-alpha-up-alt"></i>
+                                            @else
+                                                <i class="float-right mt-1 fas fa-sort-alpha-down-alt"></i>
+                                            @endif
+                                        @else
+                                            <i class="float-right mt-1 fas fa-sort"></i>
+                                        @endif
+
+                                    </th>
+
+
+
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase" wire:click="order('serienumero')">
+                                        Serie Número
+                                        @if ($sort == 'serienumero')
+                                            @if ($direction == 'asc')
+                                                <i class="float-right mt-1 fas fa-sort-alpha-up-alt"></i>
+                                            @else
+                                                <i class="float-right mt-1 fas fa-sort-alpha-down-alt"></i>
+                                            @endif
+                                        @else
+                                            <i class="float-right mt-1 fas fa-sort"></i>
+                                        @endif
+
+
+                                    </th>
+
+
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase" wire:click="order('subtotal')">
+                                        Subtotal
+                                        @if ($sort == 'subtotal')
+                                            @if ($direction == 'asc')
+                                                <i class="float-right mt-1 fas fa-sort-alpha-up-alt"></i>
+                                            @else
+                                                <i class="float-right mt-1 fas fa-sort-alpha-down-alt"></i>
+                                            @endif
+                                        @else
+                                            <i class="float-right mt-1 fas fa-sort"></i>
+                                        @endif
+
+
+                                    </th>
+
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase" wire:click="order('igv')">
+                                        IGV
+                                        @if ($sort == 'igv')
+                                            @if ($direction == 'asc')
+                                                <i class="float-right mt-1 fas fa-sort-alpha-up-alt"></i>
+                                            @else
+                                                <i class="float-right mt-1 fas fa-sort-alpha-down-alt"></i>
+                                            @endif
+                                        @else
+                                            <i class="float-right mt-1 fas fa-sort"></i>
+                                        @endif
+
+
+                                    </th>
+
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase" wire:click="order('total')">
+                                        Total
+                                        @if ($sort == 'total')
+                                            @if ($direction == 'asc')
+                                                <i class="float-right mt-1 fas fa-sort-alpha-up-alt"></i>
+                                            @else
+                                                <i class="float-right mt-1 fas fa-sort-alpha-down-alt"></i>
+                                            @endif
+                                        @else
+                                            <i class="float-right mt-1 fas fa-sort"></i>
+                                        @endif
+
+
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">
+                                        ACCIONES
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+
+                                @foreach ($comprobantes as $sale)
+                                    <tr>
+
+                                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                            {{ $sale->id }}
+                                        </td>
+                                        <td class="items-center px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+
+                                           {{--  {{ $sale->fechaemision }} --}}
+                                           {{ \Carbon\Carbon::parse($sale->fechaemision)->format('d/m/Y') }}
+
+                                        </td>
+                                        <td class="items-center px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                            {{ $sale->customer->nomrazonsocial  }}
+
+                                        </td>
+
+
+
+
+
+                                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                            {{ $sale->boleta->serie }}-{{ $sale->boleta->numero  }}
+                                        </td>
+
+
+
+
+
+                                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+
+                                            @isset($sale->boleta->currency)
+                                                <span>{{ $sale->boleta->currency->abbreviation }}</span> {{ $sale->boleta->total - $sale->boleta->total*0.18  }}
+                                            @endisset
+
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                            @isset($sale->boleta->currency)
+                                            <span>{{ $sale->boleta->currency->abbreviation }}</span> {{ $sale->boleta->total*0.18 }}
+                                            @endisset
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                            @isset($sale->boleta->currency)
+                                            <span>{{ $sale->boleta->currency->abbreviation }}</span> {{ $sale->boleta->total }}
+                                            @endisset
+
+
+                                        </td>
+                                        <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                                            {{-- <a class="btn btn-blue"><i class="fa-sharp fa-solid fa-eye"></i></a> --}}
+
+                                            {{--  @can('update User') --}}
+
+                                            @can('Sale Update')
+                                                <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}"
+                                                    class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            @endcan
+                                            {{-- @can('delete User') --}}
+
+                                            {{-- <a class="btn btn-red"
+                                                wire:click="$emit('deleteUser', {{ $userr->id }})">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </a> --}}
+                                            {{--  @endcan --}}
+
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                <!-- More people... -->
+                            </tbody>
+                        </table>
+
+
+
+
+                        @if ($comprobantes->hasPages())
+                            <div class="px-6 py-4">
+                                {{ $comprobantes->links() }}
+                            </div>
+                        @endif
+                    @else
+                        {{-- <div wire:init="loadUsers">
+
+                                </div> --}}
+
+
+                        @if ($readyToLoad)
+                            <div class="px-6 py-4">
+                                <div class="flex items-center justify-center">
+                                    No hay ningún registro coincidente
+                                </div>
+                            </div>
+                        @else
+                            <div class="px-6 py-4">
+                                <div class="flex items-center justify-center">
+                                    <svg class="w-10 h-10 animate-spin" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 512 512" fill="blue">
+
+                                        <path
+                                            d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z" />
                                     </svg>
-                                </x-a>
-                                <x-jet-danger-button class="p-sm-button">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                      </svg>
-                                </x-jet-danger-button>
-                            </td>
-                        </tr>
-                        @empty
-                            <tr>
-                                <td colspan="3">
-                                    <p> No Hay Comprobantes</p>
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
 
-                        @endforelse
-                    </tbody>
-                    
-                </table>
+                            <div class="px-6 py-4">
+                                <div class="flex items-center justify-center">
+                                    Cargando, espere un momento
+                                </div>
+                            </div>
+                        @endif
+
+
+
+
+                    @endif
 
 
 
 
 
-
-
-
-
-
-
-
+                </x-table>
 
             </div>
-        </div>
+
+
+            {{-- <x-slot name="footer">
+
+                <h2 class="text-xl font-semibold leading-tight text-gray-600">
+                    Pie
+                </h2>
+
+
+            </x-slot> --}}
+
+
+
+
+
+
+            @push('scripts')
+            @endpush
+
     </div>
 
-    
 </div>

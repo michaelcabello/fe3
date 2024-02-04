@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('tipocomprobantes', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->boolean('state')->default(true); 
+            $table->string('namecorto')->nullable();
+            $table->boolean('state')->default(true);
             $table->timestamps();
         });
     }

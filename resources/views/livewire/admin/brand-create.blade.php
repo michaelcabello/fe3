@@ -36,8 +36,7 @@
                         {{-- wire:model.defer="content" --}}
                         wire:model="description"
                         class="w-full form-control"
-                        rows="5">
-                        </textarea>
+                        rows="5"></textarea>
 
 
                     <x-jet-input-error for="description"/>
@@ -89,7 +88,8 @@
 
         <x-slot name="footer">
 
-            <x-jet-button wire:click="$set('open', false)"  class="mr-2">
+            {{-- <x-jet-button wire:click="$set('open', false)"  class="mr-2"> --}}
+            <x-jet-button wire:click="cancelar"  class="mr-2">
                 <i class="mx-2 fa-sharp fa-solid fa-xmark"></i>Cancelar
             </x-jet-button>
 

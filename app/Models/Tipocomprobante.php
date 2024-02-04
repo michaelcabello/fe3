@@ -12,7 +12,7 @@ class Tipocomprobante extends Model
 
     //relacion de muchos a muchos
     public function locals(){
-        return $this->belongsToMany(Local::class, 'local_tipocomprobantes', 'tipocomprobante_id','local_id' )->withPivot('default','serie');
+        return $this->belongsToMany(Local::class, 'local_tipocomprobantes', 'tipocomprobante_id','local_id' )->withPivot('default','serie','inicio', 'company_id');
     }
 
     public function sales(){

@@ -25,6 +25,9 @@ return new class extends Migration
             $table->double('saleprice', 8, 2)->nullable();//precio venta
             $table->double('salepricemin', 8, 2)->nullable();//precio venta minimo
 
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+
             $table->unsignedBigInteger('currency_id')->nullable();
             $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
 
@@ -38,12 +41,12 @@ return new class extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 
             $table->unsignedBigInteger('brand_id')->nullable();
-            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');            
+            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
 
 
-            $table->boolean('state')->default(false); 
+            $table->boolean('state')->default(false);
 
-            $table->string('image'); 
+           // $table->string('image');
 
             $table->timestamps();
         });

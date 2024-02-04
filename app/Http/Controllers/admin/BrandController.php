@@ -30,7 +30,8 @@ class BrandController extends Controller
 
 
     public function pdfReport(){
-        $brands = Brand::all();
+        //$brands = Brand::all();
+        $brands = Brand::where('company_id', auth()->user()->employee->company->id)->get();
         $pdf = Pdf::loadView('admin.brands.report', compact('brands'));
         //return $pdf->download('brand.pdf');//descarga
         return $pdf->stream('brand_report.pdf');//ve en linea

@@ -37,7 +37,7 @@ class SaleCreate extends Component
 
     public function mount()
     {
-        
+
         $this->cart = session('cart', new Collection());
         // establece la propiedad $cart en el contenido de la sesión con la clave 'cart' si existe,
         //y si no existe (por ejemplo, en la primera carga de la página), crea una nueva colección vacía y la asigna a la propiedad $cart.
@@ -66,6 +66,11 @@ class SaleCreate extends Component
             session(['cart' => $this->cart]);
         }
     }
+
+
+
+
+
 
 
     public function addToCartdos($productId, $name, $price, $quantity = 1)
@@ -116,8 +121,8 @@ class SaleCreate extends Component
                 'fechaemision' => $this->fechaemision,
                 'fechavencimiento' => $this->fechavencimiento,
 
-                'subtotal' => $this->total - $this->total*$igv/100,
-                'igv'=> $this->total*$igv/100,
+                'subtotal' => $this->total - $this->total * $igv / 100,
+                'igv' => $this->total * $igv / 100,
                 'total' => $this->total,
 
                 'formadepago' => $this->formadepago,
@@ -135,8 +140,8 @@ class SaleCreate extends Component
             //guardamos la table boleta_local_productatribute
 
             foreach ($this->cart as $item) {
-                $pa = Productatribute::where('codigo', $item['id'])->first();//buscamos el producto en Productatribute
-                $lpa = Localproductatribute::where('local_id', Auth::user()->employee->local->id)->where('productatribute_id', $pa->id)->first();//buscamos el producto en localproductatribute
+                $pa = Productatribute::where('codigo', $item['id'])->first(); //buscamos el producto en Productatribute
+                $lpa = Localproductatribute::where('local_id', Auth::user()->employee->local->id)->where('productatribute_id', $pa->id)->first(); //buscamos el producto en localproductatribute
                 Boleta_local_productatribute::create([
                     'price' => $item['price'],
                     'quantity' => $item['quantity'],
@@ -148,23 +153,20 @@ class SaleCreate extends Component
                 //quitamos el stock
                 $lpa->stock = $lpa->stock - $item['quantity'];
                 $lpa->save();
-
-
             }
 
 
 
-             DB::commit();
-             $this->clearCart();
-             //falta restar el stock
+            DB::commit();
+            $this->clearCart();
+            //falta restar el stock
 
         } catch (\Throwable $th) {
             DB::rollback();
             throw $th;
         }
 
-       return redirect()->route('admin.sale.index');
-
+        return redirect()->route('admin.sale.index');
     }
 
 
@@ -294,6 +296,34 @@ class SaleCreate extends Component
         }
     }
 
+    public function updatePrice($product, $price, $cant)
+    {
+        //$title = '';
+
+        //dd($price);
+
+        $product = Productatribute::where('codigo', $product)->first();
+
+        //$product = Product::find($product, ['codigobarras']);
+        //dd($product );
+        $exist = Cart::get($product->codigo);
+        if ($exist) {
+            $this->removeItem($product->codigo);
+        }
+
+        if ($price > 0 and $cant > 0) {
+            Cart::add($product->codigo, $product->slug, $price, $cant, $product->id);
+            $this->total = Cart::getTotal();
+            // $this->itemsQuantity = Cart::getTotalQuantity();
+
+            // $this->emit('scan-ok', $title);
+
+        }
+    }
+
+
+
+
     public function clearCart()
     {
         session()->forget('cart');
@@ -327,8 +357,6 @@ class SaleCreate extends Component
 
 
 
-        return view('livewire.admin.sale-create', compact('customers', 'currencies', 'tipocomprobantes','cart','cartdos'));
-
-
+        return view('livewire.admin.sale-create', compact('customers', 'currencies', 'tipocomprobantes', 'cart', 'cartdos'));
     }
 }

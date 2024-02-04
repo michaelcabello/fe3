@@ -14,5 +14,8 @@ class Customer extends Model
         return $this->hasMany(Sale::class);
     }
 
+    public function comprobantes(){
+        return $this->hasMany(Comprobante::class);
+    }
 
 }

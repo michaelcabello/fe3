@@ -1,39 +1,47 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Admin\BrandList;
+use App\Http\Livewire\Admin\LocalEdit;
+use App\Http\Livewire\Admin\LocalList;
 use App\Http\Livewire\Admin\ModeloList;
+use App\Http\Livewire\Admin\LocalCreate;
 use App\Http\Livewire\Admin\ProductList;
 use App\Http\Livewire\Admin\CategoryList;
+use App\Http\Livewire\Admin\LocalCreated;
+use App\Http\Livewire\Admin\ShipmentEdit;
 use App\Http\Livewire\Admin\CategoryListd;
+use App\Http\Livewire\Admin\InventoryList;
+use App\Http\Livewire\Admin\ReceptionEdit;
+use App\Http\Livewire\Admin\InventoryList2;
+use App\Http\Livewire\Admin\PermissionList;
+use App\Http\Livewire\Admin\ComprobanteList;
+use App\Http\Livewire\Admin\InventoryListdos;
+use App\Http\Controllers\admin\RoleController;
+use App\Http\Controllers\admin\SaleController;
+use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\BrandController;
+use App\Http\Controllers\admin\LocalController;
 use App\Http\Controllers\admin\TableController;
+use App\Http\Livewire\Admin\InventorygeneralList;
+use App\Http\Livewire\Admin\ProductcompuestoEdit;
 use App\Http\Livewire\Admin\ProductcompuestoList;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\ShipmentController;
+use App\Http\Controllers\admin\ShoppingController;
+use App\Http\Controllers\admin\ReceptionController;
+use App\Http\Livewire\Admin\InventorytemporaryList;
 use App\Http\Livewire\Admin\ProductcompuestoCreate;
 use App\Http\Livewire\Admin\ProductfamilieCreateaa;
-use App\Http\Livewire\Admin\ProductcompuestoCreatea;
-use App\Http\Controllers\admin\ProductfamilieController;
-use App\Http\Livewire\Admin\ProductcompuestoEdit;
-use App\Http\Livewire\Admin\InventoryList;
-use App\Http\Controllers\Admin\ProductatributeController;
-use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\UsersRolesController;
-use App\Http\Controllers\admin\UsersPermissionsController;
-use App\Http\Controllers\Admin\RoleController;
-use App\Http\Livewire\Admin\PermissionList;
+use App\Http\Livewire\Admin\ProductcompuestoCreatea;
+use App\Http\Controllers\admin\ComprobanteController;
 use App\Http\Controllers\admin\ConfigurationController;
-use App\Http\Livewire\Admin\InventorygeneralList;
-use App\Http\Livewire\Admin\InventoryListdos;
-use App\Http\Livewire\Admin\InventoryList2;
-use App\Http\Livewire\Admin\InventorytemporaryList;
-use App\Http\Controllers\admin\ShoppingController;
-use App\Http\Controllers\admin\ShipmentController;
-use App\Http\Livewire\Admin\ShipmentEdit;
-use App\Http\Controllers\admin\ReceptionController;
-use App\Http\Livewire\Admin\ReceptionEdit;
+use App\Http\Controllers\admin\ProductfamilieController;
+use App\Http\Controllers\admin\ProductatributeController;
+use App\Http\Controllers\admin\UsersPermissionsController;
 use App\Http\Livewire\Admin\LocalproductatributestockList;
 use App\Http\Livewire\Admin\LocalproductatributestocktotalesList;
-use App\Http\Controllers\admin\SaleController;
-use App\Http\Controllers\admin\BrandController;
+
 
 
 //Route::get('/', [HomeController::class, 'home'])->name('admin.home');
@@ -46,6 +54,14 @@ Route::get('/marcas/reportpdf',[BrandController::class,'pdfReport'])->name('bran
 Route::get('/categories', CategoryList::class)->name('category.list');
 Route::get('/modelos', ModeloList::class)->name('modelo.list');
 Route::get('/marcas', BrandList::class)->name('brand.list');
+
+Route::get('/locales', LocalList::class)->name('local.list');
+Route::get('/local/create', LocalCreated::class)->name('local.create');
+Route::get('/local/edit/{local}', LocalEdit::class)->name('local.edit');
+//Route::get('local/create', [LocalController::class, 'create'])->name('admin.local.create');
+
+
+
 //Route::get('/empezarinventarioinicial', InventoryList::class)->name('inventory.list');
 Route::get('/inventarioinicial', InventoryList::class)->name('inventory.list');//lista los inventarios
 /* no usaremos porque lo controlaresmos con primarykey de laravel */
@@ -59,6 +75,9 @@ Route::get('/stockdeproductostotales/{productatribute_id}', Localproductatribute
 Route::resource('shopping', ShoppingController::class)->names('admin.shopping');
 Route::get('sale', [SaleController::class, 'index'])->name('admin.sale.index');
 Route::get('sale/create', [SaleController::class, 'create'])->name('admin.sale.create');
+
+Route::get('comprobante', ComprobanteList::class)->name('admin.comprobante.list');
+Route::get('comprobante/create', [ComprobanteController::class, 'create'])->name('admin.comprobante.create');
 
 
 //envio de mercaderias entre locales

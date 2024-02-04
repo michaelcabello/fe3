@@ -25,15 +25,13 @@
                        {{--  @if ($id == 1)
                              @continue
                         @endif --}}
-
                         <option value="{{$id}}">{{$category}}</option>
-
                     @endforeach
 
                 </select>
                 <x-jet-input-error for="category_id" />
             </div>
-            {{ $category_id }}
+            {{-- {{ $category_id }} --}}
             {{-- @endif --}}
 
 
@@ -53,8 +51,8 @@
                 <x-jet-input-error for="subcategory_id" />
             </div>
 
-            <input type="text" wire:model="subcategory_id">
-            {{ $subcategory_id }}
+            {{-- <input type="text" wire:model="subcategory_id">
+            {{ $subcategory_id }} --}}
 
 
 {{--                 <div class="py-2 mb-1" wire:ignore>
@@ -82,7 +80,7 @@
                     <x-jet-input-error for="brand_id" />
                 </div>
 
-                {{ $brand_id }}
+                {{-- {{ $brand_id }} --}}
 
                 <div class="py-2 mb-1">
                     <label>Modelos</label>
@@ -97,7 +95,7 @@
                 </div>
 
 
-                {{ $modelo_id }}
+                {{-- {{ $modelo_id }} --}}
 
 
                 <div class="py-2 mb-1">
@@ -114,7 +112,7 @@
                 </div>
 
 
-            {{ $prod_servicio }}
+            {{-- {{ $prod_servicio }} --}}
 
 
 
@@ -131,7 +129,7 @@
                     <x-jet-input-error for="categories" />
                 </div> --}}
 
-                {{ $simplecompound }}
+                {{-- {{ $simplecompound }} --}}
 
                 <div class="py-2 mb-2">
                     <label>Genero</label>
@@ -146,14 +144,14 @@
                     <x-jet-input-error for="categories" />
                 </div>
 
-                {{ $gender}}
+               {{--  {{ $gender}} --}}
 
                 <div class="flex items-center justify-center px-2 mt-2 mr-4 md:mt-0">
 
                     <x-jet-input type="checkbox" wire:model="haveserialnumber" class="mx-1" />
                     Tiene numero de Serie
                 </div>
-                {{ $haveserialnumber}}
+                {{-- {{ $haveserialnumber}} --}}
 
 
         </x-slot>

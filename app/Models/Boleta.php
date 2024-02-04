@@ -17,4 +17,28 @@ class Boleta extends Model
         return $this->belongsTo(Sale::class, 'sale_id');
     }
 
+   //uno a muchos inversa
+   public function paymentype()
+   {
+       return $this->belongsTo(Paymenttype::class, 'paymentype_id');
+   }
+
+    //de uno a muchos inversa
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class, 'currency_id');
+    }
+
+
+    //relacion de uno a muchos polimorfica, con boleta, lo mismo en factura
+    public function comprobantes()
+    {
+        return $this->morphMany('App\Models\Comprobante','comprobanteable');
+    }
+
+    public function pymenttypes(){
+        return $this->hasMany(Paymenttype::class);
+    }
+
+
 }

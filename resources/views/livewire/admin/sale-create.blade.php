@@ -5,8 +5,6 @@
         </h2>
 
 
-
-
     </x-slot>
 
     {{-- <form method="POST" action="{{ route('admin.shopping.store') }}" enctype="multipart/form-data"> --}}
@@ -18,6 +16,8 @@
         <div class="grid px-4 mx-auto mt-4 max-w-7xl sm:px-6 lg:px-8">
             <div x-show="activeTab === 'xxx'">
                 <div class="px-3 bg-white">
+
+
 
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">

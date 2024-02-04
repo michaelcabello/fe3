@@ -14,7 +14,6 @@ use App\Models\Configuration;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-
 class BrandList extends Component
 {
     use WithPagination; //para paginacion
@@ -60,7 +59,7 @@ class BrandList extends Component
     // Método para eliminar marcas seleccionadas
     public function deleteSelected()
     {
-        $this->authorize('update', Brand::class); // Asegúrate de tener permisos para eliminar
+        $this->authorize('delete', Brand::class); // Asegúrate de tener permisos para eliminar
 
         $selectedIds = array_keys(array_filter($this->selectedBrands));
 
@@ -116,6 +115,7 @@ class BrandList extends Component
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         //'brand.image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Agregamos 'nullable' para permitir valores nulos
         'brand.state' => 'required',
+        'brand.company_id' => '',
         'brand.order' => '',
         'brand.title' => '',
         'brand.description' => '',
@@ -131,9 +131,11 @@ class BrandList extends Component
     public function render()
     {
         $this->authorize('view', new Brand);
+        $companyId = auth()->user()->employee->company->id;
 
         if ($this->readyToLoad) {
-            $brands = Brand::where('name', 'like', '%' . $this->search . '%')
+            $brands = Brand::where('company_id', $companyId)
+                ->where('name', 'like', '%' . $this->search . '%')
                 ->when($this->state, function ($query) { /* Esta línea utiliza el método when de Laravel para condicionalmente aplicar una cláusula where en la consulta Eloquent. Si $this->state es verdadero (es decir, tiene un valor que se evalúa como verdadero en PHP), entonces se agrega la cláusula where que filtra los registros donde el campo state es igual a 1. */
                     return $query->where('state', 1);
                 })
@@ -238,6 +240,7 @@ class BrandList extends Component
 
         //convierto brand.name en mayuscula
         $this->brand->name = strtoupper($this->brand->name);
+        $this->brand->comany_id = auth()->user()->employee->company->id;
         //es otra forma de actualizar
         $this->brand->save();
 
@@ -247,6 +250,7 @@ class BrandList extends Component
             'slug' => Str::slug($this->brand->slug),
             'state' => $this->brand->statee,
             'order' => $this->brand->order,
+            'comany_id' => auth()->user()->employee->company->id,
             //'image' => $image,
             'image' => $this->brand->image,
         ]); */

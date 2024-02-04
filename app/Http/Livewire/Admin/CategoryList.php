@@ -49,9 +49,14 @@ class CategoryList extends Component
     public function render()
     {
         $this->authorize('create', new Category);
+        $companyId = auth()->user()->employee->company->id;
+        //dd($companyId);
+
         if ($this->readyToLoad) {
 
-            $categories = Category::where('name', 'like', '%' . $this->search . '%')->paginate(10);
+            $categories = Category::where('name', 'like', '%' . $this->search . '%')
+            ->where('company_id', $companyId)
+            ->paginate(10);
         } else {
             $categories = [];
         }

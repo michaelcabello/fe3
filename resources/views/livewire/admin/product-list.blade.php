@@ -54,12 +54,10 @@
                                     </div>
                                 @endif --}}
                                {{-- genera productos en 2 pasos y con selec2 --}}
-
                                 @can('Product Create')
                                  @livewire('admin.productfamilie-created')
                                 @endcan
                                 {{-- funciona pero sin select2 --}}
-
                                 {{--  /*esto no usaremos*/ --}}
                                 {{-- <div class="flex items-center justify-center" >
                                     <a href="{{ route('admin.create')}}" class="items-center justify-center sm:flex btn btn-orange" >

@@ -22,9 +22,15 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->integer('order')->nullable();
 
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+
             $table->string('title')->nullable();
             $table->text('description')->nullable();
             $table->text('keywords')->nullable();
+
+            // Agrega la restricción única en la combinación de name y company_id
+            $table->unique(['name', 'company_id']);
 
             $table->timestamps();
         });

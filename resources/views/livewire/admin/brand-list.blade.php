@@ -691,6 +691,7 @@
             <script src="sweetalert2.all.min.js"></script>
 
             <script>
+
                 Livewire.on('deleteBrand', brandId => {
                     Swal.fire({
                         title: 'Estas seguro?',

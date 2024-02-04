@@ -18,9 +18,9 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        $this->call(CategorySeeder::class);
+        //$this->call(CategorySeeder::class);
         $this->call(BrandSeeder::class);
-        $this->call(SubcategorySeeder::class);
+        //$this->call(SubcategorySeeder::class);
         Storage::deleteDirectory('public/categories');
         Storage::makeDirectory('public/categories');
 
@@ -35,40 +35,48 @@ class DatabaseSeeder extends Seeder
         //\App\Models\Category::factory(20)->create();
 
         //\App\Models\Brand::factory(5)->create();
-        \App\Models\Modelo::factory(5)->create();
+        //\App\Models\Modelo::factory(5)->create();
 
-        $this->call(ModeloSeeder::class);
+
 
         $this->call(ConfigurationSeeder::class);
-        $this->call(CurrencySeeder::class);
-        $this->call(CtacteSeeder::class);
+
+        $this->call(UmSeeder::class);
+        $this->call(ModeloSeeder::class);
+        $this->call(CategorySeeder::class);
+
+        //$this->call(CtacteSeeder::class);
 
         $this->call(TaxSeeder::class);
-        $this->call(UmSeeder::class);
 
-        \App\Models\Product::factory(10)->create();
-        $this->call(LocalSeeder::class);
+
+        //\App\Models\Product::factory(10)->create();
+        //$this->call(LocalSeeder::class);
+        $this->call(CurrencySeeder::class);
         $this->call(UserSeeder::class);
-        $this->call(InitialinventorySeeder::class);
-
+        //$this->call(InitialinventorySeeder::class);
 
         $this->call(TipocomprobanteSeeder::class);
         $this->call(TipodocumentoSeeder::class);
+        $this->call(ProductSeeder::class);
 
 
-        \App\Models\Customer::factory(50)->create();
+       // \App\Models\Customer::factory(50)->create();
 
-        $this->call(LocalTipocomprobanteSeeder::class);
+        //$this->call(LocalTipocomprobanteSeeder::class);
 
-        $this->call(GroupatributeSeeder::class);
-        $this->call(AtributeSeeder::class);
+       // $this->call(GroupatributeSeeder::class);
+        //$this->call(AtributeSeeder::class);
 
 
-        $this->call(ProductfamiliesTableSeeder::class);
-        $this->call(ProductatributesTableSeeder::class);
-        $this->call(AtributeProductatributeTableSeeder::class);
-        $this->call(LocalProductatributeTableSeeder::class);
+       // $this->call(ProductfamiliesTableSeeder::class);
+       // $this->call(ProductatributesTableSeeder::class);
+       // $this->call(AtributeProductatributeTableSeeder::class);
+       // $this->call(LocalProductatributeTableSeeder::class);
 
-        \App\Models\Supplier::factory(50)->create();
+        //\App\Models\Supplier::factory(50)->create();
+        $this->call(LocalTipocomprobantesTableSeeder::class);
+        $this->call(PaymenttypesTableSeeder::class);
+        $this->call(CustomersTableSeeder::class);
     }
 }

@@ -274,7 +274,4 @@ class ShoppingCreate extends Component
         $this->fechaemision = $selectedDate;
     }
 
-
-
-
 }

@@ -18,7 +18,8 @@ class BrandExport implements FromCollection, WithCustomStartCell, Responsable
 
     public function collection()
     {
-        return Brand::all();
+        //return Brand::all();
+        return Brand::where('company_id', auth()->user()->employee->company->id)->get();
     }
 
     public function startCell(): string

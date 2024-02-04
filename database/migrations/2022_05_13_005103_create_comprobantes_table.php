@@ -16,22 +16,19 @@ return new class extends Migration
         Schema::create('comprobantes', function (Blueprint $table) {
             $table->id();
 
-            $table->string('serie');
-            $table->integer('numero');
-            $table->timestamp('fechaemision')->nullable();
-            $table->timestamp('fechavencimiento')->nullable();
-            $table->double('total', 8, 2)->nullable();//precio venta
-            $table->string('formadepago')->nullable();
-            $table->string('numeroguia')->nullable();
+            //$table->double('total', 8, 2)->nullable();//precio venta
+            //$table->string('formadepago')->nullable();
+            //$table->string('numeroguia')->nullable();
+            //relacion de uno a muchos polimorfica con factura boleta guia
+            //$table->unsignedBigInteger('comprobanteable_id');
+            //$table->string('comprobanteable_type');
+            //relacion de uno a uno polimorfica con factura boleta guia
+            //$table->unsignedBigInteger('comprobanteable_id');
+            //$table->string('comprobanteable_type');
+            //$table->primary(['comprobanteable_id', 'comprobanteable_type']);//no debe repetirse
 
-            $table->unsignedBigInteger('local_tipocomprobante_id')->nullable();
-            $table->foreign('local_tipocomprobante_id')->references('id')->on('local_tipocomprobantes')->onDelete('cascade');
-           
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
-
-            $table->unsignedBigInteger('currency_id')->nullable();
-            $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
 
             $table->unsignedBigInteger('local_id')->nullable();
             $table->foreign('local_id')->references('id')->on('locals')->onDelete('cascade');
@@ -39,7 +36,21 @@ return new class extends Migration
             $table->unsignedBigInteger('tipocomprobante_id')->nullable();
             $table->foreign('tipocomprobante_id')->references('id')->on('tipocomprobantes')->onDelete('cascade');
 
-            
+            $table->unsignedBigInteger('local_tipocomprobante_id')->nullable();
+            $table->foreign('local_tipocomprobante_id')->references('id')->on('local_tipocomprobantes')->onDelete('cascade');
+
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+
+            $table->unsignedBigInteger('employee_id')->nullable();
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+
+            //$table->unsignedBigInteger('currency_id')->nullable();
+            //$table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
+
+            $table->timestamp('fechaemision')->nullable();
+            $table->text('nota')->nullable();
+
             $table->timestamps();
         });
     }

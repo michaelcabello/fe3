@@ -250,8 +250,8 @@
 
                                             {{--  @can('update User') --}}
 
-                                            @can('sale Update')
-                                                <a href="{{ route('admin.sale.edit', $sale) }}"
+                                            @can('Sale Update')
+                                                <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}"
                                                     class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a>
                                             @endcan
                                             {{-- @can('delete User') --}}

@@ -21,21 +21,21 @@ class BrandSeeder extends Seeder
             'slug'=>'adidas',
             'state' => 1,
             'image' => '/storage/brands/default.jpg',
-        ])->categories()->sync([1,2,7,8,9]);
+        ]);
 
         Brand::create([
             'name' => 'nike',
             'slug'=>'nike',
             'state' => 1,
             'image' => '/storage/brands/default.jpg',
-        ])->categories()->sync([1,2,4,6,8]);
+        ]);
 
         Brand::create([
             'name' => 'bonaroti',
             'slug'=>'bonaroti',
             'state' => 1,
             'image' => '/storage/brands/default.jpg',
-        ])->categories()->sync([1,2,3,6,7]);
+        ]);
 
 
         Brand::create([
@@ -43,13 +43,13 @@ class BrandSeeder extends Seeder
             'slug'=>'ohchica',
             'state' => 1,
             'image' => '/storage/brands/default.jpg',
-        ])->categories()->sync([1,2,4,4,5]);
+        ]);
 
         Brand::create([
             'name' => 'manfin',
             'slug'=>'manfin',
             'state' => 1,
             'image' => '/storage/brands/default.jpg',
-        ])->categories()->sync([1,2,3,8,9]);
+        ]);
     }
 }

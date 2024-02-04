@@ -25,4 +25,12 @@ class Employee extends Model
     {
         return $this->belongsTo(Local::class);
     }
+
+    // Relación de uno a muchos inversa
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+
 }

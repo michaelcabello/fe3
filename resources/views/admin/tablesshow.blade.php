@@ -65,6 +65,33 @@
                                 @endcan
 
 
+                                @can('Local View')
+                                <article>
+                                    <figure>
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/brands.jpg')}}" alt="">
+                                    </figure>
+                                    <header class="mt-2">
+                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('local.list')}}">Locales</a></h1>
+                                    </header>
+
+                                </article>
+                                @endcan
+
+
+
+                                @can('Local View')
+                                <article>
+                                    <figure>
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/brands.jpg')}}" alt="">
+                                    </figure>
+                                    <header class="mt-2">
+                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('local.list')}}">Tipo Comprobantes de Local</a></h1>
+                                    </header>
+
+                                </article>
+                                @endcan
+
+
                                 @can('Brand View')
                                 <article>
                                     <figure>
@@ -89,6 +116,21 @@
 
                                 </article>
                                 @endcan
+
+
+                                @can('Subcategory View')
+                                <article>
+                                    <figure>
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/categories.jpg')}}" alt="">
+                                    </figure>
+                                    <header class="mt-2">
+                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('category.list')}}">Sub Categorias</a></h1>
+
+                                    </header>
+
+                                </article>
+                                @endcan
+
 
                                 @can('Modelo View')
                                 <article>
@@ -188,7 +230,7 @@
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/pos.jpg')}}" alt="">
                                     </figure>
                                     <header class="mt-2">
-                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('admin.sale.index')}}">POS</a></h1>
+                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('admin.comprobante.list')}}">POS</a></h1>
                                     </header>
 
                                 </article>

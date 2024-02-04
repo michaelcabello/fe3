@@ -21,6 +21,7 @@ class CategorySeeder extends Seeder
             'name' => 'General',
             'slug' => Str::slug('General'),
             'state'=>0,
+
         ]);
 
         $category1 = Category::create([

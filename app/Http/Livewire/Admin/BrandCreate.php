@@ -15,6 +15,7 @@ class BrandCreate extends Component
     use AuthorizesRequests;
     use WithFileUploads;
     public $open = false;
+
     public $name, $state, $image, $identificador, $title, $description, $keywords, $order;
 
     public function mount()
@@ -31,7 +32,7 @@ class BrandCreate extends Component
 
 
     protected $rules = [
-        'name' => 'required|unique:brands',
+        'name' => 'required',
         'image' => '',
         //esta validaciones no es necesario al momento de crear nueva marca
         /* 'title'=>'',
@@ -39,6 +40,24 @@ class BrandCreate extends Component
         'keywords'=>'', */
 
     ];
+
+    public function rules()
+    {
+        $rules = $this->rules;
+
+        // Agrega la regla única condicional para la combinación de name y company_id
+        $rules['name'] .= '|unique_brand';
+
+        return $rules;
+    }
+
+    public function cancelar()
+    {
+        $this->open = false;
+        $this->reset(['open', 'name', 'image', 'title', 'description', 'keywords']);
+
+    }
+
 
 
     public function save()
@@ -72,6 +91,7 @@ class BrandCreate extends Component
             'slug' => Str::slug($this->name),
             'state' => $statee,
             'order' => $this->order,
+            'company_id' => auth()->user()->employee->company->id, //encontramos la company actual osea la compania del usuario logueado
             'title' => $this->title,
             'description' => $this->description,
             'keywords' => $this->keywords,

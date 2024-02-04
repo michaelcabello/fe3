@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\admin;
 
+use Image;
 use App\Models\User;
+use App\Models\Local;
+use App\Models\Employee;
 use App\Models\Position;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
-use App\Models\Employee;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Permission;
-use Illuminate\Support\Str;
-use Image;
 use App\Http\Requests\UpdateUserRequest;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
@@ -26,12 +27,14 @@ class UserController extends Controller
 
     public function create()
     {
+        $companyId = auth()->user()->employee->company->id;
         $user = new User(); //instanvciamos el modelo user pero vacia
         //$this->authorize('create', $user);
         $roles = Role::with('permissions')->get();
         $permissions = Permission::pluck('name','id');
-        $positions = Position::all();
-        return view('admin.users.create', compact('user', 'roles', 'permissions', 'positions'));
+        $positions = Position::where('company_id', $companyId)->get();//positions de la emresa
+        $locales = Local::where('company_id', $companyId)->get();//locales de la empresa
+        return view('admin.users.create', compact('user', 'roles', 'permissions', 'positions', 'locales'));
 
     }
 
@@ -67,7 +70,10 @@ class UserController extends Controller
             'birthdate'=> $request ->birthdate,
             'state'=> $request ->state,
             'user_id'=> $user ->id,
-            'position_id'=> $request ->position_id,
+            'position_id'=> $request->position_id,
+            'local_id'=> $request->local_id,
+            'company_id'=> auth()->user()->employee->company->id,
+
         ]);
 
         $user->assignRole($request->roles);

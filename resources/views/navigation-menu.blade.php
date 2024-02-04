@@ -35,6 +35,7 @@
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <!-- Teams Dropdown -->
                 @livewire('admin.notification-shipment')
+                <p>T/C: @livewire('admin.tipodecambio-show')</p>
 
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="relative ml-3">
@@ -116,6 +117,7 @@
                                 </span>
                             @endif
                         </x-slot>
+
 
                         <x-slot name="content">
                             <!-- Account Management -->

@@ -15,5 +15,10 @@ class Currency extends Model
         return $this->hasMany(Sale::class);
     }
 
+    //Relacion uno a muchos
+    public function companies(){
+        return $this->hasMany(Company::class);
+    }
+
 
 }

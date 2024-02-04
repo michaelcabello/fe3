@@ -30,6 +30,9 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->text('keywords')->nullable();
 
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

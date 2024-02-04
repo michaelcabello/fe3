@@ -102,7 +102,7 @@
                                             </div>
 
 
-                                            <div >
+                                            <div class="mr-4">
                                                 <x-jet-label value="Genero:" />
                                                 <select name="gender" class="form-control block py-2.5 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                                 <option value="">Escoger</option>
@@ -112,6 +112,21 @@
                                                 <x-jet-input-error for="gender" />
                                                 {{-- {!! $errors->first('typeproduct_id','<span class="help-block">:message</span>') !!} --}}
                                             </div>
+
+                                            <div>
+                                                <x-jet-label value="Local:" />
+                                                <select name="local_id" class="form-control block py-2.5  text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                <option value="">Selecciona un local</option>
+                                                @foreach($locales as $local)
+                                                <option value="{{$local->id}}"
+                                                        {{ old('local_id', auth()->user()->employee->local->id)== $local->id ? 'selected':''}} >{{$local->name}}</option>
+                                                @endforeach
+                                                </select>
+                                                {{-- {!! $errors->first('position_id','<span class="help-block">:message</span>') !!} --}}
+                                                <x-jet-input-error for="position_id" />
+                                            </div>
+
+
 
                                         </div>
 

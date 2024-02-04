@@ -20,6 +20,12 @@ return new class extends Migration
             $table->double('valorcompra', 8, 2)->nullable();//precio venta
             $table->date('fecha')->nullable();
 
+            $table->unsignedBigInteger('currency_id')->nullable();
+            $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
+
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
