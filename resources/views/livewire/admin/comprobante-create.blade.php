@@ -96,7 +96,7 @@
 
                             <div class="mb-4 mr-4">
                                 <x-jet-label value="Fecha de Emisión" />
-                                <x-jet-input type="date" wire:model="fechaemision" value="{{ old('fechaemision') }}"
+                                <x-jet-input type="date" max="{{ date('Y-m-d') }}" min="{{ date('Y-m-d', strtotime('-3 days')) }}" wire:model="fechaemision" value="{{ old('fechaemision') }}"
                                     class="w-full h-10" placeholder="fecha de emisión" />
                                 <x-jet-input-error for="fechaemision" />
                             </div>
@@ -112,12 +112,13 @@
 
                             <div class="mb-4 mr-4">
                                 <x-jet-label value="Fecha de Vencimiento:" />
-                                <x-jet-input type="date" wire:model="fechavencimiento"
+                                <x-jet-input type="date" max="{{ date('Y-m-d') }}" min="{{ date('Y-m-d', strtotime('-3 days')) }}" wire:model="fechavencimiento"
                                     value="{{ old('fechavencimiento') }}" class="w-full h-10"
                                     placeholder="fecha de pago" />
                                 <x-jet-input-error for="fechavencimiento" />
 
                             </div>
+
 
 
 
@@ -134,7 +135,6 @@
                                 </select>
                                 <x-jet-input-error for="currency_id" />
                             </div>
-
 
 
                             <div class="col-span-2 form-group {{ $errors->has('nota') ? 'text-danger' : '' }} ">

@@ -78,5 +78,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LocalTipocomprobantesTableSeeder::class);
         $this->call(PaymenttypesTableSeeder::class);
         $this->call(CustomersTableSeeder::class);
+        $this->call(TipodeoperacionsTableSeeder::class);
     }
 }

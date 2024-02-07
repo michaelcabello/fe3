@@ -29,6 +29,11 @@ class Comprobante extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    public function tipodeoperacion()
+    {
+        return $this->belongsTo(Tipodeoperacion::class);
+    }
+
     public function currency()
     {
         return $this->belongsTo(Currency::class);

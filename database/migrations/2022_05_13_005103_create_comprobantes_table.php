@@ -42,8 +42,12 @@ return new class extends Migration
             $table->unsignedBigInteger('company_id')->nullable();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
 
+
             $table->unsignedBigInteger('employee_id')->nullable();
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+
+            $table->unsignedBigInteger('tipodeoperacion_id')->nullable();
+            $table->foreign('tipodeoperacion_id')->references('id')->on('tipodeoperacions')->onDelete('cascade');
 
             //$table->unsignedBigInteger('currency_id')->nullable();
             //$table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');

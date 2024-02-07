@@ -18,12 +18,13 @@ use App\Models\Tipocomprobante;
 use Illuminate\Support\Collection;
 use App\Models\Local_tipocomprobante;
 use App\Services\SunatService;
+use Luecano\NumeroALetras\NumeroALetras;
 
 class ComprobanteCreate extends Component
 {
     //public $msg = '';
     //public $itemsQuantity;
-    //public $company;
+    public $company;
     public $customer_id = "", $local_id = "", $tipocomprobante_id = "", $local_tipocomprobante_id, $company_id, $employee_id, $fechaemision, $nota;
     public $serie, $numero, $serienumero, $fechavencimiento, $total, $comprobante_id, $paymenttype_id = "", $currency_id = "";
     public $moneda;
@@ -31,91 +32,89 @@ class ComprobanteCreate extends Component
     public $search, $boleta;
 
 
-    public $tipoOperacion = '0101'; //Catálogo No. 51: Código de tipo de operación 0101 venta interna
-    public $tipoDoc = ''; //factura boleta $tipocomprobante_id
-    //public $serie = '';
-    public $correlativo = ''; //$numero
-    public $fechaEmision = ''; //$fechaemision
-    public $formaPago = [
-        'tipo' => 'Contado', //$paymenttype_id
+    public $invoice = [
+        //ublversion estoy poniendo en company oseaesta guardado en companies
+        'tipoOperacion' => '0101', //Catálogo No. 51: Código de tipo de operación 0101 venta interna tabla tipodeoperacions, se guardara en comprobantes
+        'tipoDoc' => '', //$tipocomprobante_id = ""   01 es factura  tabla tipocomprobantes//seguarda en la tabla comprobantes
+        'serie' => 'F001', //$serie//se guarda en la tabla boletas facturas
+        'correlativo' => '16', //$numero//se guarda en la tabla boletas facturas //se guarda en la tabla comprobantes
+        'fechaEmision' => '2023-08-24 13:05:00-05:00', //$fechaemision //se guarda en la tabla comprobantes
+        'formaPago' => [
+            'tipo' => 'Contado', //$paymenttype_id debo enviar contado o credito en letras
+        ],
+
+        'tipoMoneda' => 'PEN', //$currency_id = ""  Catalog. 02
+
+        'client' => [
+            'tipoDoc' => '6', //6 es ruc 1 es dni  tabla codigos de tipos de documentos de identidad
+            'numDoc' => '20000000001',
+            'rznSocial' => 'ABC SRL',
+            'address' => [
+                'direccion' => '',
+            ],
+        ],
+
+        'company' => [],
+
+        //Montos
+        'mtoOperGravadas' => 0,
+        'mtoOperExoneradas' => 0,
+        'mtoOperInafectas' => 0,
+        'mtoOperExportacion' => 0,
+        'mtoOperGratuitas' => 0,
+        /* 'mtoBaseIvap' => 0, */
+
+        //Impuestos
+        'mtoIGV' => 0,
+        'mtoIGVGratuitas' => 0,
+        'icbper' => 0,
+        'totalImpuestos' => 0,
+
+        //Totales
+        'valorVenta' => 0,
+        'subTotal' => 0,
+        'redondeo' => 0,
+        'mtoImpVenta' => 0,
+
+        //Productos
+        'details' => [],
+
+        //Leyendas
+        'legends' => [
+            [
+                'code' => '1000',
+                'value' => 'CERO  CON 00/100',
+            ]
+        ],
+
+        'branch_id' => ''
     ];
-
-    public $tipoMoneda = "PEN"; //$currency_id
-
-    public $client =  [
-        'tipoDoc' => '6',
-        'numDoc' => '',
-        'rznSocial' => '',
-        'address' => [
-            'direccion' => '',
-        ]
-    ];
-
-    public $company = [];
-
-    //Montos
-    public $mtoOperGravadas = 0;
-    public $mtoOperExoneradas = 0;
-    public $mtoOperInafectas = 0;
-    public $mtoOperExportacion = 0;
-    public $mtoOperGratuitas = 0;
-    /* 'mtoBaseIvap' => 0, */
-
-
-    //Impuestos
-    public $mtoIGV = 0;
-    public $mtoIGVGratuitas = 0;
-    /* 'mtoIvap' => 0, */
-    public $icbper = 0;
-    public $totalImpuestos = 0;
-
-    //Totales
-    public $valorVenta = 0;
-    public $subTotal = 0;
-    public $redondeo = 0;
-    public $mtoImpVenta = 0;
-
-    //Productos
-    public $details = [];
-
-    //Leyendas
-    public $legends = [
-        [
-            'code' => '1000',
-            'value' => 'CERO  CON 00/100',
-        ]
-    ];
-
-    public $branch_id = '';
-
-
-
 
     public $item = [
-        'codProducto' => '',
-        'unidad' => 'NIU',
-        'descripcion' => '',
+        'codProducto' => '',//esta en la tabla productos //cod producto y obtienes el resto//guardar producto base + igv
+        'unidad' => 'NIU',//esta en la tabla productos
+        'descripcion' => '',//esta en la tabla productos
 
         //Cantidad de items
-        'cantidad' => 1,
+        'cantidad' => 1,//se guardara en la tabla detalles
 
         // Valor gratuido
-        'mtoValorGratuito' => "0.000",
+        'mtoValorGratuito' => "0.000",//esta  en la tabla productos
 
         //Valor unitario sin igv
-        'mtoValorUnitario' => "0.000",
+        'mtoValorUnitario' => "0.000",//esta  en la tabla productos
 
         // Valor unitario con igv
-        'mtoPrecioUnitario' => "0.000",
+        'mtoPrecioUnitario' => "0.000",//esta en la tabla productos
 
         //mtoValorUnitario * cantidad
-        'mtoBaseIgv' => "0.000",
+        'mtoBaseIgv' => "0.000",//al final guardaremos en el detalle
 
         //Porcentaje de igv
-        'porcentajeIgv' => 18,
+        'porcentajeIgv' => 18, //esta en la tabla impuestos lo jalaremos no guardaremos en la tabla detalles
 
         //mtoBaseIgv * porcentajeIgv / 100
-        'igv' => "0.000",
+        'igv' => "0.000", // guardaremos en la tabla detalles
 
         //Impuesto por bolsa plastica
         'factorIcbper' => "0.000",
@@ -124,7 +123,7 @@ class ComprobanteCreate extends Component
         'icbper' => "0.000",
 
         // Gravado Op. Onerosa - Catalog. 07
-        'tipAfeIgv' => 10,
+        'tipAfeIgv' => 10, //esta en la tabla catalogo 07 tipo de venta lo sacamos de la tabla productos no guardamos en detalles
 
         // igv + icbper
         'totalImpuestos' => "0.000",
@@ -159,7 +158,6 @@ class ComprobanteCreate extends Component
         //$this->currency_id = $currency;
 
     }
-
 
 
     public function ScanCode($barcode,  $quantity = 1)
@@ -321,6 +319,18 @@ class ComprobanteCreate extends Component
 
     public function updatedTipocomprobanteId($value)
     {
+
+        $tipocomprobantes = auth()->user()->employee->local->tipocomprobantes;
+        // Encuentra el tipo de comprobante seleccionado
+        $selectedTipoComprobante = $tipocomprobantes->where('id', $value)->first();
+
+        // Actualiza el valor de tipoDoc en tu array de invoice
+        $this->invoice['tipoDoc'] = $selectedTipoComprobante->codigo;
+
+
+        //dd($selectedTipoComprobante->codigo);
+
+
         // $this->moneda = Currency::where('id', $value);
         //$this->serie = Currency::where('id', $value)->value('abbreviation');
         // Lógica para actualizar el campo "Serie" cuando cambia el comprobante seleccionado
@@ -335,6 +345,10 @@ class ComprobanteCreate extends Component
             ->first()
             ->pivot
             ->serie ?? "null";
+
+        $this->invoice['serie'] = $this->serie;
+        //dd($this->invoice['serie']);
+
 
         switch ($value) {
             case 1:
@@ -396,11 +410,127 @@ class ComprobanteCreate extends Component
     ];
 
 
+
+    public function getTotales()
+    {
+        $this->invoice['mtoOperGravadas'] = collect($this->invoice['details'])
+            ->where('tipAfeIgv', '10')
+            ->sum('mtoValorVenta');
+
+        $this->invoice['mtoOperExoneradas'] = collect($this->invoice['details'])
+            ->where('tipAfeIgv', '20')
+            ->sum('mtoValorVenta');
+
+        $this->invoice['mtoOperInafectas'] = collect($this->invoice['details'])
+            ->where('tipAfeIgv', '30')
+            ->sum('mtoValorVenta');
+
+        $this->invoice['mtoOperExportacion'] = collect($this->invoice['details'])
+            ->where('tipAfeIgv', '40')
+            ->sum('mtoValorVenta');
+
+        $this->invoice['mtoOperGratuitas'] = collect($this->invoice['details'])
+            ->whereNotIn('tipAfeIgv', ['10', '20', '30', '40'])
+            ->sum('mtoValorVenta');
+
+        $this->invoice['mtoIGV'] = collect($this->invoice['details'])
+            ->whereIn('tipAfeIgv', ['10', '20', '30', '40'])
+            ->sum('igv');
+
+        $this->invoice['mtoIGVGratuitas'] = collect($this->invoice['details'])
+            ->whereNotIn('tipAfeIgv', ['10', '20', '30', '40'])
+            ->sum('igv');
+
+        $this->invoice['icbper'] = collect($this->invoice['details'])
+            ->sum('icbper');
+
+        $this->invoice['totalImpuestos'] = $this->invoice['mtoIGV'] + $this->invoice['icbper'];
+
+        /* Totales */
+        $this->invoice['valorVenta'] = collect($this->invoice['details'])
+            ->whereIn('tipAfeIgv', ['10', '20', '30', '40'])
+            ->sum('mtoValorVenta');
+
+        $this->invoice['subTotal'] = $this->invoice['valorVenta'] + $this->invoice['totalImpuestos'];
+
+        $this->invoice['mtoImpVenta'] = floor($this->invoice['subTotal'] * 10) / 10;
+
+        $this->invoice['redondeo'] =  $this->invoice['subTotal'] - $this->invoice['mtoImpVenta'];
+    }
+
+    public function getLegends()
+    {
+        $formatter = new NumeroALetras();
+
+        $legends = [];
+
+        $legends[] = [
+            'code' => '1000',
+            'value' => $formatter->toInvoice($this->invoice['mtoImpVenta'], 2)
+        ];
+
+        if (collect($this->invoice['details'])->whereNotIn('tipAfeIgv', ['10', '20', '30', '40'])->count()) {
+            $legends[] = [
+                'code' => '1002',
+                'value' => 'TRANSFERENCIA GRATUITA DE UN BIEN Y/O SERVICIO PRESTADO GRATUITAMENTE'
+            ];
+        }
+
+        if ($this->invoice['tipoOperacion'] == '1001') {
+            $legends[] = [
+                'code' => '2006',
+                'value' => 'Operación sujeta a detracción'
+            ];
+        }
+
+        $this->invoice['legends'] = $legends;
+    }
+
+
     //guardamos el comprobante
     public function save()
     {
 
+        //dd($this->company);
         $this->validate();
+
+
+
+        $this->invoice['fechaEmision'] = $this->fechaemision;
+        if ($this->paymenttype_id == 1) {
+            $this->invoice['formapago']['tipo'] = "contado";
+        } elseif (($this->paymenttype_id == 2)) {
+            $this->invoice['formapago']['tipo'] = "credito";
+        }
+
+
+        if ($this->paymenttype_id == 1) {
+            $this->invoice['tipoMoneda'] = "PEN";
+        } elseif ($this->paymenttype_id == 2) {
+            $this->invoice['tipoMoneda'] = "USD";
+        }
+
+        $this->invoice['client']['tipoDoc'] = "RUC";
+        $this->invoice['client']['numDoc'] = 20447393303;
+        $this->invoice['client']['rznSocial'] = "BTECPERU SRL";
+
+        $this->invoice['company']['ruc'] = auth()->user()->employee->company->ruc;
+        $this->invoice['company']['razonSocial'] = auth()->user()->employee->company->razonsocial;
+        $this->invoice['company']['nombreComercial'] = auth()->user()->employee->company->nombrecomercial;
+
+        $this->invoice['company']['address']['ubigeo'] = auth()->user()->employee->company->ubigeo;
+        $this->invoice['company']['address']['provincia'] = "Lima";
+        $this->invoice['company']['address']['departamento'] = "Lima";
+        $this->invoice['company']['address']['distrito'] = "Lima";
+        $this->invoice['company']['address']['urbanizacion'] = "Santa Beatriz";
+        $this->invoice['company']['address']['direccion'] = auth()->user()->employee->company->direccion;
+        $this->invoice['company']['address']['codLocal'] = auth()->user()->employee->local->anexo;
+
+
+
+
+        //dd($this->invoice['company']['address']['codLocal']);
+
 
         // Validación de que la fecha de vencimiento sea mayor o igual a la fecha de emisión
         $this->local_id = auth()->user()->employee->local->id;
@@ -449,10 +579,36 @@ class ComprobanteCreate extends Component
 
         //guadamos la tabla comprobante_product
         //lo comente porque accede muchas veces a la BD
-        /*  $temporals = Temporal::where('company_id', auth()->user()->employee->company->id)
+        $temporals = Temporal::where('company_id', auth()->user()->employee->company->id)
             ->where('employee_id', auth()->user()->employee->id)->get();
 
         foreach ($temporals as $temporal) {
+            //si el producto es bolsa agregar icbper de lo contrario no///////////////////////////////
+            //$this->invoice['details'][] = $this->item;
+            $this->item['codProducto'] = $temporal->codigobarras;
+            $this->item['unidad'] = "NIU";
+            $this->item['descripcion'] = $temporal->name;
+            $this->item['cantidad'] = $temporal->quantity;
+            $this->item['mtoValorGratuito'] = 0;
+            $this->item['mtoValorUnitario'] = $temporal->saleprice / 1.18;  //monto sin inc igv
+            $this->item['mtoPrecioUnitario'] = $temporal->saleprice; //precio con igv
+            $this->item['mtoBaseIgv'] = ($temporal->saleprice / 1.18) * $temporal->quantity; //cantidad * precio sin igv
+            $this->item['porcentajeIgv'] = 18; //porcentaje en numeros 18%
+            $this->item['igv'] = $temporal->subtotal - $temporal->subtotal / 1.18;
+            $this->item['factorIcbper'] = 0.2;
+            $this->item['icbper'] = $temporal->quantity * (0.2);
+            $this->item['tipAfeIgv'] = 10;
+            $this->item['totalImpuestos'] = $temporal->quantity * (0.2) + ($temporal->subtotal - $temporal->subtotal / 1.18);
+            $this->item['mtoValorVenta'] = ($temporal->saleprice / 1.18) * $temporal->quantity;
+
+
+            //me falta dar valores a los items
+
+            //dd($this->item);
+            $this->invoice['details'][] = $this->item;
+
+
+
             Comprobante_Product::create([
                 'cant' => $temporal->quantity,
                 'price' => $temporal->saleprice,
@@ -461,11 +617,15 @@ class ComprobanteCreate extends Component
                 'comprobante_id' => $comprobante->id,
             ]);
         }
-        $temporals->each->delete(); */
+
+        $this->getTotales();
+        $this->getLegends();
+
+        $temporals->each->delete();
 
         //guadamos la tabla comprobante_product
 
-        $temporals = Temporal::where('company_id', auth()->user()->employee->company->id)
+        /* $temporals = Temporal::where('company_id', auth()->user()->employee->company->id)
             ->where('employee_id', auth()->user()->employee->id)
             ->get();
 
@@ -481,22 +641,28 @@ class ComprobanteCreate extends Component
 
         Comprobante_Product::insert($comprobanteProductData->toArray());
 
-        $temporals->each->delete();
+        $temporals->each->delete(); */
 
 
         //facturacion electronica
         $sunat = new SunatService($this->invoice, $this->company);
+
         $sunat->getSee();
         $sunat->setInvoice();
+        $sunat->send();
 
+        /* $xml = $this->see->getFactory()->getLastXml();
+        $this->invoice['xml'] = $this->see->getFactory()->getLastXml();
+        $this->invoice['hash'] = (new XmlUtils())->getHashSign($xml);
 
+       dd($this->invoice); */
 
 
         //$this->emitTo('admin.comprobante-list', 'render');
 
         $this->emit('alert', 'El comprobante se creo correctamente');
 
-        return redirect()->route('admin.sale.index');
+        return redirect()->route('admin.comprobante.list');
 
 
 
