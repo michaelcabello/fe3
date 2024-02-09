@@ -10,14 +10,16 @@ use App\Models\Product;
 use Livewire\Component;
 use App\Models\Currency;
 use App\Models\Customer;
+use App\Models\Impuesto;
 use App\Models\Temporal;
 use App\Models\Comprobante;
-use App\Models\Comprobante_Product;
+use App\Models\Tipodocumento;
+use App\Services\SunatService;
 use GuzzleHttp\Promise\Create;
 use App\Models\Tipocomprobante;
 use Illuminate\Support\Collection;
+use App\Models\Comprobante_Product;
 use App\Models\Local_tipocomprobante;
-use App\Services\SunatService;
 use Luecano\NumeroALetras\NumeroALetras;
 
 class ComprobanteCreate extends Component
@@ -25,11 +27,12 @@ class ComprobanteCreate extends Component
     //public $msg = '';
     //public $itemsQuantity;
     public $company;
-    public $customer_id = "", $local_id = "", $tipocomprobante_id = "", $local_tipocomprobante_id, $company_id, $employee_id, $fechaemision, $nota;
+    public $tipodocumento_id="", $customer_id = "", $local_id = "", $tipocomprobante_id = "", $local_tipocomprobante_id, $company_id, $employee_id, $fechaemision, $nota;
     public $serie, $numero, $serienumero, $fechavencimiento, $total, $comprobante_id, $paymenttype_id = "", $currency_id = "";
     public $moneda;
-    public $subtotal, $igv, $tipodecambio_id;
+    public $subtotal, $tipodecambio_id;
     public $search, $boleta;
+    public $factorIcbper, $igv;
 
 
     public $invoice = [
@@ -145,7 +148,8 @@ class ComprobanteCreate extends Component
         //$this->fechaemision = Carbon::now()->format('d m Y');
         $this->fechaemision = Carbon::now()->format('Y-m-d'); //Y-m-d es el formato en el cual se guardara en la BD, la vista mostrara dd/mm/yyy es por el navegadory la configuracion de la pc pero al escoger la fecha automaticamente lo convierte a Y-m-d y lo guarda en la BD
 
-
+        $this->igv = Impuesto::where('siglas', 'IGV')->value('valor');
+        $this->factorIcbper = Impuesto::where('siglas', 'ICBPER')->value('valor');
         /* $this->moneda = Currency::where('default', 1)
         ->value('abbreviation'); */
         //$this->moneda = Company::where('id', $numero)->where('currency_id', );
@@ -154,7 +158,6 @@ class ComprobanteCreate extends Component
         $this->company = auth()->user()->employee->company;
 
         //$this->moneda = Currency::find($this->currency_id)->abbreviation;
-
         //$this->currency_id = $currency;
 
     }
@@ -164,7 +167,7 @@ class ComprobanteCreate extends Component
     {
         $this->search = $barcode;
         $company_id = auth()->user()->employee->company->id;
-        //dd($company_id);
+
         //buscamos productos de la empresa
         $product = Product::where('company_id', $company_id)->where('codigobarras', $this->search)->first();
 
@@ -184,7 +187,10 @@ class ComprobanteCreate extends Component
                 $product->id,
                 $product->codigobarras,
                 $product->name,
+                $product->um->abbreviation,
+                $product->tipoafectacion->codigo,
                 $product->saleprice,
+                $product->mtovalorgratuito,
                 $quantity
             );
 
@@ -192,7 +198,7 @@ class ComprobanteCreate extends Component
         }
     }
 
-    public function addToCartbd($product_id, $codigobarras, $name, $saleprice, $quantity) //productId  captura al codigobarras
+    public function addToCartbd($product_id, $codigobarras, $name, $um, $tipafeigv, $saleprice, $mtovalorgratuito, $quantity) //productId  captura al codigobarras
     {
         $company_id = auth()->user()->employee->company->id;
         //buscamos el producto en el carrito osea en la tabla temporal
@@ -211,18 +217,47 @@ class ComprobanteCreate extends Component
 
             $subtotal = $quantity * $saleprice;
 
-            Temporal::Create([
+            $temporal = Temporal::Create([
                 'company_id' => $company_id,
                 'employee_id' => auth()->user()->employee->id,
                 'product_id' => $product_id,
                 'codigobarras' => $codigobarras,
                 'name' => $name,
+                'um' => $um,
+                'tipafeigv' => $tipafeigv,//esta en la tabla productos y no cambia
                 'saleprice' => $saleprice,
+                'mtovalorgratuito' => $mtovalorgratuito,
                 'quantity' => $quantity,
                 'subtotal' => $subtotal,
                 // 'subtotal' => $saleprice*1,
                 //'image' => $image,
             ]);
+
+
+            $this->item['codProducto'] = $temporal->codigobarras;
+            $this->item['unidad'] = $temporal->um;
+            $this->item['descripcion'] = $temporal->name;
+            $this->item['cantidad'] = $temporal->quantity;
+            $this->item['mtoValorGratuito'] = $temporal->mtovalorgratuito;
+            $this->item['mtoValorUnitario'] = $temporal->saleprice / 1.18;  //monto sin inc igv
+            $this->item['mtoPrecioUnitario'] = $temporal->saleprice; //precio con igv
+            $this->item['mtoBaseIgv'] = ($temporal->saleprice / 1.18) * $temporal->quantity; //cantidad * precio sin igv
+            $this->item['porcentajeIgv'] = $this->igv; //porcentaje en numeros 18% esta en la tabla impuestos
+            $this->item['igv'] = $temporal->subtotal - $temporal->subtotal / 1.18;
+            $this->item['factorIcbper'] = $this->factorIcbper;//factor icbper esta en la tabla impuestos,la llamo en el moun
+            $this->item['icbper'] = $temporal->quantity * $this->factorIcbper;
+            $this->item['tipAfeIgv'] = $temporal->tipafeigv;
+            $this->item['totalImpuestos'] = $temporal->quantity * (0.2) + ($temporal->subtotal - $temporal->subtotal / 1.18);
+            $this->item['mtoValorVenta'] = ($temporal->saleprice / 1.18) * $temporal->quantity;
+
+            $this->invoice['details'][] = $this->item;
+
+            $this->getTotales();
+            $this->getLegends();
+
+
+
+
         }
     }
 
@@ -234,6 +269,9 @@ class ComprobanteCreate extends Component
         $this->total = Temporal::where('company_id', $company_id)
             ->where('employee_id', auth()->user()->employee->id)
             ->sum('subtotal');
+
+
+
 
         return $this->total;
     }
@@ -249,11 +287,13 @@ class ComprobanteCreate extends Component
             $this->updateQuantity($id, $saleprice, $quantity);
     }
 
-    public function delete(Temporal $temporal)
+    public function delete(Temporal $temporal)//elimina todo
     {
         //$this->authorize('update', $brand);
+
         $temporal->delete();
         $this->total = $this->getTotalFromTemporals();
+        //debemos limiar el array invoive
     }
 
 
@@ -319,18 +359,12 @@ class ComprobanteCreate extends Component
 
     public function updatedTipocomprobanteId($value)
     {
-
         $tipocomprobantes = auth()->user()->employee->local->tipocomprobantes;
         // Encuentra el tipo de comprobante seleccionado
         $selectedTipoComprobante = $tipocomprobantes->where('id', $value)->first();
-
         // Actualiza el valor de tipoDoc en tu array de invoice
-        $this->invoice['tipoDoc'] = $selectedTipoComprobante->codigo;
-
-
+        $this->invoice['tipoDoc'] = $selectedTipoComprobante->codigo;//aqui da el valor de tipocomprobante factura , boleta para enviara a sunat
         //dd($selectedTipoComprobante->codigo);
-
-
         // $this->moneda = Currency::where('id', $value);
         //$this->serie = Currency::where('id', $value)->value('abbreviation');
         // Lógica para actualizar el campo "Serie" cuando cambia el comprobante seleccionado
@@ -349,10 +383,10 @@ class ComprobanteCreate extends Component
         $this->invoice['serie'] = $this->serie;
         //dd($this->invoice['serie']);
 
-
+        $company_id = auth()->user()->employee->company->id;
         switch ($value) {
-            case 1:
-                $company_id = auth()->user()->employee->company->id;
+            case 1://para factura
+
                 /* $lastBoleta = Boleta::where('company_id', $company_id)
                     ->where('serie', $this->serie)
                     ->latest('numero')
@@ -364,28 +398,17 @@ class ComprobanteCreate extends Component
 
                 $this->numero = 1;
                 break; */
+                $this->numero = 8;
+                break;
 
+
+            case 2:
                 $lastBoleta = Boleta::where('company_id', $company_id)
                     ->where('serie', $this->serie)
                     ->latest('numero')
                     ->first();
 
-                $this->numero = $lastBoleta ? $lastBoleta->numero : 1;
-                break;
-
-
-            case 2:
-                /* $company_id = auth()->user()->employee->company->id;
-                $lastBoleta = Factura::where('company_id', $company_id)
-                    ->where('serie', $this->serie)
-                    ->latest('numero')
-                    ->first();
-
-                if ($lastBoleta) {
-                    $this->numero = $lastBoleta->numero;
-                } */
-
-                $this->numero = 1;
+                $this->numero = $lastBoleta ? $lastBoleta->numero : 81;
                 break;
 
             case 3:
@@ -398,6 +421,7 @@ class ComprobanteCreate extends Component
     }
 
     protected $rules = [
+        'tipodocumento_id' => 'required',
         'customer_id' => 'required',
         'tipocomprobante_id' => 'required',
         'paymenttype_id' => 'required',
@@ -494,8 +518,6 @@ class ComprobanteCreate extends Component
         //dd($this->company);
         $this->validate();
 
-
-
         $this->invoice['fechaEmision'] = $this->fechaemision;
         if ($this->paymenttype_id == 1) {
             $this->invoice['formapago']['tipo'] = "contado";
@@ -503,16 +525,21 @@ class ComprobanteCreate extends Component
             $this->invoice['formapago']['tipo'] = "credito";
         }
 
-
-        if ($this->paymenttype_id == 1) {
+        if ($this->currency_id == 1) {
             $this->invoice['tipoMoneda'] = "PEN";
-        } elseif ($this->paymenttype_id == 2) {
+        } elseif ($this->currency_id == 2) {
             $this->invoice['tipoMoneda'] = "USD";
         }
 
-        $this->invoice['client']['tipoDoc'] = "RUC";
-        $this->invoice['client']['numDoc'] = 20447393303;
-        $this->invoice['client']['rznSocial'] = "BTECPERU SRL";
+        //el cliente esta en la tabla customer
+        //buscamos el cliente y el tipo documento ruc, dni, carnet de extranjeria, etc
+        $customer = Customer::find($this->customer_id);
+        $tipodocumento = Tipodocumento::find($this->tipodocumento_id);//ruc , dni
+        //dd($tipodocumento->abbreviation);
+
+        $this->invoice['client']['tipoDoc'] = $tipodocumento->abbreviation;
+        $this->invoice['client']['numDoc'] = $customer->numdoc;
+        $this->invoice['client']['rznSocial'] = $customer->nomrazonsocial;
 
         $this->invoice['company']['ruc'] = auth()->user()->employee->company->ruc;
         $this->invoice['company']['razonSocial'] = auth()->user()->employee->company->razonsocial;
@@ -522,7 +549,7 @@ class ComprobanteCreate extends Component
         $this->invoice['company']['address']['provincia'] = "Lima";
         $this->invoice['company']['address']['departamento'] = "Lima";
         $this->invoice['company']['address']['distrito'] = "Lima";
-        $this->invoice['company']['address']['urbanizacion'] = "Santa Beatriz";
+        $this->invoice['company']['address']['urbanizacion'] = auth()->user()->employee->company->urbanizacion;
         $this->invoice['company']['address']['direccion'] = auth()->user()->employee->company->direccion;
         $this->invoice['company']['address']['codLocal'] = auth()->user()->employee->local->anexo;
 
@@ -534,7 +561,7 @@ class ComprobanteCreate extends Component
 
         // Validación de que la fecha de vencimiento sea mayor o igual a la fecha de emisión
         $this->local_id = auth()->user()->employee->local->id;
-
+        //factura. boleta
         $this->local_tipocomprobante_id = Local_tipocomprobante::where('local_id', $this->local_id)->where('tipocomprobante_id', $this->tipocomprobante_id)->value('id');
 
         /* $this->fechaemision = Carbon::createFromFormat('d m Y', $this->fechaemision)->format('Y-m-d');
@@ -551,6 +578,11 @@ class ComprobanteCreate extends Component
         $this->serienumero = $this->serie . "-" . $this->numero;
         //dd($this->serienumero);
 
+
+        //$this->getTotales();
+       // $this->getLegends();
+
+
         //guadamos la tabla comprobantes
         $comprobante = Comprobante::create([
             'customer_id' => $this->customer_id,
@@ -559,14 +591,39 @@ class ComprobanteCreate extends Component
             'local_tipocomprobante_id' => $this->local_tipocomprobante_id,
             'company_id' => auth()->user()->employee->company->id, //encontramos la company actual osea la compania del usuario logueado
             'employee_id' => auth()->user()->employee->id,
+            //guardaremos campos para facturacion electronica
+            'tipodeoperacion_id' => 1,//venta interna en este caso ponemos 0101
+            'tipodocumento_id' => $this->tipodocumento_id,//ruc, dni
             'fechaemision' =>  $this->fechaemision,
+            'fechavencimiento' =>  $this->fechavencimiento,
+            'paymenttype_id' => $this->paymenttype_id,//contado, credito
+            'currency_id' => $this->currency_id,//PEN, USD
+            'mtoopergravadas' => $this->invoice['mtoOperGravadas'],
+            'mtooperexoneradas' => $this->invoice['mtoOperExoneradas'],
+            'mtooperinafectas' => $this->invoice['mtoOperInafectas'],
+            'mtooperexportacion' => $this->invoice['mtoOperExportacion'],
+            'mtoopergratuitas' => $this->invoice['mtoOperGratuitas'],
+            'mtoigv' => $this->invoice['mtoIGV'],
+            'mtoigvgratuitas' => $this->invoice['mtoIGVGratuitas'],
+            'icbper' => $this->invoice['icbper'],
+            'totalimpuestos' => $this->invoice['totalImpuestos'],
+            'valorventa' => $this->invoice['valorVenta'],
+            'subtotal' => $this->invoice['subTotal'],
+            'mtoimpventa' => $this->invoice['mtoImpVenta'],
+            'redondeo' => $this->invoice['redondeo'],
+            'legends' => json_encode($this->invoice['legends']),
+            //anticipos
+            //detracciones
             'nota' => $this->nota,
+
         ]);
+
         //guadamos la tabla boletas
-        Boleta::create([
+        $boleta = Boleta::create([
             'serie' => $this->serie,
             'numero' => $this->numero,
             'serienumero' => $this->serienumero,
+            'fechaemision' =>  $this->fechaemision,
             'fechavencimiento' => $this->fechavencimiento,
             'total' => $this->total,
             'comprobante_id' => $comprobante->id,
@@ -574,6 +631,8 @@ class ComprobanteCreate extends Component
             'paymenttype_id' => $this->paymenttype_id,
             'currency_id' => $this->currency_id,
             'tipodecambio_id' => 1,
+
+            //guardaremos campos para facturacion electronica
 
         ]);
 
@@ -585,41 +644,26 @@ class ComprobanteCreate extends Component
         foreach ($temporals as $temporal) {
             //si el producto es bolsa agregar icbper de lo contrario no///////////////////////////////
             //$this->invoice['details'][] = $this->item;
-            $this->item['codProducto'] = $temporal->codigobarras;
-            $this->item['unidad'] = "NIU";
-            $this->item['descripcion'] = $temporal->name;
-            $this->item['cantidad'] = $temporal->quantity;
-            $this->item['mtoValorGratuito'] = 0;
-            $this->item['mtoValorUnitario'] = $temporal->saleprice / 1.18;  //monto sin inc igv
-            $this->item['mtoPrecioUnitario'] = $temporal->saleprice; //precio con igv
-            $this->item['mtoBaseIgv'] = ($temporal->saleprice / 1.18) * $temporal->quantity; //cantidad * precio sin igv
-            $this->item['porcentajeIgv'] = 18; //porcentaje en numeros 18%
-            $this->item['igv'] = $temporal->subtotal - $temporal->subtotal / 1.18;
-            $this->item['factorIcbper'] = 0.2;
-            $this->item['icbper'] = $temporal->quantity * (0.2);
-            $this->item['tipAfeIgv'] = 10;
-            $this->item['totalImpuestos'] = $temporal->quantity * (0.2) + ($temporal->subtotal - $temporal->subtotal / 1.18);
-            $this->item['mtoValorVenta'] = ($temporal->saleprice / 1.18) * $temporal->quantity;
 
-
-            //me falta dar valores a los items
-
-            //dd($this->item);
-            $this->invoice['details'][] = $this->item;
-
-
-
-            Comprobante_Product::create([
+                 Comprobante_Product::create([
                 'cant' => $temporal->quantity,
                 'price' => $temporal->saleprice,
                 'subtotal' => $temporal->subtotal,
                 'product_id' => $temporal->product_id,
                 'comprobante_id' => $comprobante->id,
+                'codigobarras' => $temporal->codigobarras, //codigo del producto que necesita la facturacion electronica
+                'mtobaseigv' => $this->item['mtoBaseIgv'],
+                'igv' => $this->item['igv'],
+                'icbper' => $this->item['icbper'],
+                'totalimpuestos' => $this->item['totalImpuestos'],
+                'mtovalorventa' => $this->item['mtoValorVenta'],
+
+
             ]);
         }
 
-        $this->getTotales();
-        $this->getLegends();
+        //$this->getTotales();
+        //$this->getLegends();
 
         $temporals->each->delete();
 
@@ -694,6 +738,7 @@ class ComprobanteCreate extends Component
 
         $customers = Customer::all();
         $currencies = Currency::all();
+        $tipodocumentos = Tipodocumento::all();
 
 
         $tipocomprobantes = auth()->user()->employee->local->tipocomprobantes;
@@ -701,6 +746,6 @@ class ComprobanteCreate extends Component
 
         $this->total = $this->getTotalFromTemporals();
 
-        return view('livewire.admin.comprobante-create', compact('customers', 'currencies', 'tipocomprobantes', 'cart'));
+        return view('livewire.admin.comprobante-create', compact('customers', 'currencies', 'tipocomprobantes', 'cart', 'tipodocumentos'));
     }
 }

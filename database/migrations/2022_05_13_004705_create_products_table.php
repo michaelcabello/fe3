@@ -43,11 +43,19 @@ return new class extends Migration
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
 
+            $table->unsignedBigInteger('tipoafectacion_id')->nullable();
+            $table->foreign('tipoafectacion_id')->references('id')->on('tipoafectacions')->onDelete('cascade');
+
+            $table->double('mtovalorgratuito', 8, 2)->default(0.00);
+            $table->double('mtovalorunitario', 8, 2)->nullable();
+            $table->double('mtopreciounitario', 8, 2)->nullable();
+
+            $table->boolean('esbolsa')->default(false);
+            $table->boolean('detraccion')->default(false);
+            $table->boolean('percepcion')->default(false);
 
             $table->boolean('state')->default(false);
-
            // $table->string('image');
-
             $table->timestamps();
         });
     }

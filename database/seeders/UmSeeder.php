@@ -18,26 +18,26 @@ class UmSeeder extends Seeder
 
         Um::create([
             'name' => 'unidades',
-            'abbreviation' => 'u',
+            'abbreviation' => 'NIU',
             'state' => 1,
         ]);
 
 
         Um::create([
             'name' => 'docena',
-            'abbreviation' => 'doc',
+            'abbreviation' => 'DOC',
             'state' => 1,
         ]);
 
         Um::create([
             'name' => 'ciento',
-            'abbreviation' => 'cien',
+            'abbreviation' => 'CIEN',
             'state' => 1,
         ]);
 
         Um::create([
             'name' => 'metros',
-            'abbreviation' => 'm',
+            'abbreviation' => 'MTS',
             'state' => 1,
         ]);
 

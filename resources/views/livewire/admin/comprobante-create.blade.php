@@ -18,6 +18,24 @@
 
                         {{-- <div class="py-2 mb-1" wire:ignore> --}}
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-6">
+
+                            <div class="mb-4 mr-4 ">
+                                {{-- <label>Proveedores </label> --}}
+                                <x-jet-label value="Tipo Documento" />
+                                {{-- select2 --}}
+                                <select wire:model="tipodocumento_id"
+                                    class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
+                                    data-placeholder="Selecccione un Proveedor" style="width:100%">
+                                    <option value="" selected disabled>Seleccione</option>
+                                    @foreach ($tipodocumentos as $tipodocumento)
+                                        <option value="{{ $tipodocumento->id }}">{{ $tipodocumento->abbreviation }}
+                                        </option>
+                                    @endforeach
+
+                                </select>
+                                <x-jet-input-error for="tipodocumento_id" />
+                            </div>
+
                             <div class="mb-4 mr-4 ">
                                 {{-- <label>Proveedores </label> --}}
                                 <x-jet-label value="Cliente" />
@@ -112,7 +130,7 @@
 
                             <div class="mb-4 mr-4">
                                 <x-jet-label value="Fecha de Vencimiento:" />
-                                <x-jet-input type="date" max="{{ date('Y-m-d') }}" min="{{ date('Y-m-d', strtotime('-3 days')) }}" wire:model="fechavencimiento"
+                                <x-jet-input type="date" min="{{ date('Y-m-d', strtotime('-3 days')) }}"  wire:model="fechavencimiento"
                                     value="{{ old('fechavencimiento') }}" class="w-full h-10"
                                     placeholder="fecha de pago" />
                                 <x-jet-input-error for="fechavencimiento" />
@@ -296,7 +314,7 @@
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
-                                                            <td></td>
+                                                            <td>{{ $invoice['legends'][0]['value'] }}</td>
                                                             <td class="text-right">Total: {{ $moneda }}</td>
                                                             <td class="text-center"> {{ $total }} </td>
                                                             <td></td>
@@ -311,6 +329,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 @else
                                     <h5 class="text-center text-muted">Agrega productos para la venta</h5>
                                 @endif

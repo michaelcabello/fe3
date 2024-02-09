@@ -29,6 +29,7 @@ class Comprobante extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    //venta interna
     public function tipodeoperacion()
     {
         return $this->belongsTo(Tipodeoperacion::class);
@@ -54,4 +55,11 @@ class Comprobante extends Model
     {
         return $this->hasOne(Boleta::class, 'comprobante_id');
     }
+
+    //ruc, dni
+    public function tipodocumento()
+    {
+        return $this->belongsTo(Tipodocumento::class);
+    }
+
 }

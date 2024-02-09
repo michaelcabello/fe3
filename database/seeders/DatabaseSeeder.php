@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CurrencySeeder::class);
         $this->call(UserSeeder::class);
         //$this->call(InitialinventorySeeder::class);
-
+        $this->call(TipoafectacionsTableSeeder::class);
         $this->call(TipocomprobanteSeeder::class);
         $this->call(TipodocumentoSeeder::class);
         $this->call(ProductSeeder::class);
@@ -79,5 +79,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PaymenttypesTableSeeder::class);
         $this->call(CustomersTableSeeder::class);
         $this->call(TipodeoperacionsTableSeeder::class);
+        $this->call(ImpuestosTableSeeder::class);
+
     }
 }

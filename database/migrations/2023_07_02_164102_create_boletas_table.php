@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('serie');
             $table->integer('numero');
             $table->string('serienumero');
+            $table->timestamp('fechaemision')->nullable();
             $table->timestamp('fechavencimiento')->nullable();
             //$table->string('formadepago');
             $table->double('total', 8, 2)->nullable();//precio venta

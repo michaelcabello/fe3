@@ -33,7 +33,7 @@ return new class extends Migration
             $table->unsignedBigInteger('local_id')->nullable();
             $table->foreign('local_id')->references('id')->on('locals')->onDelete('cascade');
 
-            $table->unsignedBigInteger('tipocomprobante_id')->nullable();
+            $table->unsignedBigInteger('tipocomprobante_id')->nullable(); //$tipocomprobante_id = ""   01 es factura  tabla tipocomprobantes//seguarda en la tabla comprobantes
             $table->foreign('tipocomprobante_id')->references('id')->on('tipocomprobantes')->onDelete('cascade');
 
             $table->unsignedBigInteger('local_tipocomprobante_id')->nullable();
@@ -46,13 +46,48 @@ return new class extends Migration
             $table->unsignedBigInteger('employee_id')->nullable();
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
 
-            $table->unsignedBigInteger('tipodeoperacion_id')->nullable();
+            $table->unsignedBigInteger('tipodeoperacion_id')->nullable();//Catálogo No. 51: Código de tipo de operación 0101 venta interna tabla tipodeoperacions
             $table->foreign('tipodeoperacion_id')->references('id')->on('tipodeoperacions')->onDelete('cascade');
+
+
+            $table->unsignedBigInteger('tipodocumento_id')->nullable();// ruc, dni, carnet de extranjeria
+            $table->foreign('tipodocumento_id')->references('id')->on('tipodocumentos')->onDelete('cascade');
 
             //$table->unsignedBigInteger('currency_id')->nullable();
             //$table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
 
+            //$table->string('serie');//estaran en la tabla boletas, facturas
+            //$table->integer('numero');//correlativo
+
             $table->timestamp('fechaemision')->nullable();
+            $table->timestamp('fechavencimiento')->nullable();
+
+            $table->unsignedBigInteger('paymenttype_id')->nullable();
+            $table->foreign('paymenttype_id')->references('id')->on('paymenttypes')->onDelete('cascade');
+
+            $table->unsignedBigInteger('currency_id')->nullable();
+            $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
+
+
+            $table->double('mtoopergravadas', 8, 2)->nullable();//
+            $table->double('mtooperexoneradas', 8, 2)->nullable();//
+            $table->double('mtooperinafectas', 8, 2)->nullable();//
+            $table->double('mtooperexportacion', 8, 2)->nullable();//
+            $table->double('mtoopergratuitas', 8, 2)->nullable();
+            $table->double('mtoigv', 8, 2)->nullable();
+            $table->double('mtoigvgratuitas', 8, 2)->nullable();
+            $table->double('icbper', 8, 2)->nullable();
+            $table->double('totalimpuestos', 8, 2)->nullable();
+            $table->double('valorventa', 8, 2)->nullable();
+            $table->double('subtotal', 8, 2)->nullable();
+            $table->double('redondeo', 8, 2)->nullable();
+            $table->double('mtoimpventa', 8, 2)->nullable();
+
+            $table->double('anticipos', 8, 2)->nullable();
+            $table->double('detracciones', 8, 2)->nullable();
+            $table->text('legends')->nullable();
+
+
             $table->text('nota')->nullable();
 
             $table->timestamps();

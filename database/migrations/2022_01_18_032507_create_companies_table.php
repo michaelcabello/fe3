@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('razonsocial')->nullable();
             $table->string('ubigeo')->nullable();
             $table->string('direccion')->nullable();
+            $table->string('urbanizacion')->nullable();
             $table->string('nombrecomercial')->nullable();
             $table->string('logo')->nullable();
             $table->string('soluser')->nullable();

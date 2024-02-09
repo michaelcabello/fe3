@@ -27,7 +27,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->unsignedBigInteger('tipodocumento_id')->nullable();
+            $table->unsignedBigInteger('tipodocumento_id')->nullable();//dni ruc
             $table->foreign('tipodocumento_id')->references('id')->on('tipodocumentos')->onDelete('cascade');
 
             $table->timestamps();

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->foreignId('employee_id')->constrained();//para identificarla venta del usuario o empleado
             $table->string('image')->nullable();
             $table->string('name');
+            $table->string('um');
+            $table->string('tipafeigv');
             $table->decimal('saleprice', 10, 2);
             $table->decimal('discount', 10, 2)->nullable();
             $table->decimal('salepricef', 10, 2)->nullable();
