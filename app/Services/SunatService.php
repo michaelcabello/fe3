@@ -279,8 +279,10 @@ class SunatService
         $report->setOptions([
             'no-outline',
             'viewport-size' => '1280x1024',
-            'page-width' => '8cm',
-            'page-height' => '20cm',
+            //'page-width' => '8cm',
+            //'page-height' => '20cm',
+            'page-width' => '21cm',
+            'page-height' => '29.7cm',
         ]);
         $report->setBinPath(env('WKHTMLTOPDF_PATH')); // Ruta relativa o absoluta de wkhtmltopdf
 

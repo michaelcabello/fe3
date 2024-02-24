@@ -58,6 +58,7 @@ return new class extends Migration
 
             //$table->string('serie');//estaran en la tabla boletas, facturas
             //$table->integer('numero');//correlativo
+            $table->string('serienumero');
 
             $table->timestamp('fechaemision')->nullable();
             $table->timestamp('fechavencimiento')->nullable();

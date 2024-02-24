@@ -222,7 +222,7 @@
 
 
                                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                            {{ $sale->boleta->serie }}-{{ $sale->boleta->numero  }}
+                                             {{ $sale->serienumero }}
                                         </td>
 
 
@@ -231,21 +231,27 @@
 
                                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
 
-                                            @isset($sale->boleta->currency)
+                                            {{-- @isset($sale->boleta->currency)
                                                 <span>{{ $sale->boleta->currency->abbreviation }}</span> {{ $sale->boleta->total - $sale->boleta->total*0.18  }}
-                                            @endisset
+                                            @endisset --}}
+
+                                            <span>{{ $sale->currency->abbreviation }} </span>{{ $sale->valorventa }}
 
                                         </td>
                                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                            @isset($sale->boleta->currency)
+                                            {{-- @isset($sale->boleta->currency)
                                             <span>{{ $sale->boleta->currency->abbreviation }}</span> {{ $sale->boleta->total*0.18 }}
-                                            @endisset
+                                            @endisset --}}
+
+                                            <span>{{ $sale->currency->abbreviation }} </span>{{ $sale->totalimpuestos }}
+
                                         </td>
                                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                            @isset($sale->boleta->currency)
+                                            {{-- @isset($sale->boleta->currency)
                                             <span>{{ $sale->boleta->currency->abbreviation }}</span> {{ $sale->boleta->total }}
-                                            @endisset
+                                            @endisset --}}
 
+                                            <span>{{ $sale->currency->abbreviation }} </span>{{ $sale->mtoimpventa }}
 
                                         </td>
                                         <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Local;
 use App\Models\Boleta;
 use App\Models\Company;
+use App\Models\Factura;
 use App\Models\Product;
 use Livewire\Component;
 use App\Models\Currency;
@@ -471,19 +472,26 @@ class ComprobanteCreate extends Component
         switch ($value) {
             case 1: //para factura
 
-                /* $lastBoleta = Boleta::where('company_id', $company_id)
+                $lastFactura = Factura::where('company_id', $company_id)
                     ->where('serie', $this->serie)
                     ->latest('numero')
                     ->first();
 
-                if ($lastBoleta) {
-                    $this->numero = $lastBoleta->numero;
+                if ($lastFactura) {
+                    $this->numero = $lastFactura->numero + 1;
+                } else {
+                    //busco en la tabla companies configuracion dende se puso el numero
+                    $lastFactura = Local_tipocomprobante::where('company_id', $company_id)
+                        ->where('serie', $this->serie)
+                        ->where('local_id', auth()->user()->employee->local->id)
+                        ->where('tipocomprobante_id', 1)
+                        ->first();
+                    if ($lastFactura)
+                        $this->numero = $lastFactura->inicio;
                 }
 
-                $this->numero = 1;
-                break; */
-                $this->numero = 8;
                 break;
+
 
 
             case 2:
@@ -538,13 +546,9 @@ class ComprobanteCreate extends Component
     {
         //validaremos y guardaremos al cliente
 
-
-
-
-
         //dd($this->subtotall <= $this->company->detraccion);
         // Realiza la validación aquí
-        if ($this->tipodeoperacion_codigo == '1001') {
+        if ($this->tipodeoperacion_codigo == '1001') { //venta con igv es el 1001
             if ($this->subtotall <= $this->company->detraccion) {
                 //throw new \Exception("El subtotal debe ser mayor que la detracción de la empresa.");
                 $this->emit('alert', 'El total debe ser mayor que la detracción');
@@ -552,13 +556,6 @@ class ComprobanteCreate extends Component
             }
         }
 
-        if ($this->tipodeoperacion_codigo == '1001') {
-            if ($this->subtotall <= $this->company->detraccion) {
-                //throw new \Exception("El subtotal debe ser mayor que la detracción de la empresa.");
-                $this->emit('alert', 'El total debe ser mayor que la detracción');
-                return;
-            }
-        }
 
         if ($this->tipodocumento_id == "") {
             $this->emit('alert', 'Escoge el DNI, RUC, CE ...');
@@ -571,7 +568,7 @@ class ComprobanteCreate extends Component
         ////$customer = Customer::find($this->customer_id);//se va crear el cliente
         $tipodocumento = Tipodocumento::find($this->tipodocumento_id); //ruc , dni
 
-        $numecar = Str::length($this->ruc); //calcula la longitud
+        $numecar = Str::length($this->ruc); //calcula la longitud de ruc, dni, ce, etc..
 
         //si loescogido es 1(dni), 4, 6(ruc)
         switch ($tipodocumento->codigo) {
@@ -594,7 +591,7 @@ class ComprobanteCreate extends Component
                 }
                 break;
             default:
-                $clases = "text-blue-700 bg-blue-200 border-blue-500";
+
                 break;
         }
 
@@ -612,57 +609,56 @@ class ComprobanteCreate extends Component
         //dd($this->serienumero);
 
         //buscamos en la tabla departamento
-        if($this->departamento){
+        if ($this->departamento) {
             $departamento = ucfirst(strtolower($this->departamento));
             $departamentoEncontrado = Department::where('name', $departamento)->first();
             $department_id = $departamentoEncontrado->id;
-        }else{
+        } else {
             $department_id = NULL;
         }
         //buscamos en la tabla provincia
-        if($this->provincia){
+        if ($this->provincia) {
             $provincia = ucfirst(strtolower($this->provincia));
             $provinciaEncontrado = Province::where('name', $provincia)->first();
             $province_id = $provinciaEncontrado->id;
-        }else{
+        } else {
             $province_id = NULL;
         }
 
         //buscamos en la tabla distrito
-        if($this->distrito){
+        if ($this->distrito) {
             $distrito = ucfirst(strtolower($this->distrito));
             $distritoEncontrado = District::where('name', $distrito)->first();
             $district_id = $distritoEncontrado->id;
-        }else{
+        } else {
             $district_id = NULL;
         }
 
 
 
         //guardamos al cliente en la tabla customers
-            //a direccion le damos null si esta vacio
-            $direccion = !empty($this->direccion) ? $this->direccion : null;
+        //a direccion le damos null si esta vacio
+        $direccion = !empty($this->direccion) ? $this->direccion : null;
 
-            $customer = Customer::where('numdoc', $this->ruc)->where('company_id', auth()->user()->employee->company->id)->first();
-            if(!$customer){
-                $customer = Customer::create([
-                    'tipodocumento_id' => $tipodocumento->id,
-                    'numdoc' => $this->ruc,
-                    'nomrazonsocial' => $this->razon_social,
-                    'nombrecomercial' => $this->nombre_comercial,
-                    'address' => $direccion,
-                    'department_id' => $department_id,
-                    'province_id' => $province_id,
-                    'district_id' => $district_id,
-                    'company_id' => auth()->user()->employee->company->id,
-                ]);
+        $customer = Customer::where('numdoc', $this->ruc)->where('company_id', auth()->user()->employee->company->id)->first();
+        if (!$customer) {
+            $customer = Customer::create([
+                'tipodocumento_id' => $tipodocumento->id,
+                'numdoc' => $this->ruc,
+                'nomrazonsocial' => $this->razon_social,
+                'nombrecomercial' => $this->nombre_comercial,
+                'address' => $direccion,
+                'department_id' => $department_id,
+                'province_id' => $province_id,
+                'district_id' => $district_id,
+                'company_id' => auth()->user()->employee->company->id,
+            ]);
+        };
 
-            };
-
-           // dd($customer);
+        // dd($customer);
 
         // Los valores que deseas insertar o actualizar
-       /*  $valores = [
+        /*  $valores = [
             'tipodocumento_id' => $tipodocumento->id,
             'nomrazonsocial' => $this->razon_social,
             'nombrecomercial' => $this->nombre_comercial,
@@ -711,6 +707,7 @@ class ComprobanteCreate extends Component
             'mtoimpventa' => $this->mtoimpventa,
             'redondeo' => $this->redondeo,
             'legends' => json_encode($this->getLegends()),
+            'serienumero' => $this->serienumero,
             //'legends' => json_encode($this->legends),
             //anticipos
             //detracciones
@@ -718,23 +715,63 @@ class ComprobanteCreate extends Component
 
         ]);
 
-        //guadamos la tabla boletas
-        $boleta = Boleta::create([
-            'serie' => $this->serie,
-            'numero' => $this->numero,
-            'serienumero' => $this->serienumero,
-            'fechaemision' =>  $this->fechaemision,
-            'fechavencimiento' => $this->fechavencimiento,
-            'total' => $this->total,
-            'comprobante_id' => $comprobante->id,
-            'company_id' => auth()->user()->employee->company->id,
-            'paymenttype_id' => $this->paymenttype_id,
-            'currency_id' => $this->currency_id,
-            'tipodecambio_id' => 1, //1 es un codigo de la tabla tipo de cambios es el id
+        //guardamos de acuerdo al comprobante escogido, boleta, factura
 
-            //guardaremos campos para facturacion electronica
+        //si loescogido es 1(dni), 4, 6(ruc)
+        switch ($this->tipocomprobante_id) {
 
-        ]);
+            case '1':
+                //es factura , se guardara en la variable $boleta indepenientemente si es factura, nc,guia, etc
+                $boleta = Factura::create([
+                    'serie' => $this->serie,
+                    'numero' => $this->numero,
+                    'serienumero' => $this->serienumero,
+                    'fechaemision' =>  $this->fechaemision,
+                    'fechavencimiento' => $this->fechavencimiento,
+                    'total' => $this->total,
+                    'comprobante_id' => $comprobante->id,
+                    'company_id' => auth()->user()->employee->company->id,
+                    'paymenttype_id' => $this->paymenttype_id,
+                    'currency_id' => $this->currency_id,
+                    'tipodecambio_id' => 1, //1 es un codigo de la tabla tipo de cambios es el id
+                    //guardaremos campos para facturacion electronica
+                ]);
+
+                break;
+
+            case '2':
+                //es boleta
+                //guadamos la tabla boletas
+                $boleta = Boleta::create([
+                    'serie' => $this->serie,
+                    'numero' => $this->numero,
+                    'serienumero' => $this->serienumero,
+                    'fechaemision' =>  $this->fechaemision,
+                    'fechavencimiento' => $this->fechavencimiento,
+                    'total' => $this->total,
+                    'comprobante_id' => $comprobante->id,
+                    'company_id' => auth()->user()->employee->company->id,
+                    'paymenttype_id' => $this->paymenttype_id,
+                    'currency_id' => $this->currency_id,
+                    'tipodecambio_id' => 1, //1 es un codigo de la tabla tipo de cambios es el id
+                    //guardaremos campos para facturacion electronica
+                ]);
+                break;
+            case '6':
+                //ruc
+                if ($numecar != 11) {
+                    $this->emit('alert', 'el RUC Debe tener 11 digitos');
+                    return;
+                }
+                break;
+            default:
+
+                break;
+        }
+
+
+
+
 
         //guadamos la tabla comprobante_product
         //lo comente porque accede muchas veces a la BD

@@ -22,7 +22,7 @@ class CustomersTableSeeder extends Seeder
             0 =>
             array (
                 'id' => 1,
-                'numdoc' => '10133423',
+                'numdoc' => '10133928',
                 'nomrazonsocial' => 'ticom perux',
                 'address' => 'av petit thouars 1255',
                 'phone' => '266250',
@@ -30,7 +30,7 @@ class CustomersTableSeeder extends Seeder
                 'email' => 'mcaal@hotmail.com',
                 'contact' => 'mike',
                 'state' => 1,
-                'user_id' => 1,
+                //'user_id' => 1,
                 'tipodocumento_id' => 2,
                 'created_at' => NULL,
                 'updated_at' => NULL,
@@ -38,7 +38,7 @@ class CustomersTableSeeder extends Seeder
             1 =>
             array (
                 'id' => 2,
-                'numdoc' => '10133420',
+                'numdoc' => '19133420',
                 'nomrazonsocial' => 'btecperu',
                 'address' => 'av raranibar 122',
                 'phone' => '2662540',
@@ -46,7 +46,7 @@ class CustomersTableSeeder extends Seeder
                 'email' => 'mmm@mmm.com',
                 'contact' => 'james',
                 'state' => 1,
-                'user_id' => 1,
+                //'user_id' => 1,
                 'tipodocumento_id' => 2,
                 'created_at' => NULL,
                 'updated_at' => NULL,

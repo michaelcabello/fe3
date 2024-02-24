@@ -44,7 +44,7 @@ return new class extends Migration
             $table->boolean('state')->default(true);
 
             //$table->unsignedBigInteger('user_id')->nullable();
-            //$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
 
             // Agrega la restricción única en la combinación de rucodni con numdoc y company_id
