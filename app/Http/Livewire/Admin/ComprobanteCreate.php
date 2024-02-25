@@ -788,6 +788,7 @@ class ComprobanteCreate extends Component
                 'subtotal' => $temporal->subtotal,
                 'product_id' => $temporal->product_id,
                 'comprobante_id' => $comprobante->id,
+                'company_id' => $this->company_id,
                 'codigobarras' => $temporal->codigobarras, //codigo del producto que necesita la facturacion electronica
                 'mtobaseigv' => $temporal->mtobaseigv,
                 'igv' => $temporal->igv,

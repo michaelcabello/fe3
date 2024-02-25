@@ -263,6 +263,12 @@
                                                 <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}"
                                                     class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a>
                                             @endcan
+
+                                            @can('Sale Update')
+                                                <a href="{{ route('admin.notadecredito.create', $sale->id) }}"
+                                                    class="btn btn-green">NC</a>
+                                            @endcan
+
                                             {{-- @can('delete User') --}}
 
                                             {{-- <a class="btn btn-red"

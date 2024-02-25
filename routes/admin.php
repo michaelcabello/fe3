@@ -42,6 +42,7 @@ use App\Http\Controllers\admin\UsersPermissionsController;
 use App\Http\Livewire\Admin\LocalproductatributestockList;
 use App\Http\Livewire\Admin\LocalproductatributestocktotalesList;
 use App\Http\Controllers\admin\BoletaReport;
+use App\Http\Livewire\Admin\NotadecreditoCreate;
 
 
 
@@ -79,6 +80,7 @@ Route::get('sale/create', [SaleController::class, 'create'])->name('admin.sale.c
 
 Route::get('comprobante', ComprobanteList::class)->name('admin.comprobante.list');
 Route::get('comprobante/create', [ComprobanteController::class, 'create'])->name('admin.comprobante.create');
+Route::get('notadecredito/create/{id}', NotadecreditoCreate::class)->name('admin.notadecredito.create');
 
 
 //envio de mercaderias entre locales

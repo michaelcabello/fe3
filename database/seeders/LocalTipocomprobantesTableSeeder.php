@@ -14,12 +14,12 @@ class LocalTipocomprobantesTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('local_tipocomprobantes')->delete();
-        
+
         \DB::table('local_tipocomprobantes')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 1,
                 'serie' => 'F001',
@@ -31,7 +31,7 @@ class LocalTipocomprobantesTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 2,
                 'serie' => 'B001',
@@ -43,8 +43,20 @@ class LocalTipocomprobantesTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
+            2 =>
+            array (
+                'id' => 3,
+                'serie' => 'BC01',
+                'inicio' => 2,
+                'default' => 1,
+                'local_id' => 1,
+                'tipocomprobante_id' => 5,
+                'company_id' => 1,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
         ));
-        
-        
+
+
     }
 }
