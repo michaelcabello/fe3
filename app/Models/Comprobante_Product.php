@@ -13,7 +13,11 @@ class Comprobante_Product extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
 
-
+    //de uno a muchos inversa
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 
 
 
