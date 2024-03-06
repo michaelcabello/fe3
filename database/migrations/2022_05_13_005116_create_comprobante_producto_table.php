@@ -18,6 +18,7 @@ return new class extends Migration
 
             $table->double('cant', 10, 4)->nullable();
             $table->double('price', 10, 4)->nullable();//precio venta
+            //$table->double('mtovalorunitario', 10, 4)->nullable();
             $table->double('subtotal', 10, 4)->nullable();
 
             $table->unsignedBigInteger('product_id')->nullable();

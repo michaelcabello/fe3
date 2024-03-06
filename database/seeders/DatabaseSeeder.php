@@ -84,5 +84,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TipodeoperacionsTableSeeder::class);
         $this->call(ImpuestosTableSeeder::class);
 
+        $this->call(TipodenotadecreditosTableSeeder::class);
     }
 }

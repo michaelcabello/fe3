@@ -19,6 +19,10 @@ class Comprobante_Product extends Model
         return $this->belongsTo(Product::class, 'product_id');
     }
 
+    public function comprobante()
+    {
+        return $this->belongsTo(Comprobante::class, 'comprobante_id');
+    }
 
 
 }

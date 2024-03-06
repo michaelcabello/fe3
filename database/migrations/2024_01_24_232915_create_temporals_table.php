@@ -41,7 +41,7 @@ return new class extends Migration
            $table->boolean('esbolsa')->default(false);
            //$table->text('legends')->nullable(); ira en comprobante o boletas
             $table->timestamps();
-            $table->unique(['company_id', 'codigobarras']);
+            $table->unique(['company_id', 'codigobarras']);//parece que aqui debemos agergar loca u usuario empreado
         });
     }
 

@@ -130,7 +130,13 @@
                             </td>
                             <td align="center">
                                 {{ moneda }}
-                                {{ det.mtoValorUnitario|n_format }}
+
+                                {% if det.mtoValorUnitario is not null %}
+                                    {{ det.mtoValorUnitario|n_format }}
+                                {% else %}
+                                    N/A   {# O cualquier otro valor predeterminado que desees mostrar #}
+                                {% endif %}
+
                             </td>
                             <td align="center">
                                 {{ moneda }}

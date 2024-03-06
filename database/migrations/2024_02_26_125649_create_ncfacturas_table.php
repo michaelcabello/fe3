@@ -13,13 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('facturas', function (Blueprint $table) {
+        Schema::create('ncfacturas', function (Blueprint $table) {
             $table->id();
+
             $table->string('serie');
             $table->integer('numero');
             $table->string('serienumero');
             $table->timestamp('fechaemision')->nullable();
-            $table->timestamp('fechavencimiento')->nullable();
+            //$table->timestamp('fechavencimiento')->nullable();
             //$table->string('formadepago');
             $table->double('total', 10, 4)->nullable();//precio venta
 
@@ -38,8 +39,6 @@ return new class extends Migration
 
             $table->unsignedBigInteger('tipodecambio_id')->nullable();
             $table->foreign('tipodecambio_id')->references('id')->on('tipodecambios')->onDelete('cascade');
-
-
 
 
             /* $table->unsignedBigInteger('sale_id')->nullable();
@@ -67,6 +66,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('facturas');
+        Schema::dropIfExists('ncfacturas');
     }
 };

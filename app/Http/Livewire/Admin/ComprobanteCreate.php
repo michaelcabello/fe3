@@ -839,8 +839,7 @@ class ComprobanteCreate extends Component
         /* $xml = $this->see->getFactory()->getLastXml();
         $this->invoice['xml'] = $this->see->getFactory()->getLastXml();
         $this->invoice['hash'] = (new XmlUtils())->getHashSign($xml);
-
-       dd($this->invoice); */
+        dd($this->invoice); */
 
 
         //$this->emitTo('admin.comprobante-list', 'render');

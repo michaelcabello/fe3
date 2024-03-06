@@ -55,7 +55,8 @@ return new class extends Migration
             $table->text('cdr_notes')->nullable();
             $table->text('cdr_description')->nullable();
 
-
+            $table->unsignedBigInteger('tipodenotadecredito_id')->nullable();
+            $table->foreign('tipodenotadecredito_id')->references('id')->on('tipodenotadecreditos')->onDelete('cascade');
 
             $table->timestamps();
         });

@@ -46,11 +46,47 @@ class LocalTipocomprobantesTableSeeder extends Seeder
             2 =>
             array (
                 'id' => 3,
+                'serie' => 'FC01',
+                'inicio' => 2,
+                'default' => 1,
+                'local_id' => 1,
+                'tipocomprobante_id' => 3,
+                'company_id' => 1,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            3 =>
+            array (
+                'id' => 4,
+                'serie' => 'FD01',
+                'inicio' => 2,
+                'default' => 1,
+                'local_id' => 1,
+                'tipocomprobante_id' => 4,
+                'company_id' => 1,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            4 =>
+            array (
+                'id' => 5,
                 'serie' => 'BC01',
                 'inicio' => 2,
                 'default' => 1,
                 'local_id' => 1,
                 'tipocomprobante_id' => 5,
+                'company_id' => 1,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            5 =>
+            array (
+                'id' => 6,
+                'serie' => 'BD01',
+                'inicio' => 2,
+                'default' => 1,
+                'local_id' => 1,
+                'tipocomprobante_id' => 6,
                 'company_id' => 1,
                 'created_at' => NULL,
                 'updated_at' => NULL,

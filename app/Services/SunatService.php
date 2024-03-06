@@ -103,6 +103,57 @@ class SunatService
             ->setLegends($this->getLegends());
     }
 
+
+    public function setNota()
+    {
+        $this->voucher = (new Note())
+            ->setUblVersion('2.1')
+            //->setTipoOperacion($this->comprobante->tipodeoperacion->codigo) // Venta - Catalog. 51
+            ->setTipoDoc($this->comprobante->tipocomprobante->codigo) // Factura - Catalog. 01, factura 01, boleta 03
+
+            ->setSerie($this->boleta->serie)
+            ->setCorrelativo($this->boleta->numero) // Zona horaria: Lima
+            //->setFechaEmision($this->invoice['fechaEmision']) // Zona horaria: Lima
+            ->setFechaEmision(new \DateTime($this->boleta->fechaEmision))
+
+
+
+            ->setTipDocAfectado($this->boleta->tipodocumentoafectado) // si esta afectando a una factura o boleta los valores 01 y 03
+            ->setNumDocfectado($this->boleta->numdocumentoafectado)
+            ->setDesMotivo($this->boleta->desmotivo)
+
+            ->setFormaPago(new FormaPagoContado()) // FormaPago: Contado
+            ->setTipoMoneda($this->boleta->currency->name) // Sol - Catalog. 02
+            ->setCompany($this->getCompany())
+            ->setClient($this->getClient())
+
+            //MtoOper
+            ->setMtoOperGravadas($this->comprobante->mtoopergravadas)
+            ->setMtoOperExoneradas($this->comprobante->mtooperexoneradas)
+            ->setMtoOperInafectas($this->comprobante->mtooperinafectas)
+            ->setMtoOperExportacion($this->comprobante->mtooperexportacion)
+            ->setMtoOperGratuitas($this->comprobante->mtoopergratuitas)
+
+            //Impuestos
+            ->setMtoIGV($this->comprobante->mtoigv) //todo los igv
+            ->setMtoIGVGratuitas($this->comprobante->mtoigvgratuitas)
+            ->setIcbper($this->comprobante->icbper)
+            ->setTotalImpuestos($this->comprobante->totalimpuestos)
+
+            //Totales
+            ->setValorVenta($this->comprobante->valorventa)
+            ->setSubTotal($this->comprobante->subtotal)
+            ->setRedondeo($this->comprobante->redondeo)
+            ->setMtoImpVenta($this->comprobante->mtoimpventa)
+
+            //Productos
+            ->setDetails($this->getSaleDetails())
+
+            //Leyendas
+            ->setLegends($this->getLegends());
+    }
+
+
     public function getClient()
     {
         return (new Client())

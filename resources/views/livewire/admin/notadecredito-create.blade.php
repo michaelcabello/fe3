@@ -2,7 +2,7 @@
 
     {{-- {{ $serienumero }} --}}
 
-    {{ $comprobante }}
+   {{--  {{ $comprobante }} --}}
 
 
     <x-slot name="header">
@@ -71,67 +71,100 @@
 
                             <div class="flex-1 col-span-2 mb-4 mr-4">
                                 <x-jet-label value="Dirección" />
-                                <x-jet-input value="{{ $comprobante->customer->ruc }}" type="text"
+                                <x-jet-input value="{{ $comprobante->customer->address }}" type="text"
                                     class="w-full h-10 max-w-md uppercase" />
                                 <x-jet-input-error for="direccion" />
                             </div>
 
                             <div class="flex-1 mb-4 mr-4">
                                 <x-jet-label value="Departamento" />
-                                <x-jet-input value="{{ $comprobante->customer->ruc }}" type="text"
+                                <x-jet-input value="{{ $comprobante->customer->department_id }}" type="text"
                                     class="w-full h-10 max-w-md uppercase" />
                                 <x-jet-input-error for="Departamento" />
                             </div>
 
                             <div class="flex-1 mb-4 mr-4">
                                 <x-jet-label value="Provincia" />
-                                <x-jet-input value="{{ $comprobante->customer->ruc }}" type="text"
+                                <x-jet-input value="{{ $comprobante->customer->province_id }}" type="text"
                                     class="w-full h-10 max-w-md uppercase" />
                                 <x-jet-input-error for="provincia" />
                             </div>
 
                             <div class="flex-1 mb-4 mr-4">
                                 <x-jet-label value="Distrito" />
-                                <x-jet-input value="{{ $comprobante->customer->ruc }}" type="text"
+                                <x-jet-input value="{{ $comprobante->customer->district_id }}" type="text"
                                     class="w-full h-10 max-w-md uppercase" />
                                 <x-jet-input-error for="distrito" />
                             </div>
+
+                            <div class="flex-1 mb-4 mr-4">
+                                <x-jet-label value="Serie Numero" />
+                                <x-jet-input value="{{ $comprobante->serienumero }}" type="text"
+                                    class="w-full h-10 max-w-md uppercase" />
+
+                            </div>
+
+                            <div class="flex-1 mb-4 mr-4">
+                                <x-jet-label value="Fecha de Emisión" />
+                                <x-jet-input value="{{ $comprobante->fechaemision }}" type="text"
+                                    class="w-full h-10 max-w-md uppercase" />
+
+                            </div>
+
+                            <div class="flex-1 mb-4 mr-4">
+                                <x-jet-label value="Forma de Pago" />
+                                <x-jet-input value="{{ $comprobante->paymenttype->name }}" type="text"
+                                    class="w-full h-10 max-w-md uppercase" />
+
+                            </div>
+
+                            <div class="flex-1 mb-4 mr-4">
+                                <x-jet-label value="Moneda" />
+                                <x-jet-input value="{{ $comprobante->currency->abbreviation }} {{ $comprobante->mtoimpventa }}" type="text"
+                                    class="w-full h-10 max-w-md uppercase" />
+
+                            </div>
+
+
+                            <div class="flex-1 mb-4 mr-4">
+                                <x-jet-label value="Total" />
+                                <x-jet-input value="{{ $comprobante->mtoimpventa }}" type="text"
+                                    class="w-full h-10 max-w-md uppercase" />
+
+                            </div>
+
                             <div class="flex-1 col-span-6 mb-4 mr-4">
                                 <hr>
                             </div>
 
-                            <div class="mb-4 mr-4 ">
-                                {{-- <label>Proveedores </label> --}}
+                            {{-- <div class="mb-4 mr-4 ">
                                 <x-jet-label value="Tipo de Operación" />
-                                <x-jet-input value="{{ $comprobante->customer->ruc }}" type="text"
+                                <x-jet-input value="{{ $comprobante->customer }}" type="text"
                                     class="w-full h-10 max-w-md uppercase" />
-
-                                <x-jet-input-error for="tipodeoperacion_id" />
-                            </div>
+                            </div> --}}
 
 
                             <div class="mb-4 mr-4 ">
                                 {{-- <label>Proveedores </label> --}}
                                 <x-jet-label value="comprobante" />
                                 {{-- select2 --}}
-                                <x-jet-input value="{{ $comprobante->customer->ruc }}" type="text"
+                                <x-jet-input value="{{ $tipocomprobante_namecorto }}" type="text"
                                     class="w-full h-10 max-w-md uppercase" />
-                                <x-jet-input-error for="tipocomprobante_id" />
+
                             </div>
 
 
 
                             <div class="mb-1 mr-4">
                                 <x-jet-label value="Serie" />
-                                <x-jet-input value="{{ $comprobante->customer->ruc }}" type="text"
+                                <x-jet-input value="{{ $serie}}" type="text"
                                     class="w-full h-10 max-w-md uppercase" />
                                 <x-jet-input-error for="serie" />
                             </div>
 
                             <div class="mb-1 mr-4">
                                 <x-jet-label value="Numero" />
-                                <x-jet-input value="{{ $comprobante->customer->ruc }}" type="text"
-                                    class="w-full h-10 max-w-md uppercase" />
+                                <x-jet-input value="{{ $numero }}" type="text" class="w-full h-10 max-w-md uppercase" />
                                 <x-jet-input-error for="numero" />
                             </div>
 
@@ -155,8 +188,10 @@
 
                             <div class="mb-4 mr-4">
                                 <x-jet-label value="Fecha de Emisión" />
-                                <x-jet-input value="{{ $comprobante->customer->ruc }}" type="text"
-                                    class="w-full h-10 max-w-md uppercase" />
+                                <x-jet-input type="date" max="{{ date('Y-m-d') }}"
+                                    min="{{ date('Y-m-d', strtotime('-3 days')) }}" wire:model="fechaemision"
+                                    value="{{ old('fechaemision') }}" class="w-full h-10"
+                                    placeholder="fecha de emisión" />
                                 <x-jet-input-error for="fechaemision" />
                             </div>
 
@@ -174,17 +209,34 @@
 
 
 
-                            <div class="mb-1 mr-4">
+                            <div class="mr-4">
                                 <x-jet-label value="Moneda" />
                                 <x-jet-input value="{{ $comprobante->customer->ruc }}" type="text"
                                     class="w-full h-10 max-w-md uppercase" />
                                 <x-jet-input-error for="currency_id" />
                             </div>
 
+                            <div class="mr-4 ">
+                                {{-- <label>Proveedores </label> --}}
+                                <x-jet-label value="Tipo de Nota de Crédito" />
+                                {{-- select2 --}}
+                                <select wire:model="tipodenotadecredito_id"
+                                    class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
+                                    data-placeholder="Selecccione un un tipo de NC" style="width:100%">
+                                    <option value="" selected disabled>Seleccione</option>
+                                    @foreach ($tipodenotadecreditos as $tipodenotadecredito)
+                                        <option value="{{ $tipodenotadecredito->id }}">{{ $tipodenotadecredito->description }}
+                                        </option>
+                                    @endforeach
 
-                            <div class="col-span-2 form-group ">
-                                {{-- <label>Nota de la compra</label> --}}
-                                <x-jet-input value="{{ $comprobante->customer->ruc }}" type="text"
+                                </select>
+                                <x-jet-input-error for="tipodenotadecredito_id" />
+                            </div>
+
+
+                            <div class="col-span-3 mr-4 ">
+                                <x-jet-label value="Descripción del motivo" />
+                                <x-jet-input wire:model="desmotivo" type="text"
                                     class="w-full h-10 max-w-md uppercase" />
 
 
@@ -291,8 +343,8 @@
                                                             <td class="p-2 whitespace-nowrap">
                                                                 {{-- <div class="text-center">${{number_format($item->saleprice,2)}}</div> --}}
                                                                 <div class="w-20 text-lg text-center">
-                                                                    <input type="text" id="p{{ $item->id }}"
-                                                                        wire:change="updatePrice('{{ $item->id }}', $('#p' + '{{ $item->id }}').val(), $('#r' + '{{ $item->id }}').val())"
+                                                                    <input type="text" id="p{{ $item->product_id }}"
+                                                                        wire:change="updatePrice('{{ $item->product_id }}', $('#p' + '{{ $item->product_id }}').val(), $('#r' + '{{ $item->product_id }}').val())"
                                                                         style="font-size: 1rem!important"
                                                                         class="w-20 text-center form-control"
                                                                         value="{{ number_format($item->saleprice, 4) }}">
@@ -301,8 +353,8 @@
 
                                                             <td class="p-2 whitespace-nowrap">
                                                                 <div class="w-20 text-lg text-center">
-                                                                    <input type="number" id="r{{ $item->id }}"
-                                                                        wire:change="updateQty('{{ $item->id }}', $('#p' + '{{ $item->id }}').val(), $('#r' + '{{ $item->id }}').val(), '{{ $item->mtovalorunitario }}')"
+                                                                    <input type="number" id="r{{ $item->product_id }}"
+                                                                        wire:change="updateQty('{{ $item->product_id }}', $('#p' + '{{ $item->product_id }}').val(), $('#r' + '{{ $item->product_id }}').val(), '{{ $item->mtovalorunitario }}')"
                                                                         style="font-size: 1rem!important"
                                                                         class="w-20 text-center form-control"
                                                                         value="{{ $item->quantity }}">
@@ -321,7 +373,7 @@
 
 
                                                                 <a class="btn btn-red"
-                                                                    wire:click="$emit('deleteTemporal', {{ $item->id }})">
+                                                                    wire:click="$emit('deleteTemporal', {{ $item->product_id }})">
                                                                     <i class="fa-solid fa-trash-can"></i>
                                                                 </a>
                                                             </td>
@@ -419,10 +471,10 @@
                         </section>
 
 
-                        {{-- <x-jet-danger-button wire:click="save" wire:loading.attr="disabled" wire:target="save"
+                         <x-jet-danger-button wire:click="save" wire:loading.attr="disabled" wire:target="save"
                             class="w-full mt-4 mb-3 disabled:opacity-25">
                             <i class="mx-2 fa-regular fa-floppy-disk"></i> Guardar
-                        </x-jet-danger-button> --}}
+                        </x-jet-danger-button>
 
 
 
@@ -548,7 +600,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
 
-                        Livewire.emitTo('admin.comprobante-create', 'delete', temporalId);
+                        Livewire.emitTo('admin.notadecredito-create', 'delete', temporalId);
 
                         Swal.fire(
                             'Eliminado!',

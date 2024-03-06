@@ -73,7 +73,7 @@ class ComprobanteList extends Component
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->cant); */
 
-            $comprobantes = Comprobante::select('id','serienumero', 'valorventa','totalimpuestos','mtoimpventa', 'currency_id', 'customer_id')
+            $comprobantes = Comprobante::select('id','serienumero', 'valorventa','totalimpuestos','mtoimpventa', 'currency_id', 'customer_id','tipocomprobante_id')
             ->where('serienumero', 'like', '%' . $this->search . '%')
             ->where('company_id', $company_id)
             ->where('local_id', $local_id)

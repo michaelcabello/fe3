@@ -265,8 +265,10 @@
                                             @endcan
 
                                             @can('Sale Update')
+                                                @if($sale->tipocomprobante_id==1 or $sale->tipocomprobante_id==2)
                                                 <a href="{{ route('admin.notadecredito.create', $sale->id) }}"
                                                     class="btn btn-green">NC</a>
+                                                @endif
                                             @endcan
 
                                             {{-- @can('delete User') --}}
