@@ -493,6 +493,29 @@
                         </section>
 
 
+                        <div class="flex space-x-6">
+
+                            <x-radio
+                                label="Enviar a SUNAT ahora mismo"
+                                value="1"
+                                id="sending_method_2"
+                                wire:model.defer="sending_method" />
+
+                            <x-radio
+                                label="Solo Firmar digitalmente"
+                                value="2"
+                                id="sending_method_1"
+                                wire:model.defer="sending_method" />
+
+                            <x-radio
+                                label="Solo Gurdar la Venta"
+                                value="3"
+                                id="sending_method_3"
+                                wire:model.defer="sending_method" />
+
+                        </div>
+
+
                         <x-jet-danger-button wire:click="save" wire:loading.attr="disabled" wire:target="save"
                             class="w-full mt-4 mb-3 disabled:opacity-25">
                             <i class="mx-2 fa-regular fa-floppy-disk"></i> Guardar

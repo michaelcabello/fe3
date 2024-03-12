@@ -51,7 +51,7 @@ class NotadecreditoCreate extends Component
     {
         $this->comprobante = $id;
         if ($this->comprobante->tipocomprobante_id != 1 && $this->comprobante->tipocomprobante_id != 2) {
-            abort(403, 'Sólo swe hace NC a Facturas y Boletas.');
+            abort(403, 'Sólo se hace NC a Facturas y Boletas.');
             return;
         }
 
@@ -211,6 +211,7 @@ class NotadecreditoCreate extends Component
             //'legends' => json_encode($this->legends),
             //anticipos
             //detracciones
+
             'nota' => $this->nota,
 
         ]);
@@ -299,10 +300,11 @@ class NotadecreditoCreate extends Component
         //facturacion electronica
         $sunat = new SunatService($comprobante, $this->company, $temporals, $boleta);
 
-        $sunat->getSee();
-        $sunat->setNota();
-        $sunat->send();
+        $see = $sunat->getSee();
+        $note = $sunat->setNota();
+        $result = $sunat->send();
         $sunat->generatePdfReport();
+        $sunat->generateXml();
 
         $temporals->each->delete();
 
@@ -350,10 +352,12 @@ class NotadecreditoCreate extends Component
 
 
 
-
     public function llenartemporal($detalle)
     {
         foreach ($detalle as $item) {
+
+            $mtovalorunitario = $item->price / (1 + ($this->igv * 0.01)); //actualizamos//precio de producto sin inc igv ejemplo 100
+
             Temporalnc::create([
                 //'serienumero' => $item->comprobante->serienumero,
                 'quantity' => $item->cant,
@@ -367,6 +371,7 @@ class NotadecreditoCreate extends Component
                 'igv' => $item->igv,
                 'icbper' => $item->icbper,
                 'totalimpuestos' => $item->totalimpuestos,
+                'mtovalorunitario' => floatval($mtovalorunitario),
                 'mtovalorventa' => floatval($item->mtovalorventa),
                 'mtobaseigv' => floatval($item->mtobaseigv),
                 'name' => $item->product->name,
@@ -374,7 +379,7 @@ class NotadecreditoCreate extends Component
                 'tipafeigv' => $item->product->tipoafectacion->codigo,
                 'porcentajeigv' => $this->igv,  //igv lo tenemos en el mount es 18%
                 'factoricbper' => $this->factoricbper,  //factoricbper lo tenemos en el mount es 0.2
-                'mtovalorunitario' => $item->mtovalorunitario,
+
 
             ]);
         }

@@ -43,6 +43,7 @@ class ComprobanteCreate extends Component
     public $valorventa, $subtotall, $mtoimpventa, $redondeo, $legends;
     public $totalenletras;
     public $detraccion, $tipodeoperacion_id = "", $tipodeoperacion_codigo = "";
+    public $sending_method;
 
     public $razon_social;
     public $ruc;
@@ -860,6 +861,7 @@ class ComprobanteCreate extends Component
 
 
     }
+
 
 
     /*  public function fechaemision($selectedDate)

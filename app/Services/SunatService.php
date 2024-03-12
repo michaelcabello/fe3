@@ -235,9 +235,7 @@ class SunatService
     //Enviar a Sunat
     public function send()
     {
-
        //dd($this->voucher);
-
         $this->result = $this->see->send($this->voucher);
         $this->boleta->send_xml = true;
         $this->boleta->sunat_success = $this->result->isSuccess();

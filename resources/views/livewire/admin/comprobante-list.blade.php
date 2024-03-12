@@ -10,7 +10,7 @@
             </div </x-slot>
 
             <!-- This example requires Tailwind CSS v2.0+ -->
-            <div class="container py-12 mx-auto border-gray-400 max-w-7xl sm:px-6 lg:px-8">
+            <div class="max-w-full py-12 mx-auto border-gray-400 sm:px-6 lg:px-8">
 
 
 
@@ -192,6 +192,27 @@
 
 
                                     </th>
+
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">
+                                        PDF
+                                    </th>
+
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">
+                                        XML
+                                    </th>
+
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">
+                                        CDR
+                                    </th>
+
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">
+                                        SUNAT
+                                    </th>
+
                                     <th scope="col"
                                         class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">
                                         ACCIONES
@@ -254,7 +275,25 @@
                                             <span>{{ $sale->currency->abbreviation }} </span>{{ $sale->mtoimpventa }}
 
                                         </td>
-                                        <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                                        {{-- PDF --}}
+                                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                            <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}" ><img class='h-6' src='/images/icons/pdf_cpe.svg'/></a>
+                                        </td>
+
+                                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                            <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}" ><img class='h-6' src='/images/icons/xml_cdr.svg'/></a>
+                                        </td>
+
+                                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                            <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}" ><img class='h-6' src='/images/icons/xml_cpe.svg'/></a>
+                                        </td>
+                                        {{-- SUNAT --}}
+                                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                            <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}" ><img class='h-6' src='/images/icons/get_cdr.svg'/></a>
+                                        </td>
+
+
+                                        <td class="flex px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                                             {{-- <a class="btn btn-blue"><i class="fa-sharp fa-solid fa-eye"></i></a> --}}
 
                                             {{--  @can('update User') --}}
@@ -267,9 +306,17 @@
                                             @can('Sale Update')
                                                 @if($sale->tipocomprobante_id==1 or $sale->tipocomprobante_id==2)
                                                 <a href="{{ route('admin.notadecredito.create', $sale->id) }}"
-                                                    class="btn btn-green">NC</a>
+                                                    class="px-4 btn btn-green">NC</a>
                                                 @endif
                                             @endcan
+                                            <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}" class="text-sm btn btn-orange">GR</a>
+
+
+
+
+
+
+                                                    {{-- <img class='h-6' src='/images/icons/xml_cdr.svg'/> --}}
 
                                             {{-- @can('delete User') --}}
 
