@@ -20,6 +20,12 @@ return new class extends Migration
             $table->integer('numero');
             $table->string('serienumero');
             $table->timestamp('fechaemision')->nullable();
+
+            $table->integer('tipodocumentoafectado')->nullable();
+            $table->string('numdocumentoafectado')->nullable();
+            //$table->string('codmotivo')->nullable();ira
+            $table->string('desmotivo')->nullable();
+
             //$table->timestamp('fechavencimiento')->nullable();
             //$table->string('formadepago');
             $table->double('total', 10, 4)->nullable();//precio venta
@@ -40,6 +46,9 @@ return new class extends Migration
             $table->unsignedBigInteger('tipodecambio_id')->nullable();
             $table->foreign('tipodecambio_id')->references('id')->on('tipodecambios')->onDelete('cascade');
 
+
+            $table->unsignedBigInteger('tipodenotadecredito_id')->nullable();//es el cod motivo
+            $table->foreign('tipodenotadecredito_id')->references('id')->on('tipodenotadecreditos')->onDelete('cascade');
 
             /* $table->unsignedBigInteger('sale_id')->nullable();
             $table->foreign('sale_id')->references('id')->on('sales')->onDelete('cascade'); */

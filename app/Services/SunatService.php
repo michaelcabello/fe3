@@ -42,7 +42,7 @@ class SunatService
         $this->comprobante = $comprobante;
         $this->company = $company;
         $this->temporals = $temporals;
-        $this->boleta = $boleta;
+        $this->boleta = $boleta;//loque se guardo es ncfactura o ncboleta
     }
 
     public function getSee()
@@ -106,24 +106,25 @@ class SunatService
 
     public function setNota()
     {
+
+        //dd($this->boleta);
         $this->voucher = (new Note())
             ->setUblVersion('2.1')
             //->setTipoOperacion($this->comprobante->tipodeoperacion->codigo) // Venta - Catalog. 51
-            ->setTipoDoc($this->comprobante->tipocomprobante->codigo) // Factura - Catalog. 01, factura 01, boleta 03
-
-            ->setSerie($this->boleta->serie)
-            ->setCorrelativo($this->boleta->numero) // Zona horaria: Lima
+            ->setTipoDoc($this->comprobante->tipocomprobante->codigo) // nota de credito "07" , factura 01, boleta 03  Catalog. 01
+            ->setSerie($this->boleta->serie)//de la nota de credito
+            ->setCorrelativo($this->boleta->numero) // de la nota de credito
             //->setFechaEmision($this->invoice['fechaEmision']) // Zona horaria: Lima
-            ->setFechaEmision(new \DateTime($this->boleta->fechaEmision))
-
-
-
-            ->setTipDocAfectado($this->boleta->tipodocumentoafectado) // si esta afectando a una factura o boleta los valores 01 y 03
-            ->setNumDocfectado($this->boleta->numdocumentoafectado)
-            ->setDesMotivo($this->boleta->desmotivo)
-
-            ->setFormaPago(new FormaPagoContado()) // FormaPago: Contado
-            ->setTipoMoneda($this->boleta->currency->name) // Sol - Catalog. 02
+            ->setFechaEmision(new \DateTime($this->boleta->fechaemision))
+            ->setTipDocAfectado($this->boleta->tipodocumentoafectado)//01 factura o 03 boleta del cual estamos haciendo la nc
+            //->setTipDocAfectado('01') // si esta afectando a una factura o boleta los valores 01 y 03
+            ->setNumDocfectado($this->boleta->numdocumentoafectado)//numero del comprobante del cual estamos haciendo la nc
+            //->setCodMotivo('01')
+            ->setCodMotivo($this->boleta->tipodenotadecredito->codigo)//tipo de nota de cretito es la tabla de sunat: por anulacion, error, etc valores 01 , 02
+            ->setDesMotivo($this->boleta->desmotivo)//descripcion del motivo del tipo de nota de credito
+            //->setFormaPago(new FormaPagoContado()) // FormaPago: Contado
+            ->setTipoMoneda($this->boleta->currency->name)
+            //->setTipoMoneda('PEN') // Sol - Catalog. 02
             ->setCompany($this->getCompany())
             ->setClient($this->getClient())
 
@@ -191,7 +192,7 @@ class SunatService
 
             $details[] = (new SaleDetail())
                 ->setCodProducto($item->codigobarras)
-                ->setUnidad($item->um)
+                ->setUnidad('NIU')//->setUnidad($item->um)
                 ->setDescripcion($item->name)
                 ->setCantidad($item->quantity)
                 ->setMtoValorGratuito($item->mtovalorgratuito)
@@ -235,10 +236,14 @@ class SunatService
     //Enviar a Sunat
     public function send()
     {
-       //dd($this->voucher);
+        //dd($this->voucher);
+        //dd($this->result);//no hay result por eso falla
         $this->result = $this->see->send($this->voucher);
+        //dd($this->result);
         $this->boleta->send_xml = true;
         $this->boleta->sunat_success = $this->result->isSuccess();
+        //dd($this->result->isSuccess());
+        //dd($this->voucher);
         $this->boleta->save();
         //dd($this->boleta);
         // Guardar XML firmado digitalmente.
@@ -337,7 +342,8 @@ class SunatService
 
         $params = [
             'system' => [
-                'logo' => $this->company->rectangle_image_path ? Storage::get($this->company->rectangle_image_path) : file_get_contents('img/logos/logo.png'), // Logo de Empresa
+                //'logo' => $this->company->logo ? Storage::get($this->company->logo) : file_get_contents('images/logo/logo.png'), // Logo de Empresa
+                'logo' => $this->company->logo ? file_get_contents(public_path($this->company->logo)) : file_get_contents('images/logo/logo.png'), // Logo de Empresa
                 'hash' => $this->boleta->hash, // Valor Resumen
             ],
             'user' => [
@@ -400,6 +406,20 @@ class SunatService
 
             $this->boleta->save();
         }
+    }
+
+
+
+    //Generar XML
+    public function generateXml(){
+        $xml = $this->see->getXmlSigned($this->voucher);
+
+        $this->boleta->hash = (new XmlUtils())->getHashSign($xml);
+        $this->boleta->xml_path = 'invoices/xml/' . $this->voucher->getName() . '.xml';
+
+        Storage::put($this->boleta->xml_path, $xml, 'public');
+
+        $this->boleta->save();
     }
 
 

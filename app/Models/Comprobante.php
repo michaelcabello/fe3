@@ -56,6 +56,12 @@ class Comprobante extends Model
         return $this->hasOne(Boleta::class, 'comprobante_id');
     }
 
+    //relacion de uno a uno
+    public function factura()
+    {
+        return $this->hasOne(Factura::class, 'comprobante_id');
+    }
+
     //ruc, dni
     public function tipodocumento()
     {
@@ -67,4 +73,18 @@ class Comprobante extends Model
     {
         return $this->belongsTo(Tipocomprobante::class);
     }
+
+    /* public function products()
+    {
+        return $this->belongsToMany(Product::class)->withPivot('cant', 'price', 'mtobaseigv', 'igv', 'icbper', 'totalimpuestos', 'mtovalorventa', 'company_id');
+    } */
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'comprobante_producto')->withPivot('cant', 'price', 'mtobaseigv', 'igv', 'icbper', 'totalimpuestos', 'mtovalorventa', 'company_id');
+    }
+
+
+
+
 }

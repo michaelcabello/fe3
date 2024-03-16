@@ -39,9 +39,13 @@ return new class extends Migration
             $table->decimal('mtobaseigv', 10, 4)->nullable();
            // $table->text('legends')->nullable();
            $table->boolean('esbolsa')->default(false);
+           $table->boolean('state')->default(false);//si es 1 moestrar si es cero ocultar cero significa que ya mandaste a sunat
+           $table->unsignedBigInteger('comprobante_id')->nullable();
+            $table->foreign('comprobante_id')->references('id')->on('comprobantes')->onDelete('cascade');
+
            //$table->text('legends')->nullable(); ira en comprobante o boletas
             $table->timestamps();
-            $table->unique(['company_id', 'codigobarras']);//parece que aqui debemos agergar loca u usuario empreado
+            //$table->unique(['company_id', 'codigobarras', 'state']);//parece que aqui debemos agergar loca u usuario empreado
         });
     }
 

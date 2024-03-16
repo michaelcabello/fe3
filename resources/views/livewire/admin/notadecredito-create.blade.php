@@ -2,7 +2,7 @@
 
     {{-- {{ $serienumero }} --}}
 
-   {{--  {{ $comprobante }} --}}
+    {{--  {{ $comprobante }} --}}
 
 
     <x-slot name="header">
@@ -120,8 +120,9 @@
 
                             <div class="flex-1 mb-4 mr-4">
                                 <x-jet-label value="Moneda" />
-                                <x-jet-input value="{{ $comprobante->currency->abbreviation }} {{ $comprobante->mtoimpventa }}" type="text"
-                                    class="w-full h-10 max-w-md uppercase" />
+                                <x-jet-input
+                                    value="{{ $comprobante->currency->abbreviation }} {{ $comprobante->mtoimpventa }}"
+                                    type="text" class="w-full h-10 max-w-md uppercase" />
 
                             </div>
 
@@ -157,14 +158,15 @@
 
                             <div class="mb-1 mr-4">
                                 <x-jet-label value="Serie" />
-                                <x-jet-input value="{{ $serie}}" type="text"
+                                <x-jet-input value="{{ $serie }}" type="text"
                                     class="w-full h-10 max-w-md uppercase" />
                                 <x-jet-input-error for="serie" />
                             </div>
 
                             <div class="mb-1 mr-4">
                                 <x-jet-label value="Numero" />
-                                <x-jet-input value="{{ $numero }}" type="text" class="w-full h-10 max-w-md uppercase" />
+                                <x-jet-input value="{{ $numero }}" type="text"
+                                    class="w-full h-10 max-w-md uppercase" />
                                 <x-jet-input-error for="numero" />
                             </div>
 
@@ -225,7 +227,8 @@
                                     data-placeholder="Selecccione un un tipo de NC" style="width:100%">
                                     <option value="" selected disabled>Seleccione</option>
                                     @foreach ($tipodenotadecreditos as $tipodenotadecredito)
-                                        <option value="{{ $tipodenotadecredito->id }}">{{ $tipodenotadecredito->description }}
+                                        <option value="{{ $tipodenotadecredito->id }}">
+                                            {{ $tipodenotadecredito->description }}
                                         </option>
                                     @endforeach
 
@@ -246,6 +249,7 @@
 
 
                         </div>
+
 
 
                         <hr class="mt-5 mb-5">
@@ -343,7 +347,8 @@
                                                             <td class="p-2 whitespace-nowrap">
                                                                 {{-- <div class="text-center">${{number_format($item->saleprice,2)}}</div> --}}
                                                                 <div class="w-20 text-lg text-center">
-                                                                    <input type="text" id="p{{ $item->product_id }}"
+                                                                    <input type="text"
+                                                                        id="p{{ $item->product_id }}"
                                                                         wire:change="updatePrice('{{ $item->product_id }}', $('#p' + '{{ $item->product_id }}').val(), $('#r' + '{{ $item->product_id }}').val())"
                                                                         style="font-size: 1rem!important"
                                                                         class="w-20 text-center form-control"
@@ -353,7 +358,8 @@
 
                                                             <td class="p-2 whitespace-nowrap">
                                                                 <div class="w-20 text-lg text-center">
-                                                                    <input type="number" id="r{{ $item->product_id }}"
+                                                                    <input type="number"
+                                                                        id="r{{ $item->product_id }}"
                                                                         wire:change="updateQty('{{ $item->product_id }}', $('#p' + '{{ $item->product_id }}').val(), $('#r' + '{{ $item->product_id }}').val(), '{{ $item->mtovalorunitario }}')"
                                                                         style="font-size: 1rem!important"
                                                                         class="w-20 text-center form-control"
@@ -470,8 +476,26 @@
                             </div>
                         </section>
 
+                        <div class="flex space-x-6">
+                            <div class="m-2">
+                                <input wire:model="sending_method" type="radio" id="a" name="drone" value="1" />
+                                <label for="a">ENVIAR A SUNAT</label>
+                            </div>
 
-                         <x-jet-danger-button wire:click="save" wire:loading.attr="disabled" wire:target="save"
+                            <div class="m-2">
+                                <input wire:model="sending_method" type="radio" id="b" name="drone" value="2" />
+                                <label for="b">GENERAR XML</label>
+                            </div>
+
+                            <div class="m-2">
+                                <input wire:model="sending_method" type="radio" id="c" name="drone" value="3" />
+                                <label for="c">CREAR</label>
+                            </div>
+                        </div>
+
+
+
+                        <x-jet-danger-button wire:click="save" wire:loading.attr="disabled" wire:target="save"
                             class="w-full mt-4 mb-3 disabled:opacity-25">
                             <i class="mx-2 fa-regular fa-floppy-disk"></i> Guardar
                         </x-jet-danger-button>

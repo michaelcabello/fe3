@@ -43,7 +43,7 @@ class ComprobanteCreate extends Component
     public $valorventa, $subtotall, $mtoimpventa, $redondeo, $legends;
     public $totalenletras;
     public $detraccion, $tipodeoperacion_id = "", $tipodeoperacion_codigo = "";
-    public $sending_method;
+    public $sending_method = 1;
 
     public $razon_social;
     public $ruc;
@@ -120,7 +120,11 @@ class ComprobanteCreate extends Component
     {
         $company_id = auth()->user()->employee->company->id;
         //buscamos el producto en el carrito osea en la tabla temporal
-        $productotemporal = Temporal::where('company_id', $company_id)->where('codigobarras', $codigobarras)->where('employee_id', auth()->user()->employee->id)->first();
+        $productotemporal = Temporal::where('company_id', $company_id)
+                            ->where('codigobarras', $codigobarras)
+                            ->where('employee_id', auth()->user()->employee->id)
+                            ->where('state', 0)
+                            ->first();
         //dd($productotemporal);
         //si el producto existe actualizamos la cantidad
         if ($productotemporal) { //busca en el campo id de la coleccion
@@ -173,6 +177,7 @@ class ComprobanteCreate extends Component
                 'totalimpuestos' => $icbper + $igv,
                 'mtovalorventa' => $mtovalorunitario * $quantity, //subtotal sin inc IGV ejemplo 100 x 2 = 200
                 'esbolsa' => $esbolsa,
+                'state' => 0,
 
                 // 'subtotal' => $saleprice*1,
                 //'image' => $image,
@@ -212,52 +217,52 @@ class ComprobanteCreate extends Component
     {
 
         $this->mtoopergravadas = Temporal::where('company_id', $this->company_id)
-            ->where('employee_id', auth()->user()->employee->id)
+            ->where('employee_id', auth()->user()->employee->id)->where('state', 0)
             ->where('tipafeigv', '10')
             ->sum('mtovalorventa'); //$mtovalorventa = $mtovalorunitario * $newQuantity;//es el subtotal sin inc IGV ejemplo 100 x 2 = 200
 
 
         $this->mtooperexoneradas = Temporal::where('company_id', $this->company_id)
-            ->where('employee_id', auth()->user()->employee->id)
+            ->where('employee_id', auth()->user()->employee->id)->where('state', 0)
             ->where('tipafeigv', '20')
             ->sum('mtovalorventa'); // mtovalorventa  es precio sin igv X quantity
 
         $this->mtooperinafectas =  Temporal::where('company_id', $this->company_id)
-            ->where('employee_id', auth()->user()->employee->id)
+            ->where('employee_id', auth()->user()->employee->id)->where('state', 0)
             ->where('tipafeigv', '30')
             ->sum('mtovalorventa'); //$mtovalorventa = $mtovalorunitario * $Quantity
 
         $this->mtooperexportacion =  Temporal::where('company_id', $this->company_id)
-            ->where('employee_id', auth()->user()->employee->id)
+            ->where('employee_id', auth()->user()->employee->id)->where('state', 0)
             ->where('tipafeigv', '40')
             ->sum('mtovalorventa');
 
         $this->mtoopergratuitas =  Temporal::where('company_id', $this->company_id)
-            ->where('employee_id', auth()->user()->employee->id)
+            ->where('employee_id', auth()->user()->employee->id)->where('state', 0)
             ->whereNotIn('tipafeigv', ['10', '20', '30', '40'])
             ->sum('mtovalorventa');
 
         $this->mtoigv =  Temporal::where('company_id', $this->company_id) //es la suma de todos los igv
-            ->where('employee_id', auth()->user()->employee->id)
+            ->where('employee_id', auth()->user()->employee->id)->where('state', 0)
             ->whereIn('tipafeigv', ['10', '20', '30', '40'])
             ->sum('igv'); // es la suma de los IGV ejemplo 18 + 9 +180
 
         $this->mtoigvgratuitas =  Temporal::where('company_id', $this->company_id)
-            ->where('employee_id', auth()->user()->employee->id)
+            ->where('employee_id', auth()->user()->employee->id)->where('state', 0)
             ->whereNotIn('tipafeigv', ['10', '20', '30', '40'])
             ->sum('igv');
 
 
 
         $this->icbper =  Temporal::where('company_id', $this->company_id)
-            ->where('employee_id', auth()->user()->employee->id)
+            ->where('employee_id', auth()->user()->employee->id)->where('state', 0)
             ->where('esbolsa', 1)
             ->sum('icbper');
 
         $this->totalimpuestos = number_format($this->mtoigv + $this->icbper, 4); //formatea a 4 decimales si tiene 6 dcimales solo muestra 4 pero no redondea para redondear debemos usar round
 
         $this->valorventa =  Temporal::where('company_id', $this->company_id) //es el total sin inc igv ejemplo 100x2= 200 soles
-            ->where('employee_id', auth()->user()->employee->id)
+            ->where('employee_id', auth()->user()->employee->id)->where('state', 0)
             ->whereIn('tipafeigv', ['10', '20', '30', '40'])
             ->sum('mtovalorventa'); //$mtovalorventa = $mtovalorunitario * $Quantity  ejemplo 100 x 2
         $this->valorventa = floatval($this->valorventa);
@@ -314,7 +319,7 @@ class ComprobanteCreate extends Component
 
         // Obtener el total de la tabla temporals para la empresa actual
         $this->total = Temporal::where('company_id', $company_id)
-            ->where('employee_id', auth()->user()->employee->id)
+            ->where('employee_id', auth()->user()->employee->id)->where('state', 0)
             ->sum('subtotal');
 
 
@@ -424,6 +429,7 @@ class ComprobanteCreate extends Component
     {
         Temporal::where('company_id', auth()->user()->employee->company->id)
             ->where('employee_id', auth()->user()->employee->id)
+            ->where('state',0)//no borramos el state 1 porque ya estan generados
             ->delete();
     }
 
@@ -773,11 +779,15 @@ class ComprobanteCreate extends Component
 
 
 
-
         //guadamos la tabla comprobante_product
         //lo comente porque accede muchas veces a la BD
         $temporals = Temporal::where('company_id', auth()->user()->employee->company->id)
-            ->where('employee_id', auth()->user()->employee->id)->get();
+            ->where('employee_id', auth()->user()->employee->id)
+            ->where('state',0)->get();//state 0 tiene los temporales actuales, 1 ya esta grabado pero no enviado a sunat
+
+
+       // dd($temporals);
+
 
         foreach ($temporals as $temporal) {
             //si el producto es bolsa agregar icbper de lo contrario no///////////////////////////////
@@ -828,14 +838,55 @@ class ComprobanteCreate extends Component
 
 
         //facturacion electronica
+
         $sunat = new SunatService($comprobante, $this->company, $temporals, $boleta);
 
         $sunat->getSee();
         $sunat->setInvoice();
-        $sunat->send();
+
+        switch ($this->sending_method) {
+            case '1':
+
+                $sunat->send(); //send es el metodo de greenter
+                $temporals->each->delete();//eliminamos temporal
+                $this->emit('alert', 'El comprobante se creo correctamente y se envio a sunat');
+                break;
+
+            case '2':
+
+                $sunat->generateXml(); ////send es el meto de greenter
+
+                foreach ($temporals as $temporal) {
+                    $temporal->state = 1;//guarda en el temporal para indicar que se guardo y genero xlm pero no se envio a sunat
+                    $temporal->comprobante_id = $comprobante->id;//guarda en el temporal para saber de que empresa es
+                    $temporal->save();
+                }
+
+                $this->emit('alert', 'El comprobante se creo y firmo correctamente, pero no se envio a SUNAT');
+
+                break;
+
+            case '3':
+
+                foreach ($temporals as $temporal) {
+                    $temporal->state = 1;
+                    $temporal->comprobante_id = $comprobante->id;
+                    $temporal->save();
+                }
+                //La factura se guardo pero no se envio a sunat
+                $this->emit('alert', 'El comprobante se creo, pero no se firmo ni envio a SUNAT');
+
+                break;
+        }
+
+
         $sunat->generatePdfReport();
 
-        $temporals->each->delete();
+
+        /*  $sunat->send();
+        $sunat->generatePdfReport(); */
+
+        //$temporals->each->delete();///luego activarlo
 
         /* $xml = $this->see->getFactory()->getLastXml();
         $this->invoice['xml'] = $this->see->getFactory()->getLastXml();
@@ -848,11 +899,6 @@ class ComprobanteCreate extends Component
         $this->emit('alert', 'El comprobante se creo correctamente');
 
         return redirect()->route('admin.comprobante.list');
-
-
-
-
-
 
         //eliminar el temporal
 
@@ -875,7 +921,8 @@ class ComprobanteCreate extends Component
 
         $company_id = auth()->user()->employee->company->id;
 
-        $cart = Temporal::where('company_id', $company_id)->where('employee_id', auth()->user()->employee->id)->get();
+        $cart = Temporal::where('company_id', $company_id)
+                ->where('employee_id', auth()->user()->employee->id)->where('state', 0)->get();
 
         //dd($cart);
 

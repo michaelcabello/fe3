@@ -10,4 +10,5 @@ class GuiaderemisionCreate extends Component
     {
         return view('livewire.admin.guiaderemision-create');
     }
+    
 }

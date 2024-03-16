@@ -38,18 +38,19 @@ class NotadecreditoCreate extends Component
     public $fechaemision;
     public $datosEliminados = false;
     public $tipodocumento_id;
-    public $serienumero, $local_id, $ruc, $customer_id, $departamento="LIMA", $provincia="LIMA", $distrito="LIMA";
+    public $serienumero, $local_id, $ruc, $customer_id, $departamento = "LIMA", $provincia = "LIMA", $distrito = "LIMA";
     public $local_tipocomprobante_id;
     public $tipodocumentoafectado;
     public $serienumeroafectado;
     public $desmotivo, $currency_id, $nota;
+    public $sending_method;
 
 
     protected $listeners = ['delete', 'limpiar'];
 
     public function mount(Comprobante $id)
     {
-        $this->comprobante = $id;
+        $this->comprobante = $id; //$this->comprobante es el comprobante al cual se esta haciendo nota de credito
         if ($this->comprobante->tipocomprobante_id != 1 && $this->comprobante->tipocomprobante_id != 2) {
             abort(403, 'Sólo se hace NC a Facturas y Boletas.');
             return;
@@ -66,9 +67,10 @@ class NotadecreditoCreate extends Component
         $this->fechaemision = Carbon::now()->format('Y-m-d');
         $this->ruc = $this->comprobante->numdoc;
         $this->customer_id = $this->comprobante->customer_id;
-        $this->tipodocumentoafectado = $this->comprobante->tipocomprobante->codigo;
+        $this->tipodocumentoafectado = $this->comprobante->tipocomprobante->codigo; //01 fact electronica, 03 boleta electronica
         $this->serienumeroafectado = $this->comprobante->serienumero;
         $this->tipodocumento_id = $this->comprobante->tipodocumento_id;
+        //$this->tipodenotadecredito_id
 
 
         //buscamos por company_id employee_id temporales guardados  y si encontramos lo eliminamos
@@ -80,7 +82,7 @@ class NotadecreditoCreate extends Component
         // Obtener la serie a través de la relación muchos a muchos
         switch ($this->comprobante->tipocomprobante_id) {
             case 1:
-                $this->tipocomprobante_id = 3;
+                $this->tipocomprobante_id = 3; //ncboleta=3 en la tabla tipocomprobantes
                 $this->tipocomprobante_namecorto = "NC FACTURA";
 
                 $this->serie = $local->tipocomprobantes
@@ -110,7 +112,7 @@ class NotadecreditoCreate extends Component
                 break;
 
             case 2:
-                $this->tipocomprobante_id = 5;
+                $this->tipocomprobante_id = 5; //ncboleta=5 en la tabla tipocomprobantes
                 $this->tipocomprobante_namecorto = "NC BOLETA";
 
                 $this->serie = $local->tipocomprobantes
@@ -154,7 +156,8 @@ class NotadecreditoCreate extends Component
                 $temporalnc->each->delete();
             }
 
-            $detalle = Comprobante_Product::where('comprobante_id', $this->comprobante->id)->get(); //falta restringir para que solo ,uestre lo que le corresponde osea no de otro local ni de otra empresa
+            $detalle = Comprobante_Product::where('comprobante_id', $this->comprobante->id)
+                ->where('company_id', $this->company_id)->get(); //falta restringir para que solo ,uestre lo que le corresponde osea no de otro local ni de otra empresa
             //Guardamos
             $this->llenartemporal($detalle);
         }
@@ -172,13 +175,9 @@ class NotadecreditoCreate extends Component
 
         $this->serienumero = $this->serie . "-" . $this->numero;
         //dd($this->serienumero);
-
-
         //Los datos del cliente yaestan guardados
-
-       // $this->validate();
-
-        //guadamos la tabla comprobantes
+        // $this->validate();
+        //guadamos la tabla comprobantes se crea el comprobante de la NC
         $comprobante = Comprobante::create([
             'customer_id' => $this->customer_id,
             'local_id' => $this->local_id,
@@ -187,11 +186,11 @@ class NotadecreditoCreate extends Component
             'company_id' => auth()->user()->employee->company->id, //encontramos la company actual osea la compania del usuario logueado
             'employee_id' => auth()->user()->employee->id,
             //'tipodeoperacion_id' => $this->tipodeoperacion_id, //venta interna en este caso ponemos 0101, pero em la tabla tiene id = 1
-            'tipodocumento_id' => $this->tipodocumento_id, //ruc, dni
+            'tipodocumento_id' => $this->tipodocumento_id, //ruc, dni el $this->tipodocumento_id es 4 pero su codigo es 6
             'fechaemision' =>  $this->fechaemision,
             //'fechavencimiento' =>  $this->fechavencimiento,
             //'paymenttype_id' => $this->paymenttype_id, //contado, credito
-            'currency_id' => $this->currency_id, //PEN, USD
+            'currency_id' => $this->currency_id, //PEN, USD $this->currency_id =1
 
             'mtoopergravadas' => $this->mtoopergravadas,
             'mtooperexoneradas' => $this->mtooperexoneradas,
@@ -211,9 +210,7 @@ class NotadecreditoCreate extends Component
             //'legends' => json_encode($this->legends),
             //anticipos
             //detracciones
-
             'nota' => $this->nota,
-
         ]);
 
         //guardamos de acuerdo al comprobante escogido, boleta, factura
@@ -229,9 +226,10 @@ class NotadecreditoCreate extends Component
                     'serienumero' => $this->serienumero,
                     'fechaemision' =>  $this->fechaemision,
 
-                    'tipodocumentoafectado' => $this->tipodocumentoafectado,//factura o boleta
+                    'tipodocumentoafectado' => $this->tipodocumentoafectado, //factura o boleta
                     'numdocumentoafectado' => $this->serienumeroafectado,
-                    'codmotivo' => $this->tipodenotadecredito_id,
+                    //'codmotivo' => $this->tipodenotadecredito_id,
+                    'tipodenotadecredito_id' => $this->tipodenotadecredito_id,
                     'desmotivo' => $this->desmotivo,
 
                     //'fechavencimiento' => $this->fechavencimiento,
@@ -254,6 +252,13 @@ class NotadecreditoCreate extends Component
                     'numero' => $this->numero,
                     'serienumero' => $this->serienumero,
                     'fechaemision' =>  $this->fechaemision,
+
+                    'tipodocumentoafectado' => $this->tipodocumentoafectado, //factura o boleta
+                    'numdocumentoafectado' => $this->serienumeroafectado,
+                    //'codmotivo' => $this->tipodenotadecredito_id,
+                    'tipodenotadecredito_id' => $this->tipodenotadecredito_id,
+                    'desmotivo' => $this->desmotivo,
+
                     //'fechavencimiento' => $this->fechavencimiento,
                     'total' => $this->total,
                     'comprobante_id' => $comprobante->id,
@@ -269,15 +274,11 @@ class NotadecreditoCreate extends Component
         }
 
 
-        //guadamos la tabla comprobante_product
-        //lo comente porque accede muchas veces a la BD
+
         $temporals = Temporalnc::where('company_id', auth()->user()->employee->company->id)
             ->where('employee_id', auth()->user()->employee->id)->get();
 
         foreach ($temporals as $temporal) {
-            //si el producto es bolsa agregar icbper de lo contrario no///////////////////////////////
-            //$this->invoice['details'][] = $this->item;
-
             Comprobante_Product::create([
                 'cant' => $temporal->quantity,
                 'price' => $temporal->saleprice,
@@ -291,22 +292,51 @@ class NotadecreditoCreate extends Component
                 'icbper' => $temporal->icbper,
                 'totalimpuestos' => $temporal->totalimpuestos,
                 'mtovalorventa' => $temporal->mtovalorventa,
-
-
             ]);
         }
 
 
         //facturacion electronica
+        //$boleta es la ncfactura o ncBoleta que se genero
         $sunat = new SunatService($comprobante, $this->company, $temporals, $boleta);
 
         $see = $sunat->getSee();
         $note = $sunat->setNota();
-        $result = $sunat->send();
+
+        switch ($this->sending_method) {
+            case '1':
+
+                $sunat->send(); //send es el metodo de greenter
+                $temporals->each->delete(); //eliminamos temporal
+                $this->emit('alert', 'La Nota de Crédito se creo correctamente y se envio a sunat');
+                break;
+
+            case '2':
+
+                $sunat->generateXml(); ////send es el meto de greenter
+
+                $this->emit('alert', 'El comprobante se creo y firmo correctamente, pero no se envio a SUNAT');
+
+                break;
+
+            case '3':
+
+                //La factura se guardo pero no se envio a sunat
+                $this->emit('alert', 'El comprobante se creo, pero no se firmo ni envio a SUNAT');
+
+                break;
+        }
+
+
+        $sunat->generatePdfReport();
+
+
+
+        /* $result = $sunat->send();
         $sunat->generatePdfReport();
         $sunat->generateXml();
 
-        $temporals->each->delete();
+        $temporals->each->delete(); */
 
         /* $xml = $this->see->getFactory()->getLastXml();
         $this->invoice['xml'] = $this->see->getFactory()->getLastXml();
@@ -384,6 +414,7 @@ class NotadecreditoCreate extends Component
             ]);
         }
     }
+
 
 
     public function delete($temporal)
@@ -489,7 +520,7 @@ class NotadecreditoCreate extends Component
     public function getTotales()
     {
 
-        $this->mtoopergravadas = Temporalnc::where('company_id', $this->company_id)
+        $this->mtoopergravadas = Temporalnc::where('company_id', $this->company_id) //tambien deberiamos poner where('local_id')
             ->where('employee_id', auth()->user()->employee->id)
             ->where('tipafeigv', '10')
             ->sum('mtovalorventa'); //$mtovalorventa = $mtovalorunitario * $newQuantity;//es el subtotal sin inc IGV ejemplo 100 x 2 = 200

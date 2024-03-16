@@ -38,12 +38,12 @@
                                 placeholder="Buscar" />
                         </div>
                         {{-- @can('sale Create') --}}
-                            <div class="flex items-center justify-center">
-                                <a href="{{ route('admin.comprobante.create') }}"
-                                    class="items-center justify-center sm:flex btn btn-orange">
-                                    <i class="mx-2 fa-regular fa-file"></i> Nuevo
-                                </a>
-                            </div>
+                        <div class="flex items-center justify-center">
+                            <a href="{{ route('admin.comprobante.create') }}"
+                                class="items-center justify-center sm:flex btn btn-orange">
+                                <i class="mx-2 fa-regular fa-file"></i> Nuevo
+                            </a>
+                        </div>
                         {{-- @endcan --}}
 
                         {{-- @can('create User')
@@ -64,7 +64,7 @@
                     {{-- @if ($comprobantes->count()) --}}
 
 
-                     @if (count($comprobantes))
+                    @if (count($comprobantes))
 
 
                         <table class="min-w-full divide-y divide-gray-200">
@@ -129,7 +129,8 @@
 
 
                                     <th scope="col"
-                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase" wire:click="order('serienumero')">
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                        wire:click="order('serienumero')">
                                         Serie Número
                                         @if ($sort == 'serienumero')
                                             @if ($direction == 'asc')
@@ -146,7 +147,8 @@
 
 
                                     <th scope="col"
-                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase" wire:click="order('subtotal')">
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                        wire:click="order('subtotal')">
                                         Subtotal
                                         @if ($sort == 'subtotal')
                                             @if ($direction == 'asc')
@@ -162,7 +164,8 @@
                                     </th>
 
                                     <th scope="col"
-                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase" wire:click="order('igv')">
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                        wire:click="order('igv')">
                                         IGV
                                         @if ($sort == 'igv')
                                             @if ($direction == 'asc')
@@ -178,7 +181,8 @@
                                     </th>
 
                                     <th scope="col"
-                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase" wire:click="order('total')">
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                        wire:click="order('total')">
                                         Total
                                         @if ($sort == 'total')
                                             @if ($direction == 'asc')
@@ -229,12 +233,12 @@
                                         </td>
                                         <td class="items-center px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
 
-                                           {{--  {{ $sale->fechaemision }} --}}
-                                           {{ \Carbon\Carbon::parse($sale->fechaemision)->format('d/m/Y') }}
+                                            {{--  {{ $sale->fechaemision }} --}}
+                                            {{ \Carbon\Carbon::parse($sale->fechaemision)->format('d/m/Y') }}
 
                                         </td>
                                         <td class="items-center px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                            {{ $sale->customer->nomrazonsocial  }}
+                                            {{ $sale->customer->nomrazonsocial }}
 
                                         </td>
 
@@ -243,7 +247,7 @@
 
 
                                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                             {{ $sale->serienumero }}
+                                            {{ $sale->serienumero }}
                                         </td>
 
 
@@ -277,19 +281,67 @@
                                         </td>
                                         {{-- PDF --}}
                                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                            <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}" ><img class='h-6' src='/images/icons/pdf_cpe.svg'/></a>
+                                            {{-- <a href="" ><img class='h-6' src='/images/icons/pdf_cpe.svg'/></a> --}}
+                                            {{-- @if ($sale->factura->pdf_path)
+                                                <a href="{{ asset('storage/' . $sale->factura->pdf_path) }} "
+                                                    target="_blank"><img class='h-6' src="/images/icons/pdf_cpe.svg"
+                                                        alt="comprobante"></a>
+                                            @endif --}}
+
+                                            @if ($sale->factura && $sale->factura->pdf_path)
+                                                <a href="{{ asset('storage/' . $sale->factura->pdf_path) }}"
+                                                    target="_blank">
+                                                    <img class='h-6' src="/images/icons/pdf_cpe.svg"
+                                                        alt="comprobante">
+                                                </a>
+                                            @endif
+
+                                            {{-- <button wire:click="downloadPDF({{$sale->id}})">
+                                                <img class='h-6' src='/images/icons/pdf_cpe.svg'/>
+                                            </button> --}}
                                         </td>
 
                                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                            <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}" ><img class='h-6' src='/images/icons/xml_cdr.svg'/></a>
+                                            @if ($sale->factura && $sale->factura->xml_path)
+                                                <a href="{{ asset('storage/' . $sale->factura->xml_path) }}"
+                                                    target="_blank"><img class='h-6' src="/images/icons/xml_cdr.svg"
+                                                        alt="xml"></a>
+                                            @else
+                                                <a href="#" wire:click="generateXml({{ $sale->id }})"><img
+                                                        class='h-6' src="/images/icons/get_cdr.svg"
+                                                        alt="xml"></a>
+                                            @endif
+
+
                                         </td>
 
+
                                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                            <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}" ><img class='h-6' src='/images/icons/xml_cpe.svg'/></a>
+                                            @if ($sale->factura && $sale->factura->sunat_cdr_path)
+                                                <a href="{{ asset('storage/' . $sale->factura->sunat_cdr_path) }} "
+                                                    target="_blank"><img class='h-6'
+                                                        src="/images/icons/xml_cpe.svg" alt="CDR"></a>
+                                            @else
+                                                <a href="#" wire:click="sendSunat({{ $sale->id }})"><img
+                                                        class='h-6' src="/images/icons/get_cdr.svg"
+                                                        alt="xml"></a>
+                                            @endif
+
                                         </td>
                                         {{-- SUNAT --}}
-                                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                            <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}" ><img class='h-6' src='/images/icons/get_cdr.svg'/></a>
+                                        <td class="px-6 py-4 text-sm whitespace-nowrap">
+
+                                            @if ($sale->factura && $sale->factura->sunat_cdr_path)
+                                                <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}"><img class='h-6'
+                                                        src='/images/icons/check.svg' /></a>
+                                            @else
+                                                <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}"><img class='h-6'
+                                                        src='/images/icons/stop.svg' /></a>
+                                            @endif
+
+
+
+
                                         </td>
 
 
@@ -299,14 +351,14 @@
                                             {{--  @can('update User') --}}
 
                                             @can('Sale Update')
-                                                <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}"
-                                                    class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}" class="btn btn-green"><i
+                                                        class="fa-solid fa-pen-to-square"></i></a>
                                             @endcan
 
                                             @can('Sale Update')
-                                                @if($sale->tipocomprobante_id==1 or $sale->tipocomprobante_id==2)
-                                                <a href="{{ route('admin.notadecredito.create', $sale->id) }}"
-                                                    class="px-4 btn btn-green">NC</a>
+                                                @if ($sale->tipocomprobante_id == 1 or $sale->tipocomprobante_id == 2)
+                                                    <a href="{{ route('admin.notadecredito.create', $sale->id) }}"
+                                                        class="px-4 btn btn-green">NC</a>
                                                 @endif
                                             @endcan
                                             <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}" class="text-sm btn btn-orange">GR</a>
@@ -316,7 +368,7 @@
 
 
 
-                                                    {{-- <img class='h-6' src='/images/icons/xml_cdr.svg'/> --}}
+                                            {{-- <img class='h-6' src='/images/icons/xml_cdr.svg'/> --}}
 
                                             {{-- @can('delete User') --}}
 
@@ -386,7 +438,7 @@
             </div>
 
 
-          <x-slot name="footer">
+            <x-slot name="footer">
 
                 <h2 class="text-xl font-semibold leading-tight text-gray-600">
                     Pie

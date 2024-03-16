@@ -20,4 +20,9 @@ class Product extends Model
         return $this->belongsTo(Tipoafectacion::class);
     }
 
+    public function comprobantes()
+    {
+        return $this->belongsToMany(Comprobante::class)->withPivot('cant', 'price', 'mtobaseigv', 'igv', 'icbper', 'totalimpuestos', 'mtovalorventa', 'company_id');
+    }
+
 }
