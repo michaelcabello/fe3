@@ -39,4 +39,10 @@ class Factura extends Model
     {
         return $this->hasMany(Paymenttype::class);
     }
+
+    /*relcion de uno a uno*/
+    public function comprobante()
+    {
+        return $this->belongsTo(Comprobante::class);
+    }
 }

@@ -59,7 +59,18 @@ class Comprobante extends Model
     //relacion de uno a uno
     public function factura()
     {
-        return $this->hasOne(Factura::class, 'comprobante_id');
+        return $this->hasOne(Factura::class);
+    }
+
+    //relacion de uno a uno
+    public function ncfactura()
+    {
+        return $this->hasOne(Ncfactura::class);
+    }
+    //relacion de uno a uno
+    public function ncboleta()
+    {
+        return $this->hasOne(Ncboleta::class);
     }
 
     //ruc, dni
@@ -83,8 +94,4 @@ class Comprobante extends Model
     {
         return $this->belongsToMany(Product::class, 'comprobante_producto')->withPivot('cant', 'price', 'mtobaseigv', 'igv', 'icbper', 'totalimpuestos', 'mtovalorventa', 'company_id');
     }
-
-
-
-
 }

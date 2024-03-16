@@ -17,4 +17,10 @@ class Ncboleta extends Model
     }
 
 
+    /*relcion de uno a uno*/
+    public function comprobante()
+    {
+        return $this->belongsTo(Comprobante::class);
+    }
+
 }

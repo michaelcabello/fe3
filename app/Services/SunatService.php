@@ -103,7 +103,6 @@ class SunatService
             ->setLegends($this->getLegends());
     }
 
-
     public function setNota()
     {
 

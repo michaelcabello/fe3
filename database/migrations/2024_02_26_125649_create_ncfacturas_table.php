@@ -21,7 +21,11 @@ return new class extends Migration
             $table->string('serienumero');
             $table->timestamp('fechaemision')->nullable();
 
-            $table->integer('tipodocumentoafectado')->nullable();
+            $table->string('tipodocumentoafectado')->nullable();//la tabla es tipocomprobantes
+
+            //$table->unsignedBigInteger('tipocomprobante_id')->nullable();//es el cod motivo
+            //$table->foreign('tipocomprobante_id')->references('id')->on('tipocomprobantes')->onDelete('cascade');
+
             $table->string('numdocumentoafectado')->nullable();
             //$table->string('codmotivo')->nullable();ira
             $table->string('desmotivo')->nullable();

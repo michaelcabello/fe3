@@ -641,8 +641,6 @@ class ComprobanteCreate extends Component
             $district_id = NULL;
         }
 
-
-
         //guardamos al cliente en la tabla customers
         //a direccion le damos null si esta vacio
         $direccion = !empty($this->direccion) ? $this->direccion : null;
@@ -729,6 +727,7 @@ class ComprobanteCreate extends Component
 
             case '1':
                 //es factura , se guardara en la variable $boleta indepenientemente si es factura, nc,guia, etc
+                //guardamos en la tabla factura
                 $boleta = Factura::create([
                     'serie' => $this->serie,
                     'numero' => $this->numero,
@@ -748,7 +747,7 @@ class ComprobanteCreate extends Component
 
             case '2':
                 //es boleta
-                //guadamos la tabla boletas
+                //guardamos en la tabla boletas
                 $boleta = Boleta::create([
                     'serie' => $this->serie,
                     'numero' => $this->numero,
@@ -854,7 +853,7 @@ class ComprobanteCreate extends Component
 
             case '2':
 
-                $sunat->generateXml(); ////send es el meto de greenter
+                $sunat->generateXml(); ////send es el metodo de greenter
 
                 foreach ($temporals as $temporal) {
                     $temporal->state = 1;//guarda en el temporal para indicar que se guardo y genero xlm pero no se envio a sunat

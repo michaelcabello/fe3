@@ -225,7 +225,7 @@ class NotadecreditoCreate extends Component
                     'numero' => $this->numero,
                     'serienumero' => $this->serienumero,
                     'fechaemision' =>  $this->fechaemision,
-
+                    //'tipocomprobante_id' => $this->tipocomprobante_id, //NC NOTa de credito es el tipo de documento afectado
                     'tipodocumentoafectado' => $this->tipodocumentoafectado, //factura o boleta
                     'numdocumentoafectado' => $this->serienumeroafectado,
                     //'codmotivo' => $this->tipodenotadecredito_id,
@@ -314,7 +314,7 @@ class NotadecreditoCreate extends Component
             case '2':
 
                 $sunat->generateXml(); ////send es el meto de greenter
-
+                $temporals->each->delete(); //eliminamos temporal
                 $this->emit('alert', 'El comprobante se creo y firmo correctamente, pero no se envio a SUNAT');
 
                 break;
@@ -322,6 +322,7 @@ class NotadecreditoCreate extends Component
             case '3':
 
                 //La factura se guardo pero no se envio a sunat
+                $temporals->each->delete(); //eliminamos temporal
                 $this->emit('alert', 'El comprobante se creo, pero no se firmo ni envio a SUNAT');
 
                 break;
