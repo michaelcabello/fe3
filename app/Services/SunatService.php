@@ -39,9 +39,10 @@ class SunatService
 
     public function __construct($comprobante, $company, $temporals, $boleta)
     {
+        //$boleta  puede ser factura, boleta, ncfactura, ncboleta
         $this->comprobante = $comprobante;
         $this->company = $company;
-        $this->temporals = $temporals;
+        $this->temporals = $temporals;//los temporales de factura y boleta es el mismo, el temporal de nota de credito es otra
         $this->boleta = $boleta;//loque se guardo es ncfactura o ncboleta
     }
 
@@ -60,7 +61,7 @@ class SunatService
         $this->see->setService($endpoint);
         $this->see->setClaveSOL($this->company->ruc, $this->company->soluser, $this->company->solpass);
     }
-
+    //este método es para factura y boleta
     public function setInvoice()
     {
         $this->voucher = (new Invoice())
@@ -103,6 +104,7 @@ class SunatService
             ->setLegends($this->getLegends());
     }
 
+    //este metodo es para nota de credito ncfactura y ncboleta
     public function setNota()
     {
 
@@ -251,27 +253,20 @@ class SunatService
         $this->boleta->xml_path = 'invoices/xml/' . $this->voucher->getName() . '.xml';
         Storage::put($this->boleta->xml_path, $xml, 'public');
 
-
         // Verificamos que la conexión con SUNAT fue exitosa.
         if (!$this->boleta->sunat_success) {
-
             $this->boleta->sunat_error = [
                 'code' => $this->result->getError()->getCode(),
                 'message' => $this->result->getError()->getMessage()
             ];
             $this->boleta->save();
-
             /*  session()->flash('flash.sweetAlert', [
                 'icon' => 'error',
                 'title' => 'Codigo Error: ' . $this->boleta->sunat_error['code'],
                 'text' => $this->boleta->sunat_error['message']
             ]); */
-
             return;
         }
-
-
-
         // Guardamos el CDR
         $this->boleta->sunat_cdr_path = "invoices/cdr/R-{$this->voucher->getName()}.zip";
         Storage::put($this->boleta->sunat_cdr_path, $this->result->getCdrZip(), 'public');
@@ -412,12 +407,9 @@ class SunatService
     //Generar XML
     public function generateXml(){
         $xml = $this->see->getXmlSigned($this->voucher);
-
         $this->boleta->hash = (new XmlUtils())->getHashSign($xml);
         $this->boleta->xml_path = 'invoices/xml/' . $this->voucher->getName() . '.xml';
-
         Storage::put($this->boleta->xml_path, $xml, 'public');
-
         $this->boleta->save();
     }
 

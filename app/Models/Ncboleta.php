@@ -16,6 +16,18 @@ class Ncboleta extends Model
         return $this->belongsTo(Currency::class, 'currency_id');
     }
 
+    //de uno a muchos inversa
+    public function tipocomprobante()
+    {
+        return $this->belongsTo(Tipocomprobante::class); //para ver si es factura 01, boleta 03,
+    }
+
+    //de uno a muchos inversa
+    public function tipodenotadecredito()
+    {
+        return $this->belongsTo(Tipodenotadecredito::class, 'tipodenotadecredito_id');
+    }
+
 
     /*relcion de uno a uno*/
     public function comprobante()

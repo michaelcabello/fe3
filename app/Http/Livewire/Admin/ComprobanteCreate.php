@@ -721,13 +721,12 @@ class ComprobanteCreate extends Component
         ]);
 
         //guardamos de acuerdo al comprobante escogido, boleta, factura
-
-        //si loescogido es 1(dni), 4, 6(ruc)
+        //boletas y facturas tienen una relacion de uno a uno con comprobantes
         switch ($this->tipocomprobante_id) {
-
             case '1':
-                //es factura , se guardara en la variable $boleta indepenientemente si es factura, nc,guia, etc
                 //guardamos en la tabla factura
+                //se guardara en la variable $boleta, indepenientemente si es factura,nc,guia, etc
+                //$boleta tiene la ultima factura creada
                 $boleta = Factura::create([
                     'serie' => $this->serie,
                     'numero' => $this->numero,
@@ -746,8 +745,9 @@ class ComprobanteCreate extends Component
                 break;
 
             case '2':
-                //es boleta
                 //guardamos en la tabla boletas
+                //se guardara en la variable $boleta indepenientemente si es factura, nc,guia, etc
+                //$boleta tiene la ultima boleta creada
                 $boleta = Boleta::create([
                     'serie' => $this->serie,
                     'numero' => $this->numero,
@@ -775,23 +775,18 @@ class ComprobanteCreate extends Component
                 break;
         }
 
-
-
-
         //guadamos la tabla comprobante_product
-        //lo comente porque accede muchas veces a la BD
+        //Temporal fue alimentado al adicionar producto y se pone state=0
+        //$temporals tiene lo escogido para la venta en el carrito actual
         $temporals = Temporal::where('company_id', auth()->user()->employee->company->id)
             ->where('employee_id', auth()->user()->employee->id)
-            ->where('state',0)->get();//state 0 tiene los temporales actuales, 1 ya esta grabado pero no enviado a sunat
+            ->where('state',0)->get();//state 0 tiene los temporales actuales osea se muestra en el carrito o post, state 1, no se muestra en el carrito o pos, ya esta grabado en la bd pero no enviado a sunat
 
-
-       // dd($temporals);
-
+        // dd($temporals);
 
         foreach ($temporals as $temporal) {
             //si el producto es bolsa agregar icbper de lo contrario no///////////////////////////////
             //$this->invoice['details'][] = $this->item;
-
             Comprobante_Product::create([
                 'cant' => $temporal->quantity,
                 'price' => $temporal->saleprice,
@@ -837,24 +832,26 @@ class ComprobanteCreate extends Component
 
 
         //facturacion electronica
-
+        //$boleta tiene el ultimo registro creado de factura o boleta
+        //$temporals tiene lo seleccionado en el carrito pero con state=0
+        //$comprobante  es el ultimo comprobante creado
+        //$this->company la compania logueada
         $sunat = new SunatService($comprobante, $this->company, $temporals, $boleta);
 
         $sunat->getSee();
         $sunat->setInvoice();
 
         switch ($this->sending_method) {
-            case '1':
-
+            case '1'://cuando manda el cdr, generaxml y guarda el comprobante
                 $sunat->send(); //send es el metodo de greenter
-                $temporals->each->delete();//eliminamos temporal
+                $temporals->each->delete();//eliminamos temporal porque ya se envio
                 $this->emit('alert', 'El comprobante se creo correctamente y se envio a sunat');
                 break;
 
-            case '2':
-
-                $sunat->generateXml(); ////send es el metodo de greenter
-
+            case '2'://cuando genera el xml y guarda el comprobante
+                //genrando el xml
+                $sunat->generateXml(); //genera el xml
+                //poniendo el state a 1 para posteriormente enviar a sunat
                 foreach ($temporals as $temporal) {
                     $temporal->state = 1;//guarda en el temporal para indicar que se guardo y genero xlm pero no se envio a sunat
                     $temporal->comprobante_id = $comprobante->id;//guarda en el temporal para saber de que empresa es
@@ -865,8 +862,8 @@ class ComprobanteCreate extends Component
 
                 break;
 
-            case '3':
-
+            case '3'://cuando guarda el comprobante
+                //poniendo el state a 1 para posteriormente enviar a sunat
                 foreach ($temporals as $temporal) {
                     $temporal->state = 1;
                     $temporal->comprobante_id = $comprobante->id;

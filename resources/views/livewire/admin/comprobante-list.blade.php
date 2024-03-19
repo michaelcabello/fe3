@@ -333,7 +333,7 @@
 
 
                                         </td>
-
+                                        {{-- XML DE la factura --}}
                                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                                             {{-- para el xml de factura --}}
                                             @if ($sale->tipocomprobante_id == 1)
@@ -393,7 +393,7 @@
 
                                         </td>
 
-
+                                        {{-- CDR DE la factura --}}
                                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                                             {{-- para el cdr de factura --}}
                                             @if ($sale->tipocomprobante_id == 1)

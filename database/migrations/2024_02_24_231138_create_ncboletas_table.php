@@ -22,6 +22,16 @@ return new class extends Migration
             $table->timestamp('fechaemision')->nullable();
             //$table->timestamp('fechavencimiento')->nullable();
             //$table->string('formadepago');
+            $table->string('tipodocumentoafectado')->nullable();//la tabla es tipocomprobantes
+
+            //$table->unsignedBigInteger('tipocomprobante_id')->nullable();//es el cod motivo
+            //$table->foreign('tipocomprobante_id')->references('id')->on('tipocomprobantes')->onDelete('cascade');
+
+            $table->string('numdocumentoafectado')->nullable();
+            //$table->string('codmotivo')->nullable();ira
+            $table->string('desmotivo')->nullable();
+
+
             $table->double('total', 10, 4)->nullable();//precio venta
 
             $table->unsignedBigInteger('comprobante_id')->nullable();
@@ -41,6 +51,10 @@ return new class extends Migration
             $table->foreign('tipodecambio_id')->references('id')->on('tipodecambios')->onDelete('cascade');
 
 
+            $table->unsignedBigInteger('tipodenotadecredito_id')->nullable();//es el cod motivo
+            $table->foreign('tipodenotadecredito_id')->references('id')->on('tipodenotadecreditos')->onDelete('cascade');
+
+
             /* $table->unsignedBigInteger('sale_id')->nullable();
             $table->foreign('sale_id')->references('id')->on('sales')->onDelete('cascade'); */
 
@@ -55,8 +69,7 @@ return new class extends Migration
             $table->text('cdr_notes')->nullable();
             $table->text('cdr_description')->nullable();
 
-            $table->unsignedBigInteger('tipodenotadecredito_id')->nullable();
-            $table->foreign('tipodenotadecredito_id')->references('id')->on('tipodenotadecreditos')->onDelete('cascade');
+
 
             $table->timestamps();
         });

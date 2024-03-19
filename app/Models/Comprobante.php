@@ -53,7 +53,7 @@ class Comprobante extends Model
     //relacion de uno a uno
     public function boleta()
     {
-        return $this->hasOne(Boleta::class, 'comprobante_id');
+        return $this->hasOne(Boleta::class);
     }
 
     //relacion de uno a uno

@@ -35,7 +35,7 @@ class ComprobanteList extends Component
         'search' => ['except' => ''],
     ];
 
-    public $temporal = [
+    /*public $temporal = [
         'company_id' => [],
         'product_id' => [],
         'codigobarras' => [],
@@ -58,17 +58,15 @@ class ComprobanteList extends Component
         'mtovalorventa' => [],
         'mtobaseigv' => [],
         'esbolsa' => [],
-    ];
+    ]; */
 
 
     public function mount()
     {
-
-        $this->company = auth()->user()->employee->company;
+        $this->company = auth()->user()->employee->company;//compania logueada
         $this->igv = Impuesto::where('siglas', 'IGV')->value('valor'); //es el 18%
         $this->factoricbper = Impuesto::where('siglas', 'ICBPER')->value('valor'); //es 0.2
     }
-
 
 
     public function updatingSearch()
@@ -83,31 +81,12 @@ class ComprobanteList extends Component
     }
 
 
-    /* public function render()
-    {
-        if ($this->readyToLoad) {
-            $comprobantes = Comprobante::with('customer', 'local')->addSelect([
-                'nomrazonsocial' => Customer::select('nomrazonsocial')
-                    ->whereColumn('id', 'comprobantes.customer_id')
-            ])->where('serie', 'like', '%' . $this->search . '%')->orWhereHas('customer', function (Builder $query) {
-                $query->where('nomrazonsocial', 'like', '%' . $this->search . '%');
-            })->orderBy($this->sort, $this->direction)->paginate($this->cant);
-        } else {
-            $comprobantes = [];
-        }
-
-        return view('livewire.admin.comprobante-list', compact('comprobantes'));
-    } */
-
-
     public function render()
     {
         if ($this->readyToLoad) {
 
-
-
-            $company_id = auth()->user()->employee->company->id;
-            $local_id = auth()->user()->employee->local->id;
+            $company_id = auth()->user()->employee->company->id;//compania logueada
+            $local_id = auth()->user()->employee->local->id;//local logueado
 
             /* $comprobantes = Comprobante::with('customer', 'local')->addSelect([
                 'nomrazonsocial' => Customer::select('nomrazonsocial')->whereColumn('id', 'comprobantes.customer_id')
@@ -116,6 +95,7 @@ class ComprobanteList extends Component
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->cant); */
 
+            //lista de comprobantes
             $comprobantes = Comprobante::select('id', 'serienumero', 'valorventa', 'totalimpuestos', 'mtoimpventa', 'currency_id', 'customer_id', 'tipocomprobante_id')
                 ->where('serienumero', 'like', '%' . $this->search . '%')
                 ->where('company_id', $company_id)
@@ -126,22 +106,8 @@ class ComprobanteList extends Component
             $comprobantes = [];
         }
 
-
-        /* return view('livewire.admin.comprobante-list', [
-            'comprobantes' => $comprobantes->map(function ($comprobante) {
-                $comprobante->formattedFechaEmision = Carbon::parse($comprobante->fechaemision)->format('d/m/Y');
-                return $comprobante;
-            }),
-        ]); */
-
-
         return view('livewire.admin.comprobante-list', compact('comprobantes'));
     }
-
-
-
-
-
 
 
     public function order($sort)
@@ -185,37 +151,40 @@ class ComprobanteList extends Component
                 'tipafeigv' => $item->product->tipoafectacion->codigo,
                 'porcentajeigv' => $this->igv,  //igv lo tenemos en el mount es 18%
                 'factoricbper' => $this->factoricbper,  //factoricbper lo tenemos en el mount es 0.2
-
-
             ]);
         }
     }
+
     public function generateXml(Comprobante $comprobante)
     {
         //dd($comprobante);
         //$temporals = Comprobante_Product::where('comprobante_id', $comprobante->id)->get();
         //obtenemos temporals para factura y boleta
         if ($comprobante->tipocomprobante_id == 1 or $comprobante->tipocomprobante_id == 2) {
+            //obtenemos temporal de factura y boleta
             $temporals = Temporal::where('company_id', auth()->user()->employee->company->id)
                 ->where('employee_id', auth()->user()->employee->id)
                 ->where('state', 1) //el state 1 indica que el comprobante esta en el temporal, para indicar que se guardo pero no se termino de enviar a sunat
                 ->where('comprobante_id', $comprobante->id)->get(); //state 0 tiene los temporales actuales, 1 ya esta grabado pero no enviado a sunat
+                //el state 0 indica que se mostrara al realizar el comprobante, el state 1 no se muestra pero esta en la tabla hasta que se envie a SUNAT
         } elseif ($comprobante->tipocomprobante_id == 3 or $comprobante->tipocomprobante_id == 5) {
+            //el detalle se guardara en el teporal
             $detalle = Comprobante_Product::where('comprobante_id', $comprobante->id)
                 ->where('company_id', auth()->user()->employee->company->id)->get(); //falta restringir para que solo ,uestre lo que le corresponde osea no de otro local ni de otra empresa
             $this->llenartemporal($detalle);
+            //obtenemos temporal de nc factura y boleta
             $temporals = Temporalnc::where('company_id', auth()->user()->employee->company->id)
                 ->where('employee_id', auth()->user()->employee->id)->get();
         }
 
 
-        if ($comprobante->tipocomprobante_id == 1) {
+        if ($comprobante->tipocomprobante_id == 1) {//si es factura
             $sunat = new SunatService($comprobante, $this->company, $temporals, $comprobante->factura);
-        } elseif ($comprobante->tipocomprobante_id == 2) {
+        } elseif ($comprobante->tipocomprobante_id == 2) {//si es boleta
             $sunat = new SunatService($comprobante, $this->company, $temporals, $comprobante->boleta);
-        } elseif ($comprobante->tipocomprobante_id == 3) {
+        } elseif ($comprobante->tipocomprobante_id == 3) {//si es ncfactura
             $sunat = new SunatService($comprobante, $this->company, $temporals, $comprobante->ncfactura);
-        } elseif ($comprobante->tipocomprobante_id == 5) {
+        } elseif ($comprobante->tipocomprobante_id == 5) {//si es ncboleta
             $sunat = new SunatService($comprobante, $this->company, $temporals, $comprobante->ncboleta);
         }
 
@@ -223,20 +192,20 @@ class ComprobanteList extends Component
         $sunat->getSee();
 
         if ($comprobante->tipocomprobante_id == 1 or $comprobante->tipocomprobante_id == 2) {
-            $sunat->setInvoice();
-            $sunat->generateXml(); ////send es el metodo de greenter
+            $sunat->setInvoice();//setInvoice es el metodo de greenter
+            $sunat->generateXml(); //generateXml es el metodo de greenter
+            //no se elimina el temporal, pero state es 1.
         }
+
         if ($comprobante->tipocomprobante_id == 3 or $comprobante->tipocomprobante_id == 5) {
-            $sunat->setNota();
-            $sunat->generateXml(); ////send es el metodo de greenter
-            $temporals->each->delete();
+            $sunat->setNota();//setNota es el metodo de greenter
+            $sunat->generateXml(); //generateXml es el metodo de greenter
+            $temporals->each->delete();//eliminamos tempotal, porque en este caso se vuelve a generar
         }
 
         //$sunat->setInvoice();
-
         $this->emit('alert', 'El comprobante se creo y firmo correctamente, pero no se envio a SUNAT');
     }
-
 
     public function sendSunat(Comprobante $comprobante)
     {
@@ -258,14 +227,13 @@ class ComprobanteList extends Component
         }
 
 
-
-        if ($comprobante->tipocomprobante_id == 1) {
+        if ($comprobante->tipocomprobante_id == 1) {//si es factura
             $sunat = new SunatService($comprobante, $this->company, $temporals, $comprobante->factura);
-        } elseif ($comprobante->tipocomprobante_id == 2) {
+        } elseif ($comprobante->tipocomprobante_id == 2) {//si es boleta
             $sunat = new SunatService($comprobante, $this->company, $temporals, $comprobante->boleta);
-        } elseif ($comprobante->tipocomprobante_id == 3) {
+        } elseif ($comprobante->tipocomprobante_id == 3) {//si es ncfactura
             $sunat = new SunatService($comprobante, $this->company, $temporals, $comprobante->ncfactura);
-        } elseif ($comprobante->tipocomprobante_id == 5) {
+        } elseif ($comprobante->tipocomprobante_id == 5) {//si es ncboleta
             $sunat = new SunatService($comprobante, $this->company, $temporals, $comprobante->ncboleta);
         }
 

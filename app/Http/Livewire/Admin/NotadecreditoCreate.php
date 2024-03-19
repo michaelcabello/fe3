@@ -219,7 +219,7 @@ class NotadecreditoCreate extends Component
         switch ($this->tipocomprobante_namecorto) {
 
             case 'NC FACTURA':
-                //es NC factura , se guardara en la variable $boleta indepenientemente si es factura, nc,guia, etc
+                //es NC factura guardamos en la tabla ncfacturas, se guardara en la variable $boleta indepenientemente si es factura, nc,guia, etc
                 $boleta = Ncfactura::create([
                     'serie' => $this->serie,
                     'numero' => $this->numero,
@@ -228,56 +228,40 @@ class NotadecreditoCreate extends Component
                     //'tipocomprobante_id' => $this->tipocomprobante_id, //NC NOTa de credito es el tipo de documento afectado
                     'tipodocumentoafectado' => $this->tipodocumentoafectado, //factura o boleta
                     'numdocumentoafectado' => $this->serienumeroafectado,
-                    //'codmotivo' => $this->tipodenotadecredito_id,
-                    'tipodenotadecredito_id' => $this->tipodenotadecredito_id,
+                    'tipodenotadecredito_id' => $this->tipodenotadecredito_id, //esto es el codigo del motivo, codmotivo
                     'desmotivo' => $this->desmotivo,
-
-                    //'fechavencimiento' => $this->fechavencimiento,
                     'total' => $this->total,
                     'comprobante_id' => $comprobante->id,
                     'company_id' => auth()->user()->employee->company->id,
-                    //'paymenttype_id' => $this->paymenttype_id,
                     'currency_id' => $this->currency_id,
                     'tipodecambio_id' => 1, //1 es un codigo de la tabla tipo de cambios es el id
-                    //guardaremos campos para facturacion electronica
                 ]);
-
                 break;
-
             case 'NC BOLETA':
-                //es NC boleta
-                //guadamos la tabla boletas
+                //es NC boleta, guadamos en la tabla ncboletas
                 $boleta = Ncboleta::create([
                     'serie' => $this->serie,
                     'numero' => $this->numero,
                     'serienumero' => $this->serienumero,
                     'fechaemision' =>  $this->fechaemision,
-
                     'tipodocumentoafectado' => $this->tipodocumentoafectado, //factura o boleta
                     'numdocumentoafectado' => $this->serienumeroafectado,
-                    //'codmotivo' => $this->tipodenotadecredito_id,
-                    'tipodenotadecredito_id' => $this->tipodenotadecredito_id,
+                    'tipodenotadecredito_id' => $this->tipodenotadecredito_id, //esto es el codigo del motivo, codmotivo
                     'desmotivo' => $this->desmotivo,
-
-                    //'fechavencimiento' => $this->fechavencimiento,
                     'total' => $this->total,
                     'comprobante_id' => $comprobante->id,
                     'company_id' => auth()->user()->employee->company->id,
-                    //'paymenttype_id' => $this->paymenttype_id,
                     'currency_id' => $this->currency_id,
                     'tipodecambio_id' => 1, //1 es un codigo de la tabla tipo de cambios es el id
-                    //guardaremos campos para facturacion electronica
                 ]);
                 break;
             default:
                 break;
         }
-
-
-
+        //guardamos en $temporals todo lo que se va gravar en la tabla comprobante_product
         $temporals = Temporalnc::where('company_id', auth()->user()->employee->company->id)
             ->where('employee_id', auth()->user()->employee->id)->get();
-
+        //guardamos el detalle de la nota de credito
         foreach ($temporals as $temporal) {
             Comprobante_Product::create([
                 'cant' => $temporal->quantity,
@@ -294,8 +278,6 @@ class NotadecreditoCreate extends Component
                 'mtovalorventa' => $temporal->mtovalorventa,
             ]);
         }
-
-
         //facturacion electronica
         //$boleta es la ncfactura o ncBoleta que se genero
         $sunat = new SunatService($comprobante, $this->company, $temporals, $boleta);
@@ -305,45 +287,32 @@ class NotadecreditoCreate extends Component
 
         switch ($this->sending_method) {
             case '1':
-
                 $sunat->send(); //send es el metodo de greenter
                 $temporals->each->delete(); //eliminamos temporal
                 $this->emit('alert', 'La Nota de Crédito se creo correctamente y se envio a sunat');
                 break;
-
             case '2':
-
                 $sunat->generateXml(); ////send es el meto de greenter
                 $temporals->each->delete(); //eliminamos temporal
                 $this->emit('alert', 'El comprobante se creo y firmo correctamente, pero no se envio a SUNAT');
-
                 break;
-
             case '3':
-
                 //La factura se guardo pero no se envio a sunat
                 $temporals->each->delete(); //eliminamos temporal
                 $this->emit('alert', 'El comprobante se creo, pero no se firmo ni envio a SUNAT');
-
                 break;
         }
 
-
         $sunat->generatePdfReport();
-
-
 
         /* $result = $sunat->send();
         $sunat->generatePdfReport();
         $sunat->generateXml();
-
         $temporals->each->delete(); */
-
         /* $xml = $this->see->getFactory()->getLastXml();
         $this->invoice['xml'] = $this->see->getFactory()->getLastXml();
         $this->invoice['hash'] = (new XmlUtils())->getHashSign($xml);
         dd($this->invoice); */
-
 
         //$this->emitTo('admin.comprobante-list', 'render');
 
