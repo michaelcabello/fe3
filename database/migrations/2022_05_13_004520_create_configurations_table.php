@@ -35,6 +35,11 @@ return new class extends Migration
             $table->integer('numdecimalesproducto')->nullable();
             $table->integer('numdecimalescomprobante')->nullable();
 
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+
+
+
             $table->timestamps();
         });
     }

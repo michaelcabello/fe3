@@ -17,13 +17,23 @@ return new class extends Migration
             $table->id();
             $table->string('ruc')->nullable();
             $table->string('razonsocial')->nullable();
-            $table->string('ubigeo')->nullable();
-            $table->string('direccion')->nullable();
-            $table->string('urbanizacion')->nullable();
             $table->string('nombrecomercial')->nullable();
+
+            $table->string('direccion')->nullable();
+
+            $table->string('department_id')->nullable();
+            $table->foreign('department_id')->references('id')->on('departments');
+            $table->string('province_id')->nullable();
+            $table->foreign('province_id')->references('id')->on('provinces');
+            $table->string('district_id')->nullable();
+            $table->foreign('district_id')->references('id')->on('districts');
+            $table->string('ubigeo')->nullable();
+
+            //$table->string('urbanizacion')->nullable();
+
             $table->string('logo')->nullable();
             $table->string('soluser')->nullable();
-            $table->string('solpass')->nullable();;
+            $table->string('solpass')->nullable();
             $table->text('certificado')->nullable();
             $table->string('certificate_path')->nullable();
             $table->string('cliente_id')->nullable();

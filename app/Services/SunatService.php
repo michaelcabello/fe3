@@ -28,13 +28,14 @@ use Greenter\Model\Despatch\DespatchDetail;
 use Greenter\Model\Sale\FormaPagos\FormaPagoContado;
 use Greenter\Report\Resolver\DefaultTemplateResolver;
 
-
 class SunatService
 {
     public $comprobante, $company, $temporals, $boleta;
+    public $api;
     public $see;
     public $voucher;
     public $result;
+    public $dispach;
 
 
     public function __construct($comprobante, $company, $temporals, $boleta)
@@ -42,8 +43,8 @@ class SunatService
         //$boleta  puede ser factura, boleta, ncfactura, ncboleta
         $this->comprobante = $comprobante;
         $this->company = $company;
-        $this->temporals = $temporals;//los temporales de factura y boleta es el mismo, el temporal de nota de credito es otra
-        $this->boleta = $boleta;//loque se guardo es ncfactura o ncboleta
+        $this->temporals = $temporals; //los temporales de factura y boleta es el mismo, el temporal de nota de credito es otra
+        $this->boleta = $boleta; //loque se guardo es ncfactura o ncboleta
     }
 
     public function getSee()
@@ -61,6 +62,270 @@ class SunatService
         $this->see->setService($endpoint);
         $this->see->setClaveSOL($this->company->ruc, $this->company->soluser, $this->company->solpass);
     }
+
+    //para envio de guias, se envia con un api, esta es la conexión
+    public function getSeeApi($company)
+    {
+        $this->api = new \Greenter\Api($company->production ? [
+
+            'auth' => 'https://api-seguridad.sunat.gob.pe/v1',
+            'cpe' => 'https://api-cpe.sunat.gob.pe/v1',
+
+        ] : [
+
+            'auth' => 'https://gre-test.nubefact.com/v1',
+            'cpe' => 'https://gre-test.nubefact.com/v1',
+
+        ]);
+
+        $this->api->setBuilderOptions([
+            'strict_variables' => true,
+            'optimizations' => 0,
+            'debug' => true,
+            'cache' => false,
+        ])->setApiCredentials(
+            $company->production ? $company->cliente_id : "test-85e5b0ae-255c-4891-a595-0b98c65c9854", //client_id
+            $company->production ? $company->cliente_secret : "test-Hty/M6QshYvPgItX2P0+Kw==" //client_secreT
+        )->setClaveSOL(
+            $company->ruc,
+            $company->production ? $company->sol_user : "MODDATOS",
+            $company->production ? $company->sol_pass : "MODDATOS"
+        )->setCertificate(Storage::get("certificates/certificate_1.pem"));
+
+        // return $this->api;
+    }
+
+
+    //Despatch
+    public function setDespatch()
+    {
+        $this->voucher = (new Despatch())
+            ->setVersion('2022')
+            ->setTipoDoc('09')
+            ->setSerie($this->boleta->serie)
+            ->setCorrelativo($this->boleta->numero)
+            ->setFechaEmision(new \DateTime($this->boleta->fechaemision))
+            ->setCompany($this->getCompany())
+            ->setDestinatario($this->getDestinatario())
+            ->setEnvio($this->getEnvio())
+            ->setDetails($this->getDespatchDetails());
+    }
+
+
+    public function sendDespatch()
+    {
+        $this->result = $this->api->send($this->voucher);
+        //$this->dispach = $this->api->send($this->voucher);
+        //dd($this->result);
+        $this->boleta->send_xml = true;
+        $this->boleta->sunat_success = $this->result->isSuccess();
+        //$this->boleta->sunat_success = $this->dispach->isSuccess();
+        $this->boleta->save();
+
+        // Guardar XML firmado digitalmente.
+        $xml = $this->api->getLastXml();
+        $this->boleta->hash = (new XmlUtils())->getHashSign($xml);
+        $this->boleta->xml_path = 'guides/xml/' . $this->voucher->getName() . '.xml';
+        Storage::put($this->boleta->xml_path, $xml, 'public');
+
+
+        // Verificamos que la conexión con SUNAT fue exitosa.
+        if (!$this->boleta->sunat_success) {
+
+            $this->boleta->sunat_error = [
+                'code' => $this->result->getError()->getCode(),
+                'message' => $this->result->getError()->getMessage()
+            ];
+            $this->boleta->save();
+
+            session()->flash('flash.sweetAlert', [
+                'icon' => 'error',
+                'title' => 'Codigo Error: ' . $this->boleta->sunat_error['code'],
+                'text' => $this->boleta->sunat_error['message']
+            ]);
+
+            return;
+        }
+
+        //Ticket
+        $ticket = $this->result->getTicket();
+        //dd($ticket);
+        $this->result = $this->api->getStatus($ticket);
+        //dd($this->result);
+        //dd($this->result);
+
+        // Guardamos el CDR
+        $this->boleta->sunat_cdr_path = "guides/cdr/R-{$this->voucher->getName()}.zip";
+        Storage::put($this->boleta->sunat_cdr_path, $this->result->getCdrZip(), 'public');
+        $this->boleta->save();
+
+        //Lectura del CDR
+        $this->readCdr();
+    }
+
+
+
+
+
+    /* public function getDespatchDetails($details)
+    {
+        $green_details = [];
+
+        foreach ($details as $detail) {
+            $green_details[] = (new DespatchDetail)
+                ->setCantidad($detail['cantidad'] ?? null)
+                ->setUnidad($detail['unidad'] ?? null)
+                ->setDescripcion($detail['descripcion'] ?? null)
+                ->setCodigo($detail['codigo'] ?? null);
+        }
+
+        return $green_details;
+    } */
+
+    public function getDespatchDetails()
+    {
+        $details = [];
+
+        foreach ($this->temporals as $item) {
+            $details[] = (new DespatchDetail())
+                ->setCantidad($item->quantity)
+                ->setUnidad($item->um)
+                ->setDescripcion($item->name)
+                ->setCodigo($item->codigobarras);
+        }
+
+        return $details;
+    }
+
+
+
+    //método para generar guias
+    public function getDestinatario()
+    {
+
+        //$address = new Address();
+        //$address->setDireccion($this->boleta->customer->address);
+
+        return (new Client())
+            ->setTipoDoc($this->boleta->customer->tipodocumento->codigo)
+            ->setNumDoc($this->boleta->customer->numdoc)
+            ->setRznSocial($this->boleta->customer->nomrazonsocial)
+            ->setAddress(
+                (new Address())
+                    ->setDireccion($this->boleta->customer->address)
+            );
+
+
+    }
+
+    public function getEnvio()
+    {
+        $shipment = (new Shipment)
+            ->setCodTraslado($this->boleta->motivotraslado->codigo) //saca del catalogo 20 de sunat ver https://cpe.sunat.gob.pe/sites/default/files/inline-files/anexoV-340-2017.pdf
+            ->setModTraslado($this->boleta->modalidaddetraslado) //saca del catalogo 18  ($this->boleta->modalidaddetraslado
+            ->setFecTraslado(new \DateTime($this->boleta->fechadetraslado))
+            //->setFechaEmision(new \DateTime($this->boleta->fechaemision))
+            ->setPesoTotal($this->boleta->pesototal)
+            ->setUndPesoTotal('KGM') //$this->boleta->um->abbreviation
+            ->setLlegada(new Direction($this->boleta->ubigeollegada, $this->boleta->direccionllegada))
+            ->setPartida(new Direction($this->boleta->puntodepartida->ubigeo, $this->boleta->puntodepartida->direccion));
+
+
+
+        if ($this->boleta->modalidaddetraslado == '01') { //publico
+            $shipment->setTransportista($this->getTransportista());
+
+        }
+
+        if ($this->boleta->modalidaddetraslado == '02') { //privado
+            $shipment->setVehiculo($this->getVehiculo())
+                ->setChoferes($this->getChoferes());
+        }
+
+        //dd($shipment);
+
+        return $shipment;
+    }
+
+
+    public function getTransportista()
+    {
+        //con dni no manda
+        return (new Transportist())
+            ->setTipoDoc($this->boleta->transportista->tipodocumento->codigo)
+            ->setNumDoc($this->boleta->transportista->numdoc)
+            ->setRznSocial($this->boleta->transportista->nomrazonsocial)
+            ->setNroMtc($this->boleta->transportista->nromtc);
+    }
+
+
+    public function getVehiculo()
+    {
+        $vehiculos = $this->boleta->vehiculos;
+
+        $secundarios = [];
+
+        foreach ($vehiculos->slice(1) as $item) {
+            $secundarios[] = (new Vehicle())
+                ->setPlaca($item->numeroplaca);
+        }
+
+        return (new Vehicle())
+            ->setPlaca($vehiculos->first()->numeroplaca)
+            ->setSecundarios($secundarios);
+
+        /* [
+            [
+                'placa' => 'A1B-123',
+            ],
+            [
+                'placa' => 'A1B-123',
+            ],
+            [
+                'placa' => 'A1B-123',
+            ]
+        ] */
+
+        /* $vehiculo = (new Vehicle())
+                    ->setPlaca($data['placa'] ?? null);
+
+           $vehiculoSecundario = (new Vehicle())
+                    ->setPlaca($data['placaSecundaria'] ?? null);
+
+           $vehiculo->getSecundarios([$vehiculoSecundario]); */
+    }
+
+
+    public function getChoferes()
+    {
+        //$choferes = collect($choferes);
+        $choferes = $this->boleta->conductors;
+        $drivers = [];
+
+        $drivers[] = (new Driver())
+            ->setTipo('Principal')
+            ->setTipoDoc($choferes->first()->tipodocumento->codigo) //https://www.sunat.gob.pe/legislacion/superin/2014/anexo8-300-2014.pdf    en el catalogo 6
+            ->setNroDoc($choferes->first()->numdoc)
+            ->setLicencia($choferes->first()->licencia)
+            ->setNombres($choferes->first()->nomape)
+            ->setApellidos($choferes->first()->nomape);
+
+        foreach ($choferes->slice(1) as $item) //->slice(1) toma todos los valores excepto el primero(1) si fuera slice(2) no toma el 2
+        {
+            $drivers[] = (new Driver)
+                ->setTipo('Secundario')
+                ->setTipoDoc($item->tipodocumento->codigo)
+                ->setNroDoc($item->numdoc)
+                ->setLicencia($item->licencia)
+                ->setNombres($item->nomape)
+                ->setApellidos($item->nomape);
+        }
+
+        return $drivers;
+    }
+
+
+
     //este método es para factura y boleta
     public function setInvoice()
     {
@@ -72,7 +337,7 @@ class SunatService
             ->setSerie($this->boleta->serie)
             ->setCorrelativo($this->boleta->numero) // Zona horaria: Lima
             //->setFechaEmision($this->invoice['fechaEmision']) // Zona horaria: Lima
-            ->setFechaEmision(new \DateTime($this->boleta->fechaEmision))
+            ->setFechaEmision(new \DateTime($this->boleta->fechaemision)) //creo es en minusculaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
             ->setFormaPago(new FormaPagoContado()) // FormaPago: Contado
             ->setTipoMoneda($this->boleta->currency->name) // Sol - Catalog. 02
             ->setCompany($this->getCompany())
@@ -113,16 +378,16 @@ class SunatService
             ->setUblVersion('2.1')
             //->setTipoOperacion($this->comprobante->tipodeoperacion->codigo) // Venta - Catalog. 51
             ->setTipoDoc($this->comprobante->tipocomprobante->codigo) // nota de credito "07" , factura 01, boleta 03  Catalog. 01
-            ->setSerie($this->boleta->serie)//de la nota de credito
+            ->setSerie($this->boleta->serie) //de la nota de credito
             ->setCorrelativo($this->boleta->numero) // de la nota de credito
             //->setFechaEmision($this->invoice['fechaEmision']) // Zona horaria: Lima
             ->setFechaEmision(new \DateTime($this->boleta->fechaemision))
-            ->setTipDocAfectado($this->boleta->tipodocumentoafectado)//01 factura o 03 boleta del cual estamos haciendo la nc
+            ->setTipDocAfectado($this->boleta->tipodocumentoafectado) //01 factura o 03 boleta del cual estamos haciendo la nc
             //->setTipDocAfectado('01') // si esta afectando a una factura o boleta los valores 01 y 03
-            ->setNumDocfectado($this->boleta->numdocumentoafectado)//numero del comprobante del cual estamos haciendo la nc
+            ->setNumDocfectado($this->boleta->numdocumentoafectado) //numero del comprobante del cual estamos haciendo la nc
             //->setCodMotivo('01')
-            ->setCodMotivo($this->boleta->tipodenotadecredito->codigo)//tipo de nota de cretito es la tabla de sunat: por anulacion, error, etc valores 01 , 02
-            ->setDesMotivo($this->boleta->desmotivo)//descripcion del motivo del tipo de nota de credito
+            ->setCodMotivo($this->boleta->tipodenotadecredito->codigo) //tipo de nota de cretito es la tabla de sunat: por anulacion, error, etc valores 01 , 02
+            ->setDesMotivo($this->boleta->desmotivo) //descripcion del motivo del tipo de nota de credito
             //->setFormaPago(new FormaPagoContado()) // FormaPago: Contado
             ->setTipoMoneda($this->boleta->currency->name)
             //->setTipoMoneda('PEN') // Sol - Catalog. 02
@@ -193,7 +458,7 @@ class SunatService
 
             $details[] = (new SaleDetail())
                 ->setCodProducto($item->codigobarras)
-                ->setUnidad('NIU')//->setUnidad($item->um)
+                ->setUnidad('NIU') //->setUnidad($item->um)
                 ->setDescripcion($item->name)
                 ->setCantidad($item->quantity)
                 ->setMtoValorGratuito($item->mtovalorgratuito)
@@ -405,14 +670,12 @@ class SunatService
 
 
     //Generar XML
-    public function generateXml(){
+    public function generateXml()
+    {
         $xml = $this->see->getXmlSigned($this->voucher);
         $this->boleta->hash = (new XmlUtils())->getHashSign($xml);
         $this->boleta->xml_path = 'invoices/xml/' . $this->voucher->getName() . '.xml';
         Storage::put($this->boleta->xml_path, $xml, 'public');
         $this->boleta->save();
     }
-
-
-
 }

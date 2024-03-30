@@ -155,13 +155,48 @@ class NotadecreditoCreate extends Component
             if ($temporalnc->isNotEmpty()) {
                 $temporalnc->each->delete();
             }
-
+            //obtenemos detalle de comprobante de una compania,falta restringir por local y usuario
             $detalle = Comprobante_Product::where('comprobante_id', $this->comprobante->id)
                 ->where('company_id', $this->company_id)->get(); //falta restringir para que solo ,uestre lo que le corresponde osea no de otro local ni de otra empresa
             //Guardamos
             $this->llenartemporal($detalle);
         }
     }
+
+    public function llenartemporal($detalle)
+    {
+        foreach ($detalle as $item) {
+
+            $mtovalorunitario = $item->price / (1 + ($this->igv * 0.01)); //actualizamos//precio de producto sin inc igv ejemplo 100
+
+            Temporalnc::create([
+                //'serienumero' => $item->comprobante->serienumero,
+                'quantity' => $item->cant,
+                'saleprice' => $item->price,
+                'subtotal' => $item->subtotal,
+                'product_id' => $item->product_id,
+                'comprobante_id' => $item->comprobante_id,
+                'company_id' => $item->company_id,
+                'employee_id' => auth()->user()->employee->id,
+                'codigobarras' => $item->codigobarras, //codigo del producto que necesita la facturacion electronica
+                'igv' => $item->igv,
+                'icbper' => $item->icbper,
+                'totalimpuestos' => $item->totalimpuestos,
+                'mtovalorunitario' => floatval($mtovalorunitario),
+                'mtovalorventa' => floatval($item->mtovalorventa),
+                'mtobaseigv' => floatval($item->mtobaseigv),
+                'name' => $item->product->name,
+                'um' => $item->product->um->abbreviation,
+                'tipafeigv' => $item->product->tipoafectacion->codigo,
+                'porcentajeigv' => $this->igv,  //igv lo tenemos en el mount es 18%
+                'factoricbper' => $this->factoricbper,  //factoricbper lo tenemos en el mount es 0.2
+
+
+            ]);
+        }
+    }
+
+
 
 
     //guardamos el comprobante
@@ -352,38 +387,7 @@ class NotadecreditoCreate extends Component
 
 
 
-    public function llenartemporal($detalle)
-    {
-        foreach ($detalle as $item) {
 
-            $mtovalorunitario = $item->price / (1 + ($this->igv * 0.01)); //actualizamos//precio de producto sin inc igv ejemplo 100
-
-            Temporalnc::create([
-                //'serienumero' => $item->comprobante->serienumero,
-                'quantity' => $item->cant,
-                'saleprice' => $item->price,
-                'subtotal' => $item->subtotal,
-                'product_id' => $item->product_id,
-                'comprobante_id' => $item->comprobante_id,
-                'company_id' => $item->company_id,
-                'employee_id' => auth()->user()->employee->id,
-                'codigobarras' => $item->codigobarras, //codigo del producto que necesita la facturacion electronica
-                'igv' => $item->igv,
-                'icbper' => $item->icbper,
-                'totalimpuestos' => $item->totalimpuestos,
-                'mtovalorunitario' => floatval($mtovalorunitario),
-                'mtovalorventa' => floatval($item->mtovalorventa),
-                'mtobaseigv' => floatval($item->mtobaseigv),
-                'name' => $item->product->name,
-                'um' => $item->product->um->abbreviation,
-                'tipafeigv' => $item->product->tipoafectacion->codigo,
-                'porcentajeigv' => $this->igv,  //igv lo tenemos en el mount es 18%
-                'factoricbper' => $this->factoricbper,  //factoricbper lo tenemos en el mount es 0.2
-
-
-            ]);
-        }
-    }
 
 
 

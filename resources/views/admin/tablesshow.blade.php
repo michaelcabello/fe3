@@ -22,7 +22,7 @@
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/configuraciones.jpg')}}" alt="Configuraciones">
                                     </figure>
                                     <header class="mt-2">
-                                        <h1 class="text-xl text-center text-gray-700">Configuraciones</h1>
+                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('admin.company.edit', auth()->user()->employee->company->id )}}">Configuraciones</a></h1>
                                     </header>
 
                                 </article>

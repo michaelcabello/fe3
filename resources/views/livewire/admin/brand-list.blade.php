@@ -8,7 +8,7 @@
                 Lista de Marcas
             </h2>
             {{-- <x-jet-button wire:click="generateReport">Exportar</x-jet-button> --}}
-        </div </x-slot>
+        </div> </x-slot>
 
         <!-- This example requires Tailwind CSS v2.0+ -->
         <div class="container py-12 mx-auto border-gray-400 max-w-7xl sm:px-6 lg:px-8">
@@ -92,9 +92,11 @@
                 <div class="items-center px-6 py-4 bg-gray-200 sm:flex">
 
                     @can('Brand Delete')
-                    <div class="flex items-center justify-center" >
-                        <button wire:click="deleteSelected" class="items-center justify-center p-2 text-whit sm:flex btn btn-red">Eliminar seleccionados</button>
-                    </div>
+                        <div class="flex items-center justify-center">
+                            <button wire:click="deleteSelected"
+                                class="items-center justify-center p-2 text-whit sm:flex btn btn-red">Eliminar
+                                seleccionados</button>
+                        </div>
                     @endcan
 
                     <div class="flex items-center justify-center px-2 mt-2 mr-4 md:mt-0">
@@ -134,10 +136,11 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 @can('Brand Delete')
-                                <th class="w-12 px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase cursor-pointer">
-                                    {{-- <input type="checkbox" wire:model="selectAll"> --}}
-                                    <x-jet-input type="checkbox" wire:model="selectAll" class="mx-1" />
-                                </th>
+                                    <th
+                                        class="w-12 px-2 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase cursor-pointer">
+                                        {{-- <input type="checkbox" wire:model="selectAll"> --}}
+                                        <x-jet-input type="checkbox" wire:model="selectAll" class="mx-1" />
+                                    </th>
                                 @endcan
 
                                 <th scope="col"
@@ -284,11 +287,12 @@
                             @foreach ($brands as $brandd)
                                 <tr>
                                     @can('Brand Delete')
-                                    <td class="px-2 py-4 text-sm text-gray-500 ">
-                                        {{-- <input type="checkbox" wire:model="selectedBrands.{{ $brandd->id }}"> --}}
-                                        <x-jet-input type="checkbox" wire:model="selectedBrands.{{ $brandd->id }}" class="mx-1" />
+                                        <td class="px-2 py-4 text-sm text-gray-500 ">
+                                            {{-- <input type="checkbox" wire:model="selectedBrands.{{ $brandd->id }}"> --}}
+                                            <x-jet-input type="checkbox" wire:model="selectedBrands.{{ $brandd->id }}"
+                                                class="mx-1" />
 
-                                    </td>
+                                        </td>
                                     @endcan
 
                                     <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
@@ -387,8 +391,8 @@
                                         {{-- <a class="btn btn-blue"><i class="fa-sharp fa-solid fa-eye"></i></a> --}}
 
                                         @can('Brand Show')
-                                        <a wire:click="show({{ $brandd }})" class="btn btn-blue">
-                                            <i class="fa-sharp fa-solid fa-eye"></i></a>
+                                            <a wire:click="show({{ $brandd }})" class="btn btn-blue">
+                                                <i class="fa-sharp fa-solid fa-eye"></i></a>
                                         @endcan
                                         @can('Brand Update')
                                             <a wire:click="edit({{ $brandd }})" class="btn btn-green"><i
@@ -628,7 +632,7 @@
                     <div class="mb-4 mr-4">
                         <x-jet-label value="Estado" />
                         {{-- <x-jet-input type="checkbox" wire:model="brand.state" readonly /> --}}
-                        @if ($brand->state==1)
+                        @if ($brand->state == 1)
                             <x-jet-input type="text" class="w-full" value="activo" readonly />
                         @else
                             <x-jet-input type="text" class="w-full" value="desactivo" readonly />
@@ -691,7 +695,6 @@
             <script src="sweetalert2.all.min.js"></script>
 
             <script>
-
                 Livewire.on('deleteBrand', brandId => {
                     Swal.fire({
                         title: 'Estas seguro?',

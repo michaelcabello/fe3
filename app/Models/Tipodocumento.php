@@ -25,4 +25,9 @@ class Tipodocumento extends Model
         return $this->hasMany(Comprobante::class);
     }
 
+        //Relacion uno a muchos
+        public function transportistas(){
+            return $this->hasMany(Transportista::class);
+        }
+
 }

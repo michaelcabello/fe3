@@ -617,7 +617,7 @@ class ComprobanteCreate extends Component
 
         //buscamos en la tabla departamento
         if ($this->departamento) {
-            $departamento = ucfirst(strtolower($this->departamento));
+            $departamento = ucwords(strtolower($this->departamento));//ejemplo Madre De Dios
             $departamentoEncontrado = Department::where('name', $departamento)->first();
             $department_id = $departamentoEncontrado->id;
         } else {
@@ -625,8 +625,12 @@ class ComprobanteCreate extends Component
         }
         //buscamos en la tabla provincia
         if ($this->provincia) {
-            $provincia = ucfirst(strtolower($this->provincia));
-            $provinciaEncontrado = Province::where('name', $provincia)->first();
+            $provincia = ucwords(strtolower($this->provincia));
+            //dd($provincia);
+            //dd($departamentoEncontrado->provinces);
+            //$provinciaEncontrado = Province::where('name', $provincia)->first();
+            $provinciaEncontrado  = $departamentoEncontrado->provinces->where('name', $provincia)->first();
+            //dd($provinciaEncontrado );
             $province_id = $provinciaEncontrado->id;
         } else {
             $province_id = NULL;
@@ -634,8 +638,9 @@ class ComprobanteCreate extends Component
 
         //buscamos en la tabla distrito
         if ($this->distrito) {
-            $distrito = ucfirst(strtolower($this->distrito));
-            $distritoEncontrado = District::where('name', $distrito)->first();
+            $distrito = ucwords(strtolower($this->distrito));
+            //$distritoEncontrado = District::where('name', $distrito)->first();
+            $distritoEncontrado  = $provinciaEncontrado->districts->where('name', $distrito)->first();
             $district_id = $distritoEncontrado->id;
         } else {
             $district_id = NULL;

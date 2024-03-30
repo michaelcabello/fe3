@@ -37,7 +37,7 @@
                                 class="flex items-center justify-center w-80 sm:w-full rounded-lg py-2.5"
                                 placeholder="Buscar" />
                         </div>
-                        {{-- @can('sale Create') --}}
+                        {{-- @can('comprobante Create') --}}
                         <div class="flex items-center justify-center">
                             <a href="{{ route('admin.comprobante.create') }}"
                                 class="items-center justify-center sm:flex btn btn-orange">
@@ -225,20 +225,20 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
 
-                                @foreach ($comprobantes as $sale)
+                                @foreach ($comprobantes as $comprobante)
                                     <tr>
 
                                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                            {{ $sale->id }}
+                                            {{ $comprobante->id }}
                                         </td>
                                         <td class="items-center px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
 
-                                            {{--  {{ $sale->fechaemision }} --}}
-                                            {{ \Carbon\Carbon::parse($sale->fechaemision)->format('d/m/Y') }}
+                                            {{--  {{ $comprobante->fechaemision }} --}}
+                                            {{ \Carbon\Carbon::parse($comprobante->fechaemision)->format('d/m/Y') }}
 
                                         </td>
                                         <td class="items-center px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                            {{ $sale->customer->nomrazonsocial }}
+                                            {{ $comprobante->customer->nomrazonsocial }}
 
                                         </td>
 
@@ -247,7 +247,7 @@
 
 
                                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                            {{ $sale->serienumero }}
+                                            {{ $comprobante->serienumero }}
                                         </td>
 
 
@@ -256,41 +256,47 @@
 
                                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
 
-                                            {{-- @isset($sale->boleta->currency)
-                                                <span>{{ $sale->boleta->currency->abbreviation }}</span> {{ $sale->boleta->total - $sale->boleta->total*0.18  }}
+                                            {{-- @isset($comprobante->boleta->currency)
+                                                <span>{{ $comprobante->boleta->currency->abbreviation }}</span> {{ $comprobante->boleta->total - $comprobante->boleta->total*0.18  }}
                                             @endisset --}}
+                                            @isset($comprobante->currency->abbreviation)
+                                            <span>{{ $comprobante->currency->abbreviation }} </span>{{ $comprobante->valorventa }}
+                                            @endisset
 
-                                            <span>{{ $sale->currency->abbreviation }} </span>{{ $sale->valorventa }}
-
-                                        </td>
-                                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                            {{-- @isset($sale->boleta->currency)
-                                            <span>{{ $sale->boleta->currency->abbreviation }}</span> {{ $sale->boleta->total*0.18 }}
-                                            @endisset --}}
-
-                                            <span>{{ $sale->currency->abbreviation }} </span>{{ $sale->totalimpuestos }}
 
                                         </td>
                                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                            {{-- @isset($sale->boleta->currency)
-                                            <span>{{ $sale->boleta->currency->abbreviation }}</span> {{ $sale->boleta->total }}
+                                            {{-- @isset($comprobante->boleta->currency)
+                                            <span>{{ $comprobante->boleta->currency->abbreviation }}</span> {{ $comprobante->boleta->total*0.18 }}
                                             @endisset --}}
+                                            @isset($comprobante->currency->abbreviation)
+                                            <span>{{ $comprobante->currency->abbreviation }} </span>
+                                            @endisset
+                                            {{ $comprobante->totalimpuestos }}
 
-                                            <span>{{ $sale->currency->abbreviation }} </span>{{ $sale->mtoimpventa }}
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                            {{-- @isset($comprobante->boleta->currency)
+                                            <span>{{ $comprobante->boleta->currency->abbreviation }}</span> {{ $comprobante->boleta->total }}
+                                            @endisset --}}
+                                            @isset($comprobante->currency->abbreviation)
+                                            <span>{{ $comprobante->currency->abbreviation }} </span>
+                                            @endisset
+                                            {{ $comprobante->mtoimpventa }}
 
                                         </td>
                                         {{-- PDF --}}
                                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                                             {{-- <a href="" ><img class='h-6' src='/images/icons/pdf_cpe.svg'/></a> --}}
-                                            {{-- @if ($sale->factura->pdf_path)
-                                                <a href="{{ asset('storage/' . $sale->factura->pdf_path) }} "
+                                            {{-- @if ($comprobante->factura->pdf_path)
+                                                <a href="{{ asset('storage/' . $comprobante->factura->pdf_path) }} "
                                                     target="_blank"><img class='h-6' src="/images/icons/pdf_cpe.svg"
                                                         alt="comprobante"></a>
                                             @endif --}}
                                             {{-- para mostrar factura es 1 --}}
-                                            @if ($sale->tipocomprobante_id == 1)
-                                                @if ($sale->factura->pdf_path)
-                                                    <a href="{{ asset('storage/' . $sale->factura->pdf_path) }}"
+                                            @if ($comprobante->tipocomprobante_id == 1)
+                                                @if ($comprobante->factura->pdf_path)
+                                                    <a href="{{ asset('storage/' . $comprobante->factura->pdf_path) }}"
                                                         target="_blank">
                                                         <img class='h-6' src="/images/icons/pdf_cpe.svg"
                                                             alt="comprobante">
@@ -298,9 +304,9 @@
                                                 @endif
                                             @endif
                                             {{-- para mostrar boleta es 2 --}}
-                                            @if ($sale->tipocomprobante_id == 2)
-                                                @if ($sale->boleta->pdf_path)
-                                                    <a href="{{ asset('storage/' . $sale->boleta->pdf_path) }}"
+                                            @if ($comprobante->tipocomprobante_id == 2)
+                                                @if ($comprobante->boleta->pdf_path)
+                                                    <a href="{{ asset('storage/' . $comprobante->boleta->pdf_path) }}"
                                                         target="_blank">
                                                         <img class='h-6' src="/images/icons/pdf_cpe.svg"
                                                             alt="comprobante">
@@ -309,9 +315,9 @@
                                             @endif
 
                                             {{-- para mostrar nc factura es 3 --}}
-                                            @if ($sale->tipocomprobante_id == 3)
-                                                @if ($sale->ncfactura->pdf_path)
-                                                    <a href="{{ asset('storage/' . $sale->ncfactura->pdf_path) }}"
+                                            @if ($comprobante->tipocomprobante_id == 3)
+                                                @if ($comprobante->ncfactura->pdf_path)
+                                                    <a href="{{ asset('storage/' . $comprobante->ncfactura->pdf_path) }}"
                                                         target="_blank">
                                                         <img class='h-6' src="/images/icons/pdf_cpe.svg"
                                                             alt="comprobante">
@@ -320,9 +326,9 @@
                                             @endif
 
                                             {{-- para mostrar nc boleta es 5 --}}
-                                            @if ($sale->tipocomprobante_id == 5)
-                                                @if ($sale->ncboleta->pdf_path)
-                                                    <a href="{{ asset('storage/' . $sale->ncboleta->pdf_path) }}"
+                                            @if ($comprobante->tipocomprobante_id == 5)
+                                                @if ($comprobante->ncboleta->pdf_path)
+                                                    <a href="{{ asset('storage/' . $comprobante->ncboleta->pdf_path) }}"
                                                         target="_blank">
                                                         <img class='h-6' src="/images/icons/pdf_cpe.svg"
                                                             alt="comprobante">
@@ -336,55 +342,55 @@
                                         {{-- XML DE la factura --}}
                                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                                             {{-- para el xml de factura --}}
-                                            @if ($sale->tipocomprobante_id == 1)
-                                                @if ($sale->factura->xml_path)
-                                                    <a href="{{ asset('storage/' . $sale->factura->xml_path) }}"
+                                            @if ($comprobante->tipocomprobante_id == 1)
+                                                @if ($comprobante->factura->xml_path)
+                                                    <a href="{{ asset('storage/' . $comprobante->factura->xml_path) }}"
                                                         target="_blank"><img class='h-6'
                                                             src="/images/icons/xml_cdr.svg" alt="xml"></a>
                                                 @else
                                                     <a href="#"
-                                                        wire:click="generateXml({{ $sale->id }})"><img
+                                                        wire:click="generateXml({{ $comprobante->id }})"><img
                                                             class='h-6' src="/images/icons/get_cdr.svg"
                                                             alt="xml"></a>
                                                 @endif
                                             @endif
                                             {{-- para el xml de boleta --}}
-                                            @if ($sale->tipocomprobante_id == 2)
-                                                @if ($sale->boleta->xml_path)
-                                                    <a href="{{ asset('storage/' . $sale->boleta->xml_path) }}"
+                                            @if ($comprobante->tipocomprobante_id == 2)
+                                                @if ($comprobante->boleta->xml_path)
+                                                    <a href="{{ asset('storage/' . $comprobante->boleta->xml_path) }}"
                                                         target="_blank"><img class='h-6'
                                                             src="/images/icons/xml_cdr.svg" alt="xml"></a>
                                                 @else
                                                     <a href="#"
-                                                        wire:click="generateXml({{ $sale->id }})"><img
+                                                        wire:click="generateXml({{ $comprobante->id }})"><img
                                                             class='h-6' src="/images/icons/get_cdr.svg"
                                                             alt="xml"></a>
                                                 @endif
                                             @endif
 
                                             {{-- para el xml de ncfactura --}}
-                                            @if ($sale->tipocomprobante_id == 3)
-                                                @if ($sale->ncfactura->xml_path)
-                                                    <a href="{{ asset('storage/' . $sale->ncfactura->xml_path) }}"
+                                            @if ($comprobante->tipocomprobante_id == 3)
+                                                @if ($comprobante->ncfactura->xml_path)
+                                                    <a href="{{ asset('storage/' . $comprobante->ncfactura->xml_path) }}"
                                                         target="_blank"><img class='h-6'
                                                             src="/images/icons/xml_cdr.svg" alt="xml"></a>
                                                 @else
                                                     <a href="#"
-                                                        wire:click="generateXml({{ $sale->id }})"><img
+                                                        wire:click="generateXml({{ $comprobante->id }})"><img
                                                             class='h-6' src="/images/icons/get_cdr.svg"
                                                             alt="xml"></a>
                                                 @endif
                                             @endif
 
                                             {{-- para el xml de ncboleta --}}
-                                            @if ($sale->tipocomprobante_id == 5)
-                                                @if ($sale->ncboleta->xml_path)
-                                                    <a href="{{ asset('storage/' . $sale->ncboleta->xml_path) }}"
+                                            @if ($comprobante->tipocomprobante_id == 5)
+                                                @if ($comprobante->ncboleta->xml_path)
+                                                    <a href="{{ asset('storage/' . $comprobante->ncboleta->xml_path) }}"
                                                         target="_blank"><img class='h-6'
                                                             src="/images/icons/xml_cdr.svg" alt="xml"></a>
                                                 @else
                                                     <a href="#"
-                                                        wire:click="generateXml({{ $sale->id }})"><img
+                                                        wire:click="generateXml({{ $comprobante->id }})"><img
                                                             class='h-6' src="/images/icons/get_cdr.svg"
                                                             alt="xml"></a>
                                                 @endif
@@ -396,54 +402,54 @@
                                         {{-- CDR DE la factura --}}
                                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                                             {{-- para el cdr de factura --}}
-                                            @if ($sale->tipocomprobante_id == 1)
-                                                @if ($sale->factura->sunat_cdr_path)
-                                                    <a href="{{ asset('storage/' . $sale->factura->sunat_cdr_path) }}"
+                                            @if ($comprobante->tipocomprobante_id == 1)
+                                                @if ($comprobante->factura->sunat_cdr_path)
+                                                    <a href="{{ asset('storage/' . $comprobante->factura->sunat_cdr_path) }}"
                                                         target="_blank"><img class='h-6'
                                                             src="/images/icons/xml_cdr.svg" alt="xml"></a>
                                                 @else
                                                     <a href="#"
-                                                        wire:click="sendSunat({{ $sale->id }})"><img
+                                                        wire:click="sendSunat({{ $comprobante->id }})"><img
                                                             class='h-6' src="/images/icons/get_cdr.svg"
                                                             alt="xml"></a>
                                                 @endif
                                             @endif
                                             {{-- para el cdr de boleta --}}
-                                            @if ($sale->tipocomprobante_id == 2)
-                                                @if ($sale->boleta->sunat_cdr_path)
-                                                    <a href="{{ asset('storage/' . $sale->boleta->sunat_cdr_path) }}"
+                                            @if ($comprobante->tipocomprobante_id == 2)
+                                                @if ($comprobante->boleta->sunat_cdr_path)
+                                                    <a href="{{ asset('storage/' . $comprobante->boleta->sunat_cdr_path) }}"
                                                         target="_blank"><img class='h-6'
                                                             src="/images/icons/xml_cdr.svg" alt="xml"></a>
                                                 @else
                                                     <a href="#"
-                                                        wire:click="sendSunat({{ $sale->id }})"><img
+                                                        wire:click="sendSunat({{ $comprobante->id }})"><img
                                                             class='h-6' src="/images/icons/get_cdr.svg"
                                                             alt="xml"></a>
                                                 @endif
                                             @endif
                                             {{-- para el cdr de ncfactura --}}
-                                            @if ($sale->tipocomprobante_id == 3)
-                                                @if ($sale->ncfactura->sunat_cdr_path)
-                                                    <a href="{{ asset('storage/' . $sale->ncfactura->sunat_cdr_path) }}"
+                                            @if ($comprobante->tipocomprobante_id == 3)
+                                                @if ($comprobante->ncfactura->sunat_cdr_path)
+                                                    <a href="{{ asset('storage/' . $comprobante->ncfactura->sunat_cdr_path) }}"
                                                         target="_blank"><img class='h-6'
                                                             src="/images/icons/xml_cdr.svg" alt="xml"></a>
                                                 @else
                                                     <a href="#"
-                                                        wire:click="sendSunat({{ $sale->id }})"><img
+                                                        wire:click="sendSunat({{ $comprobante->id }})"><img
                                                             class='h-6' src="/images/icons/get_cdr.svg"
                                                             alt="xml"></a>
                                                 @endif
                                             @endif
 
                                             {{-- para el cdr de ncboleta --}}
-                                            @if ($sale->tipocomprobante_id == 5)
-                                                @if ($sale->ncboleta->sunat_cdr_path)
-                                                    <a href="{{ asset('storage/' . $sale->ncboleta->sunat_cdr_path) }}"
+                                            @if ($comprobante->tipocomprobante_id == 5)
+                                                @if ($comprobante->ncboleta->sunat_cdr_path)
+                                                    <a href="{{ asset('storage/' . $comprobante->ncboleta->sunat_cdr_path) }}"
                                                         target="_blank"><img class='h-6'
                                                             src="/images/icons/xml_cdr.svg" alt="xml"></a>
                                                 @else
                                                     <a href="#"
-                                                        wire:click="sendSunat({{ $sale->id }})"><img
+                                                        wire:click="sendSunat({{ $comprobante->id }})"><img
                                                             class='h-6' src="/images/icons/get_cdr.svg"
                                                             alt="xml"></a>
                                                 @endif
@@ -451,12 +457,12 @@
 
 
 
-                                            {{-- @if ($sale->factura && $sale->factura->sunat_cdr_path)
-                                                <a href="{{ asset('storage/' . $sale->factura->sunat_cdr_path) }} "
+                                            {{-- @if ($comprobante->factura && $comprobante->factura->sunat_cdr_path)
+                                                <a href="{{ asset('storage/' . $comprobante->factura->sunat_cdr_path) }} "
                                                     target="_blank"><img class='h-6'
                                                         src="/images/icons/xml_cpe.svg" alt="CDR"></a>
                                             @else
-                                                <a href="#" wire:click="sendSunat({{ $sale->id }})"><img
+                                                <a href="#" wire:click="sendSunat({{ $comprobante->id }})"><img
                                                         class='h-6' src="/images/icons/get_cdr.svg"
                                                         alt="xml"></a>
                                             @endif --}}
@@ -465,42 +471,42 @@
                                         {{-- SUNAT --}}
                                         <td class="px-6 py-4 text-sm whitespace-nowrap">
                                             {{-- para ver el estado si se envio o no se envio --}}
-                                            @if ($sale->tipocomprobante_id == 1)
-                                                @if ($sale->factura->sunat_cdr_path)
-                                                    <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}"><img class='h-6'
+                                            @if ($comprobante->tipocomprobante_id == 1)
+                                                @if ($comprobante->factura->sunat_cdr_path)
+                                                    <a href="{{-- {{ route('admin.comprobante.edit', $comprobante) }} --}}"><img class='h-6'
                                                             src='/images/icons/check.svg' /></a>
                                                 @else
-                                                    <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}"><img class='h-6'
+                                                    <a href="{{-- {{ route('admin.comprobante.edit', $comprobante) }} --}}"><img class='h-6'
                                                             src='/images/icons/stop.svg' /></a>
                                                 @endif
                                             @endif
 
-                                            @if ($sale->tipocomprobante_id == 2)
-                                                @if ($sale->boleta->sunat_cdr_path)
-                                                    <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}"><img class='h-6'
+                                            @if ($comprobante->tipocomprobante_id == 2)
+                                                @if ($comprobante->boleta->sunat_cdr_path)
+                                                    <a href="{{-- {{ route('admin.comprobante.edit', $comprobante) }} --}}"><img class='h-6'
                                                             src='/images/icons/check.svg' /></a>
                                                 @else
-                                                    <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}"><img class='h-6'
+                                                    <a href="{{-- {{ route('admin.comprobante.edit', $comprobante) }} --}}"><img class='h-6'
                                                             src='/images/icons/stop.svg' /></a>
                                                 @endif
                                             @endif
 
-                                            @if ($sale->tipocomprobante_id == 3)
-                                                @if ($sale->ncfactura->sunat_cdr_path)
-                                                    <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}"><img class='h-6'
+                                            @if ($comprobante->tipocomprobante_id == 3)
+                                                @if ($comprobante->ncfactura->sunat_cdr_path)
+                                                    <a href="{{-- {{ route('admin.comprobante.edit', $comprobante) }} --}}"><img class='h-6'
                                                             src='/images/icons/check.svg' /></a>
                                                 @else
-                                                    <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}"><img class='h-6'
+                                                    <a href="{{-- {{ route('admin.comprobante.edit', $comprobante) }} --}}"><img class='h-6'
                                                             src='/images/icons/stop.svg' /></a>
                                                 @endif
                                             @endif
 
-                                            @if ($sale->tipocomprobante_id == 5)
-                                                @if ($sale->ncboleta->sunat_cdr_path)
-                                                    <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}"><img class='h-6'
+                                            @if ($comprobante->tipocomprobante_id == 5)
+                                                @if ($comprobante->ncboleta->sunat_cdr_path)
+                                                    <a href="{{-- {{ route('admin.comprobante.edit', $comprobante) }} --}}"><img class='h-6'
                                                             src='/images/icons/check.svg' /></a>
                                                 @else
-                                                    <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}"><img class='h-6'
+                                                    <a href="{{-- {{ route('admin.comprobante.edit', $comprobante) }} --}}"><img class='h-6'
                                                             src='/images/icons/stop.svg' /></a>
                                                 @endif
                                             @endif
@@ -513,18 +519,27 @@
 
                                             {{--  @can('update User') --}}
 
-                                            @can('Sale Update')
-                                                <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}" class="btn btn-green"><i
+                                            @can('Comprobante Update')
+                                                <a href="{{-- {{ route('admin.comprobante.edit', $comprobante) }} --}}" class="btn btn-green"><i
                                                         class="fa-solid fa-pen-to-square"></i></a>
                                             @endcan
 
-                                            @can('Sale Update')
-                                                @if ($sale->tipocomprobante_id == 1 or $sale->tipocomprobante_id == 2)
-                                                    <a href="{{ route('admin.notadecredito.create', $sale->id) }}"
+                                           {{--  @can('Comprobante Update') --}}
+                                                @if ($comprobante->tipocomprobante_id == 1 or $comprobante->tipocomprobante_id == 2)
+                                                    <a href="{{ route('admin.notadecredito.create', $comprobante->id) }}"
                                                         class="px-4 btn btn-green">NC</a>
                                                 @endif
-                                            @endcan
-                                            <a href="{{-- {{ route('admin.sale.edit', $sale) }} --}}" class="text-sm btn btn-orange">GR</a>
+                                            {{-- @endcan --}}
+
+                                            {{-- @can('Comprobante Update') --}}
+                                                @if ($comprobante->tipocomprobante_id == 1 or $comprobante->tipocomprobante_id == 2)
+                                                    <a href="{{ route('admin.guiaderemision.create', $comprobante->id) }}"
+                                                        class="px-4 btn btn-orange">GR</a>
+                                                @endif
+                                           {{--  @endcan --}}
+
+
+                                            {{-- <a href="" class="text-sm btn btn-orange">GR</a> --}}
 
 
 

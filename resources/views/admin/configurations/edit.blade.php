@@ -3,6 +3,7 @@
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Configuratión of system') }}
         </h2>
+
     </x-slot>
     <form method="POST" action="{{ route('admin.configuration.update', $configuration) }}" enctype="multipart/form-data">
         {{ csrf_field() }}

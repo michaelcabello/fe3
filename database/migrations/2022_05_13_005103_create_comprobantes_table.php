@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('comprobantes', function (Blueprint $table) {
             $table->id();
 
+
             //$table->double('total', 8, 2)->nullable();//precio venta
             //$table->string('formadepago')->nullable();
             //$table->string('numeroguia')->nullable();

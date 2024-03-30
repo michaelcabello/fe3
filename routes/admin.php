@@ -42,6 +42,7 @@ use App\Http\Controllers\admin\UsersPermissionsController;
 use App\Http\Livewire\Admin\LocalproductatributestockList;
 use App\Http\Livewire\Admin\LocalproductatributestocktotalesList;
 use App\Http\Controllers\admin\BoletaReport;
+use App\Http\Livewire\Admin\CompanyEdit;
 use App\Http\Livewire\Admin\NotadecreditoCreate;
 use App\Http\Livewire\Admin\GuiaderemisionCreate;
 
@@ -149,8 +150,12 @@ Route::get('/permission', PermissionList::class)->name('permission.list');
 
 
 //Route::resource('configuration', ConfigurationController::class)->only(['edit','update'])->names('admin.configuration')->middleware('permission:update Configuration');
-Route::resource('configuration', ConfigurationController::class)->only(['edit','update'])->names('admin.configuration');
+//Route::resource('configuration', ConfigurationController::class)->only(['edit','update'])->names('admin.configuration');
+//llamamos en el url por ejemplo  http://fe2.test/admin/configuration/1/edit
 
+Route::get('/company/edit/{id}', CompanyEdit::class)->name('admin.company.edit');
+Route::get('guiaderemision/create/{id}', GuiaderemisionCreate::class)->name('admin.guiaderemision.create');
+//terminado CompanyEdit lo borraremos
 
 Route::get('/logout', function () {
     auth()->logout();

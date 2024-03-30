@@ -10,6 +10,7 @@ class Customer extends Model
     use HasFactory;
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    //relación de uno a muchos
     public function sales()
     {
         return $this->hasMany(Sale::class);
@@ -19,6 +20,12 @@ class Customer extends Model
     {
         return $this->hasMany(Comprobante::class);
     }
+
+    public function guias()
+    {
+        return $this->hasMany(Guia::class);
+    }
+
 
     //relacion de uno a muchos inversa
     public function tipodocumento()
