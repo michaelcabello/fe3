@@ -146,7 +146,7 @@
                                 <div class="mr-1">
                                     <x-jet-label value="Sol User" />
                                     <x-jet-input type="text" wire:model="soluser"
-                                        class="w-full h-10 max-w-md uppercase" />
+                                        class="w-full h-10 max-w-md" />
                                     <x-jet-input-error for="soluser" />
                                 </div>
                             </div>
@@ -155,7 +155,7 @@
                                 <div class="mr-1">
                                     <x-jet-label value="Sol pass" />
                                     <x-jet-input type="text" wire:model="solpass"
-                                        class="w-full h-10 max-w-md uppercase" />
+                                        class="w-full h-10 max-w-md" />
                                     <x-jet-input-error for="solpass" />
                                 </div>
                             </div>
@@ -164,7 +164,7 @@
                                 <div class="mr-1">
                                     <x-jet-label value="Client ID" />
                                     <x-jet-input type="text" wire:model="cliente_id"
-                                        class="w-full h-10 max-w-md uppercase" />
+                                        class="w-full h-10 max-w-md" />
                                     <x-jet-input-error for="cliente_id" />
                                 </div>
                             </div>
@@ -173,7 +173,7 @@
                                 <div class="mr-1">
                                     <x-jet-label value="Client Secret" />
                                     <x-jet-input type="text" wire:model="cliente_secret"
-                                        class="w-full h-10 max-w-md uppercase" />
+                                        class="w-full h-10 max-w-md" />
                                     <x-jet-input-error for="cliente_secret" />
                                 </div>
                             </div>
@@ -183,7 +183,7 @@
 
 
                         <div class="flex mt-2 mb-2 mr-4">
-                            <p class="font-semibold">--------</p>
+                            <p class="font-semibold">Moneda y Estado</p>
                         </div>
 
                         {{--  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 lg:grid-cols-12"> --}}
@@ -224,18 +224,18 @@
                             <div class="sm:col-span-1 lg:col-span-1">
                                 <div class="mr-1">
                                     <x-jet-label value="Celular" />
-                                    <x-jet-input type="text" wire:model="cliente_id"
+                                    <x-jet-input type="text" wire:model="celular"
                                         class="w-full h-10 max-w-md uppercase" />
-                                    <x-jet-input-error for="cliente_id" />
+                                    <x-jet-input-error for="celular" />
                                 </div>
                             </div>
 
                             <div class="sm:col-span-1 lg:col-span-1">
                                 <div class="mr-1">
                                     <x-jet-label value="Teléfono" />
-                                    <x-jet-input type="text" wire:model="cliente_secret"
+                                    <x-jet-input type="text" wire:model="telefono"
                                         class="w-full h-10 max-w-md uppercase" />
-                                    <x-jet-input-error for="cliente_secret" />
+                                    <x-jet-input-error for="telefono" />
                                 </div>
                             </div>
 
@@ -256,34 +256,33 @@
                             <div class="sm:col-span-1 lg:col-span-3">
                                 <div class="mr-1">
                                     <x-jet-label value="Correo" />
-                                    <x-jet-input type="text" wire:model="soluser" class="w-full h-10 uppercase" />
-                                    <x-jet-input-error for="soluser" />
+                                    <x-jet-input type="text" wire:model="correo" class="w-full h-10" />
+                                    <x-jet-input-error for="correo" />
                                 </div>
                             </div>
 
                             <div class="gap-0 sm:col-span-1 lg:col-span-3">
                                 <div class="mr-1">
                                     <x-jet-label value="SMTP" />
-                                    <x-jet-input type="text" wire:model="solpass" class="w-full h-10 uppercase" />
-                                    <x-jet-input-error for="solpass" />
+                                    <x-jet-input type="text" wire:model="smtp" class="w-full h-10" />
+                                    <x-jet-input-error for="smtp" />
                                 </div>
                             </div>
 
                             <div class="sm:col-span-1 lg:col-span-2">
                                 <div class="mr-1">
                                     <x-jet-label value="Password" />
-                                    <x-jet-input type="text" wire:model="cliente_id"
-                                        class="w-full h-10 uppercase" />
-                                    <x-jet-input-error for="cliente_id" />
+                                    <x-jet-input type="text" wire:model="password"
+                                        class="w-full h-10" />
+                                    <x-jet-input-error for="password" />
                                 </div>
                             </div>
 
                             <div class="sm:col-span-1 lg:col-span-1">
                                 <div class="mr-1">
                                     <x-jet-label value="Puerto" />
-                                    <x-jet-input type="text" wire:model="cliente_secret"
-                                        class="w-full h-10 uppercase" />
-                                    <x-jet-input-error for="cliente_secret" />
+                                    <x-jet-input type="text" wire:model="puerto" class="w-full h-10" />
+                                    <x-jet-input-error for="puerto" />
                                 </div>
                             </div>
 
@@ -295,49 +294,46 @@
                             <p class="font-semibold">Certificado Digital</p>
                         </div>
 
+
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2">
 
 
+                        </div>
 
-                            <div class="gap-0 sm:col-span-1 lg:col-span-1">
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2">
+
+
+                            <div class="sm:col-span-1 lg:col-span-1">
                                 <div class="mr-1">
                                     {{-- <label class="block mb-1 font-semibold">Imagen 1</label> --}}
-                                    <x-jet-label value="Certificado Nuevo" />
-                                    <input type="file" wire:model="certificate_path"
+                                    <x-jet-label value="Cargar Certificado Nuevo" />
+                                    <input type="file" wire:model="certificate_path" accept="image/jpeg,image/png"
                                         class="w-full px-3 py-1 border border-gray-300 rounded-md">
                                     <x-jet-input-error for="certificate_path" />
                                 </div>
+
                             </div>
 
-                            <div class="gap-0 sm:col-span-1 lg:col-span-1">
-                                <div class="mr-1">
-                                    <x-jet-label value="Certificado Actual" />
-                                    <x-jet-input type="text" wire:model="certificate_pathback"
-                                        class="w-full h-10 uppercase" />
-
+                            @if ($certificate_path)
+                                <div class="sm:col-span-1 lg:col-span-1">
+                                    <div class="mr-1">
+                                        <x-jet-label value="Certificado Nuevo" />
+                                        <x-jet-input type="text" wire:model="certificate_path" class="w-full h-10" />
+                                    </div>
                                 </div>
-                            </div>
-
-                            {{-- <div class="gap-0 sm:col-span-1 lg:col-span-1">
-                                <div class="mr-1">
-                                    <x-jet-label value="Fecha de Inicio Certificado" />
-                                    <x-jet-input type="date" wire:model="fechainiciocertificado"
-                                        value="{{ old('fechainiciocertificado') }}" class="w-full h-10"
-                                        placeholder="fecha de Inicio" />
-                                    <x-jet-input-error for="fechainiciocertificado" />
+                            @else
+                                <div class="sm:col-span-1 lg:col-span-1">
+                                    <div class="mr-1">
+                                        <x-jet-label value="Certificado Actual" />
+                                        <x-jet-input type="text" wire:model="certificate_pathback"
+                                            class="w-full h-10" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="gap-0 sm:col-span-1 lg:col-span-1">
-                                <div class="mr-1">
-                                    <x-jet-label value="Fecha de Fin Certificado" />
-                                    <x-jet-input type="date" wire:model="fechafincertificado"
-                                        value="{{ old('fechafincertificado') }}" class="w-full h-10"
-                                        placeholder="fecha de Inicio" />
-                                    <x-jet-input-error for="fechafincertificado" />
-                                </div>
-                            </div> --}}
+                            @endif
 
-                            <div class="gap-0 sm:col-span-1 lg:col-span-1">
+
+                            <div class="gap-0 mt-2 sm:col-span-1 lg:col-span-1">
                                 <div class="mr-1">
                                     <x-jet-label value="Fecha de Inicio Certificado" />
                                     <x-jet-input type="date" wire:model="fechainiciocertificado"
@@ -347,7 +343,7 @@
                                 </div>
                             </div>
 
-                            <div class="gap-0 sm:col-span-1 lg:col-span-1">
+                            <div class="gap-0 mt-2 sm:col-span-1 lg:col-span-1">
                                 <div class="mr-1">
                                     <x-jet-label value="Fecha de Fin Certificado" />
                                     <x-jet-input type="date" wire:model="fechafincertificado"
@@ -366,7 +362,7 @@
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2">
-                            <div class="sm:col-span-1 lg:col-span-1">
+                            <div class="mr-3 sm:col-span-1 lg:col-span-1">
                                 <div>
                                     {{-- <label class="block mb-1 font-semibold">Imagen 1</label> --}}
                                     <x-jet-label value="Nuevo Logo de tu Empresa" />
@@ -383,24 +379,16 @@
                                 <span class="block sm:inline">Espere un momento.</span>
                             </div>
 
+
                             @if ($logo)
                                 <div>
                                     <img class="mt-0 mb-4 ml-2" src="{{ $logo->temporaryUrl() }}" width="200px"
-                                        alt="Imagen 4 del Producto">
+                                        alt="Logo de la Empresa">
                                 </div>
                             @elseif($logoback)
-                                <img src="{{ asset('img/' . $logoback) }}" width="200px" alt="">
-
-                                <form method="POST" action="{{ route('admin.logo.destroy', $id4) }}"
-                                    style="display:inline">
-                                    {{ csrf_field() }} {{ method_field('DELETE') }}
-
-                                    <button class="btn btn-xs btn-danger"
-                                        onclick="return confirm('¿Estas seguro de eliminar el Logo?')">
-                                        <i class="fas fa-times-circle"></i> Eliminar
-                                    </button>
-                                </form>
+                                <img src="{{ Storage::disk('s3')->url($logoback) }}" width="200px" alt="">
                             @endif
+
                         </div>
 
 

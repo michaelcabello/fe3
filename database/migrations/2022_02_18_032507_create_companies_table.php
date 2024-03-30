@@ -20,6 +20,14 @@ return new class extends Migration
             $table->string('nombrecomercial')->nullable();
 
             $table->string('direccion')->nullable();
+            $table->string('celular')->nullable();
+            $table->string('telefono')->nullable();
+
+            $table->string('correo')->nullable();
+            $table->string('smtp')->nullable();
+            $table->string('password')->nullable();
+            $table->string('puerto')->nullable();
+
 
             $table->string('department_id')->nullable();
             $table->foreign('department_id')->references('id')->on('departments');
@@ -28,7 +36,6 @@ return new class extends Migration
             $table->string('district_id')->nullable();
             $table->foreign('district_id')->references('id')->on('districts');
             $table->string('ubigeo')->nullable();
-
             //$table->string('urbanizacion')->nullable();
 
             $table->string('logo')->nullable();
@@ -36,6 +43,8 @@ return new class extends Migration
             $table->string('solpass')->nullable();
             $table->text('certificado')->nullable();
             $table->string('certificate_path')->nullable();
+            $table->date('fechainiciocertificado')->nullable();
+            $table->date('fechafincertificado')->nullable();
             $table->string('cliente_id')->nullable();
             $table->string('cliente_secret')->nullable();
             $table->boolean('production')->default(0);//si no
