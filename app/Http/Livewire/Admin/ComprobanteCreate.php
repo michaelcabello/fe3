@@ -922,6 +922,7 @@ class ComprobanteCreate extends Component
 
         $company_id = auth()->user()->employee->company->id;
 
+
         $cart = Temporal::where('company_id', $company_id)
                 ->where('employee_id', auth()->user()->employee->id)->where('state', 0)->get();
 

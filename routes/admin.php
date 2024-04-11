@@ -3,7 +3,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Admin\BrandList;
 use App\Http\Livewire\Admin\LocalEdit;
 use App\Http\Livewire\Admin\LocalList;
+use App\Http\Livewire\Admin\LocaldEdit;
 use App\Http\Livewire\Admin\ModeloList;
+use App\Http\Livewire\Admin\CompanyEdit;
 use App\Http\Livewire\Admin\LocalCreate;
 use App\Http\Livewire\Admin\ProductList;
 use App\Http\Livewire\Admin\CategoryList;
@@ -14,6 +16,7 @@ use App\Http\Livewire\Admin\InventoryList;
 use App\Http\Livewire\Admin\ReceptionEdit;
 use App\Http\Livewire\Admin\InventoryList2;
 use App\Http\Livewire\Admin\PermissionList;
+use App\Http\Controllers\admin\BoletaReport;
 use App\Http\Livewire\Admin\ComprobanteList;
 use App\Http\Livewire\Admin\InventoryListdos;
 use App\Http\Controllers\admin\RoleController;
@@ -22,6 +25,8 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\LocalController;
 use App\Http\Controllers\admin\TableController;
+use App\Http\Livewire\Admin\NotadecreditoCreate;
+use App\Http\Livewire\Admin\GuiaderemisionCreate;
 use App\Http\Livewire\Admin\InventorygeneralList;
 use App\Http\Livewire\Admin\ProductcompuestoEdit;
 use App\Http\Livewire\Admin\ProductcompuestoList;
@@ -41,10 +46,6 @@ use App\Http\Controllers\admin\ProductatributeController;
 use App\Http\Controllers\admin\UsersPermissionsController;
 use App\Http\Livewire\Admin\LocalproductatributestockList;
 use App\Http\Livewire\Admin\LocalproductatributestocktotalesList;
-use App\Http\Controllers\admin\BoletaReport;
-use App\Http\Livewire\Admin\CompanyEdit;
-use App\Http\Livewire\Admin\NotadecreditoCreate;
-use App\Http\Livewire\Admin\GuiaderemisionCreate;
 
 
 
@@ -62,6 +63,7 @@ Route::get('/marcas', BrandList::class)->name('brand.list');
 Route::get('/locales', LocalList::class)->name('local.list');
 Route::get('/local/create', LocalCreated::class)->name('local.create');
 Route::get('/local/edit/{local}', LocalEdit::class)->name('local.edit');
+Route::get('/locald/edit/{local}', LocaldEdit::class)->name('locald.edit');//alternativo
 //Route::get('local/create', [LocalController::class, 'create'])->name('admin.local.create');
 Route::get('/boletaprueba', [BoletaReport::class,'generarPDF'])->name('admin.boletaprueba');
 

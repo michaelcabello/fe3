@@ -47,7 +47,7 @@
                                 <div class="mr-1">
                                     <x-jet-label value="Nombre Comercial" />
                                     <x-jet-input type="text" wire:model="nombrecomercial"
-                                        class="w-full h-10 max-w-md uppercase" />
+                                        class="w-full h-10 max-w-md" />
                                     <x-jet-input-error for="nombrecomercial" />
                                 </div>
                             </div>

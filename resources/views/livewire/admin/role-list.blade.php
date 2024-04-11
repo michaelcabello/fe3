@@ -41,9 +41,15 @@
 
 
 
-                        {{-- @can('create User')
-                                    @livewire('admin.brand-create')
-                                @endcan --}}
+                        @can('Role Create')
+                            <div class="flex items-center justify-center">
+                                <a href="{{ route('admin.role.create') }}"
+                                    class="items-center justify-center sm:flex btn btn-orange">
+                                    <i class="mx-2 fa-regular fa-file"></i> Nuevo
+                                </a>
+
+                            </div>
+                        @endcan
 
 
                         {{-- <div class="flex items-center justify-center px-2 mt-2 mr-4 md:mt-0">

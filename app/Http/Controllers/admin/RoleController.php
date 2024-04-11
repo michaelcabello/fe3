@@ -42,8 +42,13 @@ class RoleController extends Controller
 
         //recuerda que si el campo no esta definido en el array de validacion no se pasara en el $data
         //al poner create($data)  se guardara name, display_name, guard_name
+        //$role = Role::create($data);
+        $role = Role::create([
+            'name' => $request->name,
+            'display_name' => $request->display_name,
+            'company_id' => auth()->user()->employee->company->id, //encontramos la company actual osea la compania del usuario logueado
+        ]);
 
-        $role = Role::create($data);
         if($request->has('permissions'))
         {
             $role->givePermissionTo($request->permissions);

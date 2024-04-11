@@ -1,13 +1,14 @@
 <div>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Local Nuevo') }}
+            {{ __('Actualizando el Local') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
+
 
                 <div class="flex flex-wrap mx-4 mt-4">
                     <div class="w-full px-4 mb-4 md:w-4/4">
@@ -31,10 +32,9 @@
                         <x-jet-label value="Departamento" />
                         <select wire:model="department_id"
                             class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
-                            data-placeholder="Selecccione el motivo de traslado" style="width:100%">
+                            data-placeholder="Selecccione " style="width:100%">
                             <option value="" selected disabled>Seleccione</option>
                             @foreach ($departments as $department)
-                                {{-- se puso esto para que $department->id sea por ejemplo "01" y no 1 --}}
                                 <option value="{{ str_pad($department->id, 2, '0', STR_PAD_LEFT) }}">
                                     {{ $department->name }}
                                 </option>
@@ -122,76 +122,92 @@
                         <div class="flex flex-col justify-center w-full h-full">
                             <!-- Table -->
 
-                            <div class="w-full mx-auto bg-white border border-gray-200 rounded-sm shadow-lg">
-                                <div class="p-3">
-                                    <div class="overflow-x-auto">
-                                        <table class="w-full table-auto">
-                                            <thead class="text-xs font-semibold text-gray-400 uppercase bg-gray-50">
-                                                <tr>
-                                                    <th class="p-2 whitespace-nowrap">
-                                                        <div class="font-semibold text-left">Comprobante
-                                                        </div>
-                                                    </th>
-                                                    <th class="p-2 whitespace-nowrap">
-                                                        <div class="font-semibold text-left">Serie
-                                                        </div>
-                                                    </th>
-                                                    <th class="p-2 whitespace-nowrap">
-                                                        <div class="font-semibold text-left">Número de Inicio
-                                                        </div>
-                                                    </th>
-
-
-                                                </tr>
-                                            </thead>
-
-                                            <tbody class="text-sm divide-y divide-gray-100">
-                                                @foreach ($tipocomprobantes as $index => $tipocomprobante)
+                                <div class="w-full mx-auto bg-white border border-gray-200 rounded-sm shadow-lg">
+                                    <div class="p-3">
+                                        <div class="overflow-x-auto">
+                                            <table class="w-full table-auto">
+                                                <thead class="text-xs font-semibold text-gray-400 uppercase bg-gray-50">
                                                     <tr>
-
-                                                        <td class="p-2 whitespace-nowrap">
-                                                            <div class="text-left">
-                                                                {{ $tipocomprobante->namecorto }}
+                                                        <th class="p-2 whitespace-nowrap">
+                                                            <div class="font-semibold text-left">Comprobante
                                                             </div>
-                                                        </td>
-
-
-                                                        <td class="p-2 whitespace-nowrap">
-                                                            <div class="font-medium text-left text-green-500">
-                                                                <input type="text"
-                                                                    wire:model="serieValues.{{ $index }}"
-                                                                    style="font-size: 1rem!important"
-                                                                    class="w-40 text-center uppercase form-control">
-
+                                                        </th>
+                                                        <th class="p-2 whitespace-nowrap">
+                                                            <div class="font-semibold text-left">Serie
                                                             </div>
-                                                        </td>
-
-                                                        <td class="p-2 whitespace-nowrap">
-                                                            <div class="font-medium text-left text-green-500">
-                                                                <input type="number"
-                                                                    wire:model="numeroValues.{{ $index }}"
-                                                                    style="font-size: 1rem!important"
-                                                                    class="w-40 text-center form-control">
+                                                        </th>
+                                                        <th class="p-2 whitespace-nowrap">
+                                                            <div class="font-semibold text-left">Número de Inicio
                                                             </div>
-                                                        </td>
-
-
+                                                        </th>
 
 
                                                     </tr>
-                                                @endforeach
+                                                </thead>
+                                                <tbody class="text-sm divide-y divide-gray-100">
+                                                    @foreach ($localTipocomprobantes as $localTipocomprobante)
+                                                        <tr>
+
+                                                            <td class="p-2 whitespace-nowrap">
+                                                                <div class="text-left">
+                                                                    {{ $localTipocomprobante->tipocomprobante->namecorto }}
+                                                                </div>
+                                                            </td>
+
+
+                                                            <td class="p-2 whitespace-nowrap">
+                                                                <div class="font-medium text-left text-green-500">
+                                                                    <input type="text"
+                                                                    wire:model="serieValues.{{ $localTipocomprobante->id }}"
+                                                                        style="font-size: 1rem!important"
+                                                                        class="w-40 text-center uppercase form-control">
+                                                                </div>
+                                                            </td>
+
+                                                            <td class="p-2 whitespace-nowrap">
+                                                                <div class="font-medium text-left text-green-500">
+                                                                    <input type="text"
+                                                                    wire:model="numeroValues.{{ $localTipocomprobante->id }}"
+                                                                        style="font-size: 1rem!important"
+                                                                        class="w-40 text-center form-control">
+                                                                </div>
+                                                            </td>
 
 
 
-                                            </tbody>
 
-                                            <tfoot>
+                                                        </tr>
+                                                    @endforeach
 
 
-                                            </tfoot>
+                                                    {{-- @foreach ($localTipocomprobantes as $localTipocomprobante)
+                                                        <div>
+                                                            <label>Serie para
+                                                                {{ $localTipocomprobante->tipocomprobante->namecorto }}:</label>
+                                                            <input type="text"
+                                                                wire:model="serieValues.{{ $localTipocomprobante->id }}">
+                                                        </div>
+                                                        <div>
+                                                            <label>Número para
+                                                                {{ $localTipocomprobante->tipocomprobante->name }}:</label>
+                                                            <input type="text"
+                                                                wire:model="numeroValues.{{ $localTipocomprobante->id }}">
+                                                        </div>
+                                                    @endforeach --}}
 
-                                        </table>
-                                        {{--  <div>
+
+
+
+
+                                                </tbody>
+
+                                                <tfoot>
+
+
+                                                </tfoot>
+
+                                            </table>
+                                            {{--  <div>
                                                 mtoigv = {{ $mtoigv }} /
                                                 mtoigvgratuitas = {{ $mtoigvgratuitas }}  /
                                                 icbper= {{ $icbper }}
@@ -199,9 +215,9 @@
                                                 valorventa={{ $valorventa }}
                                             </div> --}}
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
 
 
@@ -214,8 +230,8 @@
 
 
                     <div class="w-full px-4 mt-6 mb-4">
-                        <x-jet-danger-button wire:click="save">
-                            <i class="mx-2 fa-regular fa-floppy-disk"></i> {{ __('Crear Local') }}
+                        <x-jet-danger-button wire:click="update">
+                            <i class="mx-2 fa-regular fa-floppy-disk"></i> {{ __('Actualizar Local') }}
                             </x-jet-button>
 
                             <x-jet-button wire:click="cancel">

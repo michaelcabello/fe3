@@ -22,7 +22,7 @@ class Local extends Model
     //pongo esto local_tipocomprobantes porque genere mi tabla terminado en s, debi generar local_tipocomprobante
     public function tipocomprobantes()
     {
-        return $this->belongsToMany(Tipocomprobante::class, 'local_tipocomprobantes', 'local_id', 'tipocomprobante_id')->withPivot('default', 'serie','inicio', 'company_id');
+        return $this->belongsToMany(Tipocomprobante::class, 'local_tipocomprobantes', 'local_id', 'tipocomprobante_id')->withPivot('default', 'serie', 'inicio', 'company_id');
     }
 
     //relacion de muchos a muchos
@@ -51,5 +51,11 @@ class Local extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    // Relación de uno a muchos inversa
+    public function local_tipocomprobantes()
+    {
+        return $this->belongsTo(Local_tipocomprobante::class);
     }
 }

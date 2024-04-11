@@ -21,11 +21,19 @@ return new class extends Migration
             $table->string('anexo')->nullable();
             //$table->string('serie')->nullable(); no van en esta tabla
             //$table->string('inicia')->nullable();
-            $table->boolean('state')->default(true);
+            $table->boolean('state')->default(true)->nullable();
             //$table->integer('notification')->default(0);
 
              $table->unsignedBigInteger('company_id')->nullable();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+
+
+            $table->string('department_id')->nullable();
+            $table->foreign('department_id')->references('id')->on('departments');
+            $table->string('province_id')->nullable();
+            $table->foreign('province_id')->references('id')->on('provinces');
+            $table->string('district_id')->nullable();
+            $table->foreign('district_id')->references('id')->on('districts');
 
 
             $table->timestamps();

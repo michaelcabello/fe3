@@ -322,6 +322,9 @@
                                             <a href="{{ route('local.edit', $local) }}"
                                                     class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a>
 
+                                            <a href="{{ route('locald.edit', $local) }}"
+                                                    class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a>
+
                                         @endcan
                                         @can('Local Delete')
                                             <a class="btn btn-red"

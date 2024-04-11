@@ -13,8 +13,8 @@ return new class extends Migration
             //debio llamarse local_tipocomprobante  sin s por convencion
             $table->id();
 
-            $table->string('serie');
-            $table->integer('inicio');
+            $table->string('serie')->nullable();
+            $table->integer('inicio')->nullable();
             $table->boolean('default')->default(true);
 
             $table->unsignedBigInteger('local_id')->nullable();

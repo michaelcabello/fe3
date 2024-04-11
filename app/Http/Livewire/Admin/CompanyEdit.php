@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Livewire\Admin;
-
 use App\Models\Company;
 use Livewire\Component;
 use App\Models\Currency;
@@ -53,6 +51,7 @@ class CompanyEdit extends Component
         //$this->logo = $this->company->logo; //esto no va, para que logo tome valor cuando se escoja la imagen
         $this->logoback = $this->company->logo;//logoback muestra el logo actual
 
+
         if($this->company->department_id){//comprobamos que exista sino toma valor "" y en el select dira escoger o seleccionar
             $this->department_id = str_pad((string)$this->company->department_id, 2, '0', STR_PAD_LEFT);
         }
@@ -60,7 +59,7 @@ class CompanyEdit extends Component
             $this->province_id = str_pad((string)$this->company->province_id, 4, '0', STR_PAD_LEFT); //$this->company->province_id;
         }
         if($this->company->district_id){
-            $this->district_id = str_pad((string)$this->company->district_id, 2, '0', STR_PAD_LEFT); //$this->company->district_id;
+            $this->district_id = str_pad((string)$this->company->district_id, 6, '0', STR_PAD_LEFT); //$this->company->district_id;  estaba 2 le puse 6
         }
 
         $this->departments = Department::all(); //lista todo los departamentos
@@ -159,7 +158,8 @@ class CompanyEdit extends Component
             }
 
         } catch (\Exception $e) {
-            dd($e->getMessage());
+            //dd($e->getMessage());
+            $e->getMessage();
         }
 
 
@@ -174,10 +174,10 @@ class CompanyEdit extends Component
             }
            // dd($logoo);
         } catch (\Exception $e) {
-            dd($e->getMessage());
+           $e->getMessage();
         }
 
-       // $this->validate();
+        $this->validate();
         $this->company->update([
             'ruc' => $this->ruc,
             'razonsocial' => $this->razonsocial,
