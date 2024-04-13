@@ -36,8 +36,8 @@ class DatabaseSeeder extends Seeder
 
         //\App\Models\Brand::factory(5)->create();
         //\App\Models\Modelo::factory(5)->create();
-
-
+        $this->call(CurrencySeeder::class);
+        $this->call(UserSeeder::class);
 
         $this->call(DepartmentSeeder::class);
         $this->call(ProvinceSeeder::class);
@@ -55,8 +55,8 @@ class DatabaseSeeder extends Seeder
 
         //\App\Models\Product::factory(10)->create();
         //$this->call(LocalSeeder::class);
-        $this->call(CurrencySeeder::class);
-        $this->call(UserSeeder::class);
+
+        //$this->call(UserSeeder::class);
         //$this->call(InitialinventorySeeder::class);
         $this->call(TipoafectacionsTableSeeder::class);
         $this->call(TipocomprobanteSeeder::class);

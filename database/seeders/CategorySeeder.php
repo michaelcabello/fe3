@@ -21,6 +21,8 @@ class CategorySeeder extends Seeder
             'name' => 'General',
             'slug' => Str::slug('General'),
             'state'=>0,
+            'parent_id'=> NULL,
+            'company_id'=> 1,
 
         ]);
 
@@ -28,6 +30,8 @@ class CategorySeeder extends Seeder
             'name' => 'Damas',
             'slug' => Str::slug('Ropas para Damas'),
             'state'=>1,
+            'parent_id'=> NULL,
+            'company_id'=> 1,
         ]);
 
 
@@ -36,48 +40,64 @@ class CategorySeeder extends Seeder
             'name' => 'Varones',
             'slug' => Str::slug('Ropas para Varones'),
             'state'=>1,
+            'parent_id'=> NULL,
+            'company_id'=> 1,
         ]);
 
         Category::create([
             'name' => 'Niños',
             'slug' => Str::slug('Niños'),
             'state'=>1,
+            'parent_id'=> NULL,
+            'company_id'=> 1,
         ]);
 
         Category::create([
             'name' => 'Niñas',
             'slug' => Str::slug('Niñas'),
             'state'=>1,
+            'parent_id'=> NULL,
+            'company_id'=> 1,
         ]);
 
         Category::create([
             'name' => 'Cereales',
             'slug' => Str::slug('Cereales'),
             'state'=>0,
+            'parent_id'=> NULL,
+            'company_id'=> 1,
         ]);
 
         Category::create([
             'name' => 'Lacteos',
             'slug' => Str::slug('Lacteos'),
             'state'=>0,
+            'parent_id'=> NULL,
+            'company_id'=> 1,
         ]);
 
         Category::create([
             'name' => 'Refrescos',
             'slug' => Str::slug('Refrescos'),
             'state'=>0,
+            'parent_id'=> NULL,
+            'company_id'=> 1,
         ]);
 
         Category::create([
             'name' => 'Licores',
             'slug' => Str::slug('Licores'),
             'state'=>0,
+            'parent_id'=> NULL,
+            'company_id'=> 1,
         ]);
 
         Category::create([
             'name' => 'Muebles',
             'slug' => Str::slug('muebles'),
             'state'=>0,
+            'parent_id'=> NULL,
+            'company_id'=> 1,
         ]);
 
 
@@ -85,6 +105,8 @@ class CategorySeeder extends Seeder
             'name' => 'sacos de polipropileno',
             'slug' => Str::slug('sacos de polipropileno'),
             'state'=>0,
+            'parent_id'=> NULL,
+            'company_id'=> 1,
         ]);
 
 
