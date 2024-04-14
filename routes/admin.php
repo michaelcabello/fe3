@@ -11,12 +11,14 @@ use App\Http\Livewire\Admin\ProductList;
 use App\Http\Livewire\Admin\CategoryList;
 use App\Http\Livewire\Admin\LocalCreated;
 use App\Http\Livewire\Admin\ShipmentEdit;
+use App\Http\Livewire\Admin\CategoryEditd;
 use App\Http\Livewire\Admin\CategoryListd;
 use App\Http\Livewire\Admin\InventoryList;
 use App\Http\Livewire\Admin\ReceptionEdit;
 use App\Http\Livewire\Admin\InventoryList2;
 use App\Http\Livewire\Admin\PermissionList;
 use App\Http\Controllers\admin\BoletaReport;
+use App\Http\Livewire\Admin\CategoryCreated;
 use App\Http\Livewire\Admin\ComprobanteList;
 use App\Http\Livewire\Admin\InventoryListdos;
 use App\Http\Controllers\admin\RoleController;
@@ -101,6 +103,9 @@ Route::get('/receptions/{reception}', ReceptionEdit::class)->name('reception.edi
 
 //Route::get('categories', [CategoryController::class, 'index']);
 Route::get('categoriess', CategoryListd::class)->name('category.listd');
+Route::get('categories/{categoryId}', CategoryEditd::class)->name('category.editd');
+Route::get('/category/create', CategoryCreated::class)->name('category.created');
+
 Route::get('products', ProductList::class)->name('product.list');
 Route::get('productcompuesto/{product}', ProductcompuestoCreate::class)->name('productcompuesto.create');//creamos el producto productatribute
 Route::get('productcompuestoedit/{product}', ProductcompuestoEdit::class)->name('productcompuesto.edit');

@@ -44,4 +44,20 @@ class CategoryItem extends Component
     {
         return $this->category->children->isNotEmpty();
     }
+
+    public function editCategory($categoryId)
+    {
+        return view('livewire.admin.category-editd');
+        // Emitir un evento para que el componente padre maneje la edición
+        //$this->emit('editCategory', $categoryId);
+        //dd($categoryId);
+    }
+
+    public function confirmDeleteCategory($categoryId)
+    {
+        // Emitir un evento para que el componente padre maneje la eliminación
+        $this->emit('confirmDeleteCategory', $categoryId);
+    }
+
+
 }
