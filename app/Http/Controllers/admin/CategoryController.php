@@ -92,4 +92,14 @@ class CategoryController extends Controller
         return redirect()->route('categorias.index')->with('success', 'Categoría creada exitosamente.');
     }
 
+
+    public function destroy(Category $category)
+    {
+       // $this->authorize('delete', new Product);
+
+        $category->delete();
+        return redirect()->route('category.listd')->with('flash', 'Categoria Eliminada Con éxito');
+    }
+
+
 }

@@ -18,9 +18,9 @@
             <!-- Encabezado de la tabla -->
             <div class="items-center px-6 py-4 bg-gray-200 sm:flex">
 
-                <a href="{{ route('category.createt') }}" class="items-center justify-center sm:flex btn btn-orange" >
+                <a href="{{ route('category.createt') }}" class="items-center justify-center sm:flex btn btn-orange">
                     <i class="mx-2 fa-regular fa-file"></i> Nuevo
-                 </a >
+                </a>
 
 
             </div>
@@ -52,20 +52,81 @@
                                                     alt="{{ $category->name }}" class="m-2">
                                             @endif
                                         </div>
-                                        {{ $category->name }} ({{ $category->children->count() }})<!-- Nombre de la categoría -->
+                                        {{ $category->name }}
+                                        ({{ $category->children->count() }})
+                                        <!-- Nombre de la categoría -->
                                     </div>
+                                    {{-- <div class="px-6 text-sm font-medium text-right whitespace-nowrap">
+                                        estado
+                                    </div> --}}
+
+                                    {{--  <div class="px-6 py-4 whitespace-nowrap">
+                                        @switch($category->state)
+                                            @case(0)
+                                                @can('Category Update')
+                                                    <span wire:click="activar({{ $category->id }})"
+                                                        class="inline-flex px-2 text-xs font-semibold leading-5 text-red-800 bg-red-100 rounded-full cursor-pointer">
+                                                        inactivo
+                                                    </span>
+                                                @else
+                                                    <span
+                                                        class="inline-flex px-2 text-xs font-semibold leading-5 text-red-800 bg-red-100 rounded-full">
+                                                        inactivo
+                                                    </span>
+                                                @endcan
+                                            @break
+
+                                            @case(1)
+                                                @can('Category Update')
+                                                    <span wire:click="desactivar({{ $category->id }})"
+                                                        class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full cursor-pointer">
+                                                        activo
+                                                    </span>
+                                                @else
+                                                    <span
+                                                        class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
+                                                        activo
+                                                    </span>
+                                                @endcan
+                                            @break
+
+                                            @default
+                                        @endswitch
+
+                                    </div> --}}
+
+
+
+
                                     <div class="px-6 text-sm font-medium text-right whitespace-nowrap">
                                         <!-- Botones de edición y eliminación -->
 
 
-                                        <a href="{{ route('category.editd', ['categoryId' => $category->id]) }}" class="btn btn-green">
+                                        <a href="{{ route('category.editd', ['categoryId' => $category->id]) }}"
+                                            class="btn btn-green">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
 
-                                        <a class="btn btn-red" wire:click="$emit('deleteCategory', {{ $category->id }})">
-                                            <i class="fa-solid fa-trash-can"></i>
+                                        <form method="POST" action="{{ route('category.destroy', $category) }}"
+                                            style="display:inline">
+                                            {{ csrf_field() }} {{ method_field('DELETE') }}
+
+                                            <button class="btn btn-xs btn-danger"
+                                                onclick="return confirm('¿Estas seguro de querer eliminar la marca?')">
+                                                <i class="fas fa-times-circle"></i>
+                                            </button>
+
+                                        </form>
+
+
+
+                                        <a class="btn btn-red"
+                                            wire:click="$emit('deleteCategory', {{ $category->id }})">
+
+                                            <i class="fa-solid fa-trash-can"></i> {{ $category->id }}
                                         </a>
                                     </div>
+
                                 </div>
 
 
@@ -110,4 +171,37 @@
             Pie
         </h2>
     </x-slot>
+
+
+    @push('scripts')
+        <script src="sweetalert2.all.min.js"></script>
+
+        <script>
+            Livewire.on('deleteCategory', categoryId => {
+                Swal.fire({
+                    title: 'Estas seguro?',
+                    text: "No se podrá revertir!  yaaa",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, Eliminar!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        Livewire.emitTo('admin.category-listd', 'delete', categoryId);
+
+                        Swal.fire(
+                            'Eliminado!',
+                            'El Registro fue eliminado.',
+                            'success'
+                        )
+                    }
+                })
+            })
+        </script>
+    @endpush
+
+
+
 </div>

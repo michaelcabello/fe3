@@ -11,6 +11,9 @@ class CategoryListd extends Component
     use WithPagination;
 
     public $categories;
+    //public $category;
+
+    protected $listeners = ['confirmDeleteCategory'];
 
     public function mount()
     {
@@ -33,6 +36,39 @@ class CategoryListd extends Component
         }
     } */
 
+
+   /*  public function activar(Category $category)
+    {
+       // dd($category);
+
+        //$this->authorize('update', $this->category);
+
+        $this->category = $category;
+
+        $this->category->update([
+            'state' => 1
+        ]);
+    }
+
+    public function desactivar(Category $category)
+    {
+
+        //$this->authorize('update', $this->category);
+
+        $this->category = $category;
+
+        $this->category->update([
+            'state' => 0
+        ]);
+    } */
+
+
+     public function delete(Category $category)
+    {
+        //dd($category);
+        $category->delete();
+    }
+
     public function render()
     {
 
@@ -44,4 +80,9 @@ class CategoryListd extends Component
 
         return view('livewire.admin.category-listd');
     }
+
+
+
+
+
 }

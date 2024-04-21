@@ -18,7 +18,7 @@ class Category extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    public function getParentKeyName()
+   /*  public function getParentKeyName()
     {
         return 'parent_id';
     }
@@ -31,7 +31,7 @@ class Category extends Model
     public function getDepthName()
     {
         return 'depth';
-    }
+    } */
 
     /*     protected $fillable = [
         'name', 'slug', 'state','image'

@@ -109,6 +109,8 @@ Route::get('/category/create', CategoryCreated::class)->name('category.created')
 Route::get('/category/createe', CategoryCreatet::class)->name('category.createt');
 Route::get('categories4', [CategoryController::class, 'indexxd'])->name('category.list4');
 
+Route::delete('category/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
+
 
 Route::get('products', ProductList::class)->name('product.list');
 Route::get('productcompuesto/{product}', ProductcompuestoCreate::class)->name('productcompuesto.create');//creamos el producto productatribute

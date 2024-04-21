@@ -66,10 +66,38 @@ class CategoryItemlist extends Component
 
     }
 
-    public function confirmDeleteCategory($categoryId)
+
+    public function delete(Category $category)
     {
-        // Emitir un evento para que el componente padre maneje la eliminación
-        $this->emit('confirmDeleteCategory', $categoryId);
+        dd($category);
+        $category->delete();
     }
+
+
+   /*  public function activar(Category $category)
+    {
+
+        $this->authorize('update', $this->category);
+
+        $this->category = $category;
+
+        $this->category->update([
+            'state' => 1
+        ]);
+    }
+
+    public function desactivar(Category $category)
+    {
+
+        $this->authorize('update', $this->category);
+
+        $this->category = $category;
+
+        $this->category->update([
+            'state' => 0
+        ]);
+    } */
+
+
 
 }
