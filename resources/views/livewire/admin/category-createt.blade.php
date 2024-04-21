@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex items-center">
             <h2 class="text-xl font-semibold leading-tight text-gray-600">
-                <h1>Editando categoría: {{ $category->name }}</h1>
+                Crear Categoria
             </h2>
         </div>
     </x-slot>
@@ -17,7 +17,7 @@
                 <div class="card-body box-profile">
                     <div class="mb-4">
 
-                        {{--  <h3 class="text-center profile-username">Datos del Usuario</h3> --}}
+                        <h3 class="text-center profile-username">Datos del Usuario</h3>
 
 
                         <x-table>
@@ -39,13 +39,6 @@
                                 <x-jet-input-error for="name" />
                             </div>
 
-                            {{-- <input type="radio" name="category_radio" id="category_radio_0"
-                                wire:model="selectedParentCategory1" value="null" onclick="selectOnlyOneRadio(0)"> --}}
-
-                            <input type="radio" name="category_radio" id="category_radio_9999"
-                                wire:model="selectedParentCategory1" value="9999" onclick="selectOnlyOneRadio(9999)">
-                            Principal
-                            {{ $selectedParentCategory1 }}
 
                             @if (count($categories))
                                 <div>
@@ -56,50 +49,18 @@
                                                     <i class="fas fa-plus" x-show="!open"></i>
                                                     <i class="fas fa-minus" x-show="open"></i>
 
-                                                    {{-- <input type="radio" name="category_radio"
-                                                        id="category_radio_{{ $category->id }}"
-                                                        wire:model="selectedParentCategory1" value="{{ $category->id }}"
-                                                        onclick="selectOnlyOneRadio({{ $category->id }})"> --}}
-
                                                     <input type="radio" name="category_radio"
                                                         id="category_radio_{{ $category->id }}"
-                                                        wire:model="selectedParentCategory1" wire:model="deshabilitar"
-                                                        value="{{ $category->id }}"
-                                                        onclick="selectOnlyOneRadio({{ $category->id }})"
-                                                        {{ $selectedParentCategory1 == $category->id ? 'checked' : '' }}
-                                                        {{ $deshabilitar == 1 ? 'disabled' : '' }}>
-
-                                                     {{-- @if ($selectedParentCategory1 == $category->id){
-                                                           {{ $deshabilitar = 1 }}
-                                                        }@else{
-                                                            {{ $deshabilitar = 0 }}
-                                                        }
-                                                        @endif --}}
+                                                        wire:model="selectedParentCategory1" value="{{ $category->id }}"
+                                                        onclick="selectOnlyOneRadio({{ $category->id }})">
 
 
-                                                     @if ($selectedParentCategory1 == $category->id)
-
-                                                        @php
-                                                            $deshabilitar = 1;
-                                                        @endphp
-                                                    @else
-                                                        @php
-                                                            $deshabilitar = 0;
-                                                        @endphp
-
-                                                    @endif
-
-
-
-
-                                                    {{ $category->name }} - {{ $selectedParentCategory1 }} -
-                                                    {{ $category->id }} ya{{ $deshabilitar }}
+                                                    {{ $category->name }} {{ $selectedParentCategory1 }}
                                                 </div>
                                                 <ul x-show="open">
                                                     @foreach ($category->children as $child)
-                                                        {{-- $deshabilitar = 1; --}}
-                                                        <livewire:admin.category-itemedit :category="$child"
-                                                            :deshabilitar="$deshabilitar" :selectedParentCategory="$selectedParentCategory1" :key="$child->id" />
+                                                        <livewire:admin.category-item :category="$child"
+                                                            :selectedParentCategory="$selectedParentCategory1" :key="$child->id" />
                                                     @endforeach
                                                 </ul>
                                             </div>
@@ -156,7 +117,6 @@
 
 
                 </div>
-                {{ $shortdescription }}
 
                 <div class="col-span-2 form-group {{ $errors->has('longdescription') ? 'text-danger' : '' }} ">
                     <x-jet-label value="Descripción Larga" />
@@ -211,7 +171,7 @@
             <div class="w-full px-4 mt-6 mb-4">
                 {{-- Botón para crear una nueva categoría --}}
                 <x-jet-danger-button wire:click="save">
-                    <i class="mx-2 fa-regular fa-floppy-disk"></i> {{ __('Guardar Cambios') }}
+                    <i class="mx-2 fa-regular fa-floppy-disk"></i> {{ __('Crear Categoria') }}
                     </x-jet-button>
 
                     {{-- Botón para cancelar la creación de una nueva categoría --}}

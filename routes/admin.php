@@ -19,6 +19,7 @@ use App\Http\Livewire\Admin\InventoryList2;
 use App\Http\Livewire\Admin\PermissionList;
 use App\Http\Controllers\admin\BoletaReport;
 use App\Http\Livewire\Admin\CategoryCreated;
+use App\Http\Livewire\Admin\CategoryCreatet;
 use App\Http\Livewire\Admin\ComprobanteList;
 use App\Http\Livewire\Admin\InventoryListdos;
 use App\Http\Controllers\admin\RoleController;
@@ -105,6 +106,9 @@ Route::get('/receptions/{reception}', ReceptionEdit::class)->name('reception.edi
 Route::get('categoriess', CategoryListd::class)->name('category.listd');
 Route::get('categories/{categoryId}', CategoryEditd::class)->name('category.editd');
 Route::get('/category/create', CategoryCreated::class)->name('category.created');
+Route::get('/category/createe', CategoryCreatet::class)->name('category.createt');
+Route::get('categories4', [CategoryController::class, 'indexxd'])->name('category.list4');
+
 
 Route::get('products', ProductList::class)->name('product.list');
 Route::get('productcompuesto/{product}', ProductcompuestoCreate::class)->name('productcompuesto.create');//creamos el producto productatribute

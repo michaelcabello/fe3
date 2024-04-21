@@ -11,14 +11,14 @@
 
     @if ($selectedCategory1 && count($categories2) > 0)
         <select wire:model="selectedCategory2">
-            <option value="null" selected disabled >Seleccione una categoría</option>
+            <option value="null" selected disabled>Seleccione una categoría</option>
             @foreach ($categories2 as $category)
                 <option value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach
         </select>
     @endif
 
-    @if ($selectedCategory2  && count($categories3) > 0)
+    @if ($selectedCategory2 && count($categories3) > 0)
         <select wire:model="selectedCategory3">
             <option value="null" selected disabled>Seleccione una categoría</option>
             @foreach ($categories3 as $category)
@@ -46,13 +46,13 @@
     @endif
 
     @if ($selectedCategory5 && count($categories6) > 0)
-    <select wire:model="selectedCategory6">
-        <option value="null" selected disabled>Seleccione una categoría</option>
-        @foreach ($categories6 as $category)
-            <option value="{{ $category->id }}">{{ $category->name }}</option>
-        @endforeach
-    </select>
-@endif
+        <select wire:model="selectedCategory6">
+            <option value="null" selected disabled>Seleccione una categoría</option>
+            @foreach ($categories6 as $category)
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
+        </select>
+    @endif
 
     {{-- <select wire:model="selectedCategory">
         <option value="">Seleccione una categoría</option>

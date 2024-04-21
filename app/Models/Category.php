@@ -6,12 +6,33 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Productfamilie;
 use Illuminate\Support\Str;
+use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
+
 
 class Category extends Model
 {
     use HasFactory;
+    //use HasRecursiveRelationships;
+
+    //use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
+
+    public function getParentKeyName()
+    {
+        return 'parent_id';
+    }
+
+    public function getLocalKeyName()
+    {
+        return 'id';
+    }
+
+    public function getDepthName()
+    {
+        return 'depth';
+    }
+
     /*     protected $fillable = [
         'name', 'slug', 'state','image'
     ]; */
@@ -54,7 +75,7 @@ class Category extends Model
 
 
     //est es para el recursivo
-     public function categories()
+/*      public function categories()
     {
         return $this->hasMany(Category::class);
     }
@@ -62,7 +83,7 @@ class Category extends Model
     public function childrenCategories()
     {
         return $this->hasMany(Category::class)->with('categories');
-    }
+    } */
     //est es para el recursivo
 
     public function parent()

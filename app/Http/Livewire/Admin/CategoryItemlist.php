@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Livewire\Admin;
-
-use Livewire\Component;
 use App\Models\Category;
-//estamos usando CategoryItem crear uno nuevo
-class CategoryItem extends Component
+use Livewire\Component;
+
+class CategoryItemlist extends Component
 {
 
     public $category;
@@ -41,8 +40,7 @@ class CategoryItem extends Component
 
     public function render()
     {
-
-        return view('livewire.admin.category-item', [
+        return view('livewire.admin.category-itemlist', [
             'depth' => $this->calculateDepth($this->category),
         ]);
     }
@@ -62,7 +60,7 @@ class CategoryItem extends Component
         return $this->category->children->isNotEmpty();
     }
 
-  /*   public function editCategory($categoryId)
+    public function editCategory($categoryId)
     {
         return view('livewire.admin.category-editd');
 
@@ -70,7 +68,8 @@ class CategoryItem extends Component
 
     public function confirmDeleteCategory($categoryId)
     {
-
+        // Emitir un evento para que el componente padre maneje la eliminación
         $this->emit('confirmDeleteCategory', $categoryId);
-    } */
+    }
+
 }

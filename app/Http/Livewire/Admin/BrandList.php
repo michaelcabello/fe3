@@ -20,6 +20,7 @@ class BrandList extends Component
     use AuthorizesRequests; //para permisos
     use WithFileUploads; //para la carga de imagenes
     public $search, $image, $brand, $state, $identificador; //identificador para recargar la imagen
+
     public $order, $title, $description, $keywords;
     public $sort = 'id';
     public $direction = 'desc';

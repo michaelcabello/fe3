@@ -1,6 +1,7 @@
 <div x-data="{ open: {{ $isOpen ? 'true' : 'false' }} }">
+    <div @mousedown="toggle({{ $category->id }})" class="flex items-center cursor-pointer">
     <div @click="open = !open" class="flex items-center cursor-pointer">
-        <div style="margin-left: {{ $depth * 20 }}px">
+        <div style="margin-left: {{ $depth * 20 }}px" class="flex">
             <div class="mr-2" x-show="!open">
                 <i class="fas fa-plus"></i>
             </div>
@@ -8,48 +9,26 @@
                 <i class="fas fa-minus"></i>
             </div>
         </div>
-        <span>{{ $category->name }} </span>
-        <div class="ml-auto">
-
-            {{-- <button @click="editCategory({{ $category->id }})" class="text-blue-500 mr-2">Editar</button> --}}
-            <a href="{{ route('category.editd', ['categoryId' => $category->id]) }}" class="text-blue-500 mr-2">Editar</a>
-            <button wire:click="confirmDeleteCategory({{ $category->id }})" class="text-red-500"> Eliminar</button>
+        <div>
+             <input type="radio" name="category_radio" id="category_radio_{{ $category->id }}"
+                   wire:model="selectedParentCategory" value="{{ $category->id }}"
+                   onclick="selectOnlyOneRadio({{ $category->id }})"
+                   {{ $selectedParentCategory == $category->id ? 'checked' : '' }}>
+            <span>{{ $category->name }}  {{ $selectedParentCategory }}</span>
         </div>
     </div>
-    <ul x-show="open" @click.away="open = false">
-        @foreach($category->children as $child)
+    </div>
+    <ul x-show="open" @click.away="open = true">
+        @foreach ($category->children as $child)
             <li>
                 <div style="margin-left: {{ ($depth + 1) * 20 }}px">
-                    <livewire:admin.category-item :category="$child" :isOpen="$isOpen" :depth="$depth + 1" :key="$child->id"/>
+                    <livewire:admin.category-item :category="$child" :selectedParentCategory="$selectedParentCategory" :key="$child->id" />
                 </div>
             </li>
         @endforeach
     </ul>
 </div>
 
-
-{{-- <div x-data="{ open: {{ $isOpen ? 'true' : 'false' }} }">
-    <div @click="open = !open" class="flex items-center cursor-pointer">
-        <div style="margin-left: {{ $depth * 20 }}px">
-            <div class="mr-2" x-show="!open">
-                <i class="fas fa-plus"></i>
-            </div>
-            <div class="mr-2" x-show="open">
-                <i class="fas fa-minus"></i>
-            </div>
-        </div>
-        <span>{{ $category->name }}</span>
-    </div>
-    <ul x-show="open">
-        @foreach($category->children as $child)
-            <li>
-                <div style="margin-left: {{ ($depth + 1) * 20 }}px">
-                    <livewire:admin.category-item :category="$child" :isOpen="$isOpen" :depth="$depth + 1" :key="$child->id"/>
-                </div>
-            </li>
-        @endforeach
-    </ul>
-</div> --}}
 
 
 

@@ -110,7 +110,7 @@
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/categories.jpg')}}" alt="">
                                     </figure>
                                     <header class="mt-2">
-                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('category.list')}}">Categorias</a></h1>
+                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('category.listd')}}">Categorias</a></h1>
 
                                     </header>
 

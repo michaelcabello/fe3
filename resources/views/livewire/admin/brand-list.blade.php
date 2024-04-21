@@ -395,8 +395,8 @@
                                                 <i class="fa-sharp fa-solid fa-eye"></i></a>
                                         @endcan
                                         @can('Brand Update')
-                                            <a wire:click="edit({{ $brandd }})" class="btn btn-green"><i
-                                                    class="fa-solid fa-pen-to-square"></i></a>
+                                            <a wire:click="edit({{ $brandd }})" class="btn btn-green">
+                                                <i class="fa-solid fa-pen-to-square"></i></a>
                                         @endcan
                                         @can('Brand Delete')
                                             <a class="btn btn-red"

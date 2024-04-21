@@ -71,6 +71,7 @@ class CategorySelector extends Component
         $this->selectedCategory6 = null; // Reiniciar la selección del cuarto nivel
 
         $this->categories6 = Category::where('parent_id', $categoryId)->get();
+
     }
 
     public function render()
@@ -78,7 +79,10 @@ class CategorySelector extends Component
         return view('livewire.admin.category-selector');
     }
 
-
+  /*   public function updatedSelectedCategory6($categoryId)
+    {
+        $this->emit('categorySelected', $categoryId);
+    } */
 
 
     /*     public $categories;

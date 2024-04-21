@@ -19,15 +19,15 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->boolean('state')->default(1);
+            $table->integer('depth')->nullable();
+            $table->text('path')->nullable();
            // $table->unsignedBigInteger('category_id')->nullable(); //activo para el recursivo
-           // $table->boolean('state')->default(1);
-
-            /* $table->text('shortdescription')->nullable();
+            $table->text('shortdescription')->nullable();
             $table->text('longdescription')->nullable();
             $table->integer('order')->nullable();
 
             $table->string('image', 2048)->default('/storage/categories/default.jpg')->nullable();
-            $table->string('title')->nullable();
+           /*  $table->string('title')->nullable();
             $table->text('description')->nullable();
             $table->text('keywords')->nullable(); */
 
