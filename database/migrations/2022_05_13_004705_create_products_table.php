@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
 
-            $table->string('codigo')->unique();
+            $table->string('codigo')->nullable();
             $table->string('codigobarras')->unique();
             $table->string('name')->nullable();
             $table->text('description')->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->double('saleprice', 10, 4)->nullable();//precio venta con igv
             $table->double('salepricemin', 10, 4)->nullable();//precio venta minimo con igv
 
-            $table->double('mtovalorgratuito', 10, 4)->default(0.00);
+            $table->double('mtovalorgratuito', 10, 4)->default(0.00)->nullable();
             $table->double('mtovalorunitario', 10, 4)->nullable();//precio sin igv
             //$table->double('mtopreciounitario', 10, 4)->nullable();//precio con igv  es el saleprice por eso lo comento
 
@@ -50,11 +50,21 @@ return new class extends Migration
             $table->unsignedBigInteger('tipoafectacion_id')->nullable();
             $table->foreign('tipoafectacion_id')->references('id')->on('tipoafectacions')->onDelete('cascade');
 
-            $table->boolean('esbolsa')->default(false);
-            $table->boolean('detraccion')->default(false);
-            $table->boolean('percepcion')->default(false);
+            $table->boolean('esbolsa')->default(0)->nullable();
+            $table->boolean('detraccion')->nullable();
+            $table->boolean('percepcion')->nullable();
 
-            $table->boolean('state')->default(false);
+            $table->boolean('state')->nullable();
+
+            $table->string('image1')->nullable();
+            $table->string('image2')->nullable();
+            $table->string('image3')->nullable();
+            $table->string('image4')->nullable();
+
+
+
+
+
            // $table->string('image');
             $table->timestamps();
         });

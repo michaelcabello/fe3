@@ -19,7 +19,6 @@
 
                         <h3 class="text-center profile-username">Datos del Usuario</h3>
 
-
                         <x-table>
                             <div class="items-center px-6 py-4 bg-gray-200 sm:flex">
                                 {{-- <h2>Categorias {{ $lastSelectedParentCategory }}</h2> --}}
@@ -134,13 +133,16 @@
                 </div>
 
 
+                <x-jet-label value="Seleccione una Imagen" class="mt-2" />
                 <div class="box-border p-4 mb-4 border-2 rounded-md">
-                    <x-jet-label value="Seleccione una Imagen para Modificar" class="mb-2" />
+                    {{-- <x-jet-label value="Seleccione una Imagen" class="mb-2" /> --}}
 
                     {{-- <input type="file" wire:model="brand.image" id="{{ $identificador }}"> --}}
-                    <input type="file" wire:model="image" id="{{ $identificador }}"> {{-- borramos accept="image/*" --}}
+                    <input type="file" wire:model="image" accept="image/*" {{-- id="{{ $identificador }}" --}}>
+                    {{-- borramos accept="image/*" --}}
                     <x-jet-input-error for="image" />
                 </div>
+
 
                 <div wire:loading wire:target="image"
                     class="relative px-4 py-3 text-red-700 bg-red-100 border border-red-400 rounded" role="alert">
@@ -149,17 +151,30 @@
 
                 </div>
 
+                @if($image)
+
+                    <div class="relative px-4 py-3">
+                        <img class="mb-4" width="400px" src="{{ $image->temporaryUrl() }}" alt="cargando imagen">
+                    </div>
+
+                @endif
+
                 {{-- @if ($image)
                     <img class="mb-4" src="{{ $image->temporaryUrl() }}" alt="">
                 @elseif($brand->image)
                     <img src="{{ url($brand->image) }}" alt="ticom">
                 @endif --}}
 
-                @if ($image && in_array($image->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'gif']))
-                    <img class="mb-4" src="{{ $image->temporaryUrl() }}" alt="cargando imagen">
+                {{-- @if ($image && in_array($image->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'gif']))
+                    <div class="relative px-4 py-3">
+                        <img class="mb-4" width="400px" src="{{ $image->temporaryUrl() }}" alt="cargando imagen">
+                    </div>
                 @elseif($category->image)
-                    <img src="{{ url($category->image) }}" alt="ticom">
-                @endif
+                    <div class="relative px-4 py-3">
+                        <img src="{{ Storage::disk('s3')->url($category->image) }}" width="200px" alt="TICOM">
+                    </div>
+                @endif --}}
+
 
 
 

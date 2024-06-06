@@ -17,13 +17,17 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('company_id')->constrained();
-            $table->foreignId('product_id')->constrained();
+            //$table->foreignId('product_id')->constrained();
             $table->string('codigobarras');
             $table->foreignId('employee_id')->constrained();//para identificarla venta del usuario o empleado
             $table->string('image')->nullable();
             $table->string('name');
             $table->string('um');
             $table->integer('quantity');
+
+            $table->unsignedBigInteger('product_id')->nullable;
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+
 
             $table->timestamps();
         });

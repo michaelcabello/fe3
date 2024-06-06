@@ -26,7 +26,7 @@ return new class extends Migration
             $table->text('longdescription')->nullable();
             $table->integer('order')->nullable();
 
-            $table->string('image', 2048)->default('/storage/categories/default.jpg')->nullable();
+            $table->string('image', 2048)->default('fe/default/categories/categorydefault.jpg')->nullable();
            /*  $table->string('title')->nullable();
             $table->text('description')->nullable();
             $table->text('keywords')->nullable(); */

@@ -4,9 +4,12 @@ namespace App\Http\Livewire\Admin;
 
 use Livewire\Component;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
+use Livewire\WithFileUploads;
 
 class CategoryEditd extends Component
 {
+    use WithFileUploads;
 
     public $categoryId;
     public $breadcrumbs;
@@ -14,19 +17,27 @@ class CategoryEditd extends Component
     public $categories;
     public $lastSelectedParentCategory;
     public $identificador;
-    public $image;
+    public $image, $imageback;
     public $name, $nameback;
     public $selectedCategoryId;
     public $openCategories = [];
-    public $category;
+    public $category, $company;
     public $shortdescription, $longdescription, $order, $parent_id, $depth, $path, $pathback;
     public $deshabilitar;
 
 
     protected $listeners = ['categorySelected', 'updateSelectedParentCategory'];
 
+
+    protected $rules = [
+        'name'=> 'required',
+    ];
+
+
+
     public function mount($categoryId)
     {
+        $this->company = auth()->user()->employee->company;
         $this->deshabilitar=0;
         $this->categoryId = $categoryId;
         $this->lastSelectedParentCategory = $categoryId; //es id de la categoria esgogida
@@ -40,6 +51,8 @@ class CategoryEditd extends Component
         $this->longdescription = $this->category->longdescription;
         $this->order = $this->category->order;
         $this->name = $this->category->name;
+        $this->image = null;
+        $this->imageback = $this->category->image;
         $this->nameback = $this->category->name;
         $this->depth = $this->category->depth;
         $this->pathback = $this->category->path;
@@ -51,7 +64,7 @@ class CategoryEditd extends Component
             $category = $category->parent;
         } */
         // Obtener las categorías raíz
-        $this->categories = Category::whereNull('parent_id')->get()->map(function ($category) {
+        $this->categories = Category::whereNull('parent_id')->where('company_id', $this->company->id )->get()->map(function ($category) {
             $category->depth = $this->calculateDepth($category);
             return $category;
         });
@@ -102,9 +115,14 @@ class CategoryEditd extends Component
         //dd($this->category);
 
         // Validación del nombre de la categoría
-        $this->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        /* $this->validate([
+            //'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:categories,name,NULL,id,parent_id,NULL',
+        ]); */
+
+        /* $this->validate([
+            'name' => 'required|string|max:255|unique:categories,name,' . $this->categoryId . ',id,parent_id,NULL',
+        ]); */
 
         //$category = Category::findOrFail($this->categoryId);
         //$this->category = Category::find($categoryId);
@@ -123,6 +141,22 @@ class CategoryEditd extends Component
         } else {
             $this->category->parent_id = null;
         } */
+
+
+        if($this->image){
+            // dd($this->image);
+             $rules['image'] ='required|image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+             $this->validate($rules);
+             //Storage::delete([$this->product->image]);
+             //$this->product->image = Storage::url($this->image->store('products', 'public'));
+             //$image1 = $this->product->image;
+            // Storage::disk('s3')->delete([$this->product->image]);
+            $this->category->image = Storage::disk('s3')->put('fe/'.$this->company->id.'/categories', $this->image , 'public');
+         }else{
+            // dd($this->image);
+            $this->category->image = $this->imageback;//no hay cambios en la imagen
+           // $this->validate();
+         }
 
 
         //dd($this->category->parent_id);

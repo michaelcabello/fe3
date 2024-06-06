@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         //$this->call(CategorySeeder::class);
-        $this->call(BrandSeeder::class);
+
         //$this->call(SubcategorySeeder::class);
         Storage::deleteDirectory('public/categories');
         Storage::makeDirectory('public/categories');
@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
         //\App\Models\Modelo::factory(5)->create();
         $this->call(CurrencySeeder::class);
         $this->call(UserSeeder::class);
-
+        $this->call(BrandSeeder::class);
         $this->call(DepartmentSeeder::class);
         $this->call(ProvinceSeeder::class);
         $this->call(DistrictSeeder::class);
@@ -94,5 +94,7 @@ class DatabaseSeeder extends Seeder
         $this->call(VehiculosTableSeeder::class);
         $this->call(ConductorsTableSeeder::class);
         $this->call(PuntodepartidasTableSeeder::class);
+        $this->call(ProductsTableSeeder::class);
+        $this->call(BrandsTableSeeder::class);
     }
 }

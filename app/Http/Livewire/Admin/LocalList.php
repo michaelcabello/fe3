@@ -158,5 +158,32 @@ class LocalList extends Component
         }
 
         return view('livewire.admin.local-list', compact('locals'));
+
     }
+
+
+    public function activar(Local $local)
+    {
+
+        //$this->authorize('update', $this->local);
+
+        $this->local = $local;
+
+        $this->local->update([
+            'state' => 1
+        ]);
+    }
+
+    public function desactivar(Local $local)
+    {
+        $this->authorize('update', $this->local); //tenemos que mandar el error a una pagina
+        $this->local = $local;
+
+        $this->local->update([
+            'state' => 0
+        ]);
+    }
+
+
+
 }

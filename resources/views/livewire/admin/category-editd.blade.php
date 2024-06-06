@@ -69,7 +69,7 @@
                                                         {{ $selectedParentCategory1 == $category->id ? 'checked' : '' }}
                                                         {{ $deshabilitar == 1 ? 'disabled' : '' }}>
 
-                                                     {{-- @if ($selectedParentCategory1 == $category->id){
+                                                    {{-- @if ($selectedParentCategory1 == $category->id){
                                                            {{ $deshabilitar = 1 }}
                                                         }@else{
                                                             {{ $deshabilitar = 0 }}
@@ -77,8 +77,7 @@
                                                         @endif --}}
 
 
-                                                     @if ($selectedParentCategory1 == $category->id)
-
+                                                    @if ($selectedParentCategory1 == $category->id)
                                                         @php
                                                             $deshabilitar = 1;
                                                         @endphp
@@ -86,7 +85,6 @@
                                                         @php
                                                             $deshabilitar = 0;
                                                         @endphp
-
                                                     @endif
 
 
@@ -176,9 +174,7 @@
 
                 <div class="box-border p-4 mb-4 border-2 rounded-md">
                     <x-jet-label value="Seleccione una Imagen para Modificar" class="mb-2" />
-
-                    {{-- <input type="file" wire:model="brand.image" id="{{ $identificador }}"> --}}
-                    <input type="file" wire:model="image" id="{{ $identificador }}"> {{-- borramos accept="image/*" --}}
+                    <input type="file" wire:model="image">
                     <x-jet-input-error for="image" />
                 </div>
 
@@ -189,17 +185,16 @@
 
                 </div>
 
-                {{-- @if ($image)
-                    <img class="mb-4" src="{{ $image->temporaryUrl() }}" alt="">
-                @elseif($brand->image)
-                    <img src="{{ url($brand->image) }}" alt="ticom">
-                @endif --}}
-
-                @if ($image && in_array($image->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'gif']))
-                    <img class="mb-4" src="{{ $image->temporaryUrl() }}" alt="cargando imagen">
-                @elseif($category->image)
-                    <img src="{{ url($category->image) }}" alt="ticom">
+                @if ($image)
+                <div>
+                    <img class="mb-4" src="{{ $image->temporaryUrl() }}" width="200px" alt="cargando imagen">
+                </div>
+                @elseif($imageback)
+                    <img src="{{ Storage::disk("s3")->url($imageback) }}" width="200px" alt="">
                 @endif
+
+
+
 
 
 

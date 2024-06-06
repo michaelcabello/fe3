@@ -34,11 +34,25 @@ class RoleController extends Controller
         //$this->authorize('create', new Role);
         $role = new Role;
         //return $request;
-        $data = $request->validate([
+       /*  $data = $request->validate([
             'name'=>'required|unique:roles',
             'display_name'=>'required',
-            //'guard_name'=>'required'
+        ]); */
+
+        $request->validate([
+            'name' => 'required|unique:roles,name,NULL,id,company_id,' . auth()->user()->employee->company->id,
+            'display_name' => 'required',
         ]);
+
+
+
+        //$existe = Role::where('name', $request->name)->where('company_id', auth()->user()->employee->company->id)->get();
+        //dd($existe);
+
+        /* if($existe){
+            return redirect()->route('admin.role.index')->withFlash('El Rol ya existe');
+
+        } */
 
         //recuerda que si el campo no esta definido en el array de validacion no se pasara en el $data
         //al poner create($data)  se guardara name, display_name, guard_name
@@ -46,7 +60,8 @@ class RoleController extends Controller
         $role = Role::create([
             'name' => $request->name,
             'display_name' => $request->display_name,
-            'company_id' => auth()->user()->employee->company->id, //encontramos la company actual osea la compania del usuario logueado
+            //'company_id' => auth()->user()->employee->company->id, //encontramos la company actual osea la compania del usuario logueado
+            //'guard_name' => auth()->user()->employee->company->id,
         ]);
 
         if($request->has('permissions'))

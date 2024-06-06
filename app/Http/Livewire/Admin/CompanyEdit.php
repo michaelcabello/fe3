@@ -151,7 +151,7 @@ class CompanyEdit extends Component
             if ($this->certificate_path) {
                 $rules['certificate_path'] = 'file|mimes:pem,txt';
                 //$this->validate($rules);
-                $certificate_pathoo = Storage::disk('s3')->put('fe/certificados', $this->certificate_path, 'public');
+                $certificate_pathoo = Storage::disk('s3')->put('fe/'.$this->company->id.'/certificados', $this->certificate_path, 'public');
             } else {
                 $certificate_pathoo = $this->company->certificate_path;
                 //$this->validate($rules);
@@ -162,12 +162,11 @@ class CompanyEdit extends Component
             $e->getMessage();
         }
 
-
          try {
             if ($this->logo) {
                 $rules['logo'] ='required|image|mimes:jpeg,png,jpg,gif,svg|max:2048';
                 $this->validate($rules);
-                $logoo = Storage::disk('s3')->put('fe/logos', $this->logo, 'public');
+                $logoo = Storage::disk('s3')->put('fe/'.$this->company->id.'/logos', $this->logo, 'public');
             } else {
                 $logoo = $this->company->logo;
                 $this->validate($rules);

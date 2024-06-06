@@ -44,8 +44,7 @@ class RoleList extends Component
         $companyId = auth()->user()->employee->company->id;
 
         if ($this->readyToLoad) {
-            $roles = Role::where('company_id', $companyId)//roles de la company logueada
-            ->where('name', 'like', '%' .$this->search. '%')
+            $roles = Role::where('name', 'like', '%' .$this->search. '%')   //roles de la company logueada  where('company_id', $companyId)
                ->orderBy($this->sort, $this->direction)
                ->paginate($this->cant);
        }else{

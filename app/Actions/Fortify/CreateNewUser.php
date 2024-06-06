@@ -6,8 +6,10 @@ use App\Models\User;
 use App\Models\Local;
 use App\Models\Company;
 use App\Models\Employee;
+use App\Models\Local_tipocomprobante;
 use App\Models\Position;
 use Laravel\Jetstream\Jetstream;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -46,15 +48,85 @@ class CreateNewUser implements CreatesNewUsers
             'company_id' => $company->id,
         ]);
 
+        Local_tipocomprobante::create([
+            'local_id' => $local->id,
+            'tipocomprobante_id' => 1,
+            'serie' => 'F001',
+            'inicio' => 0,
+            'company_id' => $company->id,
+        ]);
+
+        Local_tipocomprobante::create([
+            'local_id' => $local->id,
+            'tipocomprobante_id' => 2,
+            'serie' => 'B001',
+            'inicio' => 0,
+            'company_id' => $company->id,
+        ]);
+
+        Local_tipocomprobante::create([
+            'local_id' => $local->id,
+            'tipocomprobante_id' => 3,
+            'serie' => 'FC01',
+            'inicio' => 0,
+            'company_id' => $company->id,
+        ]);
+
+        Local_tipocomprobante::create([
+            'local_id' => $local->id,
+            'tipocomprobante_id' => 4,
+            'serie' => 'FD01',
+            'inicio' => 0,
+            'company_id' => $company->id,
+        ]);
+
+        Local_tipocomprobante::create([
+            'local_id' => $local->id,
+            'tipocomprobante_id' => 5,
+            'serie' => 'BC01',
+            'inicio' => 0,
+            'company_id' => $company->id,
+        ]);
+
+
+        Local_tipocomprobante::create([
+            'local_id' => $local->id,
+            'tipocomprobante_id' => 6,
+            'serie' => 'T001',
+            'inicio' => 0,
+            'company_id' => $company->id,
+        ]);
+
+
+
         //creando el user
         $user = User::create([
             'name' => strtoupper($input['name']),
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
+            'company_id' => $company->id,
         ]);
+
+        //dd($user);
+
+        //Creando el Role Admin
+        /* $role = Role::create([
+            'name' => 'Admin',
+            'display_name' => 'Administrator',
+            'company_id' => $company->id, */
+            //'guard_name' => $company->id,//esto se tienen que generar dinamicamente en  AuthServiceProvider
+            //'guard_name' => 'company_'.$company->id,
+        //]);
+
+
 
         //darle a user el admin
         $user->assignRole('Admin');
+
+        //dd($role->name, 'company_'.$company->id);
+
+       // $user->assignRole($role->name, 'company_'.$company->id);
+       //$user->assignRole($role->name, 'company_'.$company->id, 'company_'.$company->id);
 
         //creando positions
         $position = Position::create([

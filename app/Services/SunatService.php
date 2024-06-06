@@ -155,9 +155,18 @@ class SunatService
         //dd($this->result);
 
         // Guardamos el CDR
-        $this->boleta->sunat_cdr_path = "guides/cdr/R-{$this->voucher->getName()}.zip";
+        /* $this->boleta->sunat_cdr_path = "guides/cdr/R-{$this->voucher->getName()}.zip";
         Storage::put($this->boleta->sunat_cdr_path, $this->result->getCdrZip(), 'public');
-        $this->boleta->save();
+        $this->boleta->save(); */
+
+        $cdrZip = $this->result->getCdrZip();
+        if ($cdrZip !== null) {
+            $this->boleta->sunat_cdr_path = "guides/cdr/R-{$this->voucher->getName()}.zip";
+            Storage::put($this->boleta->sunat_cdr_path, $cdrZip, 'public');
+            $this->boleta->save();
+        }
+
+
 
         //Lectura del CDR
         $this->readCdr();

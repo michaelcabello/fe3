@@ -59,6 +59,17 @@ class ComprobanteCreate extends Component
     //public $carts = [];
     protected $listeners = ['delete', 'limpiar'];
 
+
+    public $searchh="";
+
+
+
+
+
+
+
+
+
     public function mount()
     {
         $this->tipodeoperacion_id = "1";
@@ -84,9 +95,9 @@ class ComprobanteCreate extends Component
     public function ScanCode($barcode,  $quantity = 1)
     {
         $this->search = $barcode;
-        $company_id = auth()->user()->employee->company->id;
+        //$company_id = auth()->user()->employee->company->id;
         //buscamos productos de la empresa
-        $product = Product::where('company_id', $company_id)->where('codigobarras', $this->search)->first();
+        $product = Product::where('company_id', $this->company_id)->where('codigobarras', $this->search)->first();
         if (!$product) {
             //session()->flash('alert', 'El producto no está registrado');
             //$this->msg = 'El producto no registrado';
@@ -115,6 +126,58 @@ class ComprobanteCreate extends Component
             $this->getTotalFromTemporals();
         }
     }
+
+
+    public function getResultsProperty(){
+        //$company_id = auth()->user()->employee->company->id;
+
+        return Product::where('company_id', $this->company_id)->where('name', 'LIKE', '%'. $this->searchh .'%')
+                     ->where('state',1)
+                     ->take(8)->get();
+    }
+
+    public function ScanCoded($codigo,  $quantity = 1)
+    {
+
+        //$this->searchh = $codigo;
+        $id = $codigo;
+        //$company_id = auth()->user()->employee->company->id;
+        //buscamos productos de la empresa
+        $product = Product::where('company_id', $this->company_id)->where('id', $id)->first();
+
+        if (!$product) {
+            //session()->flash('alert', 'El producto no está registrado');
+            //$this->msg = 'El producto no registrado';
+            //dd($this->msg);
+            //$this->emit('alert', $this->msg);
+            //$title = 'El producto no está registrado';
+        } elseif (!isset($product->saleprice)) {
+            // $this->msg = 'El producto no tiene precio';
+            // $this->emit('alert', $this->msg);
+        } else {
+            $this->addToCartbd(
+                $product->id,
+                $product->codigobarras,
+                $product->name,
+                $product->um->abbreviation,
+                $product->tipoafectacion->codigo,
+                $product->saleprice,
+                $product->mtovalorgratuito,
+                $product->mtovalorunitario, //precio del producto sin igv
+                $product->esbolsa,
+                $quantity
+            );
+            //$this->total = $this->getTotalFromTemporals();
+            $this->getTotales();
+            $this->getLegends();
+            $this->getTotalFromTemporals();
+        }
+
+        $this->searchh = null;
+    }
+
+
+
 
     public function addToCartbd($product_id, $codigobarras, $name, $um, $tipafeigv, $saleprice, $mtovalorgratuito, $mtovalorunitario, $esbolsa, $quantity) //productId  captura al codigobarras
     {

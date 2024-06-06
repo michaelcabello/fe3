@@ -41,8 +41,10 @@
                                         <i class="fas fa-minus" x-show="open"></i>
                                         <div class="flex-shrink-0 h-10 ml-2 mr-2 w-15 ">
                                             @if ($category->image)
+
                                                 <img class="object-cover w-20 h-10 rounded-sm"
-                                                    src="{{ url($category->image) }}" alt="{{ $category->name }}">
+                                                src="{{ Storage::disk('s3')->url($category->image) }}" alt="{{ $category->name }}">
+                                                {{-- src="{{ url($category->image) }}" alt="{{ $category->name }}"> --}}
                                                 {{-- src="{{ Storage::url($brand->image) }}" storage//storage/brand/default.jpg  en la bd esta puesto esto 	/storage/brands/default.jpg > --}}
                                                 {{-- url($brand->image) muestra tal como es la ruta en la bd esta puesto esto 	/storage/brands/default.jpg --}}
                                                 {{--  {{ Storage::disk("s3")->url($brand->image) }} --}}
@@ -111,20 +113,33 @@
                                             style="display:inline">
                                             {{ csrf_field() }} {{ method_field('DELETE') }}
 
-                                            <button class="btn btn-xs btn-danger"
-                                                onclick="return confirm('¿Estas seguro de querer eliminar la marca?')">
-                                                <i class="fas fa-times-circle"></i>
+                                            <button class="btn btn-red"
+                                                onclick="return confirm('¿Estas seguro de querer eliminar la Catgoria?')">
+                                                <i class="fa-solid fa-trash-can"></i>
                                             </button>
 
                                         </form>
 
 
+                                       {{--  <form id="deleteForm_{{ $category->id }}" action="{{ route('category.destroy', $category) }}" method="POST" style="display:inline">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
+                                            <button type="button" class="btn btn-red" onclick="confirmDelete({{ $category->id }})">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </button>
+                                        </form> --}}
 
-                                        <a class="btn btn-red"
+
+                                        {{-- <button data-toggle="modal" data-target="#deleteModal"
+                                            data-id="{{ $category->id }}" class="btn btn-red"><i
+                                                class="fa-solid fa-trash-can"></i></button> --}}
+
+
+                                        {{-- <a class="btn btn-red"
                                             wire:click="$emit('deleteCategory', {{ $category->id }})">
 
                                             <i class="fa-solid fa-trash-can"></i> {{ $category->id }}
-                                        </a>
+                                        </a> --}}
                                     </div>
 
                                 </div>
@@ -176,7 +191,7 @@
     @push('scripts')
         <script src="sweetalert2.all.min.js"></script>
 
-        <script>
+        {{-- <script>
             Livewire.on('deleteCategory', categoryId => {
                 Swal.fire({
                     title: 'Estas seguro?',
@@ -199,7 +214,28 @@
                     }
                 })
             })
-        </script>
+        </script> --}}
+
+
+    <script>
+        function confirmDelete(categoryId) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción no se puede revertir",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('deleteForm_' + categoryId).submit();
+                }
+            })
+        }
+    </script>
+
     @endpush
 
 

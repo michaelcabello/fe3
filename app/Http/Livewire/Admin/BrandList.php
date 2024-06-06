@@ -30,6 +30,7 @@ class BrandList extends Component
     public $readyToLoad = false; //para controlar el preloader inicia en false
     public $selectedBrands = []; //para eliminar en grupo
     public $selectAll = false; //para eliminar en grupo
+    public $companyId;
 
     protected $listeners = ['render', 'delete'];
 
@@ -41,21 +42,31 @@ class BrandList extends Component
     ];
 
 
+    public function mount()
+    {
+        $this->identificador = rand(); //identificador aleatorio, se usa en el id de la imagen osea en el inputfile
+        $this->brand = new Brand(); //se hace para inicializar el objeto
+        $this->image = "";
+        $this->companyId = auth()->user()->employee->company->id;
+    }
+
     // Método para seleccionar/deseleccionar todos
     public function updatedSelectAll($value)
     {
+        //dd($value);
         if ($value) {
-            $this->selectedBrands = Brand::pluck('id')->mapWithKeys(function ($id) {
+            $this->selectedBrands = Brand::where('company_id', $this->companyId)->pluck('id')->mapWithKeys(function ($id) {
                 return [$id => true];
             })->toArray();
         } else {
             $this->selectedBrands = [];
         }
+
+        // dd($this->selectedBrands);
         //mapWithKeys(function ($id) { return [$id => true]; })
         //Estamos utilizando el método mapWithKeys para transformar el array de IDs en un array asociativo donde
         //cada ID es la clave y el valor es establecido como verdadero. Esto se hace para representar las marcas seleccionadas
     }
-
 
     // Método para eliminar marcas seleccionadas
     public function deleteSelected()
@@ -63,6 +74,7 @@ class BrandList extends Component
         $this->authorize('delete', Brand::class); // Asegúrate de tener permisos para eliminar
 
         $selectedIds = array_keys(array_filter($this->selectedBrands));
+        //dd($selectedIds);
 
         if ($selectedIds) {
             Brand::whereIn('id', $selectedIds)->delete();
@@ -94,12 +106,7 @@ class BrandList extends Component
 
 
 
-    public function mount()
-    {
-        $this->identificador = rand(); //identificador aleatorio, se usa en el id de la imagen osea en el inputfile
-        $this->brand = new Brand(); //se hace para inicializar el objeto e indicar que image es
-        $this->image = "";
-    }
+
 
     public function updatingSearch()
     {
@@ -116,7 +123,7 @@ class BrandList extends Component
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         //'brand.image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Agregamos 'nullable' para permitir valores nulos
         'brand.state' => 'required',
-        'brand.company_id' => '',
+        //'brand.company_id' => '',
         'brand.order' => '',
         'brand.title' => '',
         'brand.description' => '',
@@ -132,10 +139,10 @@ class BrandList extends Component
     public function render()
     {
         $this->authorize('view', new Brand);
-        $companyId = auth()->user()->employee->company->id;
+        //$companyId = auth()->user()->employee->company->id;
 
         if ($this->readyToLoad) {
-            $brands = Brand::where('company_id', $companyId)
+            $brands = Brand::where('company_id', $this->companyId)
                 ->where('name', 'like', '%' . $this->search . '%')
                 ->when($this->state, function ($query) { /* Esta línea utiliza el método when de Laravel para condicionalmente aplicar una cláusula where en la consulta Eloquent. Si $this->state es verdadero (es decir, tiene un valor que se evalúa como verdadero en PHP), entonces se agrega la cláusula where que filtra los registros donde el campo state es igual a 1. */
                     return $query->where('state', 1);
@@ -225,9 +232,9 @@ class BrandList extends Component
         $this->validate();
         //$this->brand->image = "/storage/brands/default.jpg";
         if ($this->image) { //verifica si selecciono imagen
-            if ($this->brand->image) { //comprobamos que exista imagen en la tabla brands
-                Storage::delete([$this->brand->image]);
-            }
+           // if ($this->brand->image) { //comprobamos que exista imagen en la tabla brands
+            //    Storage::delete([$this->brand->image]);
+           // }
 
             $configuration = Configuration::first();
             if ($configuration->typeimage == 3) {
@@ -241,7 +248,7 @@ class BrandList extends Component
 
         //convierto brand.name en mayuscula
         $this->brand->name = strtoupper($this->brand->name);
-        $this->brand->company_id = auth()->user()->employee->company->id;
+        //$this->brand->company_id = auth()->user()->employee->company->id;
         //es otra forma de actualizar
         $this->brand->save();
 

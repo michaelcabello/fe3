@@ -10,18 +10,35 @@
                 <div class="mr-2" x-show="open">
                     <i class="fas fa-minus"></i>
                 </div>
-                <div class="flex-shrink-0 h-10 ml-2 mr-2 w-15">
+                {{-- <div class="flex-shrink-0 h-10 ml-2 mr-2 w-15">
                     @if ($category->image)
                         <img class="object-cover w-20 h-10 rounded-sm" src="{{ url($category->image) }}"
                             alt="{{ $category->name }}">
+
+                    @else
+                        <img class="object-cover h-6 rounded-full w-15"
+                            src="{{ asset('storage/brands/category-default.jpg') }}" alt="{{ $category->name }}">
+                    @endif
+
+                </div> --}}
+
+                <div class="flex-shrink-0 h-10 ml-2 mr-2 w-15 ">
+                    @if ($category->image)
+
+                        <img class="object-cover w-20 h-10 rounded-sm"
+                        src="{{ Storage::disk('s3')->url($category->image) }}" alt="{{ $category->name }}">
+                        {{-- src="{{ url($category->image) }}" alt="{{ $category->name }}"> --}}
                         {{-- src="{{ Storage::url($brand->image) }}" storage//storage/brand/default.jpg  en la bd esta puesto esto 	/storage/brands/default.jpg > --}}
                         {{-- url($brand->image) muestra tal como es la ruta en la bd esta puesto esto 	/storage/brands/default.jpg --}}
                         {{--  {{ Storage::disk("s3")->url($brand->image) }} --}}
                     @else
                         <img class="object-cover h-6 rounded-full w-15"
-                            src="{{ asset('storage/brands/category-default.jpg') }}" alt="{{ $category->name }}">
+                            src="{{ asset('storage/brands/category-default.jpg') }}"
+                            alt="{{ $category->name }}" class="m-2">
                     @endif
                 </div>
+
+
                 <div>
                     <span>{{ $category->name }} ({{ $category->children->count() }})
                         {{ $selectedParentCategory }}</span>
@@ -73,9 +90,19 @@
             <a href="{{ route('category.editd', ['categoryId' => $category->id]) }}" class="btn btn-green">
                 <i class="fa-solid fa-pen-to-square"></i>
             </a>
-            <a class="btn btn-red" wire:click="$emit('deleteCategory', {{ $category->id }})">
+
+            <form method="POST" action="{{ route('category.destroy', $category) }}" style="display:inline">
+                {{ csrf_field() }} {{ method_field('DELETE') }}
+
+                <button class="btn btn-red" onclick="return confirm('¿Estas seguro de querer eliminar la Catgoria?')">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+
+            </form>
+
+            {{-- <a class="btn btn-red" wire:click="$emit('deleteCategory', {{ $category->id }})">
                 <i class="fa-solid fa-trash-can"></i> {{ $category->id }}
-            </a>
+            </a> --}}
 
 
         </div>

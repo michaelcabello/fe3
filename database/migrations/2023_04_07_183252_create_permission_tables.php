@@ -47,12 +47,15 @@ class CreatePermissionTables extends Migration
             $table->unsignedBigInteger('company_id')->nullable();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
 
+            // Agrega la restricción única en la combinación de name y company_id
+            //$table->unique(['name', 'company_id']);
+
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
             $table->timestamps();
             if ($teams || config('permission.testing')) {
                 $table->unique([$columnNames['team_foreign_key'], 'name', 'guard_name']);
             } else {
-                $table->unique(['name', 'guard_name']);
+                $table->unique(['name', 'guard_name', 'company_id']);//comente para que name no sea unique
             }
         });
 

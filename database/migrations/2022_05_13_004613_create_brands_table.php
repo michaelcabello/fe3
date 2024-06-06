@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('slug')->nullable();
             $table->boolean('state')->nullable();
-            $table->string('image')->nullable();
+            $table->string('image')->default('fe/default/brands/branddefault.jpg')->nullable();
             $table->integer('order')->nullable();
 
             $table->unsignedBigInteger('company_id')->nullable();

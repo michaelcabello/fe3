@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Auth\RequestGuard;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -37,6 +39,31 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        /* Auth::viaRequest('web', function ($request) {
+            $companyId = $request->user()->employee->company->id;
+            return new RequestGuard(function ($request) use ($companyId) {
+                return Auth::guard($companyId);
+            }, $request);
+        }); */
+
+
+        Auth::viaRequest('web', function ($request) {
+            $companyId = $request->user()->employee->company->id;
+            $guardName = 'company_'.$companyId;
+
+            // Verificar si el guardia ya está definido
+            if (!Auth::guard($guardName)->getProvider()) {
+                // Si no está definido, definir el guardia dinámicamente
+                config(["auth.guards.$guardName" => [
+                    'driver' => 'session',
+                    'provider' => 'users',
+                ]]);
+            }
+
+            return Auth::guard($guardName);
+        });
+
+
+
     }
 }

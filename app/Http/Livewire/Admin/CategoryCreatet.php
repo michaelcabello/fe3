@@ -5,12 +5,13 @@ namespace App\Http\Livewire\Admin;
 use Livewire\Component;
 use App\Models\Category;
 use Livewire\WithPagination;
-
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryCreatet extends Component
 {
 
-
+    use WithFileUploads;
 
     use WithPagination;
     public $name;
@@ -26,13 +27,29 @@ class CategoryCreatet extends Component
     public $selectedParentCategory1; // Agrega esta propiedad
     public $breadcrumbs;
     public $shortdescription, $longdescription, $image, $identificador, $order;
+    public $company;
 
     protected $listeners = ['categorySelected', 'updateSelectedParentCategory'];
 
+
+    /* protected $rules = [
+        'name' => 'required|string|max:255|unique:categories,name,NULL,id,parent_id,NULL',
+        'image'=> 'nullable',
+    ]; */
+
+    protected $rules = [
+        'name' => 'required|string|max:255',
+        'image'=> 'nullable',
+    ];
+
+
     public function mount()
     {
+
+        $this->company = auth()->user()->employee->company;
+
         // Obtener las categorías raíz
-        $this->categories = Category::whereNull('parent_id')->get()->map(function ($category) {
+        $this->categories = Category::whereNull('parent_id')->where('company_id', $this->company->id)->get()->map(function ($category) {
             $category->depth = $this->calculateDepth($category);
             return $category;
         });
@@ -41,7 +58,7 @@ class CategoryCreatet extends Component
         //$this->lastSelectedParentCategory = null;
         $this->selectedParentCategory1 = null;
 
-        $this->identificador = rand();
+        //$this->identificador = rand();
     }
 
     public function updatedSelectedParentCategory1($value)
@@ -62,6 +79,7 @@ class CategoryCreatet extends Component
 
     }
 
+
     protected function calculateDepth($category, $depth = 0)
     {
         if (!$category->parent) {
@@ -71,12 +89,30 @@ class CategoryCreatet extends Component
         }
     }
 
+
     public function save()
     {
         // Validación del nombre de la categoría
-        $this->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        /* $this->validate([
+            'name' => 'required|string|max:255|unique:categories,name,NULL,id,parent_id,NULL',
+        ]); */
+        //$categoriespadres = Category::whereNull('parent_id')->get();
+
+        if($this->image){
+            $rules = $this->rules;
+            $rules['image'] = 'require|image|mimes:jpeg,png|max:2048';
+            $this->validate();
+            //$image1 = $this->image1->store('products', 'public');
+            //$urlimage1 = Storage::url($image1);
+            $urlimage = Storage::disk('s3')->put('fe/'.$this->company->id.'/categories', $this->image , 'public');
+        }
+        else {
+            $this->validate();
+            //$urlimage1 = '/storage/products/default.jpg';
+            $urlimage = 'fe/default/categories/categorydefault.jpg';
+
+        }
+
 
         if ($this->lastSelectedParentCategory) {
             $categoryreference = Category::find($this->lastSelectedParentCategory);
@@ -95,7 +131,8 @@ class CategoryCreatet extends Component
             'order' =>  $this->order,
             'depth' => $depth,
             'path' => $path,
-            'company_id' => auth()->user()->employee->company->id,
+            'company_id' => $this->company->id,
+            'image'=> $urlimage
         ]);
         // Limpiar los campos después de la creación
         //$this->name = '';

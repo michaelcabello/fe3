@@ -9,6 +9,8 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id', 'created_at', 'updated_at'];
+
     //relacion de uno a muchos inversa
     public function um()
     {
@@ -18,6 +20,16 @@ class Product extends Model
     public function tipoafectacion()
     {
         return $this->belongsTo(Tipoafectacion::class);
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 
     public function comprobantes()

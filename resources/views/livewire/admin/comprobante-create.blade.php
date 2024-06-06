@@ -273,22 +273,45 @@
 
 
 
+
+
+
+
+
+
+
+
                         <div class="flex mt-4">
-                            <input type="text" id="code" class="block w-full bg-gray-100"
-                                wire:keydown.enter.prevent="ScanCode($('#code').val())" />
 
-                            <x-jet-secondary-button class="ml-2 mr-2" wire:click="limpiar">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                            </x-jet-secondary-button>
+                            <input type="text" id="code" class="block w-1/2 h-10 py-2 m-1 mr-2 bg-gray-100"
+                                wire:keydown.enter.prevent="ScanCode($('#code').val())" placeholder="Código de barras" />
 
-                            <a class="btn btn-red" wire:click="$emit('limpiarTemporal')">
+                            <form class="relative w-1/2 mx-auto mr-2 text-gray-600" autocomplete="off">
+
+                                <input wire:model="searchh" class="block w-full h-10 py-2 m-1 bg-gray-100"
+                                type="text" name="searchh" placeholder="Buscar">
+
+                                @if($searchh)
+                                        <ul class="absolute left-0 w-full mt-1 overflow-hidden bg-white rounded-lg z-500 ">
+                                        @forelse ( $this->results as $result )
+                                            <li class="px-5 text-sm leading-10 cursor-pointer hover:bg-gray-300">
+                                                <a href="#" wire:click.prevent="ScanCoded('{{ $result->id }}')">{{ $result->name }} </a>
+                                            </li>
+                                        @empty
+                                            <li class="px-5 text-sm leading-10 cursor-pointer hover:bg-gray-300">
+                                                No hay coincidencias
+                                            </li>
+                                        @endforelse
+
+                                        </ul>
+
+                                @endif
+
+                            </form>
+
+                            <a class="mb-4 btn btn-red" wire:click="$emit('limpiarTemporal')">
                                 <i class="fa-solid fa-trash-can"></i>
                             </a>
-
 
                         </div>
 

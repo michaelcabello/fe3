@@ -10,10 +10,12 @@ use App\Http\Livewire\Admin\LocalCreate;
 use App\Http\Livewire\Admin\ProductList;
 use App\Http\Livewire\Admin\CategoryList;
 use App\Http\Livewire\Admin\LocalCreated;
+use App\Http\Livewire\Admin\ProductListd;
 use App\Http\Livewire\Admin\ShipmentEdit;
 use App\Http\Livewire\Admin\CategoryEditd;
 use App\Http\Livewire\Admin\CategoryListd;
 use App\Http\Livewire\Admin\InventoryList;
+use App\Http\Livewire\Admin\ProductCreate;
 use App\Http\Livewire\Admin\ReceptionEdit;
 use App\Http\Livewire\Admin\InventoryList2;
 use App\Http\Livewire\Admin\PermissionList;
@@ -29,6 +31,7 @@ use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\LocalController;
 use App\Http\Controllers\admin\TableController;
 use App\Http\Livewire\Admin\NotadecreditoCreate;
+use App\Http\Controllers\admin\ProductController;
 use App\Http\Livewire\Admin\GuiaderemisionCreate;
 use App\Http\Livewire\Admin\InventorygeneralList;
 use App\Http\Livewire\Admin\ProductcompuestoEdit;
@@ -111,8 +114,13 @@ Route::get('categories4', [CategoryController::class, 'indexxd'])->name('categor
 
 Route::delete('category/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
+Route::get('products', ProductListd::class)->name('product.list');
+Route::get('products/create', ProductCreate::class)->name('admin.product.create');
+Route::get('/products/reportpdf',[ProductController::class,'pdfReport'])->name('product.reportpdf');
+Route::post('/products/import',[ProductController::class,'importStore'])->name('product.importstore');
 
-Route::get('products', ProductList::class)->name('product.list');
+
+//Route::get('products', ProductList::class)->name('product.list');
 Route::get('productcompuesto/{product}', ProductcompuestoCreate::class)->name('productcompuesto.create');//creamos el producto productatribute
 Route::get('productcompuestoedit/{product}', ProductcompuestoEdit::class)->name('productcompuesto.edit');
 

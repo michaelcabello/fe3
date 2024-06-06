@@ -41,11 +41,12 @@
                         </div>
 
                         @can('User Create')
-                        <div class="flex items-center justify-center" >
-                            <a href="{{ route('admin.user.create') }}" class="items-center justify-center sm:flex btn btn-orange">
-                               <i class="mx-2 fa-regular fa-file"></i> Nuevo
-                            </a>
-                        </div>
+                            <div class="flex items-center justify-center">
+                                <a href="{{ route('admin.user.create') }}"
+                                    class="items-center justify-center sm:flex btn btn-orange">
+                                    <i class="mx-2 fa-regular fa-file"></i> Nuevo
+                                </a>
+                            </div>
                         @endcan
 
                         {{-- @can('create User')
@@ -182,27 +183,27 @@
                                             {{ $userr->id }}
                                         </td>
 
-
-
                                         <td class="flex items-center px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
 
                                             <div class="flex-shrink-0 h-10 w-15 ">
                                                 @if ($userr->employee)
                                                     @if ($userr->employee->photo)
+
                                                         <img class="object-cover w-10 h-10 rounded-sm"
-                                                            src="{{ url($userr->employee->photo) }}" alt="">
-                                                    @else
+                                                            src="{{ Storage::disk('s3')->url($userr->employee->photo) }}"
+                                                            alt="TICOM">
+                                                        {{-- @else
                                                         <img class="object-cover w-10 h-10 rounded-full"
                                                             src="https://images.pexels.com/photos/4883800/pexels-photo-4883800.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                                                            alt="">
+                                                            alt=""> --}}
                                                     @endif
                                                     {{-- src="{{ Storage::url($brand->image) }}" storage//storage/brand/default.jpg  en la bd esta puesto esto 	/storage/brands/default.jpg > --}}
                                                     {{-- url($brand->image) muestra tal como es la ruta en la bd esta puesto esto 	/storage/brands/default.jpg --}}
                                                     {{--  {{ Storage::disk("s3")->url($brand->image) }} --}}
-                                                @else
+                                                    {{--  @else
                                                     <img class="object-cover w-10 h-10 rounded-full"
                                                         src="https://images.pexels.com/photos/4883800/pexels-photo-4883800.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                                                        alt="">
+                                                        alt=""> --}}
                                                 @endif
                                             </div>
                                             <div class="ml-4">
@@ -247,7 +248,7 @@
                                         <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                                             <a class="btn btn-blue"><i class="fa-sharp fa-solid fa-eye"></i></a>
                                             {{--  @can('update User') --}}
-                                            <a href="{{ route('admin.user.edit', $userr)}}" class="btn btn-green"><i
+                                            <a href="{{ route('admin.user.edit', $userr) }}" class="btn btn-green"><i
                                                     class="fa-solid fa-pen-to-square"></i></a>
                                             {{--  @endcan
                                                     @can('delete User') --}}

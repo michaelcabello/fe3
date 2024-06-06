@@ -79,7 +79,7 @@
 
 
 
-                                @can('Local View')
+                                {{-- @can('Local View')
                                 <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/brands.jpg')}}" alt="">
@@ -89,7 +89,7 @@
                                     </header>
 
                                 </article>
-                                @endcan
+                                @endcan --}}
 
 
                                 @can('Brand View')
@@ -118,7 +118,7 @@
                                 @endcan
 
 
-                                @can('Subcategory View')
+                                {{-- @can('Subcategory View')
                                 <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/categories.jpg')}}" alt="">
@@ -129,7 +129,7 @@
                                     </header>
 
                                 </article>
-                                @endcan
+                                @endcan --}}
 
 
                                 @can('Modelo View')

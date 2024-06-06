@@ -184,11 +184,17 @@ Q03NoAh6oA46zA1LzaF+lpcIPbqNAdb4B4gJ0os+mCgwXx8DkEMSSZvWUMI=
         // $sellerRole = Role::create(['name' => 'Seller', 'display_name' => 'Vendedor']);
         //$grocerRole = Role::create(['name'=>'Grocer','display_name'=>'Alamacenero']);
 
-        //Permission::create(['name'=>'Web View','display_name'=>'Ver Web'])->SyncRoles([$adminRole]);//para que oculte o muestre los campos de web
+        Permission::create(['name' => 'Web View','display_name'=>'Ver Web'])->SyncRoles([$adminRole]);//para que oculte o muestre los campos de web
         Permission::create(['name' => 'Export Excel', 'display_name' => 'Export Excel'])->SyncRoles([$adminRole]);
         Permission::create(['name' => 'Export Pdf', 'display_name' => 'Export Pdf'])->SyncRoles([$adminRole]);
         Permission::create(['name' => 'Import Excel', 'display_name' => 'Import Excel'])->SyncRoles([$adminRole]);
         Permission::create(['name' => 'Banner Export', 'display_name' => 'Banner Export'])->SyncRoles([$adminRole]);
+
+        Permission::create(['name' => 'Export Excel Product', 'display_name' => 'Export Excel'])->SyncRoles([$adminRole]);
+        Permission::create(['name' => 'Export Pdf Product', 'display_name' => 'Export Pdf'])->SyncRoles([$adminRole]);
+        Permission::create(['name' => 'Import Excel Product', 'display_name' => 'Import Excel'])->SyncRoles([$adminRole]);
+        Permission::create(['name' => 'Banner Export Product', 'display_name' => 'Banner Export'])->SyncRoles([$adminRole]);
+
 
         Permission::create(['name' => 'Sale View', 'display_name' => 'Ver Ventas'])->SyncRoles([$adminRole, $sellerRole]);
         Permission::create(['name' => 'Sale Create', 'display_name' => 'Crear Ventas'])->SyncRoles([$adminRole]);
@@ -318,6 +324,7 @@ Q03NoAh6oA46zA1LzaF+lpcIPbqNAdb4B4gJ0os+mCgwXx8DkEMSSZvWUMI=
             'local_id' => $local->id,
             'position_id' => $position->id,
             'company_id' => $company->id,
+            'photo' => 'fe/default/users/userdefault.jpg',
 
         ]);
 
@@ -491,6 +498,7 @@ Q03NoAh6oA46zA1LzaF+lpcIPbqNAdb4B4gJ0os+mCgwXx8DkEMSSZvWUMI=
             'local_id' => $localx->id,
             'position_id' => $positionx->id,
             'company_id' => $company2->id,
+            'photo' => 'fe/default/users/userdefault.jpg',
 
         ]);
     }

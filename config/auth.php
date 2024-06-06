@@ -40,6 +40,18 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        // Guardia para la empresa 1
+        'company_2' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
+        'company_3' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
     ],
 
     /*

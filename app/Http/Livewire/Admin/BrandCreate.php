@@ -15,12 +15,14 @@ class BrandCreate extends Component
     use AuthorizesRequests;
     use WithFileUploads;
     public $open = false;
+    public $companyId;
 
     public $name, $state, $image, $identificador, $title, $description, $keywords, $order;
 
     public function mount()
     {
         $this->identificador = rand();
+        $this->companyId = auth()->user()->employee->company->id;
     }
 
     public function nuevo()
@@ -32,7 +34,7 @@ class BrandCreate extends Component
 
 
     protected $rules = [
-        'name' => 'required',
+        'name' => '',
         'image' => '',
         //esta validaciones no es necesario al momento de crear nueva marca
         /* 'title'=>'',
@@ -41,12 +43,14 @@ class BrandCreate extends Component
 
     ];
 
+
+
     public function rules()
     {
         $rules = $this->rules;
 
         // Agrega la regla única condicional para la combinación de name y company_id
-        $rules['name'] .= '|unique_brand';//esta en app/Providers/AppServiceProvider
+        $rules['name'] .= 'unique_brand'; //esta en app/Providers/AppServiceProvider
 
         return $rules;
     }
@@ -55,7 +59,6 @@ class BrandCreate extends Component
     {
         $this->open = false;
         $this->reset(['open', 'name', 'image', 'title', 'description', 'keywords']);
-
     }
 
 
@@ -63,22 +66,20 @@ class BrandCreate extends Component
     public function save()
     {
         $this->authorize('create', new Brand);
-        $this->validate();
-
-        $urlimage = "/storage/brands/default.jpg";
 
         if ($this->image) {
-            //validaremos la forma de guardar imagenes de marcas aws, store, servidor local o del hosting
-            $configuration = Configuration::first();
-            if ($configuration->typeimage == 3) {
-                $image = $this->image->store('brands', 'public');
-                $urlimage = Storage::url($image);
-            } elseif ($configuration->typeimage == 2) {
+            $rules = $this->rules;
+            $rules['image'] = 'require|image|mimes:jpeg,png|max:2048';
+            //$this->validate();
+            //$urlimage1 = $this->image1->store('products');
+            $urlimage = Storage::disk('s3')->put('fe/' .$this->companyId. '/brands', $this->image, 'public');
+        } else {
 
-            } elseif ($configuration->typeimage == 1) {
-
-            }
+            //$this->validate();
+            $urlimage = "fe/default/brands/branddefault.jpg";
         }
+
+        $this->validate();
 
 
         //dd($this->state);
@@ -91,7 +92,7 @@ class BrandCreate extends Component
             'slug' => Str::slug($this->name),
             'state' => $statee,
             'order' => $this->order,
-            'company_id' => auth()->user()->employee->company->id, //encontramos la company actual osea la compania del usuario logueado
+            'company_id' => $this->companyId, //encontramos la company actual osea la compania del usuario logueado
             'title' => $this->title,
             'description' => $this->description,
             'keywords' => $this->keywords,

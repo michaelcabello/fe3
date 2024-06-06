@@ -14,7 +14,7 @@
                    wire:model="selectedParentCategory" value="{{ $category->id }}"
                    onclick="selectOnlyOneRadio({{ $category->id }})"
                    {{ $selectedParentCategory == $category->id ? 'checked' : '' }}>
-            <span>{{ $category->name }}  {{ $selectedParentCategory }}</span>
+            <span>{{ $category->name }}  {{-- {{ $selectedParentCategory }} --}} </span>
         </div>
     </div>
     </div>

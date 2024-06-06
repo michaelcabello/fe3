@@ -37,7 +37,7 @@ class GuiaderemisionCreate extends Component
     public $serienumero, $local_id, $ruc, $customer_id; //$departamento = "LIMA", $provincia = "LIMA", $distrito = "LIMA";
     public $local_tipocomprobante_id;
     public $fechaemision, $motivotraslado_id = "", $modalidaddetraslado = "", $fechadetraslado;
-    public $pesototal, $um_id = "", $conductor_id = "", $vehiculo_id = "", $puntodepartida_id = "";
+    public $pesototal, $um_id = "", $conductor_id = "", $vehiculo_id = "", $puntodepartida_id = 0;
     public $transportista_id="", $ubigeollegada;
     public $department_id = "", $province_id = "", $district_id = "";
     public $departments, $provinces = [], $districts = [], $direccionllegada;

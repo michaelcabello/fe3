@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UpdateUserRequest;
 use Spatie\Permission\Models\Permission;
 
@@ -41,6 +42,9 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+
+        $company = auth()->user()->employee->company;
+
         $this->validate($request, [
             'name' => 'required |min:5',
             'email' => 'required|unique:users|email|max:100',
@@ -48,23 +52,34 @@ class UserController extends Controller
             'photo' => 'image|max:2048'
         ]);
 
-        $imagen = $request->file('photo');
-        $nombreImagen = Str::uuid().".".$imagen->extension();
+       /*  $imagen = $request->file('photo');
+        $nombreImagen = Str::uuid().".".$imagen->extension(); */
         //$nombreImagen = Str::uuid()."."."jpg";
-        $imagenServidor = Image::make($imagen);
+       /*  $imagenServidor = Image::make($imagen);
         $imagenServidor->fit(150, 150);
         $imagenPath = public_path('img/users') . '/' . $nombreImagen;
-        $imagenServidor -> save($imagenPath);
+        $imagenServidor -> save($imagenPath); */
+
+        if($request->hasFile('photo'))
+        {
+             //$nombreimagen = Storage::disk('s3')->put('parallaxs', $request->file('photo'), 'public');
+             $urlimage = Storage::disk('s3')->put('fe/'.$company->id.'/users', $request->file('photo'), 'public');
+        }else{
+             $urlimage = 'fe/default/users/userdefault.jpg';
+        }
+
+
 
         $user = User::create([
             'name'=> $request ->name,
             'email' => $request -> email,
             'password' => Hash::make( $request -> password ),
+            'company_id'=> auth()->user()->employee->company->id,
         ]);
         Employee::create([
             'address'=> $request ->address,
             'movil'=> $request ->movil,
-            'photo' => 'img/users/'.$nombreImagen,
+            'photo' => $urlimage,
             'dni'=> $request ->dni,
             'gender'=> $request ->gender,
             'birthdate'=> $request ->birthdate,

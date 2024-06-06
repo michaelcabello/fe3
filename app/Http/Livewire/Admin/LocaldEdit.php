@@ -105,7 +105,8 @@ class LocaldEdit extends Component
     public function update()
     {
         $this->validate([
-            'name' => 'required|unique:locals,name,' . $this->local->id, // Excepción para el registro actual
+            //'name' => 'required|unique:locals,name,' . $this->local->id, // Excepción para el registro actual
+            'name' => 'required',
             'codigopostal' => 'nullable|string',
             'address' => '',
             'email' => 'required|unique:locals,email,' . $this->local->id, // Excepción para el registro actual
