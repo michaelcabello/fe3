@@ -369,6 +369,8 @@
                                                                 <div class="font-semibold text-center">precio
                                                                 </div>
                                                             </th>
+
+
                                                             <th class="p-2 whitespace-nowrap">
                                                                 <div class="font-semibold text-center">cantidad
                                                                 </div>
@@ -384,14 +386,31 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody class="text-sm divide-y divide-gray-100">
+
+
                                                         @foreach ($cart as $item)
                                                             <tr>
                                                                 <td class="p-2 whitespace-nowrap">
                                                                     <div class="flex items-center">
-                                                                        <div
-                                                                            class="flex-shrink-0 w-10 h-10 mr-2 sm:mr-3">
-                                                                            <img class="rounded-full" src="#"
-                                                                                width="40" height="40">
+                                                                        <div class="flex-shrink-0 w-10 h-10 mr-2 sm:mr-3">
+
+                                                                            {{-- <img class="rounded"  src="{{ Storage::disk('s3')->url($item->image) }}"
+                                                                                width="40" height="40"> --}}
+
+
+                                                                            @if ($item->image)
+                                                                                <img class="object-cover w-10 h-10 rounded-sm"
+                                                                                    src="{{ Storage::disk('s3')->url($item->image) }}"
+                                                                                    alt="Ticom Software">
+                                                                            @else
+                                                                                <img class="object-cover w-10 h-10 rounded-sm"
+                                                                                    src="{{ asset('storage/products/productdefault.jpg') }}"
+                                                                                    alt="Ticom Software" class="m-2">
+                                                                            @endif
+
+
+
+
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -401,9 +420,12 @@
                                                                     </div>
                                                                 </td>
                                                                 <td class="p-2 whitespace-nowrap">
-                                                                    <div class="font-medium text-left text-green-500">
+                                                                    <div class="font-medium text-left text-green-500 whitespace-normal">
                                                                         {{ $item->name }} </div>
                                                                 </td>
+
+
+
                                                                 <td class="p-2 whitespace-nowrap">
                                                                     {{-- <div class="text-center">${{number_format($item->saleprice,2)}}</div> --}}
                                                                     <div class="w-20 text-lg text-center">

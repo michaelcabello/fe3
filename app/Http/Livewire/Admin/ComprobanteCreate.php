@@ -112,6 +112,7 @@ class ComprobanteCreate extends Component
                 $product->id,
                 $product->codigobarras,
                 $product->name,
+                $product->image1,
                 $product->um->abbreviation,
                 $product->tipoafectacion->codigo,
                 $product->saleprice,
@@ -160,6 +161,7 @@ class ComprobanteCreate extends Component
                 $product->id,
                 $product->codigobarras,
                 $product->name,
+                $product->image1,
                 $product->um->abbreviation,
                 $product->tipoafectacion->codigo,
                 $product->saleprice,
@@ -180,7 +182,7 @@ class ComprobanteCreate extends Component
 
 
 
-    public function addToCartbd($product_id, $codigobarras, $name, $um, $tipafeigv, $saleprice, $mtovalorgratuito, $mtovalorunitario, $esbolsa, $quantity) //productId  captura al codigobarras
+    public function addToCartbd($product_id, $codigobarras, $name, $image, $um, $tipafeigv, $saleprice, $mtovalorgratuito, $mtovalorunitario, $esbolsa, $quantity) //productId  captura al codigobarras
     {
         $company_id = auth()->user()->employee->company->id;
         //buscamos el producto en el carrito osea en la tabla temporal
@@ -222,6 +224,7 @@ class ComprobanteCreate extends Component
             Temporal::Create([
                 'company_id' => $company_id,
                 'employee_id' => auth()->user()->employee->id,
+                'image' => $image,
                 'product_id' => $product_id,
                 'codigobarras' => $codigobarras,
                 'name' => $name,

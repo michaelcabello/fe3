@@ -262,6 +262,7 @@
                                         @if ($product->image1)
                                             <img class="object-cover w-10 h-10 rounded-sm"
                                                 src="{{ Storage::disk('s3')->url($product->image1) }}"
+
                                                 alt="{{ $product->name }}">
                                         @else
                                             <img class="object-cover h-6 rounded-full w-15"
