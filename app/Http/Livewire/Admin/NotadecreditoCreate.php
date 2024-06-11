@@ -59,10 +59,11 @@ class NotadecreditoCreate extends Component
 
         $this->company = auth()->user()->employee->company;
         $this->company_id = auth()->user()->employee->company->id; //compañia logueaada
-        $this->currency_id = auth()->user()->employee->company->currency_id; //$this->currency_id  hace que en la lista de currencies muestre por defecto soles por ejemplo
+       // $this->currency_id = auth()->user()->employee->company->currency_id; //$this->currency_id  hace que en la lista de currencies muestre por defecto soles por ejemplo
         $this->moneda = auth()->user()->employee->company->currency->abbreviation ?? 'Sol';
         $this->igv = Impuesto::where('siglas', 'IGV')->value('valor'); //es el 18%
         $this->factoricbper = Impuesto::where('siglas', 'ICBPER')->value('valor'); //es 0.2
+        $this->currency_id = $this->comprobante->currency_id;
 
         $this->fechaemision = Carbon::now()->format('Y-m-d');
         $this->ruc = $this->comprobante->numdoc;
@@ -608,7 +609,6 @@ class NotadecreditoCreate extends Component
         return $this->total; //esto controla la vista del carrito
         //return $this->totalenletras;
     }
-
 
 
 

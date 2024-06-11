@@ -337,10 +337,10 @@
                                         <a wire:click="show({{ $product }})" class="btn btn-blue">
                                             <i class="fa-sharp fa-solid fa-eye"></i></a>
                                     @endcan
-                                    @can('Product Update')
+                                    {{-- @can('Product Update') --}}
                                         <a wire:click="edit({{ $product }})" class="btn btn-green">
                                             <i class="fa-solid fa-pen-to-square"></i></a>
-                                    @endcan
+                                   {{--  @endcan --}}
                                     @can('Product Delete')
                                         <a class="btn btn-red" wire:click="$emit('deleteProduct', {{ $product->id }})">
                                             <i class="fa-solid fa-trash-can"></i>

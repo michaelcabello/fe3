@@ -28,13 +28,13 @@ class CompanyEdit extends Component
     public $currency_id = "";
     public $production = "", $ubigeo, $celular, $telefono, $correo, $smtp, $password, $puerto;
 
-    protected $listeners = ['fechaInicioSeleccionada'];
+    protected $listeners = ['fechaInicioSeleccionada']; //se escucha este evento, para adicionar 1 año al certificado
 
     public function mount($id)
     {
         $this->company = auth()->user()->employee->company;
         //$this->company_id = auth()->user()->employee->company->id; //compañia logueaada
-        if($id != $this->company->id)
+        if($id != $this->company->id)//para identificar al usuario logueado
         {
             return;
         }
@@ -53,7 +53,7 @@ class CompanyEdit extends Component
 
 
         if($this->company->department_id){//comprobamos que exista sino toma valor "" y en el select dira escoger o seleccionar
-            $this->department_id = str_pad((string)$this->company->department_id, 2, '0', STR_PAD_LEFT);
+            $this->department_id = str_pad((string)$this->company->department_id, 2, '0', STR_PAD_LEFT);//por ejeplo si es 1 le agrega 0 para que sea 01
         }
         if($this->company->province_id){
             $this->province_id = str_pad((string)$this->company->province_id, 4, '0', STR_PAD_LEFT); //$this->company->province_id;
@@ -82,14 +82,14 @@ class CompanyEdit extends Component
         $this->correo = $this->company->correo;
         $this->smtp = $this->company->smtp;
         $this->password = $this->company->password;
-        $this->smtp = $this->company->smtp;
+        //$this->smtp = $this->company->smtp;
 
     }
 
 
 
 
-    public function fechaInicioSeleccionada($fechaInicio)
+    public function fechaInicioSeleccionada($fechaInicio)//aqui se adiciona 1 año a la fecha seleccionado del certificado
     {
         $this->fechainiciocertificado = $fechaInicio;
         $this->fechafincertificado = date('Y-m-d', strtotime($fechaInicio . ' +1 year'));

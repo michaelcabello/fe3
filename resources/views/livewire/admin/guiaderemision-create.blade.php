@@ -129,7 +129,7 @@
 
                             <div class="col-span-1 mr-1 sm:col-span-2 md:col-span-2">
                                 <x-jet-label value="Peso Total" />
-                                <x-jet-input wire:model="pesototal" type="text"
+                                <x-jet-input wire:model="pesototal" type="number"
                                     class="w-full h-10 max-w-md uppercase" />
                                 <x-jet-input-error for="pesototal" />
                             </div>
@@ -171,7 +171,8 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                    <x-jet-input-error for="motivotraslado_id" />
+                                    <x-jet-input-error for="transportista_id" />
+                                    {{ $transportista_id }}
                                 </div>
                             </div>
                         @elseif($modalidaddetraslado == "02")
@@ -188,6 +189,7 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                    {{ $conductor_id }}
                                     <x-jet-input-error for="conductor_id" />
                                 </div>
 
@@ -225,7 +227,7 @@
                                 <select wire:model="puntodepartida_id"
                                     class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                                     data-placeholder="Selecccione el motivo de traslado" style="width:100%">
-                                    <option value=0 selected disabled>Seleccione</option>
+                                    <option value="" selected disabled>Seleccione</option>
                                     @foreach ($puntodepartidas as $puntodepartida)
                                         <option value="{{ $puntodepartida->id }}">
                                             {{ $puntodepartida->direccion }}
@@ -235,10 +237,8 @@
                                 </select>
                                 <x-jet-input-error for="puntodepartida_id" />
                             </div>
-
-
                         </div>
-
+                        {{ $puntodepartida_id }}
 
 
 

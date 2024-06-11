@@ -32,4 +32,24 @@ class Customer extends Model
     {
         return $this->belongsTo(Tipodocumento::class);
     }
+
+    //relacion de uno a muchos inversa
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    //relacion de uno a muchos inversa
+    public function province()
+    {
+        return $this->belongsTo(Province::class);
+    }
+
+    //relacion de uno a muchos inversa
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+
+
 }

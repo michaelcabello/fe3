@@ -66,6 +66,11 @@ class SunatService
     //para envio de guias, se envia con un api, esta es la conexión
     public function getSeeApi($company)
     {
+
+        /* if (!Storage::exists('certificates/certificate_1.pem')) {
+            throw new \Exception('Certificate file not found');
+        } */
+
         $this->api = new \Greenter\Api($company->production ? [
 
             'auth' => 'https://api-seguridad.sunat.gob.pe/v1',
@@ -90,9 +95,10 @@ class SunatService
             $company->ruc,
             $company->production ? $company->sol_user : "MODDATOS",
             $company->production ? $company->sol_pass : "MODDATOS"
+        //)->setCertificate(Storage::get($company->cert_path));
         )->setCertificate(Storage::get("certificates/certificate_1.pem"));
 
-        // return $this->api;
+       // return $this->api;
     }
 
 

@@ -23,56 +23,50 @@
 
 
                         {{-- <div class="py-2 mb-1" wire:ignore> --}}
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-6">
+                        <div class="grid grid-cols-1 mb-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 ">
 
                             <div class="mr-4 ">
-
-                                <div class="mr-4 ">
-                                    {{-- <label>Proveedores </label> --}}
-                                    <x-jet-label value="Tipo Documento" />
-                                    {{-- select2 --}}
-                                    <x-jet-input type="text" value="{{ $comprobante->tipocomprobante->namecorto }}"
-                                        class="w-full h-10 max-w-md uppercase" />
-
-                                    <x-jet-input-error for="tipodocumento_id" />
-                                </div>
-
-
+                                {{-- <label>Proveedores </label> --}}
+                                <x-jet-label value="Tipo Documento" />
+                                {{-- select2 --}}
+                                <x-jet-input type="text" value="{{ $comprobante->tipocomprobante->namecorto }}"
+                                    class="w-full h-10 max-w-md uppercase" />
+                                <x-jet-input-error for="tipodocumento_id" />
                             </div>
 
 
 
-                            <div class="flex items-center col-span-2 mr-4">
-
+                            <div class="items-center mr-4">
                                 <div class="flex-1 mr-1">
                                     <x-jet-label value="Numero" />
                                     <x-jet-input value="{{ $comprobante->customer->numdoc }}" type="text"
                                         class="w-full h-10 max-w-md uppercase" />
                                     <x-jet-input-error for="ruc" />
                                 </div>
-
-
-
                             </div>
 
-                            <div class="flex-1 col-span-3 mb-1 mr-1">
+                            <div class="col-span-4 mr-4">
                                 <x-jet-label value="Razón Social" />
                                 <x-jet-input value="{{ $comprobante->customer->nomrazonsocial }}" type="text"
-                                    class="w-full h-10 max-w-md uppercase" />
+                                    class="w-full h-10 uppercase" />
                                 <x-jet-input-error for="razon_social" />
                             </div>
+                        </div>
 
-                            <div class="flex-1 mb-1 mr-4">
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-6">
+
+                            {{-- <div class="flex-1 mb-1 mr-4">
                                 <x-jet-label value="Nombre Comercial" />
                                 <x-jet-input value="{{ $comprobante->customer->ruc }}" type="text"
                                     class="w-full h-10 max-w-md uppercase" />
                                 <x-jet-input-error for="nombre_comercial" />
-                            </div>
+                            </div> --}}
 
-                            <div class="flex-1 col-span-2 mb-4 mr-4">
+                            <div class="flex-1 col-span-3 mb-4 mr-4">
                                 <x-jet-label value="Dirección" />
                                 <x-jet-input value="{{ $comprobante->customer->address }}" type="text"
-                                    class="w-full h-10 max-w-md uppercase" />
+                                    class="w-full h-10 uppercase" />
                                 <x-jet-input-error for="direccion" />
                             </div>
 
@@ -96,6 +90,9 @@
                                     class="w-full h-10 max-w-md uppercase" />
                                 <x-jet-input-error for="distrito" />
                             </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-6">
 
                             <div class="flex-1 mb-4 mr-4">
                                 <x-jet-label value="Serie Numero" />
@@ -105,7 +102,7 @@
                             </div>
 
                             <div class="flex-1 mb-4 mr-4">
-                                <x-jet-label value="Fecha de Emisión" />
+                                <x-jet-label value="Fecha de Emisión" /> {{-- fecha de emesion de la factura o Boleta --}}
                                 <x-jet-input value="{{ $comprobante->fechaemision }}" type="text"
                                     class="w-full h-10 max-w-md uppercase" />
 
@@ -120,9 +117,8 @@
 
                             <div class="flex-1 mb-4 mr-4">
                                 <x-jet-label value="Moneda" />
-                                <x-jet-input
-                                    value="{{ $comprobante->currency->abbreviation }} {{ $comprobante->mtoimpventa }}"
-                                    type="text" class="w-full h-10 max-w-md uppercase" />
+                                <x-jet-input value="{{ $comprobante->currency->abbreviation }} " type="text"
+                                    class="w-full h-10 max-w-md uppercase" />
 
                             </div>
 
@@ -133,17 +129,18 @@
                                     class="w-full h-10 max-w-md uppercase" />
 
                             </div>
-
+                        </div>
                             <div class="flex-1 col-span-6 mb-4 mr-4">
                                 <hr>
                             </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-6">
 
                             {{-- <div class="mb-4 mr-4 ">
                                 <x-jet-label value="Tipo de Operación" />
                                 <x-jet-input value="{{ $comprobante->customer }}" type="text"
                                     class="w-full h-10 max-w-md uppercase" />
                             </div> --}}
-
 
                             <div class="mb-4 mr-4 ">
                                 {{-- <label>Proveedores </label> --}}
@@ -171,13 +168,13 @@
                             </div>
 
 
-                            <div class="mb-1 mr-4">
+                            {{-- <div class="mb-1 mr-4">
                                 <x-jet-label value="Forma de pago:" />
 
                                 <x-jet-input value="{{ $comprobante->customer->ruc }}" type="text"
                                     class="w-full h-10 max-w-md uppercase" />
                                 <x-jet-input-error for="paymenttype_id" />
-                            </div>
+                            </div> --}}
 
 
 
@@ -189,7 +186,7 @@
                             </div> --}}
 
                             <div class="mb-4 mr-4">
-                                <x-jet-label value="Fecha de Emisión" />
+                                <x-jet-label value="Fecha de Emisiónn" />
                                 <x-jet-input type="date" max="{{ date('Y-m-d') }}"
                                     min="{{ date('Y-m-d', strtotime('-3 days')) }}" wire:model="fechaemision"
                                     value="{{ old('fechaemision') }}" class="w-full h-10"
@@ -199,26 +196,26 @@
 
 
 
-
-                            <div class="mb-4 mr-4">
+                            {{-- no hay fecha de vencimiento --}}
+                            {{-- <div class="mb-4 mr-4">
                                 <x-jet-label value="Fecha de Vencimiento:" />
                                 <x-jet-input value="{{ $comprobante->customer->ruc }}" type="text"
                                     class="w-full h-10 max-w-md uppercase" />
                                 <x-jet-input-error for="fechavencimiento" />
 
-                            </div>
+                            </div> --}}
 
 
 
 
-                            <div class="mr-4">
+                            {{-- <div class="mr-4">
                                 <x-jet-label value="Moneda" />
-                                <x-jet-input value="{{ $comprobante->customer->ruc }}" type="text"
+                                <x-jet-input value="{{ $comprobante->currency->name }}" type="text"
                                     class="w-full h-10 max-w-md uppercase" />
                                 <x-jet-input-error for="currency_id" />
-                            </div>
+                            </div> --}}
 
-                            <div class="mr-4 ">
+                            <div class="col-span-2 mr-4">
                                 {{-- <label>Proveedores </label> --}}
                                 <x-jet-label value="Tipo de Nota de Crédito" />
                                 {{-- select2 --}}
@@ -235,12 +232,14 @@
                                 </select>
                                 <x-jet-input-error for="tipodenotadecredito_id" />
                             </div>
+                        </div>
 
+                        <div>
 
-                            <div class="col-span-3 mr-4 ">
+                            <div class="mr-4 ">
                                 <x-jet-label value="Descripción del motivo" />
                                 <x-jet-input wire:model="desmotivo" type="text"
-                                    class="w-full h-10 max-w-md uppercase" />
+                                    class="w-full h-10 uppercase" />
 
 
                             </div>
@@ -478,17 +477,20 @@
 
                         <div class="flex space-x-6">
                             <div class="m-2">
-                                <input wire:model="sending_method" type="radio" id="a" name="drone" value="1" />
+                                <input wire:model="sending_method" type="radio" id="a" name="drone"
+                                    value="1" />
                                 <label for="a">ENVIAR A SUNAT</label>
                             </div>
 
                             <div class="m-2">
-                                <input wire:model="sending_method" type="radio" id="b" name="drone" value="2" />
+                                <input wire:model="sending_method" type="radio" id="b" name="drone"
+                                    value="2" />
                                 <label for="b">GENERAR XML</label>
                             </div>
 
                             <div class="m-2">
-                                <input wire:model="sending_method" type="radio" id="c" name="drone" value="3" />
+                                <input wire:model="sending_method" type="radio" id="c" name="drone"
+                                    value="3" />
                                 <label for="c">CREAR</label>
                             </div>
                         </div>

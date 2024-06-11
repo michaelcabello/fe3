@@ -3,9 +3,8 @@
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Punto de Venta') }}
         </h2>
-
-
     </x-slot>
+
 
     <div class="grid px-4 mx-auto mt-4 max-w-7xl sm:px-6 lg:px-8">
 
@@ -17,10 +16,12 @@
 
 
                         {{-- <div class="py-2 mb-1" wire:ignore> --}}
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-6">
+
+
+                        <div
+                            class="grid grid-cols-1 p-4 mt-4 ml-4 bg-blue-100 border border-gray-400 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-6">
 
                             <div class="mr-4 ">
-                                {{-- <label>Proveedores </label> --}}
                                 <x-jet-label value="Tipo Documento" />
                                 {{-- select2 --}}
                                 <select wire:model="tipodocumento_id"
@@ -34,6 +35,7 @@
 
                                 </select>
                                 <x-jet-input-error for="tipodocumento_id" />
+
                             </div>
 
 
@@ -41,9 +43,9 @@
                             <div class="flex items-center col-span-2 mr-4">
 
                                 <div class="flex-1 mr-1">
-                                    <x-jet-label value="Numero" />
-                                    <x-jet-input wire:model.defer="ruc" type="text" placeholder="RUC"
-                                        class="w-full h-10 max-w-md uppercase" />
+                                    <x-jet-label value="Número(RUC, DNI, ...)" />
+                                    <x-jet-input wire:model="ruc" type="text" placeholder="RUC, dni, ..."
+                                        class="w-full h-10 max-w-md uppercase" wire:keydown.enter="searchRuc" />
                                     <x-jet-input-error for="ruc" />
                                 </div>
 
@@ -60,67 +62,59 @@
 
                             </div>
 
-                            <div class="flex-1 col-span-3 mb-1 mr-1">
+                            <div class="flex-1 col-span-3 mb-1 mr-4">
                                 <x-jet-label value="Razón Social" />
                                 <x-jet-input wire:model.defer="razon_social" type="text" placeholder="Razón Social"
-                                    class="w-full h-10 max-w-md uppercase" />
+                                    class="w-full h-10 uppercase" disabled/>
                                 <x-jet-input-error for="razon_social" />
                             </div>
 
                             <div class="flex-1 mb-1 mr-4">
                                 <x-jet-label value="Nombre Comercial" />
                                 <x-jet-input wire:model.defer="nombre_comercial" type="text"
-                                    placeholder="Nom Comercial" class="w-full h-10 max-w-md uppercase" />
+                                    placeholder="Nom Comercial" class="w-full h-10 max-w-md uppercase" disabled />
                                 <x-jet-input-error for="nombre_comercial" />
                             </div>
 
                             <div class="flex-1 col-span-2 mb-4 mr-4">
                                 <x-jet-label value="Dirección" />
                                 <x-jet-input wire:model.defer="direccion" type="text" placeholder="Dirección"
-                                    class="w-full h-10 max-w-md uppercase" />
+                                    class="w-full h-10 max-w-md uppercase" disabled />
                                 <x-jet-input-error for="direccion" />
                             </div>
 
                             <div class="flex-1 mb-4 mr-4">
                                 <x-jet-label value="Departamento" />
                                 <x-jet-input wire:model.defer="departamento" type="text" placeholder="Departamento"
-                                    class="w-full h-10 max-w-md uppercase" />
+                                    class="w-full h-10 max-w-md uppercase" disabled />
                                 <x-jet-input-error for="Departamento" />
                             </div>
 
                             <div class="flex-1 mb-4 mr-4">
                                 <x-jet-label value="Provincia" />
                                 <x-jet-input wire:model.defer="provincia" type="text" placeholder="Provincia"
-                                    class="w-full h-10 max-w-md uppercase" />
+                                    class="w-full h-10 max-w-md uppercase" disabled />
                                 <x-jet-input-error for="provincia" />
                             </div>
 
                             <div class="flex-1 mb-4 mr-4">
                                 <x-jet-label value="Distrito" />
                                 <x-jet-input wire:model.defer="distrito" type="text" placeholder="Distrito"
-                                    class="w-full h-10 max-w-md uppercase" />
+                                    class="w-full h-10 max-w-md uppercase" disabled />
                                 <x-jet-input-error for="distrito" />
                             </div>
-                            <div class="flex-1 col-span-6 mb-4 mr-4">
+
+
+                        </div>
+
+                        {{-- <div class="grid grid-cols-1 p-4 mt-4 ml-4 bg-blue-100 border border-gray-400 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-6"> --}}
+                        <div class="grid grid-cols-1 p-4 mt-4 ml-4 bg-red-100 border border-gray-400 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-6">
+
+                            {{-- <div class="flex-1 col-span-6 mb-4 mr-4">
                                 <hr>
-                            </div>
+                            </div> --}}
 
-                            <div class="mb-4 mr-4 ">
-                                {{-- <label>Proveedores </label> --}}
-                                <x-jet-label value="Tipo de Operación" />
-                                {{-- select2 --}}
-                                <select wire:model="tipodeoperacion_id"
-                                    class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
-                                    data-placeholder="Selecccione" style="width:100%">
-                                    <option value="" selected disabled>Seleccione</option>
-                                    @foreach ($tipodeoperacions as $tipodeoperacion)
-                                        <option value="{{ $tipodeoperacion->id }}">{{ $tipodeoperacion->descripcion }}
-                                        </option>
-                                    @endforeach
 
-                                </select>
-                                <x-jet-input-error for="tipodeoperacion_id" />
-                            </div>
 
 
 
@@ -150,15 +144,17 @@
                                 {{-- select2 --}}
                                 <select wire:model="tipocomprobante_id"
                                     class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
-                                    data-placeholder="Selecccione tipo Comprobante" style="width:100%">
+                                    data-placeholder="Selecccione tipo Comprobante" style="width:100%" disabled>
                                     <option value="" selected disabled>Seleccione</option>
                                     @foreach ($tipocomprobantes as $tipocomprobante)
-                                        <option value="{{ $tipocomprobante->id }}">{{ $tipocomprobante->name }}
+                                        <option value="{{ $tipocomprobante->id }}">{{ $tipocomprobante->namecorto }}
                                         </option>
                                     @endforeach
 
                                 </select>
                                 <x-jet-input-error for="tipocomprobante_id" />
+
+
                             </div>
 
 
@@ -166,14 +162,14 @@
                             <div class="mb-1 mr-4">
                                 <x-jet-label value="Serie" />
                                 <x-jet-input type="text" placeholder="Serie" class="w-full h-10 uppercase"
-                                    wire:model="serie" />
+                                    wire:model="serie" disabled />
                                 <x-jet-input-error for="serie" />
                             </div>
 
                             <div class="mb-1 mr-4">
-                                <x-jet-label value="Numero" />
+                                <x-jet-label value="Número" />
                                 <x-jet-input type="text" placeholder="Número" class="w-full h-10 uppercase"
-                                    wire:model="numero" />
+                                    wire:model="numero" disabled />
                                 <x-jet-input-error for="numero" />
                             </div>
 
@@ -247,6 +243,25 @@
                             </div>
 
 
+                            <div class="mb-4 mr-4 ">
+                                {{-- <label>Proveedores </label> --}}
+                                <x-jet-label value="Tipo de Operación" />
+                                {{-- select2 --}}
+                                <select wire:model="tipodeoperacion_id"
+                                    class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
+                                    data-placeholder="Selecccione" style="width:100%">
+                                    <option value="" selected disabled>Seleccione</option>
+                                    @foreach ($tipodeoperacions as $tipodeoperacion)
+                                        <option value="{{ $tipodeoperacion->id }}">{{ $tipodeoperacion->descripcion }}
+                                        </option>
+                                    @endforeach
+
+                                </select>
+                                <x-jet-input-error for="tipodeoperacion_id" />
+                            </div>
+
+
+
                             <div class="col-span-2 form-group {{ $errors->has('nota') ? 'text-danger' : '' }} ">
                                 {{-- <label>Nota de la compra</label> --}}
                                 <textarea rows="2" wire:model="nota" class="w-full form-control" placeholder="Ingrese Nota del Comprobante ">{{ old('nota') }}</textarea>
@@ -284,18 +299,21 @@
                         <div class="flex mt-4">
 
                             <input type="text" id="code" class="block w-1/2 h-10 py-2 m-1 mr-2 bg-gray-100"
-                                wire:keydown.enter.prevent="ScanCode($('#code').val())" placeholder="Código de barras" />
+                                wire:keydown.enter.prevent="ScanCode($('#code').val())"
+                                placeholder="Código de barras" />
 
                             <form class="relative w-1/2 mx-auto mr-2 text-gray-600" autocomplete="off">
 
                                 <input wire:model="searchh" class="block w-full h-10 py-2 m-1 bg-gray-100"
-                                type="text" name="searchh" placeholder="Buscar">
+                                    type="text" name="searchh" placeholder="Buscar">
 
-                                @if($searchh)
-                                        <ul class="absolute left-0 w-full mt-1 overflow-hidden bg-white rounded-lg z-500 ">
-                                        @forelse ( $this->results as $result )
+                                @if ($searchh)
+                                    <ul class="absolute left-0 w-full mt-1 overflow-hidden bg-white rounded-lg z-500 ">
+                                        @forelse ($this->results as $result)
                                             <li class="px-5 text-sm leading-10 cursor-pointer hover:bg-gray-300">
-                                                <a href="#" wire:click.prevent="ScanCoded('{{ $result->id }}')">{{ $result->name }} </a>
+                                                <a href="#"
+                                                    wire:click.prevent="ScanCoded('{{ $result->id }}')">{{ $result->name }}
+                                                </a>
                                             </li>
                                         @empty
                                             <li class="px-5 text-sm leading-10 cursor-pointer hover:bg-gray-300">
@@ -303,7 +321,7 @@
                                             </li>
                                         @endforelse
 
-                                        </ul>
+                                    </ul>
 
                                 @endif
 
@@ -527,17 +545,20 @@
 
                         <div class="flex space-x-6">
                             <div class="m-2">
-                                <input wire:model="sending_method" type="radio" id="a" name="drone" value="1" />
+                                <input wire:model="sending_method" type="radio" id="a" name="drone"
+                                    value="1" />
                                 <label for="a">ENVIAR A SUNAT</label>
                             </div>
 
                             <div class="m-2">
-                                <input wire:model="sending_method" type="radio" id="b" name="drone" value="2" />
+                                <input wire:model="sending_method" type="radio" id="b" name="drone"
+                                    value="2" />
                                 <label for="b">GENERAR XML</label>
                             </div>
 
                             <div class="m-2">
-                                <input wire:model="sending_method" type="radio" id="c" name="drone" value="3" />
+                                <input wire:model="sending_method" type="radio" id="c" name="drone"
+                                    value="3" />
                                 <label for="c">CREAR</label>
                             </div>
                         </div>
@@ -548,8 +569,6 @@
                             class="w-full mt-4 mb-3 disabled:opacity-25">
                             <i class="mx-2 fa-regular fa-floppy-disk"></i> Guardar
                         </x-jet-danger-button>
-
-
 
 
 

@@ -28,7 +28,7 @@
                             <div class="sm:col-span-1 lg:col-span-1">
                                 <div class="mr-1">
                                     <x-jet-label value="RUC" />
-                                    <x-jet-input type="text" wire:model="ruc"
+                                    <x-jet-input type="text" wire:model.defer="ruc"
                                         class="w-full h-10 max-w-md uppercase" />
                                     <x-jet-input-error for="ruc" />
                                 </div>
@@ -37,7 +37,7 @@
                             <div class="gap-0 sm:col-span-1 lg:col-span-2">
                                 <div class="mr-1">
                                     <x-jet-label value="Razón Social" />
-                                    <x-jet-input type="text" wire:model="razonsocial"
+                                    <x-jet-input type="text" wire:model.defer="razonsocial"
                                         class="w-full h-10 uppercase" />
                                     <x-jet-input-error for="razonsocial" />
                                 </div>
@@ -46,7 +46,7 @@
                             <div class="sm:col-span-1 lg:col-span-1">
                                 <div class="mr-1">
                                     <x-jet-label value="Nombre Comercial" />
-                                    <x-jet-input type="text" wire:model="nombrecomercial"
+                                    <x-jet-input type="text" wire:model.defer="nombrecomercial"
                                         class="w-full h-10 max-w-md" />
                                     <x-jet-input-error for="nombrecomercial" />
                                 </div>
@@ -55,7 +55,7 @@
                             <div class="sm:col-span-1 lg:col-span-1">
                                 <div class="mr-1">
                                     <x-jet-label value="Ubigeo" />
-                                    <x-jet-input type="text" wire:model="ubigeo"
+                                    <x-jet-input type="text" wire:model.defer="ubigeo"
                                         class="w-full h-10 max-w-md uppercase" />
                                     <x-jet-input-error for="ubigeo" />
                                 </div>
@@ -73,14 +73,14 @@
 
                             <div class="col-span-1 mb-4 mr-1 sm:col-span-6">
                                 <x-jet-label value="Dirección" />
-                                <x-jet-input wire:model="direccion" type="text" placeholder="Dirección"
+                                <x-jet-input wire:model.defer="direccion" type="text" placeholder="Dirección"
                                     class="w-full h-10 p-0 " />
                                 <x-jet-input-error for="direccion" />
                             </div>
 
                             <div class="col-span-1 mb-4 mr-1 sm:col-span-2">
                                 <x-jet-label value="Departamento" />
-                                <select wire:model="department_id"
+                                <select wire:model.defer="department_id"
                                     class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                                     data-placeholder="Selecccione el motivo de traslado" style="width:100%">
                                     <option value="" selected disabled>Seleccione</option>
@@ -98,7 +98,7 @@
 
                             <div class="col-span-1 mb-4 mr-1 sm:col-span-2">
                                 <x-jet-label value="Provincia" />
-                                <select wire:model="province_id"
+                                <select wire:model.defer="province_id"
                                     class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                                     data-placeholder="Selecccione Provincia" style="width:100%">
                                     <option value="" selected disabled>Seleccione</option>
@@ -115,7 +115,7 @@
 
                             <div class="col-span-1 mb-4 mr-1 sm:col-span-2">
                                 <x-jet-label value="Distrito" />
-                                <select wire:model="district_id"
+                                <select wire:model.defer="district_id"
                                     class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                                     data-placeholder="Selecccione Distrito" style="width:100%">
                                     <option value="" selected disabled>Seleccione</option>
@@ -145,7 +145,7 @@
                             <div class="sm:col-span-1 lg:col-span-1">
                                 <div class="mr-1">
                                     <x-jet-label value="Sol User" />
-                                    <x-jet-input type="text" wire:model="soluser"
+                                    <x-jet-input type="text" wire:model.defer="soluser"
                                         class="w-full h-10 max-w-md" />
                                     <x-jet-input-error for="soluser" />
                                 </div>
@@ -154,7 +154,7 @@
                             <div class="gap-0 sm:col-span-1 lg:col-span-1">
                                 <div class="mr-1">
                                     <x-jet-label value="Sol pass" />
-                                    <x-jet-input type="text" wire:model="solpass"
+                                    <x-jet-input type="text" wire:model.defer="solpass"
                                         class="w-full h-10 max-w-md" />
                                     <x-jet-input-error for="solpass" />
                                 </div>
@@ -163,7 +163,7 @@
                             <div class="sm:col-span-1 lg:col-span-1">
                                 <div class="mr-1">
                                     <x-jet-label value="Client ID" />
-                                    <x-jet-input type="text" wire:model="cliente_id"
+                                    <x-jet-input type="text" wire:model.defer="cliente_id"
                                         class="w-full h-10 max-w-md" />
                                     <x-jet-input-error for="cliente_id" />
                                 </div>
@@ -172,7 +172,7 @@
                             <div class="sm:col-span-1 lg:col-span-1">
                                 <div class="mr-1">
                                     <x-jet-label value="Client Secret" />
-                                    <x-jet-input type="text" wire:model="cliente_secret"
+                                    <x-jet-input type="text" wire:model.defer="cliente_secret"
                                         class="w-full h-10 max-w-md" />
                                     <x-jet-input-error for="cliente_secret" />
                                 </div>
@@ -191,7 +191,7 @@
 
                             <div class="col-span-1 mb-4 mr-1 sm:col-span-1">
                                 <x-jet-label value="Moneda" />
-                                <select wire:model="currency_id"
+                                <select wire:model.defer="currency_id"
                                     class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                                     data-placeholder="Selecccione el motivo de traslado" style="width:100%">
                                     <option value="" selected disabled>Seleccione</option>
@@ -210,7 +210,7 @@
                             <div class="gap-0 sm:col-span-1 lg:col-span-1">
                                 <div class="mr-1">
                                     <x-jet-label value="Estado" />
-                                    <select wire:model="production"
+                                    <select wire:model.defer="production"
                                         class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                                         data-placeholder="Selecccione el motivo de traslado" style="width:100%">
                                         <option value="" selected disabled>Seleccione</option>
@@ -224,7 +224,7 @@
                             <div class="sm:col-span-1 lg:col-span-1">
                                 <div class="mr-1">
                                     <x-jet-label value="Celular" />
-                                    <x-jet-input type="text" wire:model="celular"
+                                    <x-jet-input type="text" wire:model.defer="celular"
                                         class="w-full h-10 max-w-md uppercase" />
                                     <x-jet-input-error for="celular" />
                                 </div>
@@ -233,7 +233,7 @@
                             <div class="sm:col-span-1 lg:col-span-1">
                                 <div class="mr-1">
                                     <x-jet-label value="Teléfono" />
-                                    <x-jet-input type="text" wire:model="telefono"
+                                    <x-jet-input type="text" wire:model.defer="telefono"
                                         class="w-full h-10 max-w-md uppercase" />
                                     <x-jet-input-error for="telefono" />
                                 </div>
@@ -256,7 +256,7 @@
                             <div class="sm:col-span-1 lg:col-span-3">
                                 <div class="mr-1">
                                     <x-jet-label value="Correo" />
-                                    <x-jet-input type="text" wire:model="correo" class="w-full h-10" />
+                                    <x-jet-input type="text" wire:model.defer="correo" class="w-full h-10" />
                                     <x-jet-input-error for="correo" />
                                 </div>
                             </div>
@@ -264,7 +264,7 @@
                             <div class="gap-0 sm:col-span-1 lg:col-span-3">
                                 <div class="mr-1">
                                     <x-jet-label value="SMTP" />
-                                    <x-jet-input type="text" wire:model="smtp" class="w-full h-10" />
+                                    <x-jet-input type="text" wire:model.defer="smtp" class="w-full h-10" />
                                     <x-jet-input-error for="smtp" />
                                 </div>
                             </div>
@@ -272,7 +272,7 @@
                             <div class="sm:col-span-1 lg:col-span-2">
                                 <div class="mr-1">
                                     <x-jet-label value="Password" />
-                                    <x-jet-input type="text" wire:model="password"
+                                    <x-jet-input type="text" wire:model.defer="password"
                                         class="w-full h-10" />
                                     <x-jet-input-error for="password" />
                                 </div>
@@ -281,7 +281,7 @@
                             <div class="sm:col-span-1 lg:col-span-1">
                                 <div class="mr-1">
                                     <x-jet-label value="Puerto" />
-                                    <x-jet-input type="text" wire:model="puerto" class="w-full h-10" />
+                                    <x-jet-input type="text" wire:model.defer="puerto" class="w-full h-10" />
                                     <x-jet-input-error for="puerto" />
                                 </div>
                             </div>
@@ -308,7 +308,7 @@
                                 <div class="mr-1">
                                     {{-- <label class="block mb-1 font-semibold">Imagen 1</label> --}}
                                     <x-jet-label value="Cargar Certificado Nuevo" />
-                                    <input type="file" wire:model="certificate_path" accept="image/jpeg,image/png"
+                                    <input type="file" wire:model.defer="certificate_path" accept="image/jpeg,image/png"
                                         class="w-full px-3 py-1 border border-gray-300 rounded-md">
                                     <x-jet-input-error for="certificate_path" />
                                 </div>
@@ -319,14 +319,14 @@
                                 <div class="sm:col-span-1 lg:col-span-1">
                                     <div class="mr-1">
                                         <x-jet-label value="Certificado Nuevo" />
-                                        <x-jet-input type="text" wire:model="certificate_path" class="w-full h-10" />
+                                        <x-jet-input type="text" wire:model.defer="certificate_path" class="w-full h-10" />
                                     </div>
                                 </div>
                             @else
                                 <div class="sm:col-span-1 lg:col-span-1">
                                     <div class="mr-1">
                                         <x-jet-label value="Certificado Actual" />
-                                        <x-jet-input type="text" wire:model="certificate_pathback"
+                                        <x-jet-input type="text" wire:model.defer="certificate_pathback"
                                             class="w-full h-10" />
                                     </div>
                                 </div>
@@ -366,7 +366,7 @@
                                 <div>
                                     {{-- <label class="block mb-1 font-semibold">Imagen 1</label> --}}
                                     <x-jet-label value="Nuevo Logo de tu Empresa" />
-                                    <input type="file" wire:model="logo" accept="image/jpeg,image/png"
+                                    <input type="file" wire:model.defer="logo" accept="image/jpeg,image/png"
                                         class="w-full px-3 py-1 border border-gray-300 rounded-md">
                                     <x-jet-input-error for="logo" />
                                 </div>

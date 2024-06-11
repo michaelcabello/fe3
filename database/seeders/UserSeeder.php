@@ -36,7 +36,8 @@ class UserSeeder extends Seeder
             'ublversion' => "2.1",
             'detraccion' => 700,
             'certificate_path' => 'fe/certificados/dy2eLjhjZJvYb9P2XOM86KTqC8sfpoQIE9vmw4zb.txt',
-            'logo' => 'fe/logos/0jdmPxuXhJXZ4IFjjN11goSZYMg26HkpQ8zg2GOS.png',
+            //'logo' => 'fe/logos/0jdmPxuXhJXZ4IFjjN11goSZYMg26HkpQ8zg2GOS.png',
+            'logo' => '',
             'certificate_path' => "certificates/certificate_1.pem",
             'certificado' => "-----BEGIN PRIVATE KEY-----
             MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDUHbPExymJyOWE

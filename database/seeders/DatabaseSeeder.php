@@ -85,7 +85,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ImpuestosTableSeeder::class);
 
         $this->call(TipodenotadecreditosTableSeeder::class);
-        $this->call(ComprobantesTableSeeder::class);
+       // $this->call(ComprobantesTableSeeder::class);
         $this->call(FacturasTableSeeder::class);
         $this->call(BoletasTableSeeder::class);
         $this->call(ComprobanteProductoTableSeeder::class);
@@ -94,7 +94,8 @@ class DatabaseSeeder extends Seeder
         $this->call(VehiculosTableSeeder::class);
         $this->call(ConductorsTableSeeder::class);
         $this->call(PuntodepartidasTableSeeder::class);
-        $this->call(ProductsTableSeeder::class);
+
         $this->call(BrandsTableSeeder::class);
+        $this->call(ProductsTableSeeder::class);
     }
 }

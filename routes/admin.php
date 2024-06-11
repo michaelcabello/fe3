@@ -5,6 +5,7 @@ use App\Http\Livewire\Admin\LocalEdit;
 use App\Http\Livewire\Admin\LocalList;
 use App\Http\Livewire\Admin\LocaldEdit;
 use App\Http\Livewire\Admin\ModeloList;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Admin\CompanyEdit;
 use App\Http\Livewire\Admin\LocalCreate;
 use App\Http\Livewire\Admin\ProductList;
@@ -182,4 +183,11 @@ Route::get('/logout', function () {
     auth()->logout();
     return redirect('/login');
 });
+
+//borrar
+/* Route::get('existe', function(){
+    if (Storage::exists('certificates/certificate_1.pem')) {
+        throw new \Exception(' si existe ');
+    }
+}); */
 

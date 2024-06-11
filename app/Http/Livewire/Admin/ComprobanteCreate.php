@@ -60,7 +60,7 @@ class ComprobanteCreate extends Component
     protected $listeners = ['delete', 'limpiar'];
 
 
-    public $searchh="";
+    public $searchh = "";
 
 
 
@@ -128,12 +128,13 @@ class ComprobanteCreate extends Component
     }
 
 
-    public function getResultsProperty(){
+    public function getResultsProperty()
+    {
         //$company_id = auth()->user()->employee->company->id;
 
-        return Product::where('company_id', $this->company_id)->where('name', 'LIKE', '%'. $this->searchh .'%')
-                     ->where('state',1)
-                     ->take(8)->get();
+        return Product::where('company_id', $this->company_id)->where('name', 'LIKE', '%' . $this->searchh . '%')
+            ->where('state', 1)
+            ->take(8)->get();
     }
 
     public function ScanCoded($codigo,  $quantity = 1)
@@ -184,10 +185,10 @@ class ComprobanteCreate extends Component
         $company_id = auth()->user()->employee->company->id;
         //buscamos el producto en el carrito osea en la tabla temporal
         $productotemporal = Temporal::where('company_id', $company_id)
-                            ->where('codigobarras', $codigobarras)
-                            ->where('employee_id', auth()->user()->employee->id)
-                            ->where('state', 0)
-                            ->first();
+            ->where('codigobarras', $codigobarras)
+            ->where('employee_id', auth()->user()->employee->id)
+            ->where('state', 0)
+            ->first();
         //dd($productotemporal);
         //si el producto existe actualizamos la cantidad
         if ($productotemporal) { //busca en el campo id de la coleccion
@@ -254,24 +255,44 @@ class ComprobanteCreate extends Component
     public function searchRuc()
     {
 
-        $sunat = new \jossmp\sunat\ruc([
-            'representantes_legales'     => false,
-            'cantidad_trabajadores'     => false,
-            'establecimientos'             => false,
-            'deuda'                     => false,
-        ]);
+        //primero buscaremos en Local
+        //dd($this->ruc);
+        $query = Customer::where('numdoc', $this->ruc)->first();
 
-        $query = $sunat->consulta($this->ruc);
+        if($query){
+            $this->razon_social = $query->nomrazonsocial;
+            $this->nombre_comercial = $query->nombrecomercial;
+            $this->direccion = $query->address;
+            $this->departamento = $query->department->name;
+            $this->provincia = $query->province->name;
+            $this->distrito = $query->district->name;
 
-        if ($query->success) {
+        }else{
 
-            $this->razon_social = $query->result->razon_social;
-            $this->nombre_comercial = $query->result->nombre_comercial;
-            $this->direccion = $query->result->direccion;
-            $this->departamento = $query->result->departamento;
-            $this->provincia = $query->result->provincia;
-            $this->distrito = $query->result->distrito;
+
+            $sunat = new \jossmp\sunat\ruc([
+                'representantes_legales'     => false,
+                'cantidad_trabajadores'     => false,
+                'establecimientos'             => false,
+                'deuda'                     => false,
+            ]);
+
+            $query = $sunat->consulta($this->ruc);
+
+            if ($query->success) {
+
+                $this->razon_social = $query->result->razon_social;
+                $this->nombre_comercial = $query->result->nombre_comercial;
+                $this->direccion = $query->result->direccion;
+                $this->departamento = $query->result->departamento;
+                $this->provincia = $query->result->provincia;
+                $this->distrito = $query->result->distrito;
+            }
+
         }
+
+
+
     }
 
 
@@ -492,7 +513,7 @@ class ComprobanteCreate extends Component
     {
         Temporal::where('company_id', auth()->user()->employee->company->id)
             ->where('employee_id', auth()->user()->employee->id)
-            ->where('state',0)//no borramos el state 1 porque ya estan generados
+            ->where('state', 0) //no borramos el state 1 porque ya estan generados
             ->delete();
     }
 
@@ -510,8 +531,35 @@ class ComprobanteCreate extends Component
     }
 
 
-    //tipocomprobante_id
+    public function updatedTipodocumentoId($value)
+    {
+        //si es RUC debe seleccionar factura en tipocomprobante osea tipocomprobante_id = 1
+        //tipodocumento su id = 4  tipodocumento su codigo = 6
+        if($this->tipodocumento_id == 4){
+            $this->tipocomprobante_id = 1;
+            $this->updatedTipocomprobanteId(1);
+        }else{
+            $this->tipocomprobante_id = 2;
+            $this->updatedTipocomprobanteId(2);
+        }
+    }
 
+    //forma de pago
+    public function updatedPaymenttypeId($value)
+    {
+        if ($value == 1) { // Contado
+            $this->fechavencimiento = date('Y-m-d');
+        } else {
+            $this->fechavencimiento = null; // O cualquier otro valor por defecto
+        }
+    }
+
+
+
+
+
+    //tipocomprobante_id
+    //cuando seleccionas la lista comprobante
     public function updatedTipocomprobanteId($value)
     {
         $tipocomprobantes = auth()->user()->employee->local->tipocomprobantes;
@@ -680,7 +728,7 @@ class ComprobanteCreate extends Component
 
         //buscamos en la tabla departamento
         if ($this->departamento) {
-            $departamento = ucwords(strtolower($this->departamento));//ejemplo Madre De Dios
+            $departamento = ucwords(strtolower($this->departamento)); //ejemplo Madre De Dios
             $departamentoEncontrado = Department::where('name', $departamento)->first();
             $department_id = $departamentoEncontrado->id;
         } else {
@@ -848,7 +896,7 @@ class ComprobanteCreate extends Component
         //$temporals tiene lo escogido para la venta en el carrito actual
         $temporals = Temporal::where('company_id', auth()->user()->employee->company->id)
             ->where('employee_id', auth()->user()->employee->id)
-            ->where('state',0)->get();//state 0 tiene los temporales actuales osea se muestra en el carrito o post, state 1, no se muestra en el carrito o pos, ya esta grabado en la bd pero no enviado a sunat
+            ->where('state', 0)->get(); //state 0 tiene los temporales actuales osea se muestra en el carrito o post, state 1, no se muestra en el carrito o pos, ya esta grabado en la bd pero no enviado a sunat
 
         // dd($temporals);
 
@@ -910,19 +958,19 @@ class ComprobanteCreate extends Component
         $sunat->setInvoice();
 
         switch ($this->sending_method) {
-            case '1'://cuando manda el cdr, generaxml y guarda el comprobante
+            case '1': //cuando manda el cdr, generaxml y guarda el comprobante
                 $sunat->send(); //send es el metodo de greenter
-                $temporals->each->delete();//eliminamos temporal porque ya se envio
+                $temporals->each->delete(); //eliminamos temporal porque ya se envio
                 $this->emit('alert', 'El comprobante se creo correctamente y se envio a sunat');
                 break;
 
-            case '2'://cuando genera el xml y guarda el comprobante
+            case '2': //cuando genera el xml y guarda el comprobante
                 //genrando el xml
                 $sunat->generateXml(); //genera el xml
                 //poniendo el state a 1 para posteriormente enviar a sunat
                 foreach ($temporals as $temporal) {
-                    $temporal->state = 1;//guarda en el temporal para indicar que se guardo y genero xlm pero no se envio a sunat
-                    $temporal->comprobante_id = $comprobante->id;//guarda en el temporal para saber de que empresa es
+                    $temporal->state = 1; //guarda en el temporal para indicar que se guardo y genero xlm pero no se envio a sunat
+                    $temporal->comprobante_id = $comprobante->id; //guarda en el temporal para saber de que empresa es
                     $temporal->save();
                 }
 
@@ -930,7 +978,7 @@ class ComprobanteCreate extends Component
 
                 break;
 
-            case '3'://cuando guarda el comprobante
+            case '3': //cuando guarda el comprobante
                 //poniendo el state a 1 para posteriormente enviar a sunat
                 foreach ($temporals as $temporal) {
                     $temporal->state = 1;
@@ -987,7 +1035,7 @@ class ComprobanteCreate extends Component
 
 
         $cart = Temporal::where('company_id', $company_id)
-                ->where('employee_id', auth()->user()->employee->id)->where('state', 0)->get();
+            ->where('employee_id', auth()->user()->employee->id)->where('state', 0)->get();
 
         //dd($cart);
 
@@ -1001,7 +1049,6 @@ class ComprobanteCreate extends Component
         //dd($tipocomprobantes);
         $this->getTotales();
         $this->total = $this->getTotalFromTemporals();
-
 
 
         return view('livewire.admin.comprobante-create', compact('customers', 'currencies', 'tipocomprobantes', 'cart', 'tipodocumentos', 'tipodeoperacions'));

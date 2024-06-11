@@ -26,10 +26,7 @@ class LocalCreated extends Component
 
     public function mount()
     {
-
         $this->tipocomprobantes = Tipocomprobante::all();
-
-
         $this->departments = Department::all(); //lista todo los departamentos
         //$this->provinces = Province::where('department_id', $this->department_id)->get();
         //$this->districts = District::where('province_id', $this->province_id)->get();
@@ -86,7 +83,7 @@ class LocalCreated extends Component
         DB::beginTransaction();
 
         try {
-            $statee = ($this->state) ? 1 : 0;
+            $statee = ($this->state) ? 1 : 0;//si seleccionas el state es 1
 
             // Crear el local
             $local = Local::create([
@@ -171,13 +168,6 @@ class LocalCreated extends Component
             return redirect()->route('local.create');
         }
     }
-
-
-
-
-
-
-
 
 
 
