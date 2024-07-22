@@ -50,25 +50,14 @@ class ComprobanteCreate extends Component
     public $nombre_comercial;
     public $direccion;
     public $departamento, $provincia, $distrito;
-
-
-
-
+    public $isDocumentTypeSelected = false;
+    public $monedadescription;
 
     //public $salesCartInstance = 'salesCart';
     //public $carts = [];
     protected $listeners = ['delete', 'limpiar'];
 
-
     public $searchh = "";
-
-
-
-
-
-
-
-
 
     public function mount()
     {
@@ -84,13 +73,14 @@ class ComprobanteCreate extends Component
         //$this->moneda = Company::where('id', $numero)->where('currency_id', );
         $this->currency_id = auth()->user()->employee->company->currency_id; //$this->currency_id  hace que en la lista de currencies muestre por defecto soles por ejemplo
         $this->moneda = auth()->user()->employee->company->currency->abbreviation ?? 'Sol';
+        $this->monedadescription = auth()->user()->employee->company->currency->description ?? 'Soles';
         $this->company = auth()->user()->employee->company;
-
 
         $this->company_id = auth()->user()->employee->company->id; //compañia logueaada
         //$this->moneda = Currency::find($this->currency_id)->abbreviation;
         //$this->currency_id = $currency;
     }
+
 
     public function ScanCode($barcode,  $quantity = 1)
     {
@@ -140,7 +130,6 @@ class ComprobanteCreate extends Component
 
     public function ScanCoded($codigo,  $quantity = 1)
     {
-
         //$this->searchh = $codigo;
         $id = $codigo;
         //$company_id = auth()->user()->employee->company->id;
@@ -257,6 +246,34 @@ class ComprobanteCreate extends Component
 
     public function searchRuc()
     {
+
+        $tipodocumento = Tipodocumento::find($this->tipodocumento_id); //ruc , dni
+        $numecar = Str::length($this->ruc); //calcula la longitud de ruc, dni, ce, etc..
+
+        //si loescogido es 1(dni), 4, 6(ruc)
+        switch ($tipodocumento->codigo) {
+            case '1':
+                //indicar 8 digitos dni
+                if ($numecar != 8) {
+                    $this->emit('alert', 'el DNI Debe tener 8 digitos');
+                    return;
+                }
+                break;
+            case '4':
+                //carnet de extranjeria
+
+                break;
+            case '6':
+                //ruc
+                if ($numecar != 11) {
+                    $this->emit('alert', 'el RUC Debe tener 11 digitos');
+                    return;
+                }
+                break;
+            default:
+
+                break;
+        }
 
         //primero buscaremos en Local
         //dd($this->ruc);
@@ -375,8 +392,6 @@ class ComprobanteCreate extends Component
             'code' => '1000',
             'value' => $formatter->toInvoice($this->subtotall, 4)
         ];
-
-
 
         /* if (collect($this->invoice['details'])->whereNotIn('tipAfeIgv', ['10', '20', '30', '40'])->count()) {
             $legends[] = [
@@ -524,7 +539,12 @@ class ComprobanteCreate extends Component
     public function updatedCurrencyId($value)
     {
         // $this->moneda = Currency::where('id', $value);
-        $this->moneda = Currency::where('id', $value)->value('abbreviation');
+        //$this->moneda = Currency::where('id', $value)->value('abbreviation');
+        $currency = Currency::where('id', $value)->first();
+
+        $this->moneda = $currency->abbreviation;
+        //dd($this->moneda);
+        $this->monedadescription = $currency->description;
     }
 
     public function updatedTipodeoperacionId($value)
@@ -545,6 +565,15 @@ class ComprobanteCreate extends Component
             $this->tipocomprobante_id = 2;
             $this->updatedTipocomprobanteId(2);
         }
+
+        $this->isDocumentTypeSelected = !empty($value);
+        $this->ruc = "";
+        $this->razon_social = "";
+        $this->nombre_comercial = "";
+        $this->direccion = "";
+        $this->departamento = "";
+        $this->provincia = "";
+        $this->distrito = "";
     }
 
     //forma de pago
@@ -556,7 +585,6 @@ class ComprobanteCreate extends Component
             $this->fechavencimiento = null; // O cualquier otro valor por defecto
         }
     }
-
 
 
 
@@ -682,7 +710,6 @@ class ComprobanteCreate extends Component
             $this->emit('alert', 'Escoge el DNI, RUC, CE ...');
             return;
         }
-
 
         //el cliente esta en la tabla customer
         //buscamos el cliente y el tipo documento ruc, dni, carnet de extranjeria, etc

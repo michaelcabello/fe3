@@ -24,7 +24,6 @@
                                     <header class="mt-2">
                                         <h1 class="text-xl text-center text-gray-700"><a href="{{route('admin.company.edit', auth()->user()->employee->company->id )}}">Configuraciones</a></h1>
                                     </header>
-
                                 </article>
                                 @endcan
 
@@ -68,7 +67,7 @@
                                 @can('Local View')
                                 <article>
                                     <figure>
-                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/brands.jpg')}}" alt="">
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/locals.jpg')}}" alt="">
                                     </figure>
                                     <header class="mt-2">
                                         <h1 class="text-xl text-center text-gray-700"><a href="{{route('local.list')}}">Locales</a></h1>
@@ -148,7 +147,7 @@
                                 @can('Product View')
                                 <article>
                                     <figure>
-                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/products.jpg')}}" alt="">
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/productservice2.jpg')}}" alt="TICOMSOFTWARE">
                                     </figure>
                                     <header class="mt-2">
                                         <h1 class="text-xl text-center text-gray-700"><a href="{{route('product.list')}}">Productos</a></h1>
@@ -160,16 +159,16 @@
                                 @can('Initialinventory View')
                                 <article>
                                     <figure>
-                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/inventarioinicial.jpg')}}" alt="">
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/customers.jpg')}}" alt="TICOMSOFTWARE">
                                     </figure>
                                     <header class="mt-2">
-                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('inventory.list')}}">Clientes</a></h1>
+                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('customer.list')}}">Clientes</a></h1>
                                     </header>
 
                                 </article>
                                 @endcan
 
-                                @can('Inventory View')
+                               {{--  @can('Inventory View')
                                 <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/inventario2.jpg')}}" alt="">
@@ -211,10 +210,10 @@
                                         <h1 class="text-xl text-center text-gray-700"><a href="{{route('admin.shipment.index')}}">Envío de Mercaderias</a></h1>
                                     </header>
 
-                                </article>
+                                </article> --}}
 
 
-                                <article>
+                                {{-- <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/recepciondemercaderias.jpg')}}" alt="Recepción de Mercaderias">
                                     </figure>
@@ -222,7 +221,7 @@
                                         <h1 class="text-xl text-center text-gray-700"><a href="{{route('admin.reception.index')}}">Recepción de Mercaderias</a></h1>
                                     </header>
 
-                                </article>
+                                </article> --}}
 
                                 @can('Sale View')
                                 <article>
@@ -237,7 +236,7 @@
                                 @endcan
 
 
-                                <article>
+                                {{-- <article>
                                     <figure>
                                         <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/ecommerce.jpg')}}" alt="">
                                     </figure>
@@ -275,7 +274,7 @@
                                         <h1 class="text-xl text-center text-gray-700">Sub-Categorias</h1>
                                     </header>
 
-                                </article>
+                                </article> --}}
 
 
                         </div>
@@ -290,9 +289,9 @@
 
 
 
-    <section>
-        <div class="mt-4 bg-white shadow">
-            hola
+    <section class="content-center">
+        <div class="mt-4 bg-white shadow ">
+            <p class="p-2 text-center">TICOM SOFTWARE - FACTURACIÓN ELECTRÓNICA</p>
         </div>
     </section>
 

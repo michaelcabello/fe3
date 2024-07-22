@@ -4,6 +4,7 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
+
                 <div class="flex items-center shrink-0">
                     <a href="{{ route('dashboard') }}">
                         <x-jet-application-mark class="block w-auto h-9" />

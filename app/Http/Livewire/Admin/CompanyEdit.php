@@ -66,7 +66,8 @@ class CompanyEdit extends Component
         $this->provinces = Province::where('department_id', $this->department_id)->get();
         $this->districts = District::where('province_id', $this->province_id)->get();
 
-        $this->currency_id = $this->company->currency_id;
+        //$this->currency_id = $this->company->currency_id == null ? '': $this->company->currency_id;
+        $this->currency_id = $this->company->currency_id ?? '';
         $this->currencies = Currency::all(); //lista Monedas
 
         $this->production = $this->company->production;
@@ -114,6 +115,13 @@ class CompanyEdit extends Component
         $this->reset('district_id');
     }
 
+    public function updatedDistrictId($value)
+    {
+        $this->district_id = str_pad((string)$value, 6, '0', STR_PAD_LEFT);
+        $this->ubigeo = $this->district_id;
+    }
+
+
 
     protected $rules = [
         'ruc' => 'required',
@@ -121,24 +129,23 @@ class CompanyEdit extends Component
         'nombrecomercial' => 'required',
         'direccion' => 'required',
         'ubigeo' => 'required',
-        'celular' => 'required',
-        'telefono' => 'required',
+        'celular' => 'nullable',
+        'telefono' => 'nullable',
         'department_id' => 'required',
         'province_id' => 'required',
         'district_id' => 'required',
         'soluser' => 'required',
         'solpass' => 'required',
-        'cliente_id' => 'required',
-        'cliente_secret' => 'required',
+        'cliente_id' => 'nullable',
+        'cliente_secret' => 'nullable',
         'currency_id' => 'required',
         'production' => 'required',
-        'telefono' => 'required',
         'correo' => 'required',
-        'smtp' => 'required',
-        'password' => 'required',
-        'puerto' => 'required',
-        'fechainiciocertificado' => 'required',
-        'fechafincertificado' => 'required',
+        'smtp' => 'nullable',
+        'password' => 'nullable',
+        'puerto' => 'nullable',
+        'fechainiciocertificado' => 'nullable',
+        'fechafincertificado' => 'nullable',
         //'logo' => 'required',
     ];
 
@@ -146,6 +153,7 @@ class CompanyEdit extends Component
     {
 
         $rules = $this->rules;
+
 
         try {
             if ($this->certificate_path) {

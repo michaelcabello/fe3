@@ -185,11 +185,11 @@ Q03NoAh6oA46zA1LzaF+lpcIPbqNAdb4B4gJ0os+mCgwXx8DkEMSSZvWUMI=
         // $sellerRole = Role::create(['name' => 'Seller', 'display_name' => 'Vendedor']);
         //$grocerRole = Role::create(['name'=>'Grocer','display_name'=>'Alamacenero']);
 
-        Permission::create(['name' => 'Web View','display_name'=>'Ver Web'])->SyncRoles([$adminRole]);//para que oculte o muestre los campos de web
-        Permission::create(['name' => 'Export Excel', 'display_name' => 'Export Excel'])->SyncRoles([$adminRole]);
-        Permission::create(['name' => 'Export Pdf', 'display_name' => 'Export Pdf'])->SyncRoles([$adminRole]);
-        Permission::create(['name' => 'Import Excel', 'display_name' => 'Import Excel'])->SyncRoles([$adminRole]);
-        Permission::create(['name' => 'Banner Export', 'display_name' => 'Banner Export'])->SyncRoles([$adminRole]);
+        //Permission::create(['name' => 'Web View','display_name'=>'Ver Web'])->SyncRoles([$adminRole]);//para que oculte o muestre los campos de web
+        //Permission::create(['name' => 'Export Excel', 'display_name' => 'Export Excel'])->SyncRoles([$adminRole]);
+        //Permission::create(['name' => 'Export Pdf', 'display_name' => 'Export Pdf'])->SyncRoles([$adminRole]);
+        //Permission::create(['name' => 'Import Excel', 'display_name' => 'Import Excel'])->SyncRoles([$adminRole]);
+       // Permission::create(['name' => 'Banner Export', 'display_name' => 'Banner Export'])->SyncRoles([$adminRole]);
 
         Permission::create(['name' => 'Export Excel Product', 'display_name' => 'Export Excel'])->SyncRoles([$adminRole]);
         Permission::create(['name' => 'Export Pdf Product', 'display_name' => 'Export Pdf'])->SyncRoles([$adminRole]);
@@ -202,12 +202,12 @@ Q03NoAh6oA46zA1LzaF+lpcIPbqNAdb4B4gJ0os+mCgwXx8DkEMSSZvWUMI=
         Permission::create(['name' => 'Sale Update', 'display_name' => 'Actualizar Ventas'])->SyncRoles([$adminRole]);
         Permission::create(['name' => 'Sale Delete', 'display_name' => 'Eliminar Ventas'])->SyncRoles([$adminRole]);
 
-        Permission::create(['name' => 'Shopping View', 'display_name' => 'Ver Compras'])->SyncRoles([$adminRole]);
+/*         Permission::create(['name' => 'Shopping View', 'display_name' => 'Ver Compras'])->SyncRoles([$adminRole]);
         Permission::create(['name' => 'Shopping Create', 'display_name' => 'Crear Compras'])->SyncRoles([$adminRole]);
         Permission::create(['name' => 'Shopping Update', 'display_name' => 'Actualizar Compras'])->SyncRoles([$adminRole]);
-        Permission::create(['name' => 'Shopping Delete', 'display_name' => 'Eliminar Compras'])->SyncRoles([$adminRole]);
+        Permission::create(['name' => 'Shopping Delete', 'display_name' => 'Eliminar Compras'])->SyncRoles([$adminRole]); */
 
-        Permission::create(['name' => 'Inventory View', 'display_name' => 'Ver Inventario'])->SyncRoles([$adminRole]);
+/*         Permission::create(['name' => 'Inventory View', 'display_name' => 'Ver Inventario'])->SyncRoles([$adminRole]);
         Permission::create(['name' => 'Inventory Create', 'display_name' => 'Crear Inventario'])->SyncRoles([$adminRole]);
         Permission::create(['name' => 'Inventory Update', 'display_name' => 'Actualizar Inventario'])->SyncRoles([$adminRole]);
         Permission::create(['name' => 'Inventory Delete', 'display_name' => 'Eliminar Inventario'])->SyncRoles([$adminRole]);
@@ -215,7 +215,7 @@ Q03NoAh6oA46zA1LzaF+lpcIPbqNAdb4B4gJ0os+mCgwXx8DkEMSSZvWUMI=
         Permission::create(['name' => 'Initialinventory View', 'display_name' => 'Ver Inventario Inicial'])->SyncRoles([$adminRole]);
         Permission::create(['name' => 'Initialinventory Create', 'display_name' => 'Crear Inventario Inicial'])->SyncRoles([$adminRole]);
         Permission::create(['name' => 'Initialinventory Update', 'display_name' => 'Actualizar Inventario Inicial'])->SyncRoles([$adminRole]);
-        Permission::create(['name' => 'Initialinventory Delete', 'display_name' => 'Eliminar Inventario Inicial'])->SyncRoles([$adminRole]);
+        Permission::create(['name' => 'Initialinventory Delete', 'display_name' => 'Eliminar Inventario Inicial'])->SyncRoles([$adminRole]); */
 
         Permission::create(['name' => 'Product View', 'display_name' => 'Ver Productos'])->SyncRoles([$adminRole]);
         Permission::create(['name' => 'Product Create', 'display_name' => 'Crear Productos'])->SyncRoles([$adminRole]);
@@ -240,10 +240,10 @@ Q03NoAh6oA46zA1LzaF+lpcIPbqNAdb4B4gJ0os+mCgwXx8DkEMSSZvWUMI=
         Permission::create(['name' => 'Category Update', 'display_name' => 'Actualizar Categoria de productos'])->SyncRoles([$adminRole]);
         Permission::create(['name' => 'Category Delete', 'display_name' => 'Eliminar Categoria de productos'])->SyncRoles([$adminRole]);
 
-        Permission::create(['name' => 'Subcategory View', 'display_name' => 'Ver Sub categoria de productos'])->SyncRoles([$adminRole]);
+       /*  Permission::create(['name' => 'Subcategory View', 'display_name' => 'Ver Sub categoria de productos'])->SyncRoles([$adminRole]);
         Permission::create(['name' => 'Subcategory Create', 'display_name' => 'Crear Sub categoria de productos'])->SyncRoles([$adminRole]);
         Permission::create(['name' => 'Subcategory Update', 'display_name' => 'Actualizar Sub categoria de productos'])->SyncRoles([$adminRole]);
-        Permission::create(['name' => 'Subcategory Delete', 'display_name' => 'Eliminar Sub categoria de productos'])->SyncRoles([$adminRole]);
+        Permission::create(['name' => 'Subcategory Delete', 'display_name' => 'Eliminar Sub categoria de productos'])->SyncRoles([$adminRole]); */
 
         Permission::create(['name' => 'Brand View', 'display_name' => 'Ver Marca de productos'])->SyncRoles([$adminRole]);
         Permission::create(['name' => 'Brand Create', 'display_name' => 'Crear Marca de productos'])->SyncRoles([$adminRole]);
@@ -269,7 +269,10 @@ Q03NoAh6oA46zA1LzaF+lpcIPbqNAdb4B4gJ0os+mCgwXx8DkEMSSZvWUMI=
         Permission::create(['name' => 'Local Update', 'display_name' => 'Actualizar Local'])->SyncRoles([$adminRole]);
         Permission::create(['name' => 'Local Delete', 'display_name' => 'Eliminar Local'])->SyncRoles([$adminRole]);
 
-
+        Permission::create(['name' => 'Customer View', 'display_name' => 'Ver Cliente'])->SyncRoles([$adminRole]);
+        Permission::create(['name' => 'Customer Create', 'display_name' => 'Crear Cliente'])->SyncRoles([$adminRole]);
+        Permission::create(['name' => 'Customer Update', 'display_name' => 'Actualizar Cliente'])->SyncRoles([$adminRole]);
+        Permission::create(['name' => 'Customer Delete', 'display_name' => 'Eliminar Cliente'])->SyncRoles([$adminRole]);
 
 
         //creando empresa de muestra

@@ -296,17 +296,18 @@
                                             {{-- para mostrar factura es 1 --}}
                                             @if ($comprobante->tipocomprobante_id == 1)
                                                 @if ($comprobante->factura->pdf_path)
-                                                    <a href="{{ asset('storage/' . $comprobante->factura->pdf_path) }}"
-                                                        target="_blank">
-                                                        <img class='h-6' src="/images/icons/pdf_cpe.svg"
-                                                            alt="comprobante">
+                                                   {{--  <a href="{{ asset('storage/' . $comprobante->factura->pdf_path) }}" //funciona en local --}}
+                                                    <a href="{{ Storage::disk('s3')->url($comprobante->factura->pdf_path) }}" target="_blank">
+
+                                                        <img class='h-6' src="/images/icons/pdf_cpe.svg" alt="comprobante">
                                                     </a>
                                                 @endif
                                             @endif
                                             {{-- para mostrar boleta es 2 --}}
                                             @if ($comprobante->tipocomprobante_id == 2)
                                                 @if ($comprobante->boleta->pdf_path)
-                                                    <a href="{{ asset('storage/' . $comprobante->boleta->pdf_path) }}"
+                                                    {{-- <a href="{{ asset('storage/' . $comprobante->boleta->pdf_path) }}" funciona en local--}}
+                                                    <a href="{{ Storage::disk('s3')->url($comprobante->boleta->pdf_path) }}" target="_blank">
                                                         target="_blank">
                                                         <img class='h-6' src="/images/icons/pdf_cpe.svg"
                                                             alt="comprobante">
@@ -344,9 +345,12 @@
                                             {{-- para el xml de factura --}}
                                             @if ($comprobante->tipocomprobante_id == 1)
                                                 @if ($comprobante->factura->xml_path)
-                                                    <a href="{{ asset('storage/' . $comprobante->factura->xml_path) }}"
-                                                        target="_blank"><img class='h-6'
-                                                            src="/images/icons/xml_cdr.svg" alt="xml"></a>
+                                                    {{-- <a href="{{ asset('storage/' . $comprobante->factura->xml_path) }}" funciona en local --}}
+                                                    {{-- <a href="{{ Storage::disk('s3')->url($comprobante->factura->xml_path) }}" target="_blank"> //muestra el xml, pero no lo descarga--}}
+                                                    {{-- <a href="{{ route('download-xml', ['comprobante' => $comprobante->id]) }}"> --}}
+                                                    <a href="#" wire:click.prevent="downloadXml({{ $comprobante->id }})">
+                                                        <img class='h-6' src="/images/icons/xml_cdr.svg" alt="xml">
+                                                    </a>
                                                 @else
                                                     <a href="#"
                                                         wire:click="generateXml({{ $comprobante->id }})"><img
@@ -357,9 +361,10 @@
                                             {{-- para el xml de boleta --}}
                                             @if ($comprobante->tipocomprobante_id == 2)
                                                 @if ($comprobante->boleta->xml_path)
-                                                    <a href="{{ asset('storage/' . $comprobante->boleta->xml_path) }}"
-                                                        target="_blank"><img class='h-6'
-                                                            src="/images/icons/xml_cdr.svg" alt="xml"></a>
+                                                    {{-- <a href="{{ asset('storage/' . $comprobante->boleta->xml_path) }}" funciona en local --}}
+                                                    <a href="{{ Storage::disk('s3')->url($comprobante->boleta->xml_path) }}" target="_blank">
+                                                        <img class='h-6' src="/images/icons/xml_cdr.svg" alt="xml">
+                                                    </a>
                                                 @else
                                                     <a href="#"
                                                         wire:click="generateXml({{ $comprobante->id }})"><img
@@ -404,9 +409,10 @@
                                             {{-- para el cdr de factura --}}
                                             @if ($comprobante->tipocomprobante_id == 1)
                                                 @if ($comprobante->factura->sunat_cdr_path)
-                                                    <a href="{{ asset('storage/' . $comprobante->factura->sunat_cdr_path) }}"
-                                                        target="_blank"><img class='h-6'
-                                                            src="/images/icons/xml_cdr.svg" alt="xml"></a>
+                                                   {{--  <a href="{{ asset('storage/' . $comprobante->factura->sunat_cdr_path) }}" //en local funciona bien --}}
+                                                    <a href="{{ Storage::disk('s3')->url($comprobante->factura->sunat_cdr_path) }}" target="_blank">
+                                                        <img class='h-6' src="/images/icons/xml_cdr.svg" alt="xml">
+                                                    </a>
                                                 @else
                                                     <a href="#"
                                                         wire:click="sendSunat({{ $comprobante->id }})"><img
@@ -417,7 +423,8 @@
                                             {{-- para el cdr de boleta --}}
                                             @if ($comprobante->tipocomprobante_id == 2)
                                                 @if ($comprobante->boleta->sunat_cdr_path)
-                                                    <a href="{{ asset('storage/' . $comprobante->boleta->sunat_cdr_path) }}"
+                                                    {{-- <a href="{{ asset('storage/' . $comprobante->boleta->sunat_cdr_path) }}" // en local funciona bien --}}
+                                                    <a href="{{ Storage::disk('s3')->url($comprobante->boleta->sunat_cdr_path) }}" target="_blank">
                                                         target="_blank"><img class='h-6'
                                                             src="/images/icons/xml_cdr.svg" alt="xml"></a>
                                                 @else

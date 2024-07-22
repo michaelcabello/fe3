@@ -300,7 +300,7 @@ class CategoryEditd extends Component
 
         if ($this->lastSelectedParentCategory != 9999) {
             $categoryreference = Category::find($this->lastSelectedParentCategory);
-            $this->breadcrumbs = $categoryreference->path;
+            $this->breadcrumbs = $categoryreference->path;//path es el campo guardado en la tabla
         } else {
             $this->breadcrumbs = '/';
         }

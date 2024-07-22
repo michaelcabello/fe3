@@ -86,9 +86,9 @@ class DatabaseSeeder extends Seeder
 
         $this->call(TipodenotadecreditosTableSeeder::class);
        // $this->call(ComprobantesTableSeeder::class);
-        $this->call(FacturasTableSeeder::class);
-        $this->call(BoletasTableSeeder::class);
-        $this->call(ComprobanteProductoTableSeeder::class);
+       // $this->call(FacturasTableSeeder::class);
+       // $this->call(BoletasTableSeeder::class);
+       // $this->call(ComprobanteProductoTableSeeder::class);
         $this->call(TransportistasTableSeeder::class);
         $this->call(MotivotrasladosTableSeeder::class);
         $this->call(VehiculosTableSeeder::class);

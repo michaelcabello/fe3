@@ -43,7 +43,7 @@
                                 </div>
                             </div>
 
-                            <div class="sm:col-span-1 lg:col-span-1">
+                            <div class="sm:col-span-1 lg:col-span-2">
                                 <div class="mr-1">
                                     <x-jet-label value="Nombre Comercial" />
                                     <x-jet-input type="text" wire:model.defer="nombrecomercial"
@@ -52,14 +52,14 @@
                                 </div>
                             </div>
 
-                            <div class="sm:col-span-1 lg:col-span-1">
+                            {{-- <div class="sm:col-span-1 lg:col-span-1">
                                 <div class="mr-1">
                                     <x-jet-label value="Ubigeo" />
                                     <x-jet-input type="text" wire:model.defer="ubigeo"
                                         class="w-full h-10 max-w-md uppercase" />
                                     <x-jet-input-error for="ubigeo" />
                                 </div>
-                            </div>
+                            </div> --}}
 
 
                         </div>
@@ -71,7 +71,7 @@
 
                         <div class="grid grid-cols-1 sm:grid-cols-6 md:grid-cols-12 lg:grid-cols-12">
 
-                            <div class="col-span-1 mb-4 mr-1 sm:col-span-6">
+                            <div class="col-span-1 mb-4 mr-1 sm:col-span-5">
                                 <x-jet-label value="Dirección" />
                                 <x-jet-input wire:model.defer="direccion" type="text" placeholder="Dirección"
                                     class="w-full h-10 p-0 " />
@@ -80,7 +80,7 @@
 
                             <div class="col-span-1 mb-4 mr-1 sm:col-span-2">
                                 <x-jet-label value="Departamento" />
-                                <select wire:model.defer="department_id"
+                                <select wire:model="department_id"
                                     class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                                     data-placeholder="Selecccione el motivo de traslado" style="width:100%">
                                     <option value="" selected disabled>Seleccione</option>
@@ -98,7 +98,7 @@
 
                             <div class="col-span-1 mb-4 mr-1 sm:col-span-2">
                                 <x-jet-label value="Provincia" />
-                                <select wire:model.defer="province_id"
+                                <select wire:model="province_id"
                                     class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                                     data-placeholder="Selecccione Provincia" style="width:100%">
                                     <option value="" selected disabled>Seleccione</option>
@@ -115,7 +115,7 @@
 
                             <div class="col-span-1 mb-4 mr-1 sm:col-span-2">
                                 <x-jet-label value="Distrito" />
-                                <select wire:model.defer="district_id"
+                                <select wire:model="district_id"
                                     class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                                     data-placeholder="Selecccione Distrito" style="width:100%">
                                     <option value="" selected disabled>Seleccione</option>
@@ -128,6 +128,16 @@
                                 </select>
                                 <x-jet-input-error for="district_id" />
 
+                            </div>
+
+
+                            <div class="sm:col-span-1 lg:col-span-1">
+                                <div class="mr-1">
+                                    <x-jet-label value="Ubigeo" />
+                                    <x-jet-input type="text" wire:model="ubigeo"
+                                        class="w-full h-10 max-w-md uppercase" />
+                                    <x-jet-input-error for="ubigeo" />
+                                </div>
                             </div>
 
 
@@ -191,7 +201,7 @@
 
                             <div class="col-span-1 mb-4 mr-1 sm:col-span-1">
                                 <x-jet-label value="Moneda" />
-                                <select wire:model.defer="currency_id"
+                                <select wire:model="currency_id"
                                     class="h-10 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                                     data-placeholder="Selecccione el motivo de traslado" style="width:100%">
                                     <option value="" selected disabled>Seleccione</option>

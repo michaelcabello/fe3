@@ -105,13 +105,15 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        $companyId = auth()->user()->employee->company->id;
         //$this->authorize('update', $user);
         //$roles = Role::pluck('name', 'id');//mandara un array asociativo con clave
         $roles = Role::with('permissions')->get();
         //valor y no un array de objetos
         $permissions = Permission::pluck('name','id');
         $positions = Position::all();
-         return view('admin.users.edit', compact('user', 'roles', 'permissions', 'positions'));
+        $locales = Local::where('company_id', $companyId)->get();//locales de la empresa
+         return view('admin.users.edit', compact('user', 'roles', 'permissions', 'positions', 'locales'));
     }
 
 
@@ -157,6 +159,7 @@ class UserController extends Controller
             'birthdate'=> $request ->birthdate,
             'state'=> $request ->state,
             'user_id'=> $user ->id,
+            'local_id'=> $request ->local_id,
             'position_id'=> $request ->position_id,
         ]);
 

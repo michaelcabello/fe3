@@ -1,21 +1,22 @@
 <?php
 
-use App\Models\Productatribute;
-use Illuminate\Support\Facades\Route;
-use App\Http\Livewire\Admin\CategoryList;
-use App\Http\Livewire\Admin\ComprobanteList;
-use App\Http\Livewire\Admin\ComprobanteSave;
-use App\Http\Controllers\WelcomeController;
 use App\Http\Livewire\LpaList;
 use App\Http\Livewire\LpaListd;
 use App\Http\Livewire\LpaListt;
+use App\Models\Productatribute;
+use App\Http\Livewire\ShoppingCart;
 use App\Http\Livewire\ProductDetail;
 use App\Http\Livewire\ProductSingle;
 use App\Http\Livewire\ProductSingled;
 use App\Http\Livewire\ProductSinglet;
-use App\Http\Livewire\ShoppingCart;
-use App\Http\Controllers\CategoryController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Livewire\Admin\CategoryList;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Livewire\Admin\ComprobanteList;
+use App\Http\Livewire\Admin\ComprobanteSave;
 use App\Http\Controllers\SubcategoryController;
 /*
 |--------------------------------------------------------------------------
@@ -28,12 +29,26 @@ use App\Http\Controllers\SubcategoryController;
 |
 */
 
+Route::get('/', function () {
+    return view('inicio');
+})->name('home');
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+
+
+
 /* Route::get('/', function () {
     return view('welcome');
 }); */
 
 
-Route::get('/', WelcomeController::class);
+//Route::get('/', HomeController::class)->name('home');
+
+
+//Route::get('/', WelcomeController::class);
 Route::get('/products/{subcategory}', LpaList::class)->name('product.list.ecommerce');
 Route::get('/productsd/{subcategory}', LpaListd::class)->name('product.listd.ecommerce');
 Route::get('/productst/{subcategory}', LpaListt::class)->name('product.listt.ecommerce');

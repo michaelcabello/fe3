@@ -14,15 +14,8 @@
                 <div class="card card-primary card-outline">
                     <div class="card-body box-profile">
                         <div>
-
-                            <h3 class="text-center profile-username">Creando Nuevo Rol</h3>
-
-
-                            {{--  @include('partials.error-messages') --}}
-
-
-
-
+                            {{-- <h3 class="text-center profile-username">Creando Nuevo Rol</h3> --}}
+                            <p class="mt-2 mb-2 text-lg font-bold underline underline-offset-2">Creando Nuevo Rol</p>
                             <div class="mb-4">
                                 <x-jet-label value="Nombre:" />
                                 <x-jet-input type="text" name="name" value="{{ old('name') }}"
@@ -37,9 +30,7 @@
                                 <x-jet-input-error for="display_name" />
                             </div>
 
-                            <x-jet-danger-button class="w-full mt-4 mb-3" type="submit">
-                                <i class="mx-2 fa-regular fa-floppy-disk"></i> Crear Rol
-                            </x-jet-danger-button>
+
 
 
 
@@ -61,6 +52,10 @@
                     @include('admin.permissions.checkboxes', ['model' => $role])
                 </div>
             </div>
+
+            <x-jet-danger-button class="w-full mt-1 mb-3" type="submit">
+                <i class="mx-2 fa-regular fa-floppy-disk"></i> Crear Rol
+            </x-jet-danger-button>
 
         </div>
     </form>

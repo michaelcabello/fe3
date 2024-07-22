@@ -5,7 +5,8 @@
         </h2>
     </x-slot>
 
-        <div class="grid grid-cols-1 px-4 mx-auto mt-4 sm:px-6 lg:px-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-x-6 gap-y-8">
+    <div
+        class="grid grid-cols-1 px-4 mx-auto mt-4 sm:px-6 lg:px-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-x-6 gap-y-8">
 
         <form method="POST" action="{{ route('admin.user.update', $user) }}" enctype="multipart/form-data">
             {{ csrf_field() }}
@@ -85,14 +86,12 @@
                                 </div>
                             </div>
 
-                            <div class="flex">
+                            {{-- <div class="grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-3">
 
-
-
-                                <div class="mr-4">
+                                <div>
                                     <x-jet-label value="Cargo:" />
                                     <select name="position_id"
-                                        class="form-control block py-2.5  text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        class="block text-sm text-gray-900 border border-gray-300 rounded-lg form-control focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         <option value="">Seleccione cargo</option>
                                         @foreach ($positions as $position)
                                             <option value="{{ $position->id }}"
@@ -100,28 +99,94 @@
                                                 {{ $position->name }}</option>
                                         @endforeach
                                     </select>
-                                    {{-- {!! $errors->first('position_id','<span class="help-block">:message</span>') !!} --}}
                                     <x-jet-input-error for="position_id" />
                                 </div>
-
 
                                 <div>
                                     <x-jet-label value="Genero:" />
                                     <select name="gender"
-                                        class="form-control block py-2.5 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        class="block text-sm text-gray-900 border border-gray-300 rounded-lg form-control focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         <option value="">Escoger</option>
                                         <option value="1"
-                                            {{ old('gender', $user->employee->gender) == 1 ? 'selected' : '' }}>Masculino
+                                            {{ old('gender', $user->employee->gender) == 1 ? 'selected' : '' }}>
+                                            Masculino
                                         </option>
                                         <option value="2"
-                                            {{ old('gender', $user->employee->gender) == 2 ? 'selected' : '' }}>Femenino
+                                            {{ old('gender', $user->employee->gender) == 2 ? 'selected' : '' }}>
+                                            Femenino
                                         </option>
                                     </select>
                                     <x-jet-input-error for="gender" />
-                                    {{-- {!! $errors->first('typeproduct_id','<span class="help-block">:message</span>') !!} --}}
+
                                 </div>
 
+                                <div>
+                                    <x-jet-label value="Local:" />
+                                    <select name="local_id"
+                                        class="block text-sm text-gray-900 border border-gray-300 rounded-lg form-control focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option value="">Selecciona un local</option>
+                                        @foreach ($locales as $local)
+                                            <option value="{{ $local->id }}"
+                                                {{ old('local_id', $user->employee->local_id) == $local->id ? 'selected' : '' }}>
+                                                {{ $local->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <x-jet-input-error for="local_id" />
+                                </div>
+
+                            </div> --}}
+
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-2">
+                                <div class="mb-4 w-full">
+                                    <x-jet-label value="Cargo:" />
+                                    <select name="position_id"
+                                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg form-control focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option value="">Seleccione cargo</option>
+                                        @foreach ($positions as $position)
+                                            <option value="{{ $position->id }}"
+                                                {{ old('position_id', $user->employee->position_id) == $position->id ? 'selected' : '' }}>
+                                                {{ $position->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <x-jet-input-error for="position_id" />
+                                </div>
+
+                                <div class="mb-4 w-full">
+                                    <x-jet-label value="Genero:" />
+                                    <select name="gender"
+                                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg form-control focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option value="">Escoger</option>
+                                        <option value="1"
+                                            {{ old('gender', $user->employee->gender) == 1 ? 'selected' : '' }}>
+                                            Masculino
+                                        </option>
+                                        <option value="2"
+                                            {{ old('gender', $user->employee->gender) == 2 ? 'selected' : '' }}>
+                                            Femenino
+                                        </option>
+                                    </select>
+                                    <x-jet-input-error for="gender" />
+                                </div>
+
+                                <div class="mb-4 w-full">
+                                    <x-jet-label value="Local:" />
+                                    <select name="local_id"
+                                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg form-control focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option value="">Selecciona un local</option>
+                                        @foreach ($locales as $local)
+                                            <option value="{{ $local->id }}"
+                                                {{ old('local_id', $user->employee->local_id) == $local->id ? 'selected' : '' }}>
+                                                {{ $local->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <x-jet-input-error for="local_id" />
+                                </div>
                             </div>
+
+
+
 
                             <div class="py-4">
                                 <input type="file" name="photo" id="file" accept="image/*">
@@ -151,13 +216,13 @@
             </div>
         </form>
 
-            <div class="px-3 py-4 bg-white md:col-span-2">
-                <p class="pb-4 text-lg font-bold underline underline-offset-2">Roles</p>
-                <div class="mb-4">
+        <div class="px-3 py-4 bg-white md:col-span-2">
+            <p class="pb-4 text-lg font-bold underline underline-offset-2">Roles</p>
+            <div class="mb-4">
 
-                     @role('Admin')
+                @role('Admin')
                     <form method="POST" action="{{ route('admin.user.roles.update', $user) }}">
-                       {{ csrf_field() }} {{ method_field('PUT')}}
+                        {{ csrf_field() }} {{ method_field('PUT') }}
 
                         @include('admin.roles.checkboxes')
 
@@ -166,53 +231,52 @@
                             <i class="mx-2 fa-regular fa-floppy-disk"></i> Actualizar Roles
                         </x-jet-danger-button>
                     </form>
-                    @else
-                        <ul>
-                            @forelse($user->roles as $role)
-                            <li class="list-group-item">{{ $role->name }}</li>
-                            @empty
-                            <li class="list-group-item">no tiene roles</li>
-                            @endforelse
-
-
-                        </ul>
-                    @endrole
-
-                   {{--  @include('admin.roles.checkboxes') --}}
-                </div>
-
-                <p class="pb-4 text-lg font-bold underline underline-offset-2">Permisos</p>
-                @role('Admin')
-
-
-                        {{-- @include('admin.permissions.checkboxes', ['model' => $user]) --}}
-
-                        <form method="POST" action="{{ route('admin.users.permissions.update', $user) }}">
-                        {{ csrf_field() }} {{ method_field('PUT')}}
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-                            @include('admin.permissions.checkboxes', ['model' =>$user])
-                        </div>
-                            <x-jet-danger-button class="w-64 mt-4 mb-3" type="submit">
-                                <i class="mx-2 fa-regular fa-floppy-disk"></i> Actualizar Permisos
-                            </x-jet-danger-button>
-                        </form>
-
                 @else
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-                            @forelse($user->permissions as $permission)
-                            <div >{{ $permission->name }}</div>
-                            @empty
-                            <div >No tiene permisos</div>
-                            @endforelse
+                    <ul>
+                        @forelse($user->roles as $role)
+                            <li class="list-group-item">{{ $role->name }}</li>
+                        @empty
+                            <li class="list-group-item">no tiene roles</li>
+                        @endforelse
 
 
-                    </div>
+                    </ul>
                 @endrole
 
-
-                </div>
+                {{--  @include('admin.roles.checkboxes') --}}
             </div>
 
+            <p class="pb-4 text-lg font-bold underline underline-offset-2">Permisos</p>
+            @role('Admin')
+
+
+                {{-- @include('admin.permissions.checkboxes', ['model' => $user]) --}}
+
+                <form method="POST" action="{{ route('admin.users.permissions.update', $user) }}">
+                    {{ csrf_field() }} {{ method_field('PUT') }}
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+                        @include('admin.permissions.checkboxes', ['model' => $user])
+                    </div>
+                    <x-jet-danger-button class="w-64 mt-4 mb-3" type="submit">
+                        <i class="mx-2 fa-regular fa-floppy-disk"></i> Actualizar Permisos
+                    </x-jet-danger-button>
+                </form>
+            @else
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+                    @forelse($user->permissions as $permission)
+                        <div>{{ $permission->name }}</div>
+                    @empty
+                        <div>No tiene permisos</div>
+                    @endforelse
+
+
+                </div>
+            @endrole
+
+
         </div>
+    </div>
+
+    </div>
 
 </x-app-layout>

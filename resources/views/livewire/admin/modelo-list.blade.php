@@ -9,7 +9,6 @@
 
     </x-slot>
 
-
     <!-- This example requires Tailwind CSS v2.0+ -->
     <div class="container py-12 mx-auto border-gray-400 max-w-7xl sm:px-6 lg:px-8">
 
@@ -146,7 +145,7 @@
                                                     @case(0)
                                                         <span wire:click="activar({{ $modeloo }})"
                                                             class="inline-flex px-2 text-xs font-semibold leading-5 text-red-800 bg-red-100 rounded-full cursor-pointer">
-                                                            inactivoinactivo
+                                                            inactivo
                                                         </span>
                                                     @break
                                                     @case(1)
@@ -165,7 +164,7 @@
 
 
                                             <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                                                <a class="btn btn-blue"><i class="fa-sharp fa-solid fa-eye"></i></a>
+                                               {{--  <a class="btn btn-blue"><i class="fa-sharp fa-solid fa-eye"></i></a> --}}
                                                 <a wire:click="edit({{ $modeloo }})" class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a>
                                                 <a class="btn btn-red" wire:click="$emit('deleteModelo', {{ $modeloo->id }})" >
                                                    <i class="fa-solid fa-trash-can"></i>

@@ -1,4 +1,5 @@
 <?php
+//use App\Models\Comprobante;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Admin\BrandList;
 use App\Http\Livewire\Admin\LocalEdit;
@@ -8,8 +9,11 @@ use App\Http\Livewire\Admin\ModeloList;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Admin\CompanyEdit;
 use App\Http\Livewire\Admin\LocalCreate;
+use App\Http\Livewire\Admin\ProductEdit;
 use App\Http\Livewire\Admin\ProductList;
 use App\Http\Livewire\Admin\CategoryList;
+use App\Http\Livewire\Admin\CustomerEdit;
+use App\Http\Livewire\Admin\CustomerList;
 use App\Http\Livewire\Admin\LocalCreated;
 use App\Http\Livewire\Admin\ProductListd;
 use App\Http\Livewire\Admin\ShipmentEdit;
@@ -18,6 +22,7 @@ use App\Http\Livewire\Admin\CategoryListd;
 use App\Http\Livewire\Admin\InventoryList;
 use App\Http\Livewire\Admin\ProductCreate;
 use App\Http\Livewire\Admin\ReceptionEdit;
+use App\Http\Livewire\Admin\CustomerCreate;
 use App\Http\Livewire\Admin\InventoryList2;
 use App\Http\Livewire\Admin\PermissionList;
 use App\Http\Controllers\admin\BoletaReport;
@@ -28,6 +33,7 @@ use App\Http\Livewire\Admin\InventoryListdos;
 use App\Http\Controllers\admin\RoleController;
 use App\Http\Controllers\admin\SaleController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Livewire\Admin\ComprobanteCreate;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\LocalController;
 use App\Http\Controllers\admin\TableController;
@@ -90,6 +96,8 @@ Route::get('sale', [SaleController::class, 'index'])->name('admin.sale.index');
 Route::get('sale/create', [SaleController::class, 'create'])->name('admin.sale.create');
 
 Route::get('comprobante', ComprobanteList::class)->name('admin.comprobante.list');
+//Route::get('comprobante', ComprobanteList::class, 'create')->name('admin.comprobante.list');
+Route::get('download-xml/{comprobanteId}', ComprobanteList::class)->name('download-xml');
 Route::get('comprobante/create', [ComprobanteController::class, 'create'])->name('admin.comprobante.create');
 Route::get('notadecredito/create/{id}', NotadecreditoCreate::class)->name('admin.notadecredito.create');
 Route::get('guiaderemision/create/{id}', GuiaderemisionCreate::class)->name('admin.guiaderemision.create');
@@ -116,9 +124,14 @@ Route::get('categories4', [CategoryController::class, 'indexxd'])->name('categor
 Route::delete('category/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
 Route::get('products', ProductListd::class)->name('product.list');
+Route::get('productos/{productId}', ProductEdit::class)->name('admin.product.edit');
 Route::get('products/create', ProductCreate::class)->name('admin.product.create');
 Route::get('/products/reportpdf',[ProductController::class,'pdfReport'])->name('product.reportpdf');
 Route::post('/products/import',[ProductController::class,'importStore'])->name('product.importstore');
+
+Route::get('customers', CustomerList::class)->name('customer.list');
+Route::get('customers/{customerId}', CustomerEdit::class)->name('admin.customer.edit');
+Route::get('customer/create', CustomerCreate::class)->name('admin.customer.create');
 
 
 //Route::get('products', ProductList::class)->name('product.list');
@@ -191,3 +204,37 @@ Route::get('/logout', function () {
     }
 }); */
 
+
+/* Route::get('/download-xml/{comprobante}', function ($comprobanteId) {
+    $comprobante = Comprobante::findOrFail($comprobanteId);
+    $xmlPath = $comprobante->factura->xml_path ?? $comprobante->boleta->xml_path ?? $comprobante->ncfactura->xml_path ?? $comprobante->ncboleta->xml_path;
+
+    if (!$xmlPath) {
+        abort(404);
+    }
+
+    $fileContent = Storage::disk('s3')->get($xmlPath);
+    $fileName = basename($xmlPath);
+
+    return response()->streamDownload(function () use ($fileContent) {
+        echo $fileContent;
+    }, $fileName, [
+        'Content-Type' => 'application/xml',
+        'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+    ]);
+})->name('download-xml'); */
+
+/* Route::get('/download-xml/{comprobante}', function ($comprobanteId) {
+    $comprobante = Comprobante::findOrFail($comprobanteId);
+    $xmlPath = $comprobante->factura->xml_path ?? $comprobante->boleta->xml_path ?? $comprobante->ncfactura->xml_path ?? $comprobante->ncboleta->xml_path;
+
+    if (!$xmlPath) {
+        abort(404);
+    }
+
+    $url = Storage::disk('s3')->temporaryUrl(
+        $xmlPath, now()->addMinutes(5)
+    );
+
+    return redirect($url);
+})->name('download-xml'); */

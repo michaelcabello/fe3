@@ -34,7 +34,6 @@
                             <!-- Div contenedor con estado -->
                             <div x-data="{ open: false }">
                                 <!-- Elemento de categoría con iconos de expansión y contracción -->
-
                                 <div @click="open = !open" class="flex items-center justify-between cursor-pointer">
                                     <div class="flex">
                                         <i class="fas fa-plus" x-show="!open"></i>
@@ -114,7 +113,7 @@
                                             {{ csrf_field() }} {{ method_field('DELETE') }}
 
                                             <button class="btn btn-red"
-                                                onclick="return confirm('¿Estas seguro de querer eliminar la Catgoria?')">
+                                                onclick="return confirm('¿Estas seguro de querer eliminar la Categoria?')">
                                                 <i class="fa-solid fa-trash-can"></i>
                                             </button>
 
@@ -152,8 +151,7 @@
                                 <hr class="w-full my-2 border-t border-gray-300 dotted">
                                 <!-- Lista de hijos de la categoría, mostrada si está abierta -->
                                 <ul x-show="open">
-                                    <!-- Iteración sobre los hijos de la categoría -->
-
+                                    <!-- Iteración sobre los hijos de la categoría empesando por la categoria padre -->
                                     @foreach ($category->children as $child)
                                         <!-- Componente de categoría para cada hijo -->
                                         <livewire:admin.category-itemlist :category="$child" :key="$child->id" />
@@ -181,6 +179,8 @@
     </div>
 
     <!-- Pie de la vista -->
+
+
     <x-slot name="footer">
         <h2 class="text-xl font-semibold leading-tight text-gray-600">
             Pie

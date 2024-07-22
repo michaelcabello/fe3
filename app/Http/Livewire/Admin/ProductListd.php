@@ -9,7 +9,6 @@ use Livewire\WithFileUploads;
 
 class ProductListd extends Component
 {
-
     use WithPagination;
     use WithFileUploads;
     public $search, $image, $product, $state;
@@ -45,11 +44,11 @@ class ProductListd extends Component
 
     /* 'brand.name'=> 'required',Rule::unique('brands')->ignore($this->brand->id) */
 
-     protected $rules = [
+/*      protected $rules = [
         'product.name' => 'required',
         'product.image'=>'image',
         'product.state'=>'required',
-    ];
+    ]; */
 
 
     public function loadProducts(){

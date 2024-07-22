@@ -57,6 +57,7 @@ class LocalCreated extends Component
         $this->codigopostal = $this->district_id;
     }
 
+
     protected $rules = [
         'name' => 'required|unique:locals',
         'codigopostal' => '',

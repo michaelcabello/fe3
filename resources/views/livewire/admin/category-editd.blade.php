@@ -45,7 +45,7 @@
                             <input type="radio" name="category_radio" id="category_radio_9999"
                                 wire:model="selectedParentCategory1" value="9999" onclick="selectOnlyOneRadio(9999)">
                             Principal
-                            {{ $selectedParentCategory1 }}
+                            {{-- {{ $selectedParentCategory1 }} --}}  {{-- tiene el codigo de la categoria seleccionada --}}
 
                             @if (count($categories))
                                 <div>
@@ -76,7 +76,6 @@
                                                         }
                                                         @endif --}}
 
-
                                                     @if ($selectedParentCategory1 == $category->id)
                                                         @php
                                                             $deshabilitar = 1;
@@ -90,8 +89,8 @@
 
 
 
-                                                    {{ $category->name }} - {{ $selectedParentCategory1 }} -
-                                                    {{ $category->id }} ya{{ $deshabilitar }}
+                                                    {{ $category->name }} ({{ $category->children->count() }}) {{-- {{ $selectedParentCategory1 }} - --}}
+                                                    {{-- {{ $category->id }} es el codigo de la categoria y {{ $deshabilitar }}  es 0 si es falso no esta seleccionado y 1 si es true si esta seleccionado--}}
                                                 </div>
                                                 <ul x-show="open">
                                                     @foreach ($category->children as $child)
@@ -192,8 +191,6 @@
                 @elseif($imageback)
                     <img src="{{ Storage::disk("s3")->url($imageback) }}" width="200px" alt="">
                 @endif
-
-
 
 
 

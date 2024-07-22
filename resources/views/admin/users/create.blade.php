@@ -14,7 +14,8 @@
                             <div class="card-body box-profile">
                                 <div>
 
-                                    <h3 class="text-center profile-username">Datos del Usuario</h3>
+                                   {{--  <h3 class="text-center profile-username">Datos del Usuario</h3> --}}
+                                    <p class="text-lg font-bold underline underline-offset-2">Datos del Usuario</p>
 
 
                                     {{--  @include('partials.error-messages') --}}
@@ -69,74 +70,62 @@
                                             <x-jet-input-error for="address" />
                                         </div>
 
-                                        <div class="flex">
-                                            <div class="mb-4 mr-4">
+                                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                            <div class="mb-4">
                                                 <x-jet-label value="Celular:" />
-                                                <x-jet-input type="text" name="movil" value="{{ old('movil') }}"
-                                                placeholder="Celular"
-                                                class="w-full"/>
+                                                <x-jet-input type="text" name="movil" value="{{ old('movil') }}" placeholder="Celular" class="w-full"/>
                                                 <x-jet-input-error for="movil" />
                                             </div>
 
                                             <div class="mb-4">
                                                 <x-jet-label value="DNI:" />
-                                                <x-jet-input type="text" name="dni" value="{{ old('dni') }}"
-                                                placeholder="DNI"
-                                                class="w-full"/>
+                                                <x-jet-input type="text" name="dni" value="{{ old('dni') }}" placeholder="DNI" class="w-full"/>
                                                 <x-jet-input-error for="dni" />
                                             </div>
                                         </div>
 
-                                        <div class="flex">
-                                            <div class="mr-4">
+                                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                                            <div>
                                                 <x-jet-label value="Cargo:" />
-                                                <select name="position_id" class="form-control block py-2.5  text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                                <option value="">Selecciona una categoria</option>
-                                                @foreach($positions as $position)
-                                                <option value="{{$position->id}}"
-                                                        {{ old('position_id',$user->position_id)== $position->id ? 'selected':''}} >{{$position->name}}</option>
-                                                @endforeach
+                                                <select name="position_id" class="block w-full py-2.5 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                    <option value="">Selecciona una categoria</option>
+                                                    @foreach($positions as $position)
+                                                        <option value="{{$position->id}}" {{ old('position_id',$user->position_id)== $position->id ? 'selected':''}} >{{$position->name}}</option>
+                                                    @endforeach
                                                 </select>
-                                                {{-- {!! $errors->first('position_id','<span class="help-block">:message</span>') !!} --}}
                                                 <x-jet-input-error for="position_id" />
                                             </div>
 
-
-                                            <div class="mr-4">
+                                            <div>
                                                 <x-jet-label value="Genero:" />
-                                                <select name="gender" class="form-control block py-2.5 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                                <option value="">Escoger</option>
-                                                <option value="1">Masculino</option>
-                                                <option value="2">Femenino</option>
+                                                <select name="gender" class="block w-full py-2.5 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                    <option value="">Escoger</option>
+                                                    <option value="1">Masculino</option>
+                                                    <option value="2">Femenino</option>
                                                 </select>
                                                 <x-jet-input-error for="gender" />
-                                                {{-- {!! $errors->first('typeproduct_id','<span class="help-block">:message</span>') !!} --}}
                                             </div>
 
                                             <div>
                                                 <x-jet-label value="Local:" />
-                                                <select name="local_id" class="form-control block py-2.5  text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                                <option value="">Selecciona un local</option>
-                                                @foreach($locales as $local)
-                                                <option value="{{$local->id}}"
-                                                        {{ old('local_id', auth()->user()->employee->local->id)== $local->id ? 'selected':''}} >{{$local->name}}</option>
-                                                @endforeach
+                                                <select name="local_id" class="block w-full py-2.5 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                    <option value="">Selecciona un local</option>
+                                                    @foreach($locales as $local)
+                                                        <option value="{{$local->id}}" {{ old('local_id', auth()->user()->employee->local->id)== $local->id ? 'selected':''}} >{{$local->name}}</option>
+                                                    @endforeach
                                                 </select>
-                                                {{-- {!! $errors->first('position_id','<span class="help-block">:message</span>') !!} --}}
                                                 <x-jet-input-error for="position_id" />
                                             </div>
-
-
-
                                         </div>
+
 
                                         <div class="py-4">
                                             <input type="file" name="photo" id="file" accept="image/*">
                                         </div>
 
-                                        <x-jet-danger-button class="w-full mt-4 mb-3" type="submit">
+                                       {{--  <x-jet-danger-button class="w-full mt-4 mb-3" type="submit">
                                             <i class="mx-2 fa-regular fa-floppy-disk"></i> Crear Usuario
-                                        </x-jet-danger-button>
+                                        </x-jet-danger-button> --}}
 
 
 
@@ -160,7 +149,12 @@
 
                             @include('admin.permissions.checkboxes', ['model' => $user])
                         </div>
+
                     </div>
+
+                    <x-jet-danger-button class="w-full mt-1 mb-3" type="submit">
+                        <i class="mx-2 fa-regular fa-floppy-disk"></i> Crear Usuario
+                    </x-jet-danger-button>
 
         </div>
     </form>

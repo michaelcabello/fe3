@@ -387,7 +387,6 @@ class SunatService
     //este metodo es para nota de credito ncfactura y ncboleta
     public function setNota()
     {
-
         //dd($this->boleta);
         $this->voucher = (new Note())
             ->setUblVersion('2.1')
@@ -530,8 +529,15 @@ class SunatService
         // Guardar XML firmado digitalmente.
         $xml = $this->see->getFactory()->getLastXml();
         $this->boleta->hash = (new XmlUtils())->getHashSign($xml);
-        $this->boleta->xml_path = 'invoices/xml/' . $this->voucher->getName() . '.xml';
-        Storage::put($this->boleta->xml_path, $xml, 'public');
+
+        /* $this->boleta->xml_path = 'invoices/xml/' . $this->voucher->getName() . '.xml';
+        Storage::put($this->boleta->xml_path, $xml, 'public'); //esto funciona en local */
+
+
+        $this->boleta->xml_path = 'fe/'.$this->company->id.'/invoices/xml/' . $this->voucher->getName() . '.xml';
+        Storage::disk('s3')->put($this->boleta->xml_path, $xml, 'public');
+
+
 
         // Verificamos que la conexión con SUNAT fue exitosa.
         if (!$this->boleta->sunat_success) {
@@ -548,8 +554,12 @@ class SunatService
             return;
         }
         // Guardamos el CDR
-        $this->boleta->sunat_cdr_path = "invoices/cdr/R-{$this->voucher->getName()}.zip";
-        Storage::put($this->boleta->sunat_cdr_path, $this->result->getCdrZip(), 'public');
+        /* $this->boleta->sunat_cdr_path = "invoices/cdr/R-{$this->voucher->getName()}.zip";
+        Storage::put($this->boleta->sunat_cdr_path, $this->result->getCdrZip(), 'public');//funciona bien en local */
+
+        $this->boleta->sunat_cdr_path = 'fe/'.$this->company->id.'/invoices/cdr/R-' .$this->voucher->getName(). '.zip';
+        Storage::disk('s3')->put($this->boleta->sunat_cdr_path, $this->result->getCdrZip(), 'public');
+
         $this->boleta->save();
 
         //Lectura del CDR
@@ -633,9 +643,13 @@ class SunatService
 
         $pdf = $report->render($this->voucher, $params);
 
+
         if ($pdf) {
-            $this->boleta->pdf_path = 'invoices/pdf/' . $this->voucher->getName() . '.pdf';
-            Storage::put($this->boleta->pdf_path, $pdf, 'public');
+            //$this->boleta->pdf_path = 'invoices/pdf/' . $this->voucher->getName() . '.pdf';
+            //Storage::put($this->boleta->pdf_path, $pdf, 'public');
+            $this->boleta->pdf_path = 'fe/'.$this->company->id.'/invoices/pdf/' . $this->voucher->getName() . '.pdf';
+            Storage::disk('s3')->put($this->boleta->pdf_path, $pdf, 'public');
+
 
             $this->boleta->save();
         }

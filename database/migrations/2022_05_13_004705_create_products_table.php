@@ -33,22 +33,22 @@ return new class extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
 
             $table->unsignedBigInteger('currency_id')->nullable();
-            $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
+            $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('set null');
 
             $table->unsignedBigInteger('um_id')->nullable();
-            $table->foreign('um_id')->references('id')->on('ums')->onDelete('cascade');
+            $table->foreign('um_id')->references('id')->on('ums')->onDelete('set null');
 
             $table->unsignedBigInteger('modelo_id')->nullable();
-            $table->foreign('modelo_id')->references('id')->on('modelos')->onDelete('cascade');
+            $table->foreign('modelo_id')->references('id')->on('modelos')->onDelete('set null');//al eliminar un modelo no eliminara el producto
 
             $table->unsignedBigInteger('category_id')->nullable();
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
 
             $table->unsignedBigInteger('brand_id')->nullable();
-            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
+            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('set null');
 
             $table->unsignedBigInteger('tipoafectacion_id')->nullable();
-            $table->foreign('tipoafectacion_id')->references('id')->on('tipoafectacions')->onDelete('cascade');
+            $table->foreign('tipoafectacion_id')->references('id')->on('tipoafectacions')->onDelete('set null');
 
             $table->boolean('esbolsa')->default(0)->nullable();
             $table->boolean('detraccion')->nullable();

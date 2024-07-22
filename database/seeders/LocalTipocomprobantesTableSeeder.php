@@ -23,7 +23,7 @@ class LocalTipocomprobantesTableSeeder extends Seeder
             array (
                 'id' => 1,
                 'serie' => 'F001',
-                'inicio' => 0,
+                'inicio' => 1,
                 'default' => 1,
                 'local_id' => 1,
                 'tipocomprobante_id' => 1,

@@ -14,12 +14,12 @@ class CategoryListd extends Component
     public $companyId;
     //public $category;
 
-    protected $listeners = ['confirmDeleteCategory'];
+    //protected $listeners = ['confirmDeleteCategory'];
 
     public function mount()
     {
         $this->companyId = auth()->user()->employee->company->id;
-        // Obtener las categorías raíz y calcular su profundidad
+        // Obtener las categorías raíz y calcular su profundidad, whereNull cuando sea null
         $this->categories = Category::whereNull('parent_id')->where('company_id', $this->companyId)->get();
         /* $this->categories = Category::whereNull('parent_id')->get()->map(function ($category) {
             $category->depth = $this->calculateDepth($category);

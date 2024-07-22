@@ -12,6 +12,7 @@ use App\Models\Comprobante;
 use Livewire\WithPagination;
 use App\Services\SunatService;
 use App\Models\Comprobante_Product;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -63,7 +64,7 @@ class ComprobanteList extends Component
 
     public function mount()
     {
-        $this->company = auth()->user()->employee->company;//compania logueada
+        $this->company = auth()->user()->employee->company; //compania logueada
         $this->igv = Impuesto::where('siglas', 'IGV')->value('valor'); //es el 18%
         $this->factoricbper = Impuesto::where('siglas', 'ICBPER')->value('valor'); //es 0.2
     }
@@ -85,8 +86,8 @@ class ComprobanteList extends Component
     {
         if ($this->readyToLoad) {
 
-            $company_id = auth()->user()->employee->company->id;//compania logueada
-            $local_id = auth()->user()->employee->local->id;//local logueado
+            $company_id = auth()->user()->employee->company->id; //compania logueada
+            $local_id = auth()->user()->employee->local->id; //local logueado
 
             /* $comprobantes = Comprobante::with('customer', 'local')->addSelect([
                 'nomrazonsocial' => Customer::select('nomrazonsocial')->whereColumn('id', 'comprobantes.customer_id')
@@ -166,7 +167,7 @@ class ComprobanteList extends Component
                 ->where('employee_id', auth()->user()->employee->id)
                 ->where('state', 1) //el state 1 indica que el comprobante esta en el temporal, para indicar que se guardo pero no se termino de enviar a sunat
                 ->where('comprobante_id', $comprobante->id)->get(); //state 0 tiene los temporales actuales, 1 ya esta grabado pero no enviado a sunat
-                //el state 0 indica que se mostrara al realizar el comprobante, el state 1 no se muestra pero esta en la tabla hasta que se envie a SUNAT
+            //el state 0 indica que se mostrara al realizar el comprobante, el state 1 no se muestra pero esta en la tabla hasta que se envie a SUNAT
         } elseif ($comprobante->tipocomprobante_id == 3 or $comprobante->tipocomprobante_id == 5) {
             //el detalle se guardara en el teporal
             $detalle = Comprobante_Product::where('comprobante_id', $comprobante->id)
@@ -178,13 +179,13 @@ class ComprobanteList extends Component
         }
 
 
-        if ($comprobante->tipocomprobante_id == 1) {//si es factura
+        if ($comprobante->tipocomprobante_id == 1) { //si es factura
             $sunat = new SunatService($comprobante, $this->company, $temporals, $comprobante->factura);
-        } elseif ($comprobante->tipocomprobante_id == 2) {//si es boleta
+        } elseif ($comprobante->tipocomprobante_id == 2) { //si es boleta
             $sunat = new SunatService($comprobante, $this->company, $temporals, $comprobante->boleta);
-        } elseif ($comprobante->tipocomprobante_id == 3) {//si es ncfactura
+        } elseif ($comprobante->tipocomprobante_id == 3) { //si es ncfactura
             $sunat = new SunatService($comprobante, $this->company, $temporals, $comprobante->ncfactura);
-        } elseif ($comprobante->tipocomprobante_id == 5) {//si es ncboleta
+        } elseif ($comprobante->tipocomprobante_id == 5) { //si es ncboleta
             $sunat = new SunatService($comprobante, $this->company, $temporals, $comprobante->ncboleta);
         }
 
@@ -192,15 +193,15 @@ class ComprobanteList extends Component
         $sunat->getSee();
 
         if ($comprobante->tipocomprobante_id == 1 or $comprobante->tipocomprobante_id == 2) {
-            $sunat->setInvoice();//setInvoice es el metodo de greenter
+            $sunat->setInvoice(); //setInvoice es el metodo de greenter
             $sunat->generateXml(); //generateXml es el metodo de greenter
             //no se elimina el temporal, pero state es 1.
         }
 
         if ($comprobante->tipocomprobante_id == 3 or $comprobante->tipocomprobante_id == 5) {
-            $sunat->setNota();//setNota es el metodo de greenter
+            $sunat->setNota(); //setNota es el metodo de greenter
             $sunat->generateXml(); //generateXml es el metodo de greenter
-            $temporals->each->delete();//eliminamos tempotal, porque en este caso se vuelve a generar
+            $temporals->each->delete(); //eliminamos tempotal, porque en este caso se vuelve a generar
         }
 
         //$sunat->setInvoice();
@@ -227,13 +228,13 @@ class ComprobanteList extends Component
         }
 
 
-        if ($comprobante->tipocomprobante_id == 1) {//si es factura
+        if ($comprobante->tipocomprobante_id == 1) { //si es factura
             $sunat = new SunatService($comprobante, $this->company, $temporals, $comprobante->factura);
-        } elseif ($comprobante->tipocomprobante_id == 2) {//si es boleta
+        } elseif ($comprobante->tipocomprobante_id == 2) { //si es boleta
             $sunat = new SunatService($comprobante, $this->company, $temporals, $comprobante->boleta);
-        } elseif ($comprobante->tipocomprobante_id == 3) {//si es ncfactura
+        } elseif ($comprobante->tipocomprobante_id == 3) { //si es ncfactura
             $sunat = new SunatService($comprobante, $this->company, $temporals, $comprobante->ncfactura);
-        } elseif ($comprobante->tipocomprobante_id == 5) {//si es ncboleta
+        } elseif ($comprobante->tipocomprobante_id == 5) { //si es ncboleta
             $sunat = new SunatService($comprobante, $this->company, $temporals, $comprobante->ncboleta);
         }
 
@@ -251,4 +252,52 @@ class ComprobanteList extends Component
         $temporals->each->delete(); //eliminamos del temporal porque ya se envio a Sunat
         $this->emit('alert', 'El comprobante se envio a sunat');
     }
+
+
+    public function downloadXml($comprobanteId)
+    {
+        $comprobante = Comprobante::findOrFail($comprobanteId);
+        $xmlPath = $comprobante->factura->xml_path ?? $comprobante->boleta->xml_path ?? $comprobante->ncfactura->xml_path ?? $comprobante->ncboleta->xml_path;
+
+        if (!$xmlPath) {
+            abort(404);
+        }
+
+        $fileContent = Storage::disk('s3')->get($xmlPath);
+        $fileName = basename($xmlPath);
+
+        return response()->streamDownload(function () use ($fileContent) {
+            echo $fileContent;
+        }, $fileName, [
+            'Content-Type' => 'application/xml',
+            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+        ]);
+    }
+
+
+
+/*     public function downloadxml($comprobanteId)
+    {
+        dd($comprobanteId);
+        $comprobante = Comprobante::findOrFail($comprobanteId);
+        $xmlPath = $comprobante->factura->xml_path ?? $comprobante->boleta->xml_path ?? $comprobante->ncfactura->xml_path ?? $comprobante->ncboleta->xml_path;
+
+        if (!$xmlPath) {
+            abort(404);
+        }
+
+        $fileContent = Storage::disk('s3')->get($xmlPath);
+        $fileName = basename($xmlPath);
+
+        return response()->streamDownload(function () use ($fileContent) {
+            echo $fileContent;
+        }, $fileName, [
+            'Content-Type' => 'application/xml',
+            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+        ]);
+    } */
+
+
+
+
 }

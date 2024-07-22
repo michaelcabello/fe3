@@ -15,6 +15,7 @@ use Livewire\WithFileUploads;
 use App\Models\Tipoafectacion;
 use Illuminate\Support\Facades\Storage;
 
+
 class ProductCreate extends Component
 {
     use WithFileUploads;
@@ -29,6 +30,7 @@ class ProductCreate extends Component
     public $category_id;
     public $esbolsa, $detraccion, $percepcion, $state;
     public $image1, $image2, $image3, $image4;
+    /* public $paranombredecategoria; */
     //public $currencies;
 
     protected $listeners = ['categorySelected', 'updateSelectedParentCategory'];
@@ -102,12 +104,14 @@ class ProductCreate extends Component
     {
         $this->lastSelectedParentCategory = $value;
         $this->category_id = $this->lastSelectedParentCategory;
+         /* $this->paranombredecategoria = Category::find($this->lastSelectedParentCategory); */
     }
 
     public function categorySelected($value)
     {
         $this->lastSelectedParentCategory = $value;
         $this->category_id = $this->lastSelectedParentCategory;
+        /* $this->paranombredecategoria = Category::find($this->lastSelectedParentCategory); */
     }
 
     public function updateSelectedParentCategory($value)
@@ -120,6 +124,21 @@ class ProductCreate extends Component
 
     public function save()
     {
+        //dd($this->lastSelectedParentCategory);
+        /* $categoria = Category::find($this->lastSelectedParentCategory);
+        $modelo = Modelo::find($this->modelo_id);
+        $marca = Brand::find($this->brand_id);
+
+        if($categoria and $modelo and $marca){
+            $this->name = $categoria->name ." ". $modelo->name ." ".$marca->name;
+        } */
+
+
+        //dd($this->name);
+
+        //dd($marca->name);
+        //dd($modelo->name);
+       // dd($categoria->name);
         //$this->authorize('create', new Product);
 
         // Validación del nombre de la categoría

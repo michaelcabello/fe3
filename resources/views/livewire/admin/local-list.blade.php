@@ -70,11 +70,11 @@
 
 
                     @can('Local Create')
-                         @livewire('admin.local-create')
+                         {{-- @livewire('admin.local-create') --}}
 
                          <div class="flex items-center justify-center ml-2">
                             <a href="{{ route('local.create') }}" class="items-center justify-center sm:flex btn btn-orange" >
-                                <i class="mx-2 fa-regular fa-file"></i> Nuevod
+                                <i class="mx-2 fa-regular fa-file"></i> Nuevo
                             </a>
 
                         </div>
@@ -96,31 +96,15 @@
 
                 <div class="items-center px-6 py-4 bg-gray-200 sm:flex">
 
-                    @can('Local Delete')
+                    {{-- @can('Local Delete')
                         <div class="flex items-center justify-center">
                             <button wire:click="deleteSelected"
                                 class="items-center justify-center p-2 text-whit sm:flex btn btn-red">Eliminar
                                 seleccionados</button>
                         </div>
-                    @endcan
+                    @endcan --}}
 
-                    {{-- <div class="flex items-center justify-center px-2 mt-2 mr-4 md:mt-0">
 
-                        <x-jet-input type="checkbox" wire:model="email" class="mx-1" />
-                        Email
-                    </div>
-
-                    <div class="flex items-center justify-center px-2 mt-2 mr-4 md:mt-0">
-
-                        <x-jet-input type="checkbox" wire:model="phone" class="mx-1" />
-                        Telefono
-                    </div>
-
-                    <div class="flex items-center justify-center px-2 mt-2 mr-4 md:mt-0">
-
-                        <x-jet-input type="checkbox" wire:model="movil" class="mx-1" />
-                        Celular
-                    </div> --}}
 
 
 
@@ -316,11 +300,10 @@
                                                 <i class="fa-sharp fa-solid fa-eye"></i></a>
                                         @endcan --}}
                                         @can('Local Update')
-                                            {{-- <a wire:click="edit({{ $local }})" class="btn btn-green"><i
-                                                    class="fa-solid fa-pen-to-square"></i></a> --}}
 
-                                            <a href="{{ route('local.edit', $local) }}"
-                                                    class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a>
+
+                                            {{-- <a href="{{ route('local.edit', $local) }}"
+                                                    class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a> --}}
 
                                             <a href="{{ route('locald.edit', $local) }}"
                                                     class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a>

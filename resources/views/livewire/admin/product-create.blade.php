@@ -18,6 +18,7 @@
                     <div class="mb-4">
 
                         <h3 class="text-center profile-username">Escoja la Categoria {{ $lastSelectedParentCategory }}
+                              {{-- {{ $paranombredecategoria->name }} --}}
                         </h3>
 
                         <x-table>
@@ -253,7 +254,7 @@
 
                 <div class="sm:col-span-1 lg:col-span-1">
                     <div class="mr-1">
-                        <x-jet-label value="Es Bolsa" />
+                        <x-jet-label value="Es Bolsa(1) no Es Bolsa(0)" />
                         <x-jet-input type="text" wire:model="esbolsa" class="w-full h-10 max-w-md" />
                         <x-jet-input-error for="esbolsa" />
                     </div>
@@ -261,22 +262,22 @@
 
                 <div class="gap-0 sm:col-span-1 lg:col-span-1">
                     <div class="mr-1">
-                        <x-jet-label value="Detracción" />
+                        <x-jet-label value="Detracción % ejemplo (10)" />
                         <x-jet-input type="text" wire:model="detraccion" class="w-full h-10 max-w-md" />
                         <x-jet-input-error for="detraccion" />
                     </div>
                 </div>
 
-                <div class="sm:col-span-1 lg:col-span-1">
+                <div class="mr-4 sm:col-span-1 lg:col-span-1">
                     <div class="mr-1">
-                        <x-jet-label value="Percepción" />
+                        <x-jet-label value="Percepción % ejemplo (10)" />
                         <x-jet-input type="text" wire:model="percepcion" class="w-full h-10 max-w-md" />
                         <x-jet-input-error for="percepcion" />
                     </div>
                 </div>
 
 
-                <div class="mb-4 mr-4">
+                <div class="mb-4 ">
                     <x-jet-label value="Estado" />
                     <x-jet-input type="checkbox" wire:model="state" />
                     <x-jet-input-error for="state"/>

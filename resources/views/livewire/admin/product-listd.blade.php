@@ -280,7 +280,10 @@
                                 </td>
 
                                 <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                    {{ $product->category->name }}
+                                    @isset ($product->category->name)
+                                        {{ $product->category->name }}
+                                    @endisset
+
                                 </td>
 
                                 <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
@@ -339,7 +342,7 @@
                                             <i class="fa-sharp fa-solid fa-eye"></i></a>
                                     @endcan
                                     {{-- @can('Product Update') --}}
-                                        <a wire:click="edit({{ $product }})" class="btn btn-green">
+                                        <a href="{{ route('admin.product.edit', ['productId' => $product->id]) }}" class="btn btn-green">
                                             <i class="fa-solid fa-pen-to-square"></i></a>
                                    {{--  @endcan --}}
                                     @can('Product Delete')

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('name')->nullable();
+            $table->string('description')->nullable();
             $table->string('abbreviation')->nullable();
             //$table->boolean('default')->default(false);
             $table->string('principal')->default('no');
