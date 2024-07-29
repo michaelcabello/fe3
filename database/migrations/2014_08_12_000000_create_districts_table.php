@@ -18,6 +18,7 @@ return new class extends Migration
             $table->primary('id');
             //$table->string('iddi')->nullable();
             $table->string('name')->nullable();
+            $table->string('name2')->nullable();
             $table->string('province_id');
             $table->string('department_id');
 

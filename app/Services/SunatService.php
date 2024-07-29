@@ -45,6 +45,8 @@ class SunatService
         $this->company = $company;
         $this->temporals = $temporals; //los temporales de factura y boleta es el mismo, el temporal de nota de credito es otra
         $this->boleta = $boleta; //loque se guardo es ncfactura o ncboleta
+       // $this->boletas = $boletas;
+
     }
 
     public function getSee()
@@ -58,7 +60,10 @@ class SunatService
         $endpoint = $this->company->production ? SunatEndpoints::FE_PRODUCCION : SunatEndpoints::FE_BETA;
 
         $this->see = new See();
-        $this->see->setCertificate(Storage::get("certificates/certificate_1.pem"));
+        //$this->see->setCertificate(Storage::get("certificates/certificate_1.pem"));
+
+        $this->see->setCertificate(Storage::disk('s3')->get($this->company->certificate_path));
+        //Storage::disk('s3')->url($logoback)
         $this->see->setService($endpoint);
         $this->see->setClaveSOL($this->company->ruc, $this->company->soluser, $this->company->solpass);
     }
@@ -495,6 +500,8 @@ class SunatService
 
     public function getLegends()
     {
+        //codigo de la leyenda y su descripción
+        //un comprobante puede tener varias letendas
         $legends = [];
 
         // Decodificar el JSON para obtener un array asociativo
@@ -626,8 +633,8 @@ class SunatService
 
         $params = [
             'system' => [
-                //'logo' => $this->company->logo ? Storage::get($this->company->logo) : file_get_contents('images/logo/logo.png'), // Logo de Empresa
-                'logo' => $this->company->logo ? file_get_contents(public_path($this->company->logo)) : file_get_contents('images/logo/logo.png'), // Logo de Empresa
+                'logo' => $this->company->logo ? Storage::disk('s3')->get($this->company->logo) : file_get_contents('images/logo/logo.png'), // Logo de Empresa
+                //'logo' => $this->company->logo ? file_get_contents(public_path($this->company->logo)) : file_get_contents('images/logo/logo.png'), // Logo de Empresa
                 'hash' => $this->boleta->hash, // Valor Resumen
             ],
             'user' => [
@@ -707,4 +714,11 @@ class SunatService
         Storage::put($this->boleta->xml_path, $xml, 'public');
         $this->boleta->save();
     }
+
+
+    public function resumen()
+    {
+
+    }
+
 }

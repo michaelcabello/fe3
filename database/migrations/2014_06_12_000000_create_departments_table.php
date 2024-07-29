@@ -18,6 +18,7 @@ return new class extends Migration
             $table->primary('id');
             //$table->string('idd')->nullable();
             $table->string('name')->nullable();
+            $table->string('name2')->nullable();
             $table->timestamps();
         });
     }

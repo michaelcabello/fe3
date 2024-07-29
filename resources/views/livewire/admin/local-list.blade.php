@@ -43,72 +43,62 @@
                 </div>
             </div>
             {{--  @endcan --}}
+
+            <div class="items-center px-6 py-4 bg-gray-200 sm:flex">
+
+                <div class="flex items-center justify-center mb-2 md:mb-0">
+                    <span>Mostrar </span>
+                    <select wire:model="cant"
+                        class="block p-7 py-2.5 ml-3 mr-3 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                        <option value="10"> 10 </option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    <span class="mr-3">registros</span>
+                </div>
+
+
+                <div class="flex items-center justify-center mb-2 mr-4 md:mb-0 sm:w-full">
+                    <x-jet-input type="text" wire:model="search"
+                        class="flex items-center justify-center w-80 sm:w-full rounded-lg py-2.5"
+                        placeholder="buscar" />
+                </div>
+
+
+
+                @can('Local Create')
+                     {{-- @livewire('admin.local-create') --}}
+
+                     <div class="flex items-center justify-center ml-2">
+                        <a href="{{ route('local.create') }}" class="items-center justify-center sm:flex btn btn-orange" >
+                            <i class="mx-2 fa-regular fa-file"></i> Nuevo
+                        </a>
+
+                    </div>
+                @endcan
+
+                {{-- <div>
+                             <input type="checkbox" class="flex items-center mr-2 leading-tight" wire-model="state"> Activos
+                        </div> --}}
+
+                <div class="flex items-center justify-center px-2 mt-2 mr-4 md:mt-0">
+
+                    <x-jet-input type="checkbox" wire:model="state" class="mx-1" />
+                    Activos
+                </div>
+
+
+
+            </div>
+
+
             <x-table>
 
-                <div class="items-center px-6 py-4 bg-gray-200 sm:flex">
-
-                    <div class="flex items-center justify-center mb-2 md:mb-0">
-                        <span>Mostrar </span>
-                        <select wire:model="cant"
-                            class="block p-7 py-2.5 ml-3 mr-3 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-
-                            <option value="10"> 10 </option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
-                        <span class="mr-3">registros</span>
-                    </div>
-
-
-                    <div class="flex items-center justify-center mb-2 mr-4 md:mb-0 sm:w-full">
-                        <x-jet-input type="text" wire:model="search"
-                            class="flex items-center justify-center w-80 sm:w-full rounded-lg py-2.5"
-                            placeholder="buscar" />
-                    </div>
 
 
 
-                    @can('Local Create')
-                         {{-- @livewire('admin.local-create') --}}
-
-                         <div class="flex items-center justify-center ml-2">
-                            <a href="{{ route('local.create') }}" class="items-center justify-center sm:flex btn btn-orange" >
-                                <i class="mx-2 fa-regular fa-file"></i> Nuevo
-                            </a>
-
-                        </div>
-                    @endcan
-
-                    {{-- <div>
-                                 <input type="checkbox" class="flex items-center mr-2 leading-tight" wire-model="state"> Activos
-                            </div> --}}
-
-                    <div class="flex items-center justify-center px-2 mt-2 mr-4 md:mt-0">
-
-                        <x-jet-input type="checkbox" wire:model="state" class="mx-1" />
-                        Activos
-                    </div>
-
-
-
-                </div>
-
-                <div class="items-center px-6 py-4 bg-gray-200 sm:flex">
-
-                    {{-- @can('Local Delete')
-                        <div class="flex items-center justify-center">
-                            <button wire:click="deleteSelected"
-                                class="items-center justify-center p-2 text-whit sm:flex btn btn-red">Eliminar
-                                seleccionados</button>
-                        </div>
-                    @endcan --}}
-
-
-
-
-
-                </div>
 
                 {{-- @if ($brands->count()) --}}
 

@@ -323,13 +323,6 @@
 
 
 
-
-
-
-
-
-
-
     <div class="grid px-4 mx-auto mt-4 max-w-7xl sm:px-6 lg:px-8">
 
         <div class="px-3 bg-white">
@@ -337,8 +330,6 @@
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile">
                     <div>
-
-
 
                         <section class="w-full px-4 mt-4 mb-4 antialiased text-gray-600">
                             <div class="flex flex-col justify-center w-full h-full">

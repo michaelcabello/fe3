@@ -31,7 +31,7 @@ class DepartmentSeeder extends Seeder
             ["id" => "14", "name" => "Lambayeque"],
             ["id" => "15", "name" => "Lima"],
             ["id" => "16", "name" => "Loreto"],
-            ["id" => "17", "name" => "Madre de Dios"],
+            ["id" => "17", "name" => "Madre De Dios"],
             ["id" => "18", "name" => "Moquegua"],
             ["id" => "19", "name" => "Pasco"],
             ["id" => "20", "name" => "Piura"],

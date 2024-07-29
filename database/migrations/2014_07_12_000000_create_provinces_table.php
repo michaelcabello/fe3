@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('id');
             $table->primary('id');
             $table->string('name')->nullable();
+            $table->string('name2')->nullable();
             $table->string('department_id');
 
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');

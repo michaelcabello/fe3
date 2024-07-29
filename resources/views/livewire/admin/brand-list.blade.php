@@ -45,65 +45,62 @@
             </div>
         </div>
         {{--  @endcan --}}
-        <x-table>
 
-            <div class="items-center px-6 py-4 bg-gray-200 sm:flex">
+        <div class="items-center px-6 py-4 bg-gray-200 sm:flex">
+            <div class="flex items-center justify-center mb-2 md:mb-0">
+                <span>Mostrar </span>
+                <select wire:model="cant"
+                    class="block p-7 py-2.5 ml-3 mr-3 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
-                <div class="flex items-center justify-center mb-2 md:mb-0">
-                    <span>Mostrar </span>
-                    <select wire:model="cant"
-                        class="block p-7 py-2.5 ml-3 mr-3 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-
-                        <option value="10"> 10 </option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
-                    <span class="mr-3">registros</span>
-                </div>
-
-
-                <div class="flex items-center justify-center mb-2 mr-4 md:mb-0 sm:w-full">
-                    <x-jet-input type="text" wire:model="search"
-                        class="flex items-center justify-center w-80 sm:w-full rounded-lg py-2.5"
-                        placeholder="buscar" />
-                </div>
-
-
-
-                @can('Brand Create')
-                    @livewire('admin.brand-create')
-                @endcan
-
-                {{-- <div>
-                                 <input type="checkbox" class="flex items-center mr-2 leading-tight" wire-model="state"> Activos
-                            </div> --}}
-
-                <div class="flex items-center justify-center px-2 mt-2 mr-4 md:mt-0">
-
-                    <x-jet-input type="checkbox" wire:model="state" class="mx-1" />
-                    Activos
-                </div>
-
-
-
+                    <option value="10"> 10 </option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                <span class="mr-3">registros</span>
             </div>
 
+            <div class="flex items-center justify-center mb-2 mr-4 md:mb-0 sm:w-full">
+                <x-jet-input type="text" wire:model="search"
+                    class="flex items-center justify-center w-80 sm:w-full rounded-lg py-2.5" placeholder="buscar" />
+            </div>
+
+            @can('Brand Create')
+                @livewire('admin.brand-create')
+            @endcan
+
+            <div class="flex items-center justify-center px-2 mt-2 mr-4 md:mt-0">
+
+                <x-jet-input type="checkbox" wire:model="state" class="mx-1" />
+                Activos
+            </div>
+
+        </div>
+
+        <div class="items-center px-6 py-4 bg-gray-200 sm:flex">
+
+            @can('Brand Delete')
+                <div class="flex items-center justify-center">
+                    <button wire:click="deleteSelected"
+                        class="items-center justify-center p-2 text-whit sm:flex btn btn-red">Eliminar
+                        seleccionados</button>
+                </div>
+            @endcan
+
+            <div class="flex items-center justify-center px-2 mt-2 mr-4 md:mt-0">
+
+                <x-jet-input type="checkbox" wire:model="order" class="mx-1" />
+                Order
+            </div>
+        </div>
+
+        <x-table>
+
+
+
             <div class="items-center px-6 py-4 bg-gray-200 sm:flex">
 
-                @can('Brand Delete')
-                    <div class="flex items-center justify-center">
-                        <button wire:click="deleteSelected"
-                            class="items-center justify-center p-2 text-whit sm:flex btn btn-red">Eliminar
-                            seleccionados</button>
-                    </div>
-                @endcan
 
-                <div class="flex items-center justify-center px-2 mt-2 mr-4 md:mt-0">
-
-                    <x-jet-input type="checkbox" wire:model="order" class="mx-1" />
-                    Order
-                </div>
 
 
                 @can('Web View')
@@ -580,7 +577,8 @@
                 <img class="mb-4" src="{{ $image->temporaryUrl() }}" alt="cargando imagen">
             @elseif($brand->image)
                 {{-- <img src="{{ url($brand->image) }}" alt="ticom"> --}}
-                <img class="object-cover w-20 h-10 rounded-sm" src="{{ Storage::disk('s3')->url($brand->image) }}" alt="TICOM">
+                <img class="object-cover w-20 h-10 rounded-sm" src="{{ Storage::disk('s3')->url($brand->image) }}"
+                    alt="TICOM">
             @endif
 
 
@@ -671,7 +669,8 @@
                 @endif --}}
 
             @if ($brand->image)
-                <img class="object-cover w-20 h-10 rounded-sm" src="{{ Storage::disk('s3')->url($brand->image) }}" alt="ticom">
+                <img class="object-cover w-20 h-10 rounded-sm" src="{{ Storage::disk('s3')->url($brand->image) }}"
+                    alt="ticom">
             @else
                 <p>No hay imagen</p>
             @endif

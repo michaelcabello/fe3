@@ -55,6 +55,12 @@ return new class extends Migration
             $table->text('cdr_notes')->nullable();
             $table->text('cdr_description')->nullable();
 
+            //para controlar las boletas enviadas por resumen
+            $table->unsignedBigInteger('resumen_id')->nullable();
+            $table->foreign('resumen_id')->references('id')->on('resumens')->onDelete('cascade');
+
+            $table->unsignedBigInteger('local_id')->nullable();
+            $table->foreign('local_id')->references('id')->on('locals')->onDelete('cascade');
 
 
             $table->timestamps();

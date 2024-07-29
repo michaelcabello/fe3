@@ -235,6 +235,21 @@
                                 </article>
                                 @endcan
 
+                                {{-- @can('Sale View') --}}
+                                <article>
+                                    <figure>
+                                        <img class="object-cover w-full rounded-xl h-36" src="{{asset('img/1.jpg')}}" alt="">
+                                    </figure>
+                                    <header class="mt-2">
+                                        <h1 class="text-xl text-center text-gray-700"><a href="{{route('admin.resumen.list')}}">Resumenes</a></h1>
+                                    </header>
+
+                                </article>
+                                {{-- @endcan --}}
+
+
+
+
 
                                 {{-- <article>
                                     <figure>

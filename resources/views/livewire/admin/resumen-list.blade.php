@@ -1,19 +1,16 @@
 <div>
-    <div wire:init="loadRoles">
+    <div wire:init="loadResumens">
 
 
         <x-slot name="header">
             <div class="flex items-center">
                 <h2 class="text-xl font-semibold leading-tight text-gray-600">
-                    Lista de Roles
-                    {{-- {{  $users }} --}}
+                    Lista Resumen de Boletas
                 </h2>
             </div </x-slot>
 
             <!-- This example requires Tailwind CSS v2.0+ -->
-            <div class="container py-12 mx-auto border-gray-400 max-w-7xl sm:px-6 lg:px-8">
-
-
+            <div class="max-w-full py-12 mx-auto border-gray-400 sm:px-6 lg:px-8">
 
                 <div class="items-center px-6 py-4 bg-gray-200 sm:flex">
 
@@ -34,41 +31,31 @@
                     <div class="flex items-center justify-center mb-2 mr-4 md:mb-0 sm:w-full">
                         <x-jet-input type="text" wire:model="search"
                             class="flex items-center justify-center w-80 sm:w-full rounded-lg py-2.5"
-                            placeholder="buscar" />
+                            placeholder="Buscar" />
                     </div>
 
-
-
-                    @can('Role Create')
-                        <div class="flex items-center justify-center">
-                            <a href="{{ route('admin.role.create') }}"
-                                class="items-center justify-center sm:flex btn btn-orange">
-                                <i class="mx-2 fa-regular fa-file"></i> Nuevo
-                            </a>
-
-                        </div>
-                    @endcan
-
-
-                    {{-- <div class="flex items-center justify-center px-2 mt-2 mr-4 md:mt-0">
-
-                                <x-jet-input type="checkbox" wire:model="state" class="mx-1" />
-                                Activos
-                            </div> --}}
+                    <div class="flex items-center justify-center">
+                        <a href="{{ route('admin.resumen.create') }}"
+                            class="items-center justify-center sm:flex btn btn-orange">
+                            <i class="mx-2 fa-regular fa-file"></i> Nuevo
+                        </a>
+                    </div>
 
                 </div>
-
-
 
                 <x-table>
 
 
-                    {{-- @if ($brands->count()) --}}
-
-                    @if (count($roles))
 
 
-                        <table class="min-w-full divide-y divide-gray-200 table-fixed">
+
+                    {{-- @if ($comprobantes->count()) --}}
+
+
+                    @if (count($resumens))
+
+
+                        <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
 
@@ -90,12 +77,32 @@
                                     </th>
 
 
+
+
+
                                     <th scope="col"
                                         class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase cursor-pointer"
-                                        wire:click="order('name')">
+                                        wire:click="order('fechaescogida')">
 
-                                        Identificador
-                                        @if ($sort == 'name')
+                                        Fecha Escogida
+                                        @if ($sort == 'fechaescogida')
+                                            @if ($direction == 'asc')
+                                                <i class="float-right mt-1 fas fa-sort-alpha-up-alt"></i>
+                                            @else
+                                                <i class="float-right mt-1 fas fa-sort-alpha-down-alt"></i>
+                                            @endif
+                                        @else
+                                            <i class="float-right mt-1 fas fa-sort"></i>
+                                        @endif
+
+                                    </th>
+
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase cursor-pointer"
+                                        wire:click="order('fechadeenvio')">
+
+                                        Fecha de Envío
+                                        @if ($sort == 'fechadeenvio')
                                             @if ($direction == 'asc')
                                                 <i class="float-right mt-1 fas fa-sort-alpha-up-alt"></i>
                                             @else
@@ -108,12 +115,12 @@
                                     </th>
 
 
-                                    <th scope="col"
-                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase cursor-pointer"
-                                        wire:click="order('name')">
 
-                                        Nombre
-                                        @if ($sort == 'display_name')
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                        wire:click="order('ticket')">
+                                        Ticket
+                                        @if ($sort == 'ticket')
                                             @if ($direction == 'asc')
                                                 <i class="float-right mt-1 fas fa-sort-alpha-up-alt"></i>
                                             @else
@@ -123,16 +130,15 @@
                                             <i class="float-right mt-1 fas fa-sort"></i>
                                         @endif
 
+
                                     </th>
 
 
-
-
-
                                     <th scope="col"
-                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                        Permisos
-                                        {{-- @if ($sort == 'role')
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                        wire:click="order('numcomprobantes')">
+                                        Número
+                                        @if ($sort == 'numcomprobantes')
                                             @if ($direction == 'asc')
                                                 <i class="float-right mt-1 fas fa-sort-alpha-up-alt"></i>
                                             @else
@@ -140,69 +146,137 @@
                                             @endif
                                         @else
                                             <i class="float-right mt-1 fas fa-sort"></i>
-                                        @endif --}}
+                                        @endif
 
 
                                     </th>
 
 
 
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                                        wire:click="order('serie')">
+                                        Serie
+                                        @if ($sort == 'serie')
+                                            @if ($direction == 'asc')
+                                                <i class="float-right mt-1 fas fa-sort-alpha-up-alt"></i>
+                                            @else
+                                                <i class="float-right mt-1 fas fa-sort-alpha-down-alt"></i>
+                                            @endif
+                                        @else
+                                            <i class="float-right mt-1 fas fa-sort"></i>
+                                        @endif
+
+
+                                    </th>
+
 
                                     <th scope="col"
-                                        class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">
+                                        Estado
+                                    </th>
+
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">
+                                        XML
+                                    </th>
+
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">
+                                        CDR
+                                    </th>
+
+
+
+                                    <th scope="col"
+                                        class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">
                                         ACCIONES
                                     </th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
 
-                                @foreach ($roles as $role)
+                                @foreach ($resumens as $resumen)
                                     <tr>
 
                                         <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                            {{ $role->id }}
+                                            {{ $resumen->id }}
+                                        </td>
+                                        <td class="items-center px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+
+                                            {{--  {{ $resumen->fechaemision }} --}}
+                                            {{ \Carbon\Carbon::parse($resumen->fechaescogida)->format('d/m/Y') }}
+
+                                        </td>
+
+                                        <td class="items-center px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+
+                                            {{--  {{ $resumen->fechaemision }} --}}
+                                            {{ \Carbon\Carbon::parse($resumen->fechadeenvio)->format('d/m/Y') }}
+
+                                        </td>
+                                        <td class="items-center px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                            {{ $resumen->ticket }}
+
+                                        </td>
+
+                                        <td class="items-center px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                            {{ $resumen->numcomprobantes }}
+
                                         </td>
 
 
 
-                                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
 
 
-
-                                                {{ $role->name }}
-
-                                        </td>
-
-
-
-
-                                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                            {{ $role->display_name }}
-                                        </td>
-
-
-
-                                        <td class="px-6 py-4 text-sm">
-
-
-                                            {{ $role->permissions->pluck('display_name')->implode(', ') }}
+                                        <td class="items-center px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                            {{ $resumen->serie }}
 
                                         </td>
 
 
 
-                                        <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                                            <a class="btn btn-blue"><i class="fa-sharp fa-solid fa-eye"></i></a>
-                                            {{--  @can('update User') --}}
-                                            <a href="{{ route('admin.role.edit', $role)}}" class="btn btn-green"><i
-                                                    class="fa-solid fa-pen-to-square"></i></a>
-                                            {{--  @endcan
-                                                    @can('delete User') --}}
-                                            <a class="btn btn-red"
-                                                wire:click="$emit('delete', {{ $role->id }})">
-                                                <i class="fa-solid fa-trash-can"></i>
+                                        <td
+                                            class="items-center px-6 py-4 text-sm text-center text-gray-500 whitespace-nowrap">
+
+                                            @if ($resumen->state)
+                                                <p>Enviado</p>
+                                            @else
+                                                <p>Fail</p>
+                                            @endif
+                                        </td>
+
+                                        <td
+                                            class="items-center px-6 py-4 text-sm text-center text-gray-500 whitespace-nowrap">
+
+                                            <a href="#" wire:click.prevent="downloadXml({{ $resumen->id }})"
+                                                class="flex justify-center">
+                                                <img class='h-6' src="/images/icons/xml_cdr.svg" alt="xml">
                                             </a>
-                                            {{--  @endcan --}}
+
+                                        </td>
+
+                                        <td class="px-6 py-4 text-sm text-center text-gray-500 whitespace-nowrap">
+
+                                            <a href="{{ Storage::disk('s3')->url($resumen->cdr) }}"
+                                                class="flex justify-center" target="_blank">
+                                                <img class='h-6' src="/images/icons/cdr.svg" alt="xml">
+                                            </a>
+
+                                        </td>
+
+
+
+
+
+
+                                        <td class="px-6 py-4 text-sm text-center text-gray-500 whitespace-nowrap">
+
+                                            <a href="{{ route('admin.boletas.index', $resumen->id ) }}" class="btn btn-blue ">
+                                                <i class="fa-sharp fa-solid fa-eye"></i>
+                                            </a>
+
+
 
                                         </td>
                                     </tr>
@@ -214,9 +288,9 @@
 
 
 
-                        @if ($roles->hasPages())
+                        @if ($resumens->hasPages())
                             <div class="px-6 py-4">
-                                {{ $roles->links() }}
+                                {{ $resumens->links() }}
                             </div>
                         @endif
                     @else
@@ -267,7 +341,7 @@
             <x-slot name="footer">
 
                 <h2 class="text-xl font-semibold leading-tight text-gray-600">
-                    Pie
+                    TICOM SOFTWARE
                 </h2>
 
 
@@ -283,5 +357,12 @@
 
     </div>
 
-</div>
 
+
+
+
+
+
+
+
+</div>

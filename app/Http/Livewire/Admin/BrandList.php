@@ -155,6 +155,7 @@ class BrandList extends Component
         return view('livewire.admin.brand-list', compact('brands'));
     }
 
+
     public function order($sort)
     {
         if ($this->sort == $sort) {

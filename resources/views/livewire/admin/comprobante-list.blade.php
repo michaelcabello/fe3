@@ -12,52 +12,40 @@
             <!-- This example requires Tailwind CSS v2.0+ -->
             <div class="max-w-full py-12 mx-auto border-gray-400 sm:px-6 lg:px-8">
 
+                <div class="items-center px-6 py-4 bg-gray-200 sm:flex">
 
+                    <div class="flex items-center justify-center mb-2 md:mb-0">
+                        <span>Mostrar </span>
+                        <select wire:model="cant"
+                            class="block p-7 py-2.5 ml-3 mr-3 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                            <option value="10"> 10 </option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        <span class="mr-3">registros</span>
+                    </div>
+
+
+                    <div class="flex items-center justify-center mb-2 mr-4 md:mb-0 sm:w-full">
+                        <x-jet-input type="text" wire:model="search"
+                            class="flex items-center justify-center w-80 sm:w-full rounded-lg py-2.5"
+                            placeholder="Buscar" />
+                    </div>
+
+                    <div class="flex items-center justify-center">
+                        <a href="{{ route('admin.comprobante.create') }}"
+                            class="items-center justify-center sm:flex btn btn-orange">
+                            <i class="mx-2 fa-regular fa-file"></i> Nuevo
+                        </a>
+                    </div>
+
+                </div>
 
                 <x-table>
 
-                    <div class="items-center px-6 py-4 bg-gray-200 sm:flex">
 
-                        <div class="flex items-center justify-center mb-2 md:mb-0">
-                            <span>Mostrar </span>
-                            <select wire:model="cant"
-                                class="block p-7 py-2.5 ml-3 mr-3 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-
-                                <option value="10"> 10 </option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
-                            <span class="mr-3">registros</span>
-                        </div>
-
-
-                        <div class="flex items-center justify-center mb-2 mr-4 md:mb-0 sm:w-full">
-                            <x-jet-input type="text" wire:model="search"
-                                class="flex items-center justify-center w-80 sm:w-full rounded-lg py-2.5"
-                                placeholder="Buscar" />
-                        </div>
-                        {{-- @can('comprobante Create') --}}
-                        <div class="flex items-center justify-center">
-                            <a href="{{ route('admin.comprobante.create') }}"
-                                class="items-center justify-center sm:flex btn btn-orange">
-                                <i class="mx-2 fa-regular fa-file"></i> Nuevo
-                            </a>
-                        </div>
-                        {{-- @endcan --}}
-
-                        {{-- @can('create User')
-                                    @livewire('admin.brand-create')
-                                @endcan --}}
-
-
-                        {{-- <div class="flex items-center justify-center px-2 mt-2 mr-4 md:mt-0">
-
-                                    <x-jet-input type="checkbox" wire:model="state" class="mx-1" />
-                                    Activos
-                                </div> --}}
-
-                    </div>
 
 
 
@@ -308,7 +296,6 @@
                                                 @if ($comprobante->boleta->pdf_path)
                                                     {{-- <a href="{{ asset('storage/' . $comprobante->boleta->pdf_path) }}" funciona en local--}}
                                                     <a href="{{ Storage::disk('s3')->url($comprobante->boleta->pdf_path) }}" target="_blank">
-                                                        target="_blank">
                                                         <img class='h-6' src="/images/icons/pdf_cpe.svg"
                                                             alt="comprobante">
                                                     </a>
@@ -411,7 +398,7 @@
                                                 @if ($comprobante->factura->sunat_cdr_path)
                                                    {{--  <a href="{{ asset('storage/' . $comprobante->factura->sunat_cdr_path) }}" //en local funciona bien --}}
                                                     <a href="{{ Storage::disk('s3')->url($comprobante->factura->sunat_cdr_path) }}" target="_blank">
-                                                        <img class='h-6' src="/images/icons/xml_cdr.svg" alt="xml">
+                                                        <img class='h-6' src="/images/icons/cdr.svg" alt="xml">
                                                     </a>
                                                 @else
                                                     <a href="#"
@@ -425,13 +412,18 @@
                                                 @if ($comprobante->boleta->sunat_cdr_path)
                                                     {{-- <a href="{{ asset('storage/' . $comprobante->boleta->sunat_cdr_path) }}" // en local funciona bien --}}
                                                     <a href="{{ Storage::disk('s3')->url($comprobante->boleta->sunat_cdr_path) }}" target="_blank">
-                                                        target="_blank"><img class='h-6'
-                                                            src="/images/icons/xml_cdr.svg" alt="xml"></a>
+                                                        <img class='h-6'
+                                                            src="/images/icons/cdr.svg" alt="enviado con CDR"></a>
                                                 @else
-                                                    <a href="#"
-                                                        wire:click="sendSunat({{ $comprobante->id }})"><img
-                                                            class='h-6' src="/images/icons/get_cdr.svg"
-                                                            alt="xml"></a>
+                                                    @if (is_null($comprobante->boleta->resumen_id))
+                                                        <a href="#"
+                                                            wire:click="sendSunat({{ $comprobante->id }})"><img
+                                                                class='h-6' src="/images/icons/get_cdr.svg"
+                                                                alt="xml"></a>
+                                                    @else
+                                                    <img class='h-6'
+                                                    src="/images/icons/resumen2.svg" alt="enviado con resumen">
+                                                    @endif
                                                 @endif
                                             @endif
                                             {{-- para el cdr de ncfactura --}}
@@ -489,7 +481,7 @@
                                             @endif
 
                                             @if ($comprobante->tipocomprobante_id == 2)
-                                                @if ($comprobante->boleta->sunat_cdr_path)
+                                                @if ($comprobante->boleta->sunat_cdr_path or $comprobante->boleta->resumen_id )
                                                     <a href="{{-- {{ route('admin.comprobante.edit', $comprobante) }} --}}"><img class='h-6'
                                                             src='/images/icons/check.svg' /></a>
                                                 @else
@@ -533,15 +525,21 @@
 
                                            {{--  @can('Comprobante Update') --}}
                                                 @if ($comprobante->tipocomprobante_id == 1 or $comprobante->tipocomprobante_id == 2)
-                                                    <a href="{{ route('admin.notadecredito.create', $comprobante->id) }}"
-                                                        class="px-4 btn btn-green">NC</a>
+                                                    {{-- @if ($comprobante->boleta->sunat_cdr_path != null or $comprobante->boleta->resumen_id != null or $comprobante->factura->sunat_cdr_path != null) --}}
+                                                    @if (($comprobante->boleta && ($comprobante->boleta->sunat_cdr_path != null || $comprobante->boleta->resumen_id != null)) || ($comprobante->factura && $comprobante->factura->sunat_cdr_path != null))
+
+                                                        <a href="{{ route('admin.notadecredito.create', $comprobante->id) }}"
+                                                            class="px-4 btn btn-green">NC</a>
+                                                    @endif
                                                 @endif
                                             {{-- @endcan --}}
 
                                             {{-- @can('Comprobante Update') --}}
                                                 @if ($comprobante->tipocomprobante_id == 1 or $comprobante->tipocomprobante_id == 2)
+                                                    @if (($comprobante->boleta && ($comprobante->boleta->sunat_cdr_path != null || $comprobante->boleta->resumen_id != null)) || ($comprobante->factura && $comprobante->factura->sunat_cdr_path != null))
                                                     <a href="{{ route('admin.guiaderemision.create', $comprobante->id) }}"
                                                         class="px-4 btn btn-orange">GR</a>
+                                                    @endif
                                                 @endif
                                            {{--  @endcan --}}
 
@@ -626,7 +624,7 @@
             <x-slot name="footer">
 
                 <h2 class="text-xl font-semibold leading-tight text-gray-600">
-                    Pie
+                    TICOM SOFTWARE
                 </h2>
 
 

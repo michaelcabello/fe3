@@ -184,6 +184,7 @@ class CompanyEdit extends Component
            $e->getMessage();
         }
 
+
         $this->validate();
         $this->company->update([
             'ruc' => $this->ruc,

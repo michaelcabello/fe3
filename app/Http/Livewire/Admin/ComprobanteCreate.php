@@ -44,7 +44,6 @@ class ComprobanteCreate extends Component
     public $totalenletras;
     public $detraccion, $tipodeoperacion_id = "", $tipodeoperacion_codigo = "";
     public $sending_method = 1;
-
     public $razon_social;
     public $ruc;
     public $nombre_comercial;
@@ -80,6 +79,36 @@ class ComprobanteCreate extends Component
         //$this->moneda = Currency::find($this->currency_id)->abbreviation;
         //$this->currency_id = $currency;
     }
+
+
+
+    function removeAccents($text)
+    {
+        $unwanted_array = array(
+            'Á' => 'A', 'À' => 'A', 'Â' => 'A', 'Ä' => 'A', 'Ã' => 'A', 'Å' => 'A', 'Ā' => 'A',
+            'Ă' => 'A', 'Ą' => 'A', 'á' => 'a', 'à' => 'a', 'â' => 'a', 'ä' => 'a', 'ã' => 'a',
+            'å' => 'a', 'ā' => 'a', 'ă' => 'a', 'ą' => 'a', 'É' => 'E', 'È' => 'E', 'Ê' => 'E',
+            'Ë' => 'E', 'Ē' => 'E', 'Ĕ' => 'E', 'Ė' => 'E', 'Ę' => 'E', 'Ě' => 'E', 'é' => 'e',
+            'è' => 'e', 'ê' => 'e', 'ë' => 'e', 'ē' => 'e', 'ĕ' => 'e', 'ė' => 'e', 'ę' => 'e',
+            'ě' => 'e', 'Í' => 'I', 'Ì' => 'I', 'Î' => 'I', 'Ï' => 'I', 'Ĩ' => 'I', 'Ī' => 'I',
+            'Ĭ' => 'I', 'Į' => 'I', 'İ' => 'I', 'í' => 'i', 'ì' => 'i', 'î' => 'i', 'ï' => 'i',
+            'ĩ' => 'i', 'ī' => 'i', 'ĭ' => 'i', 'į' => 'i', 'ı' => 'i', 'Ó' => 'O', 'Ò' => 'O',
+            'Ô' => 'O', 'Ö' => 'O', 'Õ' => 'O', 'Ø' => 'O', 'Ō' => 'O', 'Ŏ' => 'O', 'Ő' => 'O',
+            'ó' => 'o', 'ò' => 'o', 'ô' => 'o', 'ö' => 'o', 'õ' => 'o', 'ø' => 'o', 'ō' => 'o',
+            'ŏ' => 'o', 'ő' => 'o', 'Ú' => 'U', 'Ù' => 'U', 'Û' => 'U', 'Ü' => 'U', 'Ũ' => 'U',
+            'Ū' => 'U', 'Ŭ' => 'U', 'Ů' => 'U', 'Ű' => 'U', 'Ų' => 'U', 'ú' => 'u', 'ù' => 'u',
+            'û' => 'u', 'ü' => 'u', 'ũ' => 'u', 'ū' => 'u', 'ŭ' => 'u', 'ů' => 'u', 'ű' => 'u',
+            'ų' => 'u', 'Ý' => 'Y', 'Ÿ' => 'Y', 'Ŷ' => 'Y', 'ý' => 'y', 'ÿ' => 'y', 'ŷ' => 'y',
+            'Ç' => 'C', 'Č' => 'C', 'Ć' => 'C', 'Ĉ' => 'C', 'Ċ' => 'C', 'ç' => 'c', 'č' => 'c',
+            'ć' => 'c', 'ĉ' => 'c', 'ċ' => 'c', 'Ñ' => 'N', 'Ń' => 'N', 'Ň' => 'N', 'Ņ' => 'N',
+            'Ŋ' => 'N', 'ñ' => 'n', 'ń' => 'n', 'ň' => 'n', 'ņ' => 'n', 'ŋ' => 'n', 'Š' => 'S',
+            'Ś' => 'S', 'Ŝ' => 'S', 'Ş' => 'S', 'š' => 's', 'ś' => 's', 'ŝ' => 's', 'ş' => 's',
+            'Ž' => 'Z', 'Ź' => 'Z', 'Ż' => 'Z', 'Ž' => 'Z', 'ž' => 'z', 'ź' => 'z', 'ż' => 'z',
+            'ž' => 'z'
+        );
+        return strtr($text, $unwanted_array);
+    }
+
 
 
     public function ScanCode($barcode,  $quantity = 1)
@@ -279,15 +308,15 @@ class ComprobanteCreate extends Component
         //dd($this->ruc);
         $query = Customer::where('numdoc', $this->ruc)->first();
 
-        if($query){
+        if ($query) {
             $this->razon_social = $query->nomrazonsocial;
             $this->nombre_comercial = $query->nombrecomercial;
             $this->direccion = $query->address;
-            $this->departamento = $query->department->name;
-            $this->provincia = $query->province->name;
-            $this->distrito = $query->district->name;
-
-        }else{
+            //$this->departamento = $query->department->name;
+            $this->departamento = optional($query->department)->name;
+            $this->provincia = $query->province ? $query->province->name : null;
+            $this->distrito = optional($query->district)->name;
+        } else {
 
 
             $sunat = new \jossmp\sunat\ruc([
@@ -308,11 +337,7 @@ class ComprobanteCreate extends Component
                 $this->provincia = $query->result->provincia;
                 $this->distrito = $query->result->distrito;
             }
-
         }
-
-
-
     }
 
 
@@ -558,10 +583,10 @@ class ComprobanteCreate extends Component
     {
         //si es RUC debe seleccionar factura en tipocomprobante osea tipocomprobante_id = 1
         //tipodocumento su id = 4  tipodocumento su codigo = 6
-        if($this->tipodocumento_id == 4){
+        if ($this->tipodocumento_id == 4) {
             $this->tipocomprobante_id = 1;
             $this->updatedTipocomprobanteId(1);
-        }else{
+        } else {
             $this->tipocomprobante_id = 2;
             $this->updatedTipocomprobanteId(2);
         }
@@ -688,13 +713,23 @@ class ComprobanteCreate extends Component
     ];
 
 
+    /*    public function removeAccents($text)
+    {
+        $text = htmlentities($text, ENT_NOQUOTES, 'UTF-8');
+        $text = preg_replace('/&([a-zA-Z])(acute|grave|circ|tilde|uml);/', '$1', $text);
+        return $text;
+    } */
+
+
+
+
+
 
 
     //guardamos el comprobante
     public function save()
     {
         //validaremos y guardaremos al cliente
-
         //dd($this->subtotall <= $this->company->detraccion);
         // Realiza la validación aquí
         if ($this->tipodeoperacion_codigo == '1001') { //venta con igv es el 1001
@@ -743,9 +778,6 @@ class ComprobanteCreate extends Component
                 break;
         }
 
-
-        //        $this->validate();
-
         //dd($tipodocumento->abbreviation);
         //dd($this->invoice['company']['address']['codLocal']);
         // Validación de que la fecha de vencimiento sea mayor o igual a la fecha de emisión
@@ -755,34 +787,64 @@ class ComprobanteCreate extends Component
 
         $this->serienumero = $this->serie . "-" . $this->numero;
         //dd($this->serienumero);
-
         //buscamos en la tabla departamento
         if ($this->departamento) {
             $departamento = ucwords(strtolower($this->departamento)); //ejemplo Madre De Dios
-            $departamentoEncontrado = Department::where('name', $departamento)->first();
+            $departamentoEncontrado = Department::where('name', $departamento)->orWhere('name2', $departamento)->first();
             $department_id = $departamentoEncontrado->id;
         } else {
             $department_id = NULL;
         }
+
         //buscamos en la tabla provincia
         if ($this->provincia) {
             $provincia = ucwords(strtolower($this->provincia));
             //dd($provincia);
             //dd($departamentoEncontrado->provinces);
             //$provinciaEncontrado = Province::where('name', $provincia)->first();
-            $provinciaEncontrado  = $departamentoEncontrado->provinces->where('name', $provincia)->first();
+            //$provinciaEncontrado  = $departamentoEncontrado->provinces->where('name', $provincia)->first();
+
+            $provinciaEncontrado = $departamentoEncontrado->provinces()
+            ->where(function ($query) use ($provincia) {
+                $query->where('name', $provincia)
+                    ->orWhere('name2', $provincia);
+            })
+            ->first();
+
             //dd($provinciaEncontrado );
             $province_id = $provinciaEncontrado->id;
         } else {
             $province_id = NULL;
         }
 
+
+
+
         //buscamos en la tabla distrito
         if ($this->distrito) {
             $distrito = ucwords(strtolower($this->distrito));
+
+            //$distrito = htmlentities($distrito, ENT_NOQUOTES, 'UTF-8');
+            //$distrito = preg_replace('/&([a-zA-Z])(acute|grave|circ|tilde|uml);/', '$1', $distrito);
+
+
+            // $distrito = $this->removeAccents($distrito);
             //$distritoEncontrado = District::where('name', $distrito)->first();
-            $distritoEncontrado  = $provinciaEncontrado->districts->where('name', $distrito)->first();
-            $district_id = $distritoEncontrado->id;
+            //$distritoEncontrado  = $provinciaEncontrado->districts->where('name', $distrito)->orwhere('name2', $distrito)->first();
+
+            // Buscar el distrito en la base de datos
+            $distritoEncontrado = $provinciaEncontrado->districts()
+                ->where(function ($query) use ($distrito) {
+                    $query->where('name', $distrito)
+                        ->orWhere('name2', $distrito);
+                })
+                ->first();
+
+            if ($distritoEncontrado) {
+                $district_id = $distritoEncontrado->id;
+            } else {
+                $district_id = NULL;
+            }
         } else {
             $district_id = NULL;
         }
@@ -896,6 +958,7 @@ class ComprobanteCreate extends Component
                 //$boleta tiene la ultima boleta creada
                 $boleta = Boleta::create([
                     'serie' => $this->serie,
+                    'local_id' => $this->local_id,
                     'numero' => $this->numero,
                     'serienumero' => $this->serienumero,
                     'fechaemision' =>  $this->fechaemision,
@@ -946,8 +1009,6 @@ class ComprobanteCreate extends Component
                 'icbper' => $temporal->icbper,
                 'totalimpuestos' => $temporal->totalimpuestos,
                 'mtovalorventa' => $temporal->mtovalorventa,
-
-
             ]);
         }
 
@@ -973,16 +1034,13 @@ class ComprobanteCreate extends Component
         });
 
         Comprobante_Product::insert($comprobanteProductData->toArray());
-
         $temporals->each->delete(); */
-
-
         //facturacion electronica
         //$boleta tiene el ultimo registro creado de factura o boleta
         //$temporals tiene lo seleccionado en el carrito pero con state=0
         //$comprobante  es el ultimo comprobante creado
         //$this->company la compania logueada
-        $sunat = new SunatService($comprobante, $this->company, $temporals, $boleta);
+        $sunat = new SunatService($comprobante, $this->company, $temporals, $boleta, null);
 
         $sunat->getSee();
         $sunat->setInvoice();

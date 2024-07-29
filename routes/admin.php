@@ -11,6 +11,7 @@ use App\Http\Livewire\Admin\CompanyEdit;
 use App\Http\Livewire\Admin\LocalCreate;
 use App\Http\Livewire\Admin\ProductEdit;
 use App\Http\Livewire\Admin\ProductList;
+use App\Http\Livewire\Admin\ResumenList;
 use App\Http\Livewire\Admin\CategoryList;
 use App\Http\Livewire\Admin\CustomerEdit;
 use App\Http\Livewire\Admin\CustomerList;
@@ -37,8 +38,10 @@ use App\Http\Livewire\Admin\ComprobanteCreate;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\LocalController;
 use App\Http\Controllers\admin\TableController;
+use App\Http\Controllers\admin\BoletaController;
 use App\Http\Livewire\Admin\NotadecreditoCreate;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\ResumenController;
 use App\Http\Livewire\Admin\GuiaderemisionCreate;
 use App\Http\Livewire\Admin\InventorygeneralList;
 use App\Http\Livewire\Admin\ProductcompuestoEdit;
@@ -50,6 +53,7 @@ use App\Http\Controllers\admin\ReceptionController;
 use App\Http\Livewire\Admin\InventorytemporaryList;
 use App\Http\Livewire\Admin\ProductcompuestoCreate;
 use App\Http\Livewire\Admin\ProductfamilieCreateaa;
+use App\Http\Controllers\admin\DepartmentController;
 use App\Http\Controllers\admin\UsersRolesController;
 use App\Http\Livewire\Admin\ProductcompuestoCreatea;
 use App\Http\Controllers\admin\ComprobanteController;
@@ -59,7 +63,6 @@ use App\Http\Controllers\admin\ProductatributeController;
 use App\Http\Controllers\admin\UsersPermissionsController;
 use App\Http\Livewire\Admin\LocalproductatributestockList;
 use App\Http\Livewire\Admin\LocalproductatributestocktotalesList;
-
 
 
 //Route::get('/', [HomeController::class, 'home'])->name('admin.home');
@@ -102,6 +105,9 @@ Route::get('comprobante/create', [ComprobanteController::class, 'create'])->name
 Route::get('notadecredito/create/{id}', NotadecreditoCreate::class)->name('admin.notadecredito.create');
 Route::get('guiaderemision/create/{id}', GuiaderemisionCreate::class)->name('admin.guiaderemision.create');
 
+Route::get('resumen', ResumenList::class)->name('admin.resumen.list');
+Route::get('resumen/create', [ResumenController::class, 'create'])->name('admin.resumen.create');
+Route::get('resumen/createe', [ResumenController::class, 'createe'])->name('admin.resumen.create');
 
 //envio de mercaderias entre locales
 //php artisan make:controller admin/ShipmentController -r -m Shipment
@@ -192,12 +198,20 @@ Route::get('/company/edit/{id}', CompanyEdit::class)->name('admin.company.edit')
 Route::get('guiaderemision/create/{id}', GuiaderemisionCreate::class)->name('admin.guiaderemision.create');
 //terminado CompanyEdit lo borraremos
 
+
+Route::get('/boletas/{resumen}', [BoletaController::class, 'index'])->name('admin.boletas.index');
+
+
+
 Route::get('/logout', function () {
     auth()->logout();
     return redirect('/login');
 });
 
 //borrar
+
+Route::get('/update-name2', [DepartmentController::class, 'updateName2']);//para llanar name2 de departments
+
 /* Route::get('existe', function(){
     if (Storage::exists('certificates/certificate_1.pem')) {
         throw new \Exception(' si existe ');
